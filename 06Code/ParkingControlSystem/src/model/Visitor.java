@@ -55,6 +55,39 @@ public class Visitor {
         return isValid;
     }
     
+    public boolean requestEntry() {
+        System.out.println("\n--- SOLICITUD DE INGRESO ---");
+        System.out.println("Visitante: " + name + " (ID: " + visitorID + ")");
+        
+        if (!verifyIdentity()) {
+            System.out.println("SOLICITUD RECHAZADA: Identidad no válida");
+            return false;
+        }
+
+        if (!registerWait()) {
+            return false;
+        }
+        
+        System.out.println("Visitante en espera de autorización...");
+        System.out.println("(La validación de autorización se hace en ResidentManager)");
+        return false;
+    }
+    
+    public boolean recordExit() {
+        if (hasTemporaryPass && exitTime == null) {
+            this.exitTime = new Date();
+            this.hasTemporaryPass = false;
+            System.out.println(" Egreso registrado para visitante: " + name);
+            if (entryTime != null) {
+                long stayTime = (exitTime.getTime() - entryTime.getTime()) / (1000 * 60);
+                System.out.println("  Tiempo de estadía: " + stayTime + " minutos");
+            }
+            return true;
+        }
+        System.out.println("No se puede registrar egreso: Visitante no tiene pase activo");
+        return false;
+    }
+    
     // Getters and Setters
     public String getVisitorID() { return visitorID; }
     public String getName() { return name; }

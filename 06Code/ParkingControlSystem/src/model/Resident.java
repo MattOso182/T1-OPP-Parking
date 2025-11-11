@@ -15,10 +15,10 @@ public class Resident {
     private String email;
     private String phone;
     private UserType userType;
-    private String assignedParkingSpace; 
+    private String assignedParkingSpace;
     private List<Vehicle> vehicles;
     private List<String> authorizedVisitors;
-    private Rental currentRental; 
+    private Rental currentRental;
 
     public Resident() {
         this.vehicles = new ArrayList<>();
@@ -193,5 +193,14 @@ public class Resident {
         info.append("Authorized Visitors: ").append(authorizedVisitors.size()).append("\n");
 
         return info.toString();
+
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

@@ -3,39 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/User.java</file>
+            <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/view/ParkingControlSystemSimulator.java</file>
+            <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/ResidentData.java</file>
             <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/SecurityGuard.java</file>
-            <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/UserType.java</file>
-            <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/ParkingLot.java</file>
-            <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/BuildingBlock.java</file>
-            <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/Vehicle.java</file>
-            <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/ParkingSpace.java</file>
-            <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/Visitor.java</file>
-            <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/ParkingControlSystem.java</file>
-            <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/ResidentManager.java</file>
-            <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/LicensePlate.java</file>
-            <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/ParkingStructure.java</file>
-            <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/JsonDataManager.java</file>
-            <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/Rental.java</file>
+            <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/ResidentDataManager.java</file>
             <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/Resident.java</file>
-            <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/EntryExitRecord.java</file>
-            <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/ParkingZone.java</file>
-            <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/SpaceDefinition.java</file>
-=======
-            <file>file:/C:/Users/Gabriel/Desktop/T1-OPP-Parking/06Code/ParkingControlSystem/src/view/ParkingControlSystemSimulator.java</file>
-            <file>file:/C:/Users/Gabriel/Desktop/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/Visitor.java</file>
-            <file>file:/C:/Users/Gabriel/Desktop/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/Vehicle.java</file>
-            <file>file:/C:/Users/Gabriel/Desktop/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/User.java</file>
-            <file>file:/C:/Users/Gabriel/Desktop/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/SecurityGuard.java</file>
-            <file>file:/C:/Users/Gabriel/Desktop/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/Resident.java</file>
-            <file>file:/C:/Users/Gabriel/Desktop/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/ParkingSpace.java</file>
-            <file>file:/C:/Users/Gabriel/Desktop/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/Rental.java</file>
-            <file>file:/C:/Users/Gabriel/Desktop/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/ParkingLot.java</file>
-            <file>file:/C:/Users/Gabriel/Desktop/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/LicensePlate.java</file>
-            <file>file:/C:/Users/Gabriel/Desktop/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/ParkingControlSystem.java</file>
-            <file>file:/C:/Users/Gabriel/Desktop/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/EntryExitRecord.java</file>
->>>>>>> 858ca392d3c2b3ed5f1a2327a1e9bea9c6ac016e
+            <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/Visitor.java</file>
+            <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/ResidentManager.java</file>
         </group>
     </open-files>
 </project-private>

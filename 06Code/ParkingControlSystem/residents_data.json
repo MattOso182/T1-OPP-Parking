@@ -1,0 +1,995 @@
+{
+  "residents": [
+    {
+      "residentID": "RES-001",
+      "name": "Carlos Mendoza",
+      "apartmentNumber": "101-A",
+      "email": "carlos.nuevo@email.com",
+      "phone": "0999999999",
+      "userType": "WITH_PARKING",
+      "assignedParkingSpace": "AZU-A-01",
+      "vehicles": [
+        {
+          "plate": "ABC-123",
+          "color": "Azul",
+          "model": "Toyota Corolla",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": [
+        "VIS-001",
+        "VIS-002",
+        "VIS-TEST-02",
+        "VIS-TEST-04"
+      ]
+    },
+    {
+      "residentID": "RES-002",
+      "name": "Mar�a Gonz�lez",
+      "apartmentNumber": "102-B",
+      "email": "maria.gonzalez@email.com",
+      "phone": "0992345678",
+      "userType": "WITH_PARKING",
+      "assignedParkingSpace": "AZU-A-02",
+      "vehicles": [
+        {
+          "plate": "XYZ-789",
+          "color": "Rojo",
+          "model": "Honda Civic",
+          "isParked": false
+        },
+        {
+          "plate": "TEST-001",
+          "color": "Azul",
+          "model": "Toyota Test",
+          "isParked": false,
+          "ownerId": "SEDAN"
+        }
+      ],
+      "authorizedVisitors": [
+        "VIS-003"
+      ]
+    },
+    {
+      "residentID": "RES-003",
+      "name": "Roberto Silva",
+      "apartmentNumber": "201-A",
+      "email": "roberto.silva@email.com",
+      "phone": "0993456789",
+      "userType": "WITH_PARKING",
+      "assignedParkingSpace": "BOL-A-01",
+      "vehicles": [
+        {
+          "plate": "DEF-456",
+          "color": "Blanco",
+          "model": "Hyundai Tucson",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": [
+        "VIS-TEST-04"
+      ]
+    },
+    {
+      "residentID": "RES-004",
+      "name": "Ana L�pez",
+      "apartmentNumber": "202-B",
+      "email": "ana.lopez@email.com",
+      "phone": "0994567890",
+      "userType": "WITH_PARKING",
+      "assignedParkingSpace": "BOL-A-02",
+      "vehicles": [
+        {
+          "plate": "GHI-789",
+          "color": "Negro",
+          "model": "Kia Sportage",
+          "isParked": false
+        },
+        {
+          "plate": "JKL-012",
+          "color": "Gris",
+          "model": "Chevrolet Spark",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": [
+        "VIS-004",
+        "VIS-005"
+      ]
+    },
+    {
+      "residentID": "RES-005",
+      "name": "Fernando Torres",
+      "apartmentNumber": "301-A",
+      "email": "fernando.torres@email.com",
+      "phone": "0995678901",
+      "userType": "WITH_PARKING",
+      "assignedParkingSpace": "CAR-A-01",
+      "vehicles": [
+        {
+          "plate": "MNO-345",
+          "color": "Azul Marino",
+          "model": "Mazda CX-5",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": [
+        "VIS-006",
+        "VIS-TEST-04"
+      ]
+    },
+    {
+      "residentID": "RES-006",
+      "name": "Laura Mart�nez",
+      "apartmentNumber": "302-B",
+      "email": "laura.martinez@email.com",
+      "phone": "0996789012",
+      "userType": "WITH_PARKING",
+      "assignedParkingSpace": "CAR-A-02",
+      "vehicles": [
+        {
+          "plate": "PQR-678",
+          "color": "Rojo",
+          "model": "Ford Focus",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": []
+    },
+    {
+      "residentID": "RES-007",
+      "name": "Diego Herrera",
+      "apartmentNumber": "401-A",
+      "email": "diego.herrera@email.com",
+      "phone": "0997890123",
+      "userType": "WITH_PARKING",
+      "assignedParkingSpace": "CAN-A-01",
+      "vehicles": [
+        {
+          "plate": "STU-901",
+          "color": "Blanco",
+          "model": "Toyota RAV4",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": [
+        "VIS-007"
+      ]
+    },
+    {
+      "residentID": "RES-008",
+      "name": "Sof�a Ram�rez",
+      "apartmentNumber": "402-B",
+      "email": "sofia.ramirez@email.com",
+      "phone": "0998901234",
+      "userType": "WITH_PARKING",
+      "assignedParkingSpace": "CAN-A-02",
+      "vehicles": [
+        {
+          "plate": "VWX-234",
+          "color": "Gris",
+          "model": "Nissan Sentra",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": [
+        "VIS-008",
+        "VIS-009"
+      ]
+    },
+    {
+      "residentID": "RES-009",
+      "name": "Javier Castro",
+      "apartmentNumber": "501-A",
+      "email": "javier.castro@email.com",
+      "phone": "0999012345",
+      "userType": "WITH_PARKING",
+      "assignedParkingSpace": "CHI-A-01",
+      "vehicles": [
+        {
+          "plate": "YZA-567",
+          "color": "Negro",
+          "model": "BMW X3",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": []
+    },
+    {
+      "residentID": "RES-010",
+      "name": "Isabel Vargas",
+      "apartmentNumber": "502-B",
+      "email": "isabel.vargas@email.com",
+      "phone": "0990123456",
+      "userType": "WITH_PARKING",
+      "assignedParkingSpace": "CHI-A-02",
+      "vehicles": [
+        {
+          "plate": "BCD-890",
+          "color": "Azul",
+          "model": "Volkswagen Golf",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": [
+        "VIS-010"
+      ]
+    },
+    {
+      "residentID": "RES-011",
+      "name": "Ricardo Morales",
+      "apartmentNumber": "103-A",
+      "email": "ricardo.morales@email.com",
+      "phone": "0981234567",
+      "userType": "WITH_PARKING",
+      "assignedParkingSpace": "COT-A-01",
+      "vehicles": [
+        {
+          "plate": "EFG-123",
+          "color": "Blanco",
+          "model": "Chevrolet Cruze",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": []
+    },
+    {
+      "residentID": "RES-012",
+      "name": "Patricia Rojas",
+      "apartmentNumber": "104-B",
+      "email": "patricia.rojas@email.com",
+      "phone": "0982345678",
+      "userType": "WITH_PARKING",
+      "assignedParkingSpace": "COT-A-02",
+      "vehicles": [
+        {
+          "plate": "HIJ-456",
+          "color": "Rojo",
+          "model": "Hyundai Elantra",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": [
+        "VIS-011"
+      ]
+    },
+    {
+      "residentID": "RES-013",
+      "name": "Miguel Angel P�rez",
+      "apartmentNumber": "203-A",
+      "email": "miguel.perez@email.com",
+      "phone": "0983456789",
+      "userType": "WITH_PARKING",
+      "assignedParkingSpace": "ORO-A-01",
+      "vehicles": [
+        {
+          "plate": "KLM-789",
+          "color": "Gris",
+          "model": "Toyota Hilux",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": [
+        "VIS-012",
+        "VIS-013"
+      ]
+    },
+    {
+      "residentID": "RES-014",
+      "name": "Carmen N��ez",
+      "apartmentNumber": "204-B",
+      "email": "carmen.nunez@email.com",
+      "phone": "0984567890",
+      "userType": "WITH_PARKING",
+      "assignedParkingSpace": "ORO-A-02",
+      "vehicles": [
+        {
+          "plate": "NOP-012",
+          "color": "Azul",
+          "model": "Kia Rio",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": []
+    },
+    {
+      "residentID": "RES-015",
+      "name": "Oscar Dom�nguez",
+      "apartmentNumber": "303-A",
+      "email": "oscar.dominguez@email.com",
+      "phone": "0985678901",
+      "userType": "WITH_PARKING",
+      "assignedParkingSpace": "ESM-A-01",
+      "vehicles": [
+        {
+          "plate": "QRS-345",
+          "color": "Negro",
+          "model": "Mazda 3",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": [
+        "VIS-014"
+      ]
+    },
+    {
+      "residentID": "RES-016",
+      "name": "Elena Castillo",
+      "apartmentNumber": "304-B",
+      "email": "elena.castillo@email.com",
+      "phone": "0986789012",
+      "userType": "WITH_PARKING",
+      "assignedParkingSpace": "ESM-A-02",
+      "vehicles": [
+        {
+          "plate": "TUV-678",
+          "color": "Blanco",
+          "model": "Honda CR-V",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": []
+    },
+    {
+      "residentID": "RES-017",
+      "name": "Andr�s Guerrero",
+      "apartmentNumber": "403-A",
+      "email": "andres.guerrero@email.com",
+      "phone": "0987890123",
+      "userType": "WITH_PARKING",
+      "assignedParkingSpace": "GAL-A-01",
+      "vehicles": [
+        {
+          "plate": "WXY-901",
+          "color": "Rojo",
+          "model": "Ford Ranger",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": [
+        "VIS-015"
+      ]
+    },
+    {
+      "residentID": "RES-018",
+      "name": "Gabriela Paredes",
+      "apartmentNumber": "404-B",
+      "email": "gabriela.paredes@email.com",
+      "phone": "0988901234",
+      "userType": "WITH_PARKING",
+      "assignedParkingSpace": "GAL-A-02",
+      "vehicles": [
+        {
+          "plate": "ZAB-234",
+          "color": "Gris",
+          "model": "Toyota Yaris",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": [
+        "VIS-016",
+        "VIS-017"
+      ]
+    },
+    {
+      "residentID": "RES-019",
+      "name": "Luis Fernando Mora",
+      "apartmentNumber": "503-A",
+      "email": "luis.mora@email.com",
+      "phone": "0989012345",
+      "userType": "WITH_PARKING",
+      "assignedParkingSpace": "GUY-A-01",
+      "vehicles": [
+        {
+          "plate": "CDE-567",
+          "color": "Azul",
+          "model": "Chevrolet Tracker",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": []
+    },
+    {
+      "residentID": "RES-020",
+      "name": "Daniela Salazar",
+      "apartmentNumber": "504-B",
+      "email": "daniela.salazar@email.com",
+      "phone": "0980123456",
+      "userType": "WITH_PARKING",
+      "assignedParkingSpace": "GUY-A-02",
+      "vehicles": [
+        {
+          "plate": "FGH-890",
+          "color": "Blanco",
+          "model": "Volkswagen Polo",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": [
+        "VIS-018"
+      ]
+    },
+    {
+      "residentID": "RES-021",
+      "name": "Juan Carlos Le�n",
+      "apartmentNumber": "105-A",
+      "email": "juan.leon@email.com",
+      "phone": "0971234567",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "IJK-123",
+          "color": "Negro",
+          "model": "Kia Picanto",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": [
+        "VIS-019"
+      ]
+    },
+    {
+      "residentID": "RES-022",
+      "name": "Mar�a Jos� Flores",
+      "apartmentNumber": "106-B",
+      "email": "maria.flores@email.com",
+      "phone": "0972345678",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "LMN-456",
+          "color": "Rojo",
+          "model": "Hyundai Accent",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": [],
+      "currentRental": {
+        "rentalId": "RENT-2",
+        "residentId": "RES-022",
+        "spaceId": "ROT-A-01",
+        "startDate": "2025-11-11 17:18:06",
+        "endDate": "2025-12-11 17:18:06",
+        "monthlyPrice": 100.0,
+        "isActive": true,
+        "paymentStatus": "PENDING"
+      }
+    },
+    {
+      "residentID": "RES-023",
+      "name": "Roberto Andrade",
+      "apartmentNumber": "205-A",
+      "email": "roberto.andrade@email.com",
+      "phone": "0973456789",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "OPQ-789",
+          "color": "Gris",
+          "model": "Toyota Corolla",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": [
+        "VIS-020"
+      ],
+      "currentRental": {
+        "rentalId": "RENT-3",
+        "residentId": "RES-023",
+        "spaceId": "ROT-A-02",
+        "startDate": "2025-11-11 17:18:06",
+        "endDate": "2025-12-11 17:18:06",
+        "monthlyPrice": 120.0,
+        "isActive": true,
+        "paymentStatus": "PENDING"
+      }
+    },
+    {
+      "residentID": "RES-024",
+      "name": "Ana Mar�a Reyes",
+      "apartmentNumber": "206-B",
+      "email": "ana.reyes@email.com",
+      "phone": "0974567890",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "RST-012",
+          "color": "Azul",
+          "model": "Honda City",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": [
+        "VIS-021",
+        "VIS-022"
+      ],
+      "currentRental": {
+        "rentalId": "RENT-4",
+        "residentId": "RES-024",
+        "spaceId": "ROT-A-03",
+        "startDate": "2025-11-11 17:18:06",
+        "endDate": "2025-12-11 17:18:06",
+        "monthlyPrice": 140.0,
+        "isActive": true,
+        "paymentStatus": "PENDING"
+      }
+    },
+    {
+      "residentID": "RES-025",
+      "name": "Fernando Salinas",
+      "apartmentNumber": "305-A",
+      "email": "fernando.salinas@email.com",
+      "phone": "0975678901",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "UVW-345",
+          "color": "Blanco",
+          "model": "Chevrolet Aveo",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": []
+    },
+    {
+      "residentID": "RES-026",
+      "name": "Laura Cristina Herrera",
+      "apartmentNumber": "306-B",
+      "email": "laura.herrera@email.com",
+      "phone": "0976789012",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "XYZ-678",
+          "color": "Negro",
+          "model": "Mazda 2",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": [
+        "VIS-023"
+      ]
+    },
+    {
+      "residentID": "RES-027",
+      "name": "Diego Alejandro Paz",
+      "apartmentNumber": "405-A",
+      "email": "diego.paz@email.com",
+      "phone": "0977890123",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "ABC-901",
+          "color": "Rojo",
+          "model": "Kia Seltos",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": []
+    },
+    {
+      "residentID": "RES-028",
+      "name": "Sof�a Alejandra R�os",
+      "apartmentNumber": "406-B",
+      "email": "sofia.rios@email.com",
+      "phone": "0978901234",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "DEF-234",
+          "color": "Gris",
+          "model": "Toyota RAV4",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": [
+        "VIS-024",
+        "VIS-025"
+      ]
+    },
+    {
+      "residentID": "RES-029",
+      "name": "Javier Antonio Mej�a",
+      "apartmentNumber": "505-A",
+      "email": "javier.mejia@email.com",
+      "phone": "0979012345",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "GHI-567",
+          "color": "Azul",
+          "model": "Hyundai Tucson",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": []
+    },
+    {
+      "residentID": "RES-030",
+      "name": "Isabel Cristina Castro",
+      "apartmentNumber": "506-B",
+      "email": "isabel.castro@email.com",
+      "phone": "0970123456",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "JKL-890",
+          "color": "Blanco",
+          "model": "Volkswagen Vento",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": [
+        "VIS-026"
+      ]
+    },
+    {
+      "residentID": "RES-031",
+      "name": "Ricardo Jos� Pe�a",
+      "apartmentNumber": "107-A",
+      "email": "ricardo.pena@email.com",
+      "phone": "0961234567",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "MNO-123",
+          "color": "Negro",
+          "model": "Ford EcoSport",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": []
+    },
+    {
+      "residentID": "RES-032",
+      "name": "Patricia Elizabeth Vargas",
+      "apartmentNumber": "108-B",
+      "email": "patricia.vargas@email.com",
+      "phone": "0962345678",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "PQR-456",
+          "color": "Rojo",
+          "model": "Nissan Versa",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": [
+        "VIS-027"
+      ]
+    },
+    {
+      "residentID": "RES-033",
+      "name": "Miguel Angel L�pez",
+      "apartmentNumber": "207-A",
+      "email": "miguel.lopez@email.com",
+      "phone": "0963456789",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "STU-789",
+          "color": "Gris",
+          "model": "Chevrolet Onix",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": [
+        "VIS-028",
+        "VIS-029"
+      ]
+    },
+    {
+      "residentID": "RES-034",
+      "name": "Carmen Rosa Silva",
+      "apartmentNumber": "208-B",
+      "email": "carmen.silva@email.com",
+      "phone": "0964567890",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "VWX-012",
+          "color": "Azul",
+          "model": "Kia Cerato",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": []
+    },
+    {
+      "residentID": "RES-035",
+      "name": "Oscar Eduardo Torres",
+      "apartmentNumber": "307-A",
+      "email": "oscar.torres@email.com",
+      "phone": "0965678901",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "YZA-345",
+          "color": "Blanco",
+          "model": "Toyota Fortuner",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": [
+        "VIS-030"
+      ]
+    },
+    {
+      "residentID": "RES-036",
+      "name": "Elena Patricia Medina",
+      "apartmentNumber": "308-B",
+      "email": "elena.medina@email.com",
+      "phone": "0966789012",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "BCD-678",
+          "color": "Negro",
+          "model": "Mazda CX-30",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": []
+    },
+    {
+      "residentID": "RES-037",
+      "name": "Andr�s Felipe Rojas",
+      "apartmentNumber": "407-A",
+      "email": "andres.rojas@email.com",
+      "phone": "0967890123",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "EFG-901",
+          "color": "Rojo",
+          "model": "Honda HR-V",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": [
+        "VIS-031"
+      ]
+    },
+    {
+      "residentID": "RES-038",
+      "name": "Gabriela Fernanda Ponce",
+      "apartmentNumber": "408-B",
+      "email": "gabriela.ponce@email.com",
+      "phone": "0968901234",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "HIJ-234",
+          "color": "Gris",
+          "model": "Volkswagen T-Cross",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": [
+        "VIS-032",
+        "VIS-033"
+      ]
+    },
+    {
+      "residentID": "RES-039",
+      "name": "Luis Alberto Cruz",
+      "apartmentNumber": "507-A",
+      "email": "luis.cruz@email.com",
+      "phone": "0969012345",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "KLM-567",
+          "color": "Azul",
+          "model": "Hyundai Creta",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": []
+    },
+    {
+      "residentID": "RES-040",
+      "name": "Daniela Carolina Mora",
+      "apartmentNumber": "508-B",
+      "email": "daniela.mora@email.com",
+      "phone": "0960123456",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "NOP-890",
+          "color": "Blanco",
+          "model": "Chevrolet Joy",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": [
+        "VIS-034"
+      ]
+    },
+    {
+      "residentID": "RES-041",
+      "name": "Juan Pablo Salazar",
+      "apartmentNumber": "109-A",
+      "email": "juan.salazar@email.com",
+      "phone": "0951234567",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "QRS-123",
+          "color": "Negro",
+          "model": "Kia Rio",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": []
+    },
+    {
+      "residentID": "RES-042",
+      "name": "Mar�a Fernanda Le�n",
+      "apartmentNumber": "110-B",
+      "email": "maria.leon@email.com",
+      "phone": "0952345678",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "TUV-456",
+          "color": "Rojo",
+          "model": "Toyota Yaris",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": [
+        "VIS-035"
+      ]
+    },
+    {
+      "residentID": "RES-043",
+      "name": "Roberto Carlos Flores",
+      "apartmentNumber": "209-A",
+      "email": "roberto.flores@email.com",
+      "phone": "0953456789",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "WXY-789",
+          "color": "Gris",
+          "model": "Honda Civic",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": [
+        "VIS-036",
+        "VIS-037"
+      ]
+    },
+    {
+      "residentID": "RES-044",
+      "name": "Ana Luc�a Andrade",
+      "apartmentNumber": "210-B",
+      "email": "ana.andrade@email.com",
+      "phone": "0954567890",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "ZAB-012",
+          "color": "Azul",
+          "model": "Mazda 3",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": []
+    },
+    {
+      "residentID": "RES-045",
+      "name": "Fernando Jos� Reyes",
+      "apartmentNumber": "309-A",
+      "email": "fernando.reyes@email.com",
+      "phone": "0955678901",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "CDE-345",
+          "color": "Blanco",
+          "model": "Hyundai Elantra",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": [
+        "VIS-038"
+      ]
+    },
+    {
+      "residentID": "RES-046",
+      "name": "Laura Marcela Salinas",
+      "apartmentNumber": "310-B",
+      "email": "laura.salinas@email.com",
+      "phone": "0956789012",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "FGH-678",
+          "color": "Negro",
+          "model": "Toyota Corolla",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": []
+    },
+    {
+      "residentID": "RES-047",
+      "name": "Diego Mauricio Herrera",
+      "apartmentNumber": "409-A",
+      "email": "diego.herrera2@email.com",
+      "phone": "0957890123",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "IJK-901",
+          "color": "Rojo",
+          "model": "Kia Sorento",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": [
+        "VIS-039"
+      ]
+    },
+    {
+      "residentID": "RES-048",
+      "name": "Sof�a Valentina Paz",
+      "apartmentNumber": "410-B",
+      "email": "sofia.paz@email.com",
+      "phone": "0958901234",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "LMN-234",
+          "color": "Gris",
+          "model": "Ford Ranger",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": [
+        "VIS-040",
+        "VIS-041"
+      ]
+    },
+    {
+      "residentID": "RES-049",
+      "name": "Javier Esteban R�os",
+      "apartmentNumber": "509-A",
+      "email": "javier.rios@email.com",
+      "phone": "0959012345",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "OPQ-567",
+          "color": "Azul",
+          "model": "Chevrolet Captiva",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": []
+    },
+    {
+      "residentID": "RES-050",
+      "name": "Isabel Margarita Mej�a",
+      "apartmentNumber": "510-B",
+      "email": "isabel.mejia@email.com",
+      "phone": "0950123456",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "RST-890",
+          "color": "Blanco",
+          "model": "Nissan Kicks",
+          "isParked": false
+        }
+      ],
+      "authorizedVisitors": [
+        "VIS-042"
+      ]
+    }
+  ]
+}
