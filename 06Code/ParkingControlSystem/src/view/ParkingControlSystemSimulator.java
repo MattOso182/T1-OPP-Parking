@@ -1,4 +1,4 @@
-package ec.edu.espe.parkingaLot.view;
+package view;
 
 /**
  *

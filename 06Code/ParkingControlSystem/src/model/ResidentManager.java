@@ -1,4 +1,4 @@
-package ec.edu.espe.parkingLot.model;
+package model;
 
 /**
  *
@@ -6,6 +6,8 @@ package ec.edu.espe.parkingLot.model;
  */
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import model.ResidentData;
+import model.ResidentDataManager;
 
 public class ResidentManager {
 
