@@ -42,12 +42,11 @@ public SecurityGuard(String userID, String name, String shift, String phoneNumbe
         return authorized;
     }
 
-    public String getGuardID() {
-        return guardID;
-    }
+    public String getGuardID() { 
+        return getUserID(); }
 
     public void setGuardID(String guardID) {
-        super(userID);
+       setUserID(guardID);
     }
     public String getName() {
         return name;
@@ -89,5 +88,4 @@ public SecurityGuard(String userID, String name, String shift, String phoneNumbe
         this.controlSystem = controlSystem;
     }
     
-   
 }
