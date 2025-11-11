@@ -1,0 +1,550 @@
+{
+  "parkingComplex": {
+    "name": "Residential Complex Parking",
+    "totalSpaces": 233,
+    "availableForRent": 35,
+    "blocks": [
+      {
+        "blockName": "Azuay",
+        "blockCode": "AZU",
+        "sections": [
+          {
+            "section": "A",
+            "spaces": [
+              {"spaceId": "AZU-A-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "AZU-A-02", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "AZU-A-03", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "AZU-A-04", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "AZU-A-05", "type": "VISITOR", "isOccupied": false, "isAvailableForRent": false}
+            ]
+          },
+          {
+            "section": "B",
+            "spaces": [
+              {"spaceId": "AZU-B-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "AZU-B-02", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "AZU-B-03", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "AZU-B-04", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false}
+            ]
+          }
+        ]
+      },
+      {
+        "blockName": "Bolivar",
+        "blockCode": "BOL",
+        "sections": [
+          {
+            "section": "A",
+            "spaces": [
+              {"spaceId": "BOL-A-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "BOL-A-02", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "BOL-A-03", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "BOL-A-04", "type": "VISITOR", "isOccupied": false, "isAvailableForRent": false}
+            ]
+          },
+          {
+            "section": "B", 
+            "spaces": [
+              {"spaceId": "BOL-B-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "BOL-B-02", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "BOL-B-03", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true}
+            ]
+          }
+        ]
+      },
+      {
+        "blockName": "Carchi",
+        "blockCode": "CAR",
+        "sections": [
+          {
+            "section": "A",
+            "spaces": [
+              {"spaceId": "CAR-A-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "CAR-A-02", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "CAR-A-03", "type": "VISITOR", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "CAR-A-04", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true}
+            ]
+          },
+          {
+            "section": "B",
+            "spaces": [
+              {"spaceId": "CAR-B-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "CAR-B-02", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "CAR-B-03", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true}
+            ]
+          }
+        ]
+      },
+      {
+        "blockName": "Cañar",
+        "blockCode": "CAN",
+        "sections": [
+          {
+            "section": "A", 
+            "spaces": [
+              {"spaceId": "CAN-A-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "CAN-A-02", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "CAN-A-03", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "CAN-A-04", "type": "VISITOR", "isOccupied": false, "isAvailableForRent": false}
+            ]
+          },
+          {
+            "section": "B",
+            "spaces": [
+              {"spaceId": "CAN-B-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "CAN-B-02", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "CAN-B-03", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true}
+            ]
+          }
+        ]
+      },
+      {
+        "blockName": "Chimborazo",
+        "blockCode": "CHI", 
+        "sections": [
+          {
+            "section": "A",
+            "spaces": [
+              {"spaceId": "CHI-A-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "CHI-A-02", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "CHI-A-03", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "CHI-A-04", "type": "VISITOR", "isOccupied": false, "isAvailableForRent": false}
+            ]
+          },
+          {
+            "section": "B",
+            "spaces": [
+              {"spaceId": "CHI-B-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "CHI-B-02", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "CHI-B-03", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false}
+            ]
+          }
+        ]
+      },
+      {
+        "blockName": "Cotopaxi",
+        "blockCode": "COT",
+        "sections": [
+          {
+            "section": "A",
+            "spaces": [
+              {"spaceId": "COT-A-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "COT-A-02", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "COT-A-03", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "COT-A-04", "type": "VISITOR", "isOccupied": false, "isAvailableForRent": false}
+            ]
+          },
+          {
+            "section": "B",
+            "spaces": [
+              {"spaceId": "COT-B-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "COT-B-02", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "COT-B-03", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true}
+            ]
+          }
+        ]
+      },
+      {
+        "blockName": "El Oro",
+        "blockCode": "ORO",
+        "sections": [
+          {
+            "section": "A",
+            "spaces": [
+              {"spaceId": "ORO-A-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "ORO-A-02", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "ORO-A-03", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "ORO-A-04", "type": "VISITOR", "isOccupied": false, "isAvailableForRent": false}
+            ]
+          },
+          {
+            "section": "B",
+            "spaces": [
+              {"spaceId": "ORO-B-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "ORO-B-02", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "ORO-B-03", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false}
+            ]
+          }
+        ]
+      },
+      {
+        "blockName": "Esmeraldas",
+        "blockCode": "ESM",
+        "sections": [
+          {
+            "section": "A",
+            "spaces": [
+              {"spaceId": "ESM-A-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "ESM-A-02", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "ESM-A-03", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "ESM-A-04", "type": "VISITOR", "isOccupied": false, "isAvailableForRent": false}
+            ]
+          },
+          {
+            "section": "B",
+            "spaces": [
+              {"spaceId": "ESM-B-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "ESM-B-02", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "ESM-B-03", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true}
+            ]
+          }
+        ]
+      },
+      {
+        "blockName": "Galapagos",
+        "blockCode": "GAL",
+        "sections": [
+          {
+            "section": "A",
+            "spaces": [
+              {"spaceId": "GAL-A-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "GAL-A-02", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "GAL-A-03", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "GAL-A-04", "type": "VISITOR", "isOccupied": false, "isAvailableForRent": false}
+            ]
+          },
+          {
+            "section": "B",
+            "spaces": [
+              {"spaceId": "GAL-B-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "GAL-B-02", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "GAL-B-03", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false}
+            ]
+          }
+        ]
+      },
+      {
+        "blockName": "Guayas",
+        "blockCode": "GUY",
+        "sections": [
+          {
+            "section": "A",
+            "spaces": [
+              {"spaceId": "GUY-A-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "GUY-A-02", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "GUY-A-03", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "GUY-A-04", "type": "VISITOR", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "GUY-A-05", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false}
+            ]
+          },
+          {
+            "section": "B",
+            "spaces": [
+              {"spaceId": "GUY-B-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "GUY-B-02", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "GUY-B-03", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "GUY-B-04", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false}
+            ]
+          }
+        ]
+      },
+      {
+        "blockName": "Imbabura",
+        "blockCode": "IMB",
+        "sections": [
+          {
+            "section": "A",
+            "spaces": [
+              {"spaceId": "IMB-A-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "IMB-A-02", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "IMB-A-03", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "IMB-A-04", "type": "VISITOR", "isOccupied": false, "isAvailableForRent": false}
+            ]
+          },
+          {
+            "section": "B",
+            "spaces": [
+              {"spaceId": "IMB-B-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "IMB-B-02", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "IMB-B-03", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false}
+            ]
+          }
+        ]
+      },
+      {
+        "blockName": "Loja",
+        "blockCode": "LOJ",
+        "sections": [
+          {
+            "section": "A",
+            "spaces": [
+              {"spaceId": "LOJ-A-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "LOJ-A-02", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "LOJ-A-03", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "LOJ-A-04", "type": "VISITOR", "isOccupied": false, "isAvailableForRent": false}
+            ]
+          },
+          {
+            "section": "B",
+            "spaces": [
+              {"spaceId": "LOJ-B-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "LOJ-B-02", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "LOJ-B-03", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true}
+            ]
+          }
+        ]
+      },
+      {
+        "blockName": "Manabí",
+        "blockCode": "MAN",
+        "sections": [
+          {
+            "section": "A",
+            "spaces": [
+              {"spaceId": "MAN-A-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "MAN-A-02", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "MAN-A-03", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "MAN-A-04", "type": "VISITOR", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "MAN-A-05", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false}
+            ]
+          },
+          {
+            "section": "B",
+            "spaces": [
+              {"spaceId": "MAN-B-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "MAN-B-02", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "MAN-B-03", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "MAN-B-04", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false}
+            ]
+          }
+        ]
+      },
+      {
+        "blockName": "Morona Santiago",
+        "blockCode": "MS",
+        "sections": [
+          {
+            "section": "A",
+            "spaces": [
+              {"spaceId": "MS-A-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "MS-A-02", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "MS-A-03", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "MS-A-04", "type": "VISITOR", "isOccupied": false, "isAvailableForRent": false}
+            ]
+          },
+          {
+            "section": "B",
+            "spaces": [
+              {"spaceId": "MS-B-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "MS-B-02", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "MS-B-03", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true}
+            ]
+          }
+        ]
+      },
+      {
+        "blockName": "Napo",
+        "blockCode": "NAP",
+        "sections": [
+          {
+            "section": "A",
+            "spaces": [
+              {"spaceId": "NAP-A-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "NAP-A-02", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "NAP-A-03", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "NAP-A-04", "type": "VISITOR", "isOccupied": false, "isAvailableForRent": false}
+            ]
+          },
+          {
+            "section": "B",
+            "spaces": [
+              {"spaceId": "NAP-B-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "NAP-B-02", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "NAP-B-03", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false}
+            ]
+          }
+        ]
+      },
+      {
+        "blockName": "Orellana",
+        "blockCode": "ORE",
+        "sections": [
+          {
+            "section": "A",
+            "spaces": [
+              {"spaceId": "ORE-A-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "ORE-A-02", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "ORE-A-03", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "ORE-A-04", "type": "VISITOR", "isOccupied": false, "isAvailableForRent": false}
+            ]
+          },
+          {
+            "section": "B",
+            "spaces": [
+              {"spaceId": "ORE-B-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "ORE-B-02", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "ORE-B-03", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true}
+            ]
+          }
+        ]
+      },
+      {
+        "blockName": "Pastaza",
+        "blockCode": "PAS",
+        "sections": [
+          {
+            "section": "A",
+            "spaces": [
+              {"spaceId": "PAS-A-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "PAS-A-02", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "PAS-A-03", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "PAS-A-04", "type": "VISITOR", "isOccupied": false, "isAvailableForRent": false}
+            ]
+          },
+          {
+            "section": "B",
+            "spaces": [
+              {"spaceId": "PAS-B-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "PAS-B-02", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "PAS-B-03", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false}
+            ]
+          }
+        ]
+      },
+      {
+        "blockName": "Pichincha",
+        "blockCode": "PIC",
+        "sections": [
+          {
+            "section": "A",
+            "spaces": [
+              {"spaceId": "PIC-A-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "PIC-A-02", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "PIC-A-03", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "PIC-A-04", "type": "VISITOR", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "PIC-A-05", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "PIC-A-06", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false}
+            ]
+          },
+          {
+            "section": "B",
+            "spaces": [
+              {"spaceId": "PIC-B-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "PIC-B-02", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "PIC-B-03", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "PIC-B-04", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "PIC-B-05", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true}
+            ]
+          }
+        ]
+      },
+      {
+        "blockName": "Santa Elena",
+        "blockCode": "SEL",
+        "sections": [
+          {
+            "section": "A",
+            "spaces": [
+              {"spaceId": "SEL-A-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "SEL-A-02", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "SEL-A-03", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "SEL-A-04", "type": "VISITOR", "isOccupied": false, "isAvailableForRent": false}
+            ]
+          },
+          {
+            "section": "B",
+            "spaces": [
+              {"spaceId": "SEL-B-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "SEL-B-02", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "SEL-B-03", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false}
+            ]
+          }
+        ]
+      },
+      {
+        "blockName": "Santo Domingo",
+        "blockCode": "SD",
+        "sections": [
+          {
+            "section": "A",
+            "spaces": [
+              {"spaceId": "SD-A-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "SD-A-02", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "SD-A-03", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "SD-A-04", "type": "VISITOR", "isOccupied": false, "isAvailableForRent": false}
+            ]
+          },
+          {
+            "section": "B",
+            "spaces": [
+              {"spaceId": "SD-B-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "SD-B-02", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "SD-B-03", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true}
+            ]
+          }
+        ]
+      },
+      {
+        "blockName": "Sucumbíos",
+        "blockCode": "SUC",
+        "sections": [
+          {
+            "section": "A",
+            "spaces": [
+              {"spaceId": "SUC-A-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "SUC-A-02", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "SUC-A-03", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "SUC-A-04", "type": "VISITOR", "isOccupied": false, "isAvailableForRent": false}
+            ]
+          },
+          {
+            "section": "B",
+            "spaces": [
+              {"spaceId": "SUC-B-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "SUC-B-02", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "SUC-B-03", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false}
+            ]
+          }
+        ]
+      },
+      {
+        "blockName": "Tungurahua",
+        "blockCode": "TUN",
+        "sections": [
+          {
+            "section": "A",
+            "spaces": [
+              {"spaceId": "TUN-A-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "TUN-A-02", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "TUN-A-03", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "TUN-A-04", "type": "VISITOR", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "TUN-A-05", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false}
+            ]
+          },
+          {
+            "section": "B",
+            "spaces": [
+              {"spaceId": "TUN-B-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "TUN-B-02", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "TUN-B-03", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "TUN-B-04", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false}
+            ]
+          }
+        ]
+      },
+      {
+        "blockName": "Zamora Chinchipe",
+        "blockCode": "ZAM",
+        "sections": [
+          {
+            "section": "A",
+            "spaces": [
+              {"spaceId": "ZAM-A-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "ZAM-A-02", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false},
+              {"spaceId": "ZAM-A-03", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "ZAM-A-04", "type": "VISITOR", "isOccupied": false, "isAvailableForRent": false}
+            ]
+          },
+          {
+            "section": "B",
+            "spaces": [
+              {"spaceId": "ZAM-B-01", "type": "RESIDENT", "isOccupied": false, "isAvailableForRent": false},
+              {"spaceId": "ZAM-B-02", "type": "RENTAL", "isOccupied": false, "isAvailableForRent": true},
+              {"spaceId": "ZAM-B-03", "type": "RESIDENT", "isOccupied": true, "isAvailableForRent": false}
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
