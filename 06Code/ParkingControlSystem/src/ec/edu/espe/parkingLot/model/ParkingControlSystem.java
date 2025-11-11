@@ -1,11 +1,9 @@
-package model;
+package ec.edu.espe.parkingLot.model;
 
 /**
  *
  * @author Team 1 - T.A.P. (The Art of Programming)
  */
-import java.util.ArrayList;
-import java.util.List;
 
 public class ParkingControlSystem {
     private String systemId;
