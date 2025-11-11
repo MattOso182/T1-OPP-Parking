@@ -20,7 +20,6 @@ public class ParkingControlSystem {
         this.totalVehicles = 0;
     }
     
-    // Public methods
     public boolean startSystem() {
         this.active = true;
         System.out.println("Parking control system started");
