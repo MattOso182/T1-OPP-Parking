@@ -6,17 +6,16 @@ import java.util.Date;
  *
  * @author Team 1 - T.A.P. (The Art of Programming)
  */
-public class SecurityGuard {
+public class SecurityGuard extends User {
 
-    private String guardID;
     private String name;
     private String shift;
     private String phoneNumber;
     private boolean isOnDuty;
     private ParkingControlSystem controlSystem;
 
-    public SecurityGuard(String guardID, String name, String shift, String phoneNumber, ParkingControlSystem controlSystem) {
-        this.guardID = guardID;
+public SecurityGuard(String userID, String name, String shift, String phoneNumber, ParkingControlSystem controlSystem) {
+        super(userID);
         this.name = name;
         this.shift = shift;
         this.phoneNumber = phoneNumber;
@@ -48,9 +47,8 @@ public class SecurityGuard {
     }
 
     public void setGuardID(String guardID) {
-        this.guardID = guardID;
+        super(userID);
     }
-
     public String getName() {
         return name;
     }
@@ -79,7 +77,7 @@ public class SecurityGuard {
         return isOnDuty;
     }
 
-    public void setIsOnDuty(boolean isOnDuty) {
+    public void isOnDuty(boolean isOnDuty) {
         this.isOnDuty = isOnDuty;
     }
 
