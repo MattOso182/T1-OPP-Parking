@@ -75,11 +75,13 @@ public class ParkingSpaceLibrary {
     }
 
    
-    public void freeSpace() {
+    public String freeSpace() {
         this.assignedTo = null;
         this.residentType = "Ninguno";
         this.vehiclePlate = null;
         this.isOccupied = false;
+        
+        return (assignedTo + residentType + vehiclePlate + isOccupied);
     }
 
 
