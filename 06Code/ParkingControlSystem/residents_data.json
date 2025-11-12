@@ -25,7 +25,7 @@
     },
     {
       "residentID": "RES-002",
-      "name": "Mar�a Gonz�lez",
+      "name": "Maria Gonzalez",
       "apartmentNumber": "102-B",
       "email": "maria.gonzalez@email.com",
       "phone": "0992345678",
@@ -72,7 +72,7 @@
     },
     {
       "residentID": "RES-004",
-      "name": "Ana L�pez",
+      "name": "Ana Lopez",
       "apartmentNumber": "202-B",
       "email": "ana.lopez@email.com",
       "phone": "0994567890",
@@ -120,7 +120,7 @@
     },
     {
       "residentID": "RES-006",
-      "name": "Laura Mart�nez",
+      "name": "Laura Martinez",
       "apartmentNumber": "302-B",
       "email": "laura.martinez@email.com",
       "phone": "0996789012",
@@ -158,7 +158,7 @@
     },
     {
       "residentID": "RES-008",
-      "name": "Sof�a Ram�rez",
+      "name": "Sofia Ramirez",
       "apartmentNumber": "402-B",
       "email": "sofia.ramirez@email.com",
       "phone": "0998901234",
@@ -255,7 +255,7 @@
     },
     {
       "residentID": "RES-013",
-      "name": "Miguel Angel P�rez",
+      "name": "Miguel Angel Perez",
       "apartmentNumber": "203-A",
       "email": "miguel.perez@email.com",
       "phone": "0983456789",
@@ -276,7 +276,7 @@
     },
     {
       "residentID": "RES-014",
-      "name": "Carmen N��ez",
+      "name": "Carmen Nunez",
       "apartmentNumber": "204-B",
       "email": "carmen.nunez@email.com",
       "phone": "0984567890",
@@ -294,7 +294,7 @@
     },
     {
       "residentID": "RES-015",
-      "name": "Oscar Dom�nguez",
+      "name": "Oscar Dominguez",
       "apartmentNumber": "303-A",
       "email": "oscar.dominguez@email.com",
       "phone": "0985678901",
@@ -332,7 +332,7 @@
     },
     {
       "residentID": "RES-017",
-      "name": "Andr�s Guerrero",
+      "name": "Andres Guerrero",
       "apartmentNumber": "403-A",
       "email": "andres.guerrero@email.com",
       "phone": "0987890123",
