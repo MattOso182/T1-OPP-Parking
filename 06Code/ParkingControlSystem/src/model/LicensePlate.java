@@ -1,5 +1,10 @@
 package model;
 
+/**
+ *
+ * @author @ESPE T.A.P(The Art of Programming)
+ */
+
 import java.util.Date;
 
 public class LicensePlate {
