@@ -4,10 +4,10 @@ package model;
  *
  * @author @ESPE T.A.P(The Art of Programming)
  */
-
 import java.util.Date;
 
 public class Visitor {
+
     private String visitorID;
     private String name;
     private Date entryTime;
@@ -79,18 +79,35 @@ public class Visitor {
         return false;
     }
 
-    public String getVisitorID() { return visitorID; }
-    public String getName() { return name; }
-    public Date getEntryTime() { return entryTime; }
-    public Date getExitTime() { return exitTime; }
-    public boolean isWaiting() { return isWaiting; }
-    public boolean hasTemporaryPass() { return hasTemporaryPass; }
+    public String getVisitorID() {
+        return visitorID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Date getEntryTime() {
+        return entryTime;
+    }
+
+    public Date getExitTime() {
+        return exitTime;
+    }
+
+    public boolean isWaiting() {
+        return isWaiting;
+    }
+
+    public boolean hasTemporaryPass() {
+        return hasTemporaryPass;
+    }
 
     public String getVisitorInfo() {
-        return "Visitor ID: " + visitorID +
-               "\nName: " + name +
-               "\nStatus: " + (hasTemporaryPass ? "ACTIVE" : "INACTIVE") +
-               "\nEntry Time: " + (entryTime != null ? entryTime : "Not entered") +
-               "\nExit Time: " + (exitTime != null ? exitTime : "Not exited");
+        return "Visitor ID: " + visitorID
+                + "\nName: " + name
+                + "\nStatus: " + (hasTemporaryPass ? "ACTIVE" : "INACTIVE")
+                + "\nEntry Time: " + (entryTime != null ? entryTime : "Not entered")
+                + "\nExit Time: " + (exitTime != null ? exitTime : "Not exited");
     }
 }

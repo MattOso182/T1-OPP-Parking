@@ -4,11 +4,11 @@ package model;
  *
  * @author @ESPE T.A.P(The Art of Programming)
  */
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class VisitorManager {
+
     private List<Visitor> visitors;
 
     public VisitorManager() {

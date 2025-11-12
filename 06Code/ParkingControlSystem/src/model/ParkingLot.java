@@ -4,56 +4,46 @@ package model;
  *
  * @author Gabriel
  */
+import parkingcontrolsystem.library.ParkingLotLibrary;
+import parkingcontrolsystem.library.ParkingSpaceLibrary;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ParkingLot {
-    private int totalSpaces;
-    private int availableSpaces;
+
     private String lotId;
-    private List<ParkingSpace> spaceList;
-    
+    private ParkingLotLibrary libraryParkingLot;
+
     public ParkingLot(String lotId) {
         this.lotId = lotId;
-        this.spaceList = new ArrayList<>();
+        this.libraryParkingLot = new ParkingLotLibrary(lotId);
         loadFromJson();
     }
-    
+
     private void loadFromJson() {
         try {
             JsonDataManager jsonManager = new JsonDataManager();
             ParkingStructure structure = jsonManager.loadParkingData();
-            
+
             if (structure != null) {
-                this.totalSpaces = structure.getTotalSpaces();
-                this.availableSpaces = 0;
-                
                 for (BuildingBlock block : structure.getBlocks()) {
                     for (ParkingZone zone : block.getSections()) {
                         for (SpaceDefinition spaceDef : zone.getSpaces()) {
-                            String location = block.getBlockName() + " - " + zone.getSection();
-                            ParkingSpace space = new ParkingSpace(
-                                spaceDef.getSpaceId(),
-                                location,
-                                spaceDef.getType(),
-                                spaceDef.isAvailableForRent()
+                            ParkingSpaceLibrary space = new ParkingSpaceLibrary(
+                                    spaceDef.getSpaceId(),
+                                    spaceDef.isOccupied(),
+                                    spaceDef.isOccupied() ? "PREVIOUSLY_OCCUPIED" : null,
+                                    "Resident",
+                                    spaceDef.isOccupied() ? "PREVIOUS_VEHICLE" : null
                             );
 
-                            if (spaceDef.isOccupied()) {
-                                space.assignSpace("PREVIOUSLY_OCCUPIED");
-                            }
-                            
-                            spaceList.add(space);
-                            
-                            if (!spaceDef.isOccupied()) {
-                                availableSpaces++;
-                            }
+                            libraryParkingLot.addParkingSpace(space);
                         }
                     }
                 }
-                System.out.println("Successfully loaded " + spaceList.size() + " spaces from JSON");
+                System.out.println("Successfully loaded " + libraryParkingLot.getParkingSpaces().size() + " spaces from JSON");
             } else {
                 System.out.println("Failed to load parking data from JSON");
             }
@@ -62,16 +52,14 @@ public class ParkingLot {
             e.printStackTrace();
         }
     }
-    
+
     public void saveToJson() {
         try {
             JsonDataManager jsonManager = new JsonDataManager();
-            
             ParkingStructure currentStructure = jsonManager.loadParkingData();
-            
+
             if (currentStructure != null) {
                 updateStructureWithCurrentStatus(currentStructure);
-                
                 jsonManager.saveParkingData(currentStructure.getBlocks());
                 System.out.println("Parking data saved successfully to JSON");
             }
@@ -80,17 +68,17 @@ public class ParkingLot {
             e.printStackTrace();
         }
     }
-    
+
     private void updateStructureWithCurrentStatus(ParkingStructure structure) {
-        Map<String, ParkingSpace> currentSpacesMap = new HashMap<>();
-        for (ParkingSpace space : spaceList) {
+        Map<String, ParkingSpaceLibrary> currentSpacesMap = new HashMap<>();
+        for (ParkingSpaceLibrary space : libraryParkingLot.getParkingSpaces()) {
             currentSpacesMap.put(space.getSpaceId(), space);
         }
-        
+
         for (BuildingBlock block : structure.getBlocks()) {
             for (ParkingZone zone : block.getSections()) {
                 for (SpaceDefinition spaceDef : zone.getSpaces()) {
-                    ParkingSpace currentSpace = currentSpacesMap.get(spaceDef.getSpaceId());
+                    ParkingSpaceLibrary currentSpace = currentSpacesMap.get(spaceDef.getSpaceId());
                     if (currentSpace != null) {
                         spaceDef.setOccupied(currentSpace.isOccupied());
                     }
@@ -98,62 +86,64 @@ public class ParkingLot {
             }
         }
     }
-    
+
     public String getOccupancyReport() {
-        int occupied = totalSpaces - availableSpaces;
-        double occupancyRate = totalSpaces > 0 ? (occupied * 100.0 / totalSpaces) : 0;
-        
-        return "Occupancy Report - Lot: " + lotId +
-               "\nTotal spaces: " + totalSpaces +
-               "\nAvailable spaces: " + availableSpaces +
-               "\nOccupied spaces: " + occupied +
-               "\nOccupancy rate: " + String.format("%.1f", occupancyRate) + "%";
+        return libraryParkingLot.getParkingLotStatus();
     }
-    
+
     public int calculateAvailableSpaces() {
-        availableSpaces = 0;
-        for (ParkingSpace space : spaceList) {
-            if (!space.isOccupied()) {
-                availableSpaces++;
-            }
-        }
-        return availableSpaces;
+        return libraryParkingLot.countAvailableSpaces();
     }
-    
-    public ParkingSpace findAvailableSpace() {
-        for (ParkingSpace space : spaceList) {
+
+    public ParkingSpaceLibrary findAvailableSpace() {
+        for (ParkingSpaceLibrary space : libraryParkingLot.getParkingSpaces()) {
             if (!space.isOccupied()) {
                 return space;
             }
         }
         return null;
     }
-    
-    public ParkingSpace findAvailableSpaceByType(String type) {
-        for (ParkingSpace space : spaceList) {
-            if (!space.isOccupied() && space.getType().equals(type)) {
+
+    public ParkingSpaceLibrary findAvailableSpaceByType(String type) {
+        for (ParkingSpaceLibrary space : libraryParkingLot.getParkingSpaces()) {
+            if (!space.isOccupied() && "Resident".equals(type)) { // ✅ Adaptado para tu librería
                 return space;
             }
         }
         return null;
     }
-    
+
     public void updateSpaceStatus(String spaceId, String status) {
-        for (ParkingSpace space : spaceList) {
+        for (ParkingSpaceLibrary space : libraryParkingLot.getParkingSpaces()) {
             if (space.getSpaceId().equals(spaceId)) {
                 if (status.equals("AVAILABLE")) {
-                    space.releaseSpace();
+                    space.freeSpace();
+                } else if (status.equals("OCCUPIED")) {
+                    space.assignSpace("Unknown", "Visitor", "TEMP_PLATE");
                 }
-                calculateAvailableSpaces();
                 break;
             }
         }
-        saveToJson(); 
+        saveToJson();
     }
-    
-    // Getters and Setters
-    public int getTotalSpaces() { return totalSpaces; }
-    public int getAvailableSpaces() { return availableSpaces; }
-    public String getLotId() { return lotId; }
-    public List<ParkingSpace> getSpaceList() { return spaceList; }
+
+    public int getTotalSpaces() {
+        return libraryParkingLot.getParkingSpaces().size();
+    }
+
+    public int getAvailableSpaces() {
+        return libraryParkingLot.countAvailableSpaces();
+    }
+
+    public String getLotId() {
+        return lotId;
+    }
+
+    public List<ParkingSpaceLibrary> getSpaceList() {
+        return libraryParkingLot.getParkingSpaces();
+    }
+
+    public ParkingLotLibrary getLibraryParkingLot() {
+        return libraryParkingLot;
+    }
 }

@@ -4,10 +4,9 @@ package model;
  *
  * @author Team 1 - T.A.P. (The Art of Programming)
  */
-
 public class User {
 
-    protected String userID; 
+    protected String userID;
 
     public User(String userID) {
         this.userID = userID;
