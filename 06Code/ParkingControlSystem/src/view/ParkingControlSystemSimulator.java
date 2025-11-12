@@ -9,7 +9,7 @@ import model.*;
 public class ParkingControlSystemSimulator {
 
     public static void main(String[] args) {
-       
+        
     }
 
 }
