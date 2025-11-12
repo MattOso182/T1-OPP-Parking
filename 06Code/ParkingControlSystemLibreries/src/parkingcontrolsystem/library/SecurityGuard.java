@@ -1,4 +1,4 @@
-package ec.edu.espe.parkingcontrolsystem.library;
+package parkingcontrolsystem.library;
 
 /**
  *
