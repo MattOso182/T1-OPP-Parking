@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Resident {
+public class ResidentLibrary {
     
     
     private String id;                  
@@ -20,14 +20,14 @@ public class Resident {
     private String type;                
     private double monthlyFee;          
     private boolean paymentStatus;      
-    private List<Vehicle> vehicles;     
+    private List<VehicleLibrary> vehicles;     
 
     
-    public Resident() {
+    public ResidentLibrary() {
         vehicles = new ArrayList<>();
     }
 
-    public Resident(String id, String fullName, String phoneNumber, String block, String type, double monthlyFee) {
+    public ResidentLibrary(String id, String fullName, String phoneNumber, String block, String type, double monthlyFee) {
         this.id = id;
         this.fullName = fullName;
         this.phoneNumber = phoneNumber;
@@ -95,23 +95,23 @@ public class Resident {
         this.paymentStatus = paymentStatus;
     }
 
-    public List<Vehicle> getVehicles() {
+    public List<VehicleLibrary> getVehicles() {
         return vehicles;
     }
 
-    public void setVehicles(List<Vehicle> vehicles) {
+    public void setVehicles(List<VehicleLibrary> vehicles) {
         this.vehicles = vehicles;
     }
 
    
 
     
-    public void addVehicle(Vehicle vehicle) {
+    public void addVehicle(VehicleLibrary vehicle) {
         vehicles.add(vehicle);
     }
 
    
-    public void removeVehicle(Vehicle vehicle) {
+    public void removeVehicle(VehicleLibrary vehicle) {
         vehicles.remove(vehicle);
     }
 
@@ -135,7 +135,7 @@ public class Resident {
                       "Valor mensual: $" + monthlyFee + "\n" +
                       "Pago al día: " + (paymentStatus ? "Sí" : "No") + "\n" +
                       "Vehículos asociados:\n";
-        for (Vehicle v : vehicles) {
+        for (VehicleLibrary v : vehicles) {
             info += "  - " + v.getLicensePlate() + " (" + v.getResidentType() + ")\n";
         }
         return info;

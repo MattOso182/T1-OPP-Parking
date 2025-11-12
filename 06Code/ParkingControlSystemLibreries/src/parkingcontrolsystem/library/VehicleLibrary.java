@@ -9,7 +9,7 @@ package parkingcontrolsystem.library;
 import java.util.Date;
 import java.util.Objects;
 
-public class Vehicle {
+public class VehicleLibrary {
 
     // Atributos principales
     private String licensePlate;     
@@ -23,10 +23,10 @@ public class Vehicle {
     private boolean paymentStatus;   
 
    
-    public Vehicle() {
+    public VehicleLibrary() {
     }
 
-    public Vehicle(String licensePlate, String ownerName, String ownerId, String phoneNumber, 
+    public VehicleLibrary(String licensePlate, String ownerName, String ownerId, String phoneNumber, 
         String block, String parkingSpaceId, String residentType, 
         double monthlyFee, boolean paymentStatus) {
         this.licensePlate = licensePlate;
@@ -144,8 +144,8 @@ public class Vehicle {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Vehicle)) return false;
-        Vehicle vehicle = (Vehicle) o;
+        if (!(o instanceof VehicleLibrary)) return false;
+        VehicleLibrary vehicle = (VehicleLibrary) o;
         return Objects.equals(licensePlate, vehicle.licensePlate);
     }
 

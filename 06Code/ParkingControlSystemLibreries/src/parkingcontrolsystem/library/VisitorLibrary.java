@@ -8,7 +8,7 @@ package parkingcontrolsystem.library;
 
 import java.util.Date;
 
-public class Visitor extends User {
+public class VisitorLibrary extends UserLibrary {
     private String visitorID;
     private String name;
     private String vehiclePlate;
@@ -16,11 +16,11 @@ public class Visitor extends User {
     private Date exitTime;
 
    
-    public Visitor() {
+    public VisitorLibrary() {
     }
 
     
-    public Visitor(String visitorID, String userID, String name, String vehiclePlate, Date entryTime, Date exitTime) {
+    public VisitorLibrary(String visitorID, String userID, String name, String vehiclePlate, Date entryTime, Date exitTime) {
         super(userID);
         this.visitorID = visitorID;
         this.name = name;

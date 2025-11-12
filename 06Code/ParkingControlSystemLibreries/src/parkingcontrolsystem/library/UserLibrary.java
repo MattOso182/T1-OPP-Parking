@@ -5,7 +5,7 @@ package parkingcontrolsystem.library;
  *
  * @author Josue Carvajal, THE ART OF PROGRAMMING, @ESPE
  */
-public class User {
+public class UserLibrary {
     private String userID;
     private String name;
     private String phoneNumber;
@@ -13,11 +13,11 @@ public class User {
     private String type; 
 
     
-    public User() {
+    public UserLibrary() {
     }
 
     
-    public User(String userID, String name, String phoneNumber, String block, String type) {
+    public UserLibrary(String userID, String name, String phoneNumber, String block, String type) {
         this.userID = userID;
         this.name = name;
         this.phoneNumber = phoneNumber;
@@ -26,7 +26,7 @@ public class User {
     }
 
     
-    public User(String userID) {
+    public UserLibrary(String userID) {
         this.userID = userID;
     }
 

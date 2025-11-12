@@ -4,7 +4,7 @@ package parkingcontrolsystem.library;
  *
  * @author Josue Carvajal, THE ART OF PROGRAMMING, @ESPE
  */
-public class ParkingSpace {
+public class ParkingSpaceLibrary {
     private String spaceId;            
     private boolean isOccupied;        
     private String assignedTo;         
@@ -12,11 +12,11 @@ public class ParkingSpace {
     private String vehiclePlate;       
 
     
-    public ParkingSpace() {
+    public ParkingSpaceLibrary() {
     }
 
     
-    public ParkingSpace(String spaceId, boolean isOccupied, String assignedTo, String residentType, String vehiclePlate) {
+    public ParkingSpaceLibrary(String spaceId, boolean isOccupied, String assignedTo, String residentType, String vehiclePlate) {
         this.spaceId = spaceId;
         this.isOccupied = isOccupied;
         this.assignedTo = assignedTo;

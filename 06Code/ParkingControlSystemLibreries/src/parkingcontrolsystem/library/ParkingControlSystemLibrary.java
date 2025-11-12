@@ -11,17 +11,17 @@ import java.util.Date;
 import java.util.List;
 
 
-public class ParkingControlSystem {
+public class ParkingControlSystemLibrary {
 
     
     private String systemId;
     private boolean active;
     private int totalVehicles;
-    private List<ParkingSpace> parkingSpaces;
-    private List<EntryExitRecord> records;
+    private List<ParkingSpaceLibrary> parkingSpaces;
+    private List<EntryExitRecordLibrary> records;
 
 
-    public ParkingControlSystem() {
+    public ParkingControlSystemLibrary() {
         this.systemId = "PCS-001";
         this.active = false;
         this.totalVehicles = 0;
@@ -29,7 +29,7 @@ public class ParkingControlSystem {
         this.records = new ArrayList<>();
     }
 
-    public ParkingControlSystem(String systemId, boolean active, int totalVehicles) {
+    public ParkingControlSystemLibrary(String systemId, boolean active, int totalVehicles) {
         this.systemId = systemId;
         this.active = active;
         this.totalVehicles = totalVehicles;
@@ -62,19 +62,19 @@ public class ParkingControlSystem {
         this.totalVehicles = totalVehicles;
     }
 
-    public List<ParkingSpace> getParkingSpaces() {
+    public List<ParkingSpaceLibrary> getParkingSpaces() {
         return parkingSpaces;
     }
 
-    public void setParkingSpaces(List<ParkingSpace> parkingSpaces) {
+    public void setParkingSpaces(List<ParkingSpaceLibrary> parkingSpaces) {
         this.parkingSpaces = parkingSpaces;
     }
 
-    public List<EntryExitRecord> getRecords() {
+    public List<EntryExitRecordLibrary> getRecords() {
         return records;
     }
 
-    public void setRecords(List<EntryExitRecord> records) {
+    public void setRecords(List<EntryExitRecordLibrary> records) {
         this.records = records;
     }
 
@@ -108,7 +108,7 @@ public class ParkingControlSystem {
         }
 
         Date entryTime = new Date();
-        EntryExitRecord record = new EntryExitRecord("REC-" + (records.size() + 1), plate, entryTime, null, "P-001", "OP-001");
+        EntryExitRecordLibrary record = new EntryExitRecordLibrary("REC-" + (records.size() + 1), plate, entryTime, null, "P-001", "OP-001");
         records.add(record);
         totalVehicles++;
         System.out.println("Entrada registrada: " + plate + " a las " + entryTime);
@@ -117,7 +117,7 @@ public class ParkingControlSystem {
 
     
     public boolean registerExit(String plate) {
-        for (EntryExitRecord record : records) {
+        for (EntryExitRecordLibrary record : records) {
             if (record.getVehiclePlate().equals(plate) && record.getExitTime() == null) {
                 record.setExitTime(new Date());
                 totalVehicles--;
@@ -131,7 +131,7 @@ public class ParkingControlSystem {
 
   
     public boolean checkAvailability() {
-        for (ParkingSpace space : parkingSpaces) {
+        for (ParkingSpaceLibrary space : parkingSpaces) {
             if (!space.isOccupied()) {
                 System.out.println(" Espacio disponible: " + space.getSpaceId());
                 return true;

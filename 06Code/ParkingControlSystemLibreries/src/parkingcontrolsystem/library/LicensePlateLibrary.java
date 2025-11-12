@@ -4,17 +4,17 @@ package parkingcontrolsystem.library;
  *
  * @author Josue Carvajal, THE ART OF PROGRAMMING, @ESPE
  */
-public class LicensePlate {
+public class LicensePlateLibrary {
     private String plateNumber;
     private String provinceCode;  
     private boolean isValid;
 
    
-    public LicensePlate() {
+    public LicensePlateLibrary() {
     }
 
    
-    public LicensePlate(String plateNumber, String provinceCode) {
+    public LicensePlateLibrary(String plateNumber, String provinceCode) {
         this.plateNumber = plateNumber;
         this.provinceCode = provinceCode;
         this.isValid = validatePlateFormat(plateNumber);

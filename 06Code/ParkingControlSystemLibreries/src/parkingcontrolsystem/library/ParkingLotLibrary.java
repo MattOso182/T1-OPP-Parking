@@ -8,19 +8,19 @@ package parkingcontrolsystem.library;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParkingLot {
+public class ParkingLotLibrary {
 
     
     private String name;                      
-    private List<ParkingSpace> parkingSpaces; 
+    private List<ParkingSpaceLibrary> parkingSpaces; 
 
   
-    public ParkingLot() {
+    public ParkingLotLibrary() {
         parkingSpaces = new ArrayList<>();
     }
 
     
-    public ParkingLot(String name) {
+    public ParkingLotLibrary(String name) {
         this.name = name;
         this.parkingSpaces = new ArrayList<>();
     }
@@ -34,24 +34,24 @@ public class ParkingLot {
         this.name = name;
     }
 
-    public List<ParkingSpace> getParkingSpaces() {
+    public List<ParkingSpaceLibrary> getParkingSpaces() {
         return parkingSpaces;
     }
 
-    public void setParkingSpaces(List<ParkingSpace> parkingSpaces) {
+    public void setParkingSpaces(List<ParkingSpaceLibrary> parkingSpaces) {
         this.parkingSpaces = parkingSpaces;
     }
 
     
 
   
-    public void addParkingSpace(ParkingSpace space) {
+    public void addParkingSpace(ParkingSpaceLibrary space) {
         parkingSpaces.add(space);
     }
 
  
-    public ParkingSpace findSpaceById(String spaceId) {
-        for (ParkingSpace space : parkingSpaces) {
+    public ParkingSpaceLibrary findSpaceById(String spaceId) {
+        for (ParkingSpaceLibrary space : parkingSpaces) {
             if (space.getSpaceId().equalsIgnoreCase(spaceId)) {
                 return space;
             }
@@ -61,7 +61,7 @@ public class ParkingLot {
 
    
     public boolean assignSpace(String spaceId, String assignedTo, String residentType, String vehiclePlate) {
-        ParkingSpace space = findSpaceById(spaceId);
+        ParkingSpaceLibrary space = findSpaceById(spaceId);
         if (space != null && !space.isOccupied()) {
             space.assignSpace(assignedTo, residentType, vehiclePlate);
             return true;
@@ -71,7 +71,7 @@ public class ParkingLot {
 
   
     public boolean freeSpace(String spaceId) {
-        ParkingSpace space = findSpaceById(spaceId);
+        ParkingSpaceLibrary space = findSpaceById(spaceId);
         if (space != null && space.isOccupied()) {
             space.freeSpace();
             return true;
@@ -82,7 +82,7 @@ public class ParkingLot {
   
     public int countAvailableSpaces() {
         int count = 0;
-        for (ParkingSpace space : parkingSpaces) {
+        for (ParkingSpaceLibrary space : parkingSpaces) {
             if (!space.isOccupied()) {
                 count++;
             }
@@ -93,7 +93,7 @@ public class ParkingLot {
  
     public int countOccupiedSpaces() {
         int count = 0;
-        for (ParkingSpace space : parkingSpaces) {
+        for (ParkingSpaceLibrary space : parkingSpaces) {
             if (space.isOccupied()) {
                 count++;
             }
@@ -108,7 +108,7 @@ public class ParkingLot {
         sb.append("Total de espacios: ").append(parkingSpaces.size()).append("\n");
         sb.append("Ocupados: ").append(countOccupiedSpaces()).append("\n");
         sb.append("Disponibles: ").append(countAvailableSpaces()).append("\n\n");
-        for (ParkingSpace space : parkingSpaces) {
+        for (ParkingSpaceLibrary space : parkingSpaces) {
             sb.append(space.getSpaceInfo()).append("\n-----------------------\n");
         }
         return sb.toString();

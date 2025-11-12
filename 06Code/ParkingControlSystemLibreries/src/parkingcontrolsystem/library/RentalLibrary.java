@@ -6,7 +6,7 @@ package parkingcontrolsystem.library;
  */
 import java.util.Date;
 
-public class Rental {
+public class RentalLibrary {
     private String rentalId;
     private String residentId;
     private String vehiclePlate;
@@ -16,11 +16,11 @@ public class Rental {
     private boolean isActive;
 
   
-    public Rental() {
+    public RentalLibrary() {
     }
 
     
-    public Rental(String rentalId, String residentId, String vehiclePlate, String spaceId, Date startDate, Date endDate, boolean isActive) {
+    public RentalLibrary(String rentalId, String residentId, String vehiclePlate, String spaceId, Date startDate, Date endDate, boolean isActive) {
         this.rentalId = rentalId;
         this.residentId = residentId;
         this.vehiclePlate = vehiclePlate;

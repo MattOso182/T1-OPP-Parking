@@ -7,7 +7,7 @@ package parkingcontrolsystem.library;
 
 import java.util.Date;
 
-public class EntryExitRecord {
+public class EntryExitRecordLibrary {
 
    
     private String recordID;
@@ -18,10 +18,10 @@ public class EntryExitRecord {
     private String operatorID;
 
     
-    public EntryExitRecord() {
+    public EntryExitRecordLibrary() {
     }
 
-    public EntryExitRecord(String recordID, String vehiclePlate, Date entryTime, Date exitTime, String parkingSpaceID, String operatorID) {
+    public EntryExitRecordLibrary(String recordID, String vehiclePlate, Date entryTime, Date exitTime, String parkingSpaceID, String operatorID) {
         this.recordID = recordID;
         this.vehiclePlate = vehiclePlate;
         this.entryTime = entryTime;
