@@ -105,7 +105,6 @@ public class SecurityGuard extends User {
         }
 
         if (controlSystem.registerExit(vehiclePlate)) {
-            // DELEGACIÓN A LA LIBRERÍA usando el método Factory sin nulls
             if (libraryGuard != null) {
                 libraryGuard.registerExit(createVehicleLibraryWrapper(vehiclePlate));
             }

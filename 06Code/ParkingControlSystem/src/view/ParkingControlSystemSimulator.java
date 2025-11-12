@@ -5,16 +5,11 @@ package view;
  * @author Team 1 - T.A.P. (The Art of Programming)
  */
 
-import model.*; // Importa todas las clases de tu paquete model
+import model.*; 
 import java.util.Date;
 import java.util.Scanner;
 import parkingcontrolsystem.library.ParkingSpaceLibrary;
 
-/**
- * Clase principal que ejecuta el Sistema de Control de Parqueadero.
- * Inicializa los gestores y muestra el menú principal al usuario.
- * * @author T.A.P (The Art of Programming) - (Ensamblado por Gemini)
- */
 public class ParkingControlSystemSimulator {
 
     // --- Gestores y Controladores del Sistema ---
@@ -26,27 +21,19 @@ public class ParkingControlSystemSimulator {
     private static EntryExitRecord logbook;
     private static SecurityGuard guard; // El actor principal para el control de acceso
 
-    /**
-     * Punto de entrada principal de la aplicación.
-     */
     public static void main(String[] args) {
-        // --- 1. Inicialización de Componentes ---
         System.out.println("Iniciando Sistema de Parqueadero...");
         
         scanner = new Scanner(System.in);
         
-        // Carga residentes, vehículos y alquileres desde residents_data.json
         residentManager = new ResidentManager();
         
-        // Carga la estructura física del parqueadero desde parking_data.json
         parkingLot = new ParkingLot("MainLot"); 
         
-        // Inicializa los sistemas de control
         visitorManager = new VisitorManager();
         controlSystem = new ParkingControlSystem("PCS-01", parkingLot);
-        logbook = new EntryExitRecord(); // Un registro general de eventos
+        logbook = new EntryExitRecord(); 
         
-        // Crea el Guardia de Seguridad, dándole acceso a todos los sistemas
         guard = new SecurityGuard(
             "GUARD-01", 
             "Juan Perez", 
@@ -58,129 +45,107 @@ public class ParkingControlSystemSimulator {
             visitorManager
         );
         
-        // El guardia debe estar "de turno" para operar
         guard.setOnDuty(true);
         
-        System.out.println("\n¡Sistema cargado y listo!");
-        System.out.println(" Guardia " + guard.getName() + " está en servicio.");
+        System.out.println("\nSistema cargado y listo!");
+        System.out.println(" Guardia " + guard.getName() + " esta en servicio.");
         System.out.println(" (" + residentManager.getTotalResidents() + " residentes cargados)");
-        System.out.println(" (" + residentManager.getTotalVehicles() + " vehículos registrados)"); // ✅ CORREGIDO
+        System.out.println(" (" + residentManager.getTotalVehicles() + " vehiculos registrados)"); 
         System.out.println(" (" + parkingLot.getTotalSpaces() + " espacios de parqueo cargados)");
 
-        // --- 2. Bucle del Menú Principal ---
         boolean salir = false;
         while (!salir) {
-            mostrarMenu();
+            showMenu();
             String opcion = scanner.nextLine();
 
             switch (opcion) {
                 case "1":
-                    gestionarFeature1_RegistroIngresoSalida();
+                    manageFeature1_RegistrationEntryExit();
                     break;
                 case "2":
-                    gestionarFeature2_RastrearEstadoEspacios();
+                    manageFeature2_TrackStateSpace();
                     break;
                 case "3":
-                    gestionarFeature3_AsignarGestionarEspacio();
+                    manageFeature3_AssignSpaceManagement();
                     break;
                 case "4":
-                    gestionarFeature4_VerificarAutorizacion();
+                    manageFeature4_VerifyAuthorization();
                     break;
                 case "5":
-                    gestionarFeature5_BuscarVehiculoMatricula();
+                    manageFeature5_SearchVehicleLicensePlate();
                     break;
                 case "6":
-                    gestionarFeature6_ValidarActualizarVehiculo();
+                    manageFeature6_valideteUpdateVehicle();
                     break;
                 case "7":
-                    gestionarFeature7_GestionarAlquileres();
+                    manageFeature7_manageRentals();
                     break;
                 case "8":
-                    gestionarFeature8_GenerarReportes();
+                    manageFeature8_GenerateReports();
                     break;
                 case "9":
                     salir = true;
                     break;
                 default:
-                    System.out.println("Opción no válida. Por favor, intente de nuevo.");
+                    System.out.println("Opcion no valida. Por favor, intente de nuevo.");
             }
         }
 
-        // --- 3. Apagado del Sistema ---
         System.out.println("Cerrando el sistema...");
         guard.setOnDuty(false);
-        // Tus gestores ya guardan en JSON en cada operación,
-        // pero un guardado final por si acaso es buena práctica.
+        
         parkingLot.saveToJson();
         System.out.println("¡Hasta luego!");
         scanner.close();
     }
 
-    /**
-     * Muestra el menú principal de 8 opciones en la consola.
-     */
-    private static void mostrarMenu() {
+    private static void showMenu() {
         System.out.println("\n" + "=".repeat(30));
-        System.out.println("   SISTEMA DE GESTIÓN DE PARQUEADERO");
+        System.out.println("   SISTEMA DE GESTION DE PARQUEADERO");
         System.out.println("=".repeat(30));
         System.out.println("1. Registrar ingreso/salida (Residentes/Visitantes)");
-        System.out.println("2. Rastrear estado de espacios (Ocupación)");
+        System.out.println("2. Rastrear estado de espacios (Ocupacion)");
         System.out.println("3. Asignar y gestionar espacios de parqueo");
-        System.out.println("4. Verificar autorización de usuarios/visitantes");
-        System.out.println("5. Buscar y verificar vehículo/matrícula");
-        System.out.println("6. Validar y actualizar vehículos de residentes");
+        System.out.println("4. Verificar autorizacion de usuarios/visitantes");
+        System.out.println("5. Buscar y verificar vehiculo/placa");
+        System.out.println("6. Validar y actualizar vehiculos de residentes");
         System.out.println("7. Gestionar alquileres y asignaciones temporales");
-        System.out.println("8. Generar reportes y estadísticas");
+        System.out.println("8. Generar reportes y estadisticas");
         System.out.println("9. Salir");
         System.out.println("-".repeat(30));
-        System.out.print("Seleccione una opción: ");
+        System.out.print("Seleccione una opcion: ");
     }
 
-    // --- MÉTODOS PARA CADA FEATURE ---
-
-    /**
-     * FEATURE 1: Llama al SecurityGuard para registrar una entrada o salida.
-     * El guardia se encarga de verificar autorización antes de actuar.
-     */
-    private static void gestionarFeature1_RegistroIngresoSalida() {
+    private static void manageFeature1_RegistrationEntryExit() {
         System.out.println("\n--- [1] Registrar Ingreso/Salida ---");
-        System.out.print("¿Va a (1) Registrar Ingreso o (2) Registrar Salida?: ");
+        System.out.print("Va a (1) Registrar Ingreso o (2) Registrar Salida?: ");
         String tipo = scanner.nextLine();
-        System.out.print("Ingrese la matrícula del vehículo: ");
+        System.out.print("Ingrese la placa del vehiculo (ej. ABC-123): ");
         String plate = scanner.nextLine().toUpperCase();
 
         if (tipo.equals("1")) {
             System.out.println("Procesando INGRESO para " + plate + "...");
-            // El guardia maneja la lógica de autorización y registro
             guard.registerEntry(plate, new Date());
         } else if (tipo.equals("2")) {
             System.out.println("Procesando SALIDA para " + plate + "...");
-            // El guardia maneja la lógica de salida
             guard.registerExit(plate, new Date());
         } else {
-            System.out.println("Opción no válida.");
+            System.out.println("Opcion no valida.");
         }
         pausar();
     }
 
-    /**
-     * FEATURE 2: Muestra el reporte de ocupación del ParkingControlSystem.
-     */
-    private static void gestionarFeature2_RastrearEstadoEspacios() {
+    private static void manageFeature2_TrackStateSpace() {
         System.out.println("\n--- [2] Estado de Espacios (Disponibles/Ocupados) ---");
         // El controlSystem tiene el reporte más completo
         System.out.println(controlSystem.generateReport());
         pausar();
     }
 
-    /**
-     * FEATURE 3: Muestra información de un espacio específico.
-     * La asignación es automática en la Feature 1.
-     */
-    private static void gestionarFeature3_AsignarGestionarEspacio() {
+    private static void manageFeature3_AssignSpaceManagement() {
         System.out.println("\n--- [3] Gestionar Espacios de Parqueo ---");
-        System.out.println("La asignación es automática al registrar un ingreso (Opción 1).");
-        System.out.println("Para ver el detalle de un espacio específico:");
+        System.out.println("La asignacion es automatica al registrar un ingreso (Opcion 1).");
+        System.out.println("Para ver el detalle de un espacio especifico:");
         System.out.print("Ingrese el ID del espacio (ej. A-101): ");
         String spaceId = scanner.nextLine().toUpperCase();
 
@@ -190,23 +155,19 @@ public class ParkingControlSystemSimulator {
                 .orElse(null);
 
         if (space != null) {
-            System.out.println("Información del Espacio:");
+            System.out.println("Informacion del Espacio:");
             System.out.println(space.getSpaceInfo());
         } else {
-            System.out.println("No se encontró el espacio con ID: " + spaceId);
+            System.out.println("No se encontro el espacio con ID: " + spaceId);
         }
         pausar();
     }
 
-    /**
-     * FEATURE 4: Verifica si un visitante está autorizado por un residente.
-     */
-    private static void gestionarFeature4_VerificarAutorizacion() {
-        System.out.println("\n--- [4] Verificar Autorización (Visitantes) ---");
-        System.out.print("Ingrese el ID del Visitante (ej. Cédula): ");
+    private static void manageFeature4_VerifyAuthorization() {
+        System.out.println("\n--- [4] Verificar Autorizacion (Visitantes) ---");
+        System.out.print("Ingrese el ID del Visitante: ");
         String visitorId = scanner.nextLine();
 
-        // Revisa si el visitante ya está en el sistema
         Visitor visitor = visitorManager.findVisitorById(visitorId);
         if (visitor == null) {
             System.out.print("Visitante no registrado. Ingrese el nombre: ");
@@ -214,7 +175,6 @@ public class ParkingControlSystemSimulator {
             visitor = new Visitor(visitorId, "TEMP-" + visitorId, name, "", new Date(), null);
         }
 
-        // Usamos el método de alto nivel del ResidentManager para procesar al visitante
         boolean isAuthorized = residentManager.processVisitorEntry(visitor);
 
         if (isAuthorized) {
@@ -226,40 +186,31 @@ public class ParkingControlSystemSimulator {
         pausar();
     }
 
-    /**
-     * FEATURE 5: Busca un vehículo en la base de datos de residentes.
-     */
-    private static void gestionarFeature5_BuscarVehiculoMatricula() {
-        System.out.println("\n--- [5] Buscar Vehículo por Matrícula ---");
-        System.out.print("Ingrese la matrícula a buscar: ");
+    private static void manageFeature5_SearchVehicleLicensePlate() {
+        System.out.println("\n--- [5] Buscar Vehiculo por Placa ---");
+        System.out.print("Ingrese la placa a buscar: ");
         String plate = scanner.nextLine().toUpperCase();
 
-        // 1. Validar formato usando LicensePlate (aunque no esté vinculado)
         LicensePlate lp = new LicensePlate(plate, new Date(), "N/A", "N/A");
-        System.out.println("Formato de matrícula: " + (lp.validateFormat() ? "VÁLIDO" : "INVÁLIDO"));
+        System.out.println("Formato de Placa: " + (lp.validateFormat() ? "VALIDO" : "INVALIDO"));
 
-        // 2. Buscar el vehículo en el ResidentManager
         Vehicle vehicle = residentManager.findVehicleByPlate(plate);
 
         if (vehicle != null) {
-            System.out.println("\nVehículo encontrado:");
+            System.out.println("\nVehiculo encontrado:");
             System.out.println(vehicle.getVehicleInfo());
 
-            // 3. Buscar al propietario
             Resident owner = residentManager.findResidentByVehiclePlate(plate);
             System.out.println("\nPropietario Registrado:");
             System.out.println("ID: " + owner.getResidentID() + ", Nombre: " + owner.getName());
         } else {
-            System.out.println("\nNo se encontró ningún vehículo con esa matrícula en el sistema.");
+            System.out.println("\nNo se encontro ningun vehiculo con esa placa en el sistema.");
         }
         pausar();
     }
 
-    /**
-     * FEATURE 6: Añade o elimina vehículos de un residente.
-     */
-    private static void gestionarFeature6_ValidarActualizarVehiculo() {
-        System.out.println("\n--- [6] Gestionar Vehículos de Residente ---");
+    private static void manageFeature6_valideteUpdateVehicle() {
+        System.out.println("\n--- [6] Gestionar Vehiculos de Residente ---");
         System.out.print("Ingrese el ID del Residente: ");
         String residentId = scanner.nextLine();
 
@@ -271,15 +222,15 @@ public class ParkingControlSystemSimulator {
         }
 
         System.out.println("Residente: " + resident.getName());
-        System.out.println("Vehículos actuales: " + resident.getVehicles().size());
+        System.out.println("Vehiculos actuales: " + resident.getVehicles().size());
         
-        System.out.println("Total de vehículos en sistema: " + residentManager.getTotalVehicles());
+        System.out.println("Total de vehiculos en sistema: " + residentManager.getTotalVehicles());
 
-        System.out.print("\n¿Desea (1) Añadir vehículo o (2) Quitar vehículo?: ");
+        System.out.print("\nDesea (1) Anadir vehiculo o (2) Quitar vehiculo?: ");
         String opt = scanner.nextLine();
 
         if (opt.equals("1")) {
-            System.out.print("Matrícula: "); String plate = scanner.nextLine().toUpperCase();
+            System.out.print("Matricula: "); String plate = scanner.nextLine().toUpperCase();
             System.out.print("Color: "); String color = scanner.nextLine();
             System.out.print("Modelo: "); String model = scanner.nextLine();
             
@@ -288,35 +239,32 @@ public class ParkingControlSystemSimulator {
             if (newVehicle.validatePlate()) {
                 boolean success = residentManager.addVehicleToResident(residentId, newVehicle);
                 if (success) {
-                    System.out.println("✅ Vehículo agregado exitosamente");
-                    System.out.println("Nuevo total de vehículos: " + residentManager.getTotalVehicles());
+                    System.out.println("Vehiculo agregado exitosamente");
+                    System.out.println("Nuevo total de vehiculos: " + residentManager.getTotalVehicles());
                 } else {
-                    System.out.println("❌ No se pudo agregar - vehículo ya existe");
+                    System.out.println("No se pudo agregar - vehiculo ya existe");
                 }
             } else {
-                System.out.println("❌ No se pudo agregar - placa inválida");
+                System.out.println("No se pudo agregar - placa invalida");
             }
             
         } else if (opt.equals("2")) {
-            System.out.print("Matrícula del vehículo a quitar: ");
+            System.out.print("Matricula del vehiculo a quitar: ");
             String plate = scanner.nextLine().toUpperCase();
             boolean success = residentManager.removeVehicleFromResident(residentId, plate);
             if (success) {
-                System.out.println("✅ Vehículo removido exitosamente");
-                System.out.println("Nuevo total de vehículos: " + residentManager.getTotalVehicles());
+                System.out.println("Vehiculo removido exitosamente");
+                System.out.println("Nuevo total de vehiculos: " + residentManager.getTotalVehicles());
             } else {
-                System.out.println("❌ No se pudo remover - vehículo no encontrado");
+                System.out.println("No se pudo remover - vehiculo no encontrado");
             }
         } else {
-            System.out.println("Opción no válida.");
+            System.out.println("Opcion no valida.");
         }
         pausar();
     }
 
-    /**
-     * FEATURE 7: Crea, renueva o cancela alquileres para residentes ROTATING.
-     */
-    private static void gestionarFeature7_GestionarAlquileres() {
+    private static void manageFeature7_manageRentals() {
         System.out.println("\n--- [7] Gestionar Alquileres Temporales ---");
         System.out.print("Ingrese el ID del Residente (tipo ROTATING): ");
         String residentId = scanner.nextLine();
@@ -341,7 +289,7 @@ public class ParkingControlSystemSimulator {
             String opt = scanner.nextLine();
             
             if (opt.equals("1")) {
-                System.out.print("¿Cuántos meses adicionales? ");
+                System.out.print("¿Cuantos meses adicionales? ");
                 int months = Integer.parseInt(scanner.nextLine());
                 residentManager.renewRentalForResident(residentId, months);
             } else if (opt.equals("2")) {
@@ -366,15 +314,12 @@ public class ParkingControlSystemSimulator {
                     System.out.println("Espacio encontrado: " + rentalSpace.getSpaceId());
                     System.out.print("Precio mensual (ej. 50.0): ");
                     double price = Double.parseDouble(scanner.nextLine());
-                    System.out.print("¿Cuántos meses? (ej. 1): ");
+                    System.out.print("¿Cuantos meses? (ej. 1): ");
                     int months = Integer.parseInt(scanner.nextLine());
                     
-                    // 1. Crea el alquiler en el ResidentManager
                     residentManager.createRentalForResident(residentId, rentalSpace.getSpaceId(), months, price);
                     
-                    // 2. Ocupa el espacio en el ParkingLot
-                    
-                    parkingLot.saveToJson(); // Guarda el cambio de estado del espacio
+                    parkingLot.saveToJson(); 
                     
                 } else {
                     System.out.println("No hay espacios disponibles para alquilar en este momento.");
@@ -384,15 +329,12 @@ public class ParkingControlSystemSimulator {
         pausar();
     }
 
-    /**
-     * FEATURE 8: Muestra un sub-menú para elegir qué reporte generar.
-     */
-    private static void gestionarFeature8_GenerarReportes() {
-        System.out.println("\n--- [8] Generación de Reportes ---");
-        System.out.println("1. Reporte de Ocupación de Espacios");
+    private static void manageFeature8_GenerateReports() {
+        System.out.println("\n--- [8] Generacion de Reportes ---");
+        System.out.println("1. Reporte de Ocupacion de Espacios");
         System.out.println("2. Reporte de Residentes");
         System.out.println("3. Reporte de Alquileres Activos");
-        System.out.println("4. Reporte de Vehículos");
+        System.out.println("4. Reporte de Vehiculos");
         System.out.print("Seleccione el reporte a generar: ");
         String opt = scanner.nextLine();
 
@@ -408,21 +350,17 @@ public class ParkingControlSystemSimulator {
                 System.out.println(residentManager.generateRentalsReport());
                 break;
             case "4":
-                // ✅ CORREGIDO - Mostrar contador real
-                System.out.println("=== REPORTE DE VEHÍCULOS ===");
-                System.out.println("Total de vehículos registrados: " + residentManager.getTotalVehicles());
+                System.out.println("=== REPORTE DE VEHICULOS ===");
+                System.out.println("Total de vehiculos registrados: " + residentManager.getTotalVehicles());
                 System.out.println(residentManager.generateVehiclesReport());
                 break;
             default:
-                System.out.println("Opción no válida.");
+                System.out.println("Opcion no valida.");
         }
         System.out.println("--- FIN DEL REPORTE ---");
         pausar();
     }
 
-    /**
-     * Pausa la ejecución hasta que el usuario presione Enter.
-     */
     private static void pausar() {
         System.out.println("\nPresione Enter para continuar...");
         scanner.nextLine();

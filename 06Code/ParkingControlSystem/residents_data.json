@@ -25,7 +25,7 @@
     },
     {
       "residentID": "RES-002",
-      "name": "María González",
+      "name": "Maria Gonzalez",
       "apartmentNumber": "102-B",
       "email": "maria.gonzalez@email.com",
       "phone": "0992345678",
@@ -72,7 +72,7 @@
     },
     {
       "residentID": "RES-004",
-      "name": "Ana López",
+      "name": "Ana Lopez",
       "apartmentNumber": "202-B",
       "email": "ana.lopez@email.com",
       "phone": "0994567890",
@@ -120,7 +120,7 @@
     },
     {
       "residentID": "RES-006",
-      "name": "Laura Martínez",
+      "name": "Laura Martinez",
       "apartmentNumber": "302-B",
       "email": "laura.martinez@email.com",
       "phone": "0996789012",
@@ -158,7 +158,7 @@
     },
     {
       "residentID": "RES-008",
-      "name": "Sofía Ramírez",
+      "name": "Sofia Ramirez",
       "apartmentNumber": "402-B",
       "email": "sofia.ramirez@email.com",
       "phone": "0998901234",
@@ -255,7 +255,7 @@
     },
     {
       "residentID": "RES-013",
-      "name": "Miguel Angel Pérez",
+      "name": "Miguel Angel Perez",
       "apartmentNumber": "203-A",
       "email": "miguel.perez@email.com",
       "phone": "0983456789",
@@ -276,7 +276,7 @@
     },
     {
       "residentID": "RES-014",
-      "name": "Carmen Núñez",
+      "name": "Carmen Nunez",
       "apartmentNumber": "204-B",
       "email": "carmen.nunez@email.com",
       "phone": "0984567890",
@@ -294,7 +294,7 @@
     },
     {
       "residentID": "RES-015",
-      "name": "Oscar Domínguez",
+      "name": "Oscar Dominguez",
       "apartmentNumber": "303-A",
       "email": "oscar.dominguez@email.com",
       "phone": "0985678901",
@@ -332,7 +332,7 @@
     },
     {
       "residentID": "RES-017",
-      "name": "Andrés Guerrero",
+      "name": "Andres Guerrero",
       "apartmentNumber": "403-A",
       "email": "andres.guerrero@email.com",
       "phone": "0987890123",
@@ -411,7 +411,7 @@
     },
     {
       "residentID": "RES-021",
-      "name": "Juan Carlos León",
+      "name": "Juan Carlos Leon",
       "apartmentNumber": "105-A",
       "email": "juan.leon@email.com",
       "phone": "0971234567",
@@ -430,7 +430,7 @@
     },
     {
       "residentID": "RES-022",
-      "name": "María José Flores",
+      "name": "Maria Jose Flores",
       "apartmentNumber": "106-B",
       "email": "maria.flores@email.com",
       "phone": "0972345678",
@@ -486,7 +486,7 @@
     },
     {
       "residentID": "RES-024",
-      "name": "Ana María Reyes",
+      "name": "Ana Maria Reyes",
       "apartmentNumber": "206-B",
       "email": "ana.reyes@email.com",
       "phone": "0974567890",
@@ -569,7 +569,7 @@
     },
     {
       "residentID": "RES-028",
-      "name": "Sofía Alejandra Ríos",
+      "name": "Sofia Alejandra Rios",
       "apartmentNumber": "406-B",
       "email": "sofia.rios@email.com",
       "phone": "0978901234",
@@ -589,7 +589,7 @@
     },
     {
       "residentID": "RES-029",
-      "name": "Javier Antonio Mejía",
+      "name": "Javier Antonio Mejia",
       "apartmentNumber": "505-A",
       "email": "javier.mejia@email.com",
       "phone": "0979012345",
