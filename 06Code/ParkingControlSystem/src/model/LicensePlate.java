@@ -2,67 +2,63 @@ package model;
 
 /**
  *
- * @author @ESPE T.A.P(The Art of Programming)
+ * @author T.A.P(The Art of Programming)
  */
 import java.util.Date;
+import parkingcontrolsystem.library.LicensePlateLibrary;
 
 public class LicensePlate {
 
-    private String plateNumber;
+    private LicensePlateLibrary libraryPlate;
+    
     private Date registrationDate;
-    private String province;
     private String vehicleType;
 
     public LicensePlate(String plateNumber, Date registrationDate, String province, String vehicleType) {
-        this.plateNumber = plateNumber;
+        
+        this.libraryPlate = new LicensePlateLibrary(plateNumber, province);
         this.registrationDate = registrationDate;
-        this.province = province;
         this.vehicleType = vehicleType;
     }
 
     public boolean validateFormat() {
-        if (plateNumber == null || plateNumber.length() < 6 || plateNumber.length() > 8) {
-            System.out.println("Validation for " + plateNumber + ": FAILED (Length)");
-            return false;
-        }
+        boolean isValid = this.libraryPlate.isValid(); 
 
-        boolean isValid = plateNumber.matches("[A-Z]{2,3}[- ]?[0-9]{3,4}");
-
-        System.out.println("Validation for " + plateNumber + ": " + (isValid ? "VALID" : "INVALID"));
+        System.out.println("Validation for " + getPlateNumber() + ": " + (isValid ? "VALID" : "INVALID"));
         return isValid;
     }
 
     public void linkToUser(String userID) {
-        System.out.println("License plate " + plateNumber + " linked to User ID: " + userID);
+        System.out.println("License plate " + getPlateNumber() + " linked to User ID: " + userID);
     }
 
     public String getPlateInfo() {
         return String.format("Plate: %s | Province: %s | Type: %s | Reg Date: %s",
-                plateNumber, province, vehicleType, registrationDate);
+                getPlateNumber(), getProvince(), vehicleType, registrationDate);
     }
 
     public String getPlateNumber() {
-        return plateNumber;
+        return this.libraryPlate.getPlateNumber();
     }
 
     public void setPlateNumber(String plateNumber) {
-        this.plateNumber = plateNumber;
+        this.libraryPlate.setPlateNumber(plateNumber);
     }
 
+    public String getProvince() {
+        return this.libraryPlate.getProvinceCode();
+    }
+
+    public void setProvince(String province) {
+        this.libraryPlate.setProvinceCode(province);
+    }
+    
     public Date getRegistrationDate() {
         return registrationDate;
     }
 
     public void setRegistrationDate(Date registrationDate) {
         this.registrationDate = registrationDate;
-    }
-
-    public String getProvince() {
-        return province;
-    }
-
-    public void setProvince(String province) {
-        this.province = province;
     }
 
     public String getVehicleType() {

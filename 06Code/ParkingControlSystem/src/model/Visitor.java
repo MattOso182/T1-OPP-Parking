@@ -1,113 +1,95 @@
 package model;
 
 /**
- *
- * @author @ESPE T.A.P(The Art of Programming)
+ * * @author @ESPE T.A.P (The Art of Programming)
  */
 import java.util.Date;
+import parkingcontrolsystem.library.VisitorLibrary;
 
-public class Visitor {
+public class Visitor extends User { 
 
-    private String visitorID;
-    private String name;
-    private Date entryTime;
-    private Date exitTime;
-    private boolean isWaiting;
-    private boolean hasTemporaryPass;
+    private VisitorLibrary libraryVisitor;
+    
+    private boolean hasPass; 
 
-    public Visitor(String visitorID, String name) {
-        this.visitorID = visitorID;
-        this.name = name;
-        this.isWaiting = false;
-        this.hasTemporaryPass = false;
+    public Visitor(String visitorID, String userID, String name, String vehiclePlate) {
+        super(userID);
+        
+        this.libraryVisitor = new VisitorLibrary(
+            visitorID, userID, name, vehiclePlate, 
+            null, 
+            null 
+        );
+        this.hasPass = false;
     }
-
-    public boolean registerWait() {
-        if (!isWaiting) {
-            isWaiting = true;
-            System.out.println("Visitor " + name + " is now waiting for authorization");
-            return true;
-        }
-        return false;
-    }
-
-    public boolean assignTemporaryPass() {
-        if (!hasTemporaryPass) {
-            hasTemporaryPass = true;
-            this.entryTime = new Date();
-            System.out.println("Temporary pass assigned to visitor: " + name);
-            return true;
-        }
-        return false;
-    }
-
-    public void recordParking() {
-        this.exitTime = new Date();
-        hasTemporaryPass = false;
-        System.out.println("Parking recorded for visitor: " + name);
-    }
+    
 
     public boolean verifyIdentity() {
-        return visitorID != null && !visitorID.isEmpty() && name != null && !name.isEmpty();
+        return this.libraryVisitor.verifyIdentity();
     }
-
-    public boolean requestEntry() {
-        System.out.println("\n--- ENTRY REQUEST ---");
-        System.out.println("Visitor: " + name + " (ID: " + visitorID + ")");
-        if (!verifyIdentity()) {
-            System.out.println("REQUEST DENIED: Invalid identity");
-            return false;
-        }
-        if (!registerWait()) {
-            return false;
-        }
-        System.out.println("Visitor waiting for authorization...");
-        return true;
-    }
-
-    public boolean recordExit() {
-        if (hasTemporaryPass && exitTime == null) {
-            this.exitTime = new Date();
-            this.hasTemporaryPass = false;
-            System.out.println("Exit recorded for visitor: " + name);
-            if (entryTime != null) {
-                long stayTime = (exitTime.getTime() - entryTime.getTime()) / (1000 * 60);
-                System.out.println("Stay time: " + stayTime + " minutes");
-            }
+    
+    public boolean assignTemporaryPass() {
+        if (this.libraryVisitor.registerVisit() && this.libraryVisitor.assignTemporarySpot()) {
+            this.hasPass = true;
+            // Registramos la entrada real
+            setEntryTime(new Date());
+            System.out.println("MODEL: Pase temporal y registro de entrada concedidos.");
             return true;
         }
         return false;
     }
+    
+    public boolean recordExit() {
+        if (this.hasPass) {
+            this.libraryVisitor.exitParking();
+            this.hasPass = false;
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean hasTemporaryPass() {
+        return this.hasPass && this.libraryVisitor.getEntryTime() != null && this.libraryVisitor.getExitTime() == null;
+    }
+
 
     public String getVisitorID() {
-        return visitorID;
+        return this.libraryVisitor.getVisitorID();
     }
 
+    public void setVisitorID(String visitorID) {
+        this.libraryVisitor.setVisitorID(visitorID);
+    }
+    
     public String getName() {
-        return name;
+        return this.libraryVisitor.getName();
     }
 
+    public void setName(String name) {
+        this.libraryVisitor.setName(name);
+    }
+
+    public String getVehiclePlate() {
+        return this.libraryVisitor.getVehiclePlate();
+    }
+
+    public void setVehiclePlate(String vehiclePlate) {
+        this.libraryVisitor.setVehiclePlate(vehiclePlate);
+    }
+
+    public void setEntryTime(Date entryTime) {
+        this.libraryVisitor.setEntryTime(entryTime);
+    }
+    
     public Date getEntryTime() {
-        return entryTime;
+        return this.libraryVisitor.getEntryTime();
     }
 
     public Date getExitTime() {
-        return exitTime;
+        return this.libraryVisitor.getExitTime();
     }
-
-    public boolean isWaiting() {
-        return isWaiting;
-    }
-
-    public boolean hasTemporaryPass() {
-        return hasTemporaryPass;
-    }
-
+    
     public String getVisitorInfo() {
-        return "Visitor ID: " + visitorID
-                + "\nName: " + name
-                + "\nStatus: " + (hasTemporaryPass ? "ACTIVE" : "INACTIVE")
-                + "\nEntry Time: " + (entryTime != null ? entryTime : "Not entered")
-                + "\nExit Time: " + (exitTime != null ? exitTime : "Not exited");
+        return this.libraryVisitor.getVisitorInfo() + "\nPass Active: " + this.hasPass;
     }
 }

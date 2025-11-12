@@ -1,8 +1,8 @@
 package model;
 
 /**
- *
- * @author @ESPE T.A.P(The Art of Programming)
+ * Gestiona la colección de objetos Visitor del modelo.
+ * * @author @ESPE T.A.P(The Art of Programming)
  */
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +18,7 @@ public class VisitorManager {
     public void addVisitor(Visitor visitor) {
         if (findVisitorById(visitor.getVisitorID()) == null) {
             this.visitors.add(visitor);
+            System.out.println("Manager: Visitor " + visitor.getName() + " added.");
         }
     }
 
@@ -47,5 +48,9 @@ public class VisitorManager {
         for (Visitor v : visitors) {
             System.out.println(v.getVisitorInfo());
         }
+    }
+    
+    public List<Visitor> getAllVisitors() {
+        return new ArrayList<>(visitors);
     }
 }

@@ -5,6 +5,9 @@ package model;
  * @author @ESPE T.A.P(The Art of Programming)
  */
 import java.util.Date;
+import parkingcontrolsystem.library.SecurityGuardLibrary; 
+import parkingcontrolsystem.library.VehicleLibrary; 
+
 
 public class SecurityGuard extends User {
 
@@ -13,10 +16,23 @@ public class SecurityGuard extends User {
     private String phoneNumber;
     private boolean isOnDuty;
 
+    private SecurityGuardLibrary libraryGuard; 
     private ParkingControlSystem controlSystem;
     private EntryExitRecord entryExitSystem;
     private ResidentManager residentManager;
     private VisitorManager visitorManager;
+    
+    
+    
+    private VehicleLibrary createVehicleLibraryWrapper(String plate) {
+        return new VehicleLibrary(
+            plate, 
+            "", "", "", 
+            "", "", "", 
+            0.0,       
+            false       
+        );
+    }
 
     public SecurityGuard(String userID, String name, String shift, String phoneNumber,
             ParkingControlSystem controlSystem, EntryExitRecord entryExitSystem,
@@ -26,6 +42,9 @@ public class SecurityGuard extends User {
         this.shift = shift;
         this.phoneNumber = phoneNumber;
         this.isOnDuty = false;
+        
+        this.libraryGuard = new SecurityGuardLibrary(userID, name, shift);
+        
         this.controlSystem = controlSystem;
         this.entryExitSystem = entryExitSystem;
         this.residentManager = residentManager;
@@ -33,7 +52,7 @@ public class SecurityGuard extends User {
     }
 
     public boolean verifyAuthorization(String vehiclePlateOrID) {
-        System.out.print("   -> Verificando: " + vehiclePlateOrID + "... ");
+        System.out.print("    -> Verificando: " + vehiclePlateOrID + "... ");
 
         Resident resident = residentManager.findResidentByVehiclePlate(vehiclePlateOrID);
         if (resident != null && resident.hasActiveRental()) {
@@ -61,6 +80,11 @@ public class SecurityGuard extends User {
                 if (entryExitSystem != null) {
                     entryExitSystem.registerEntry(vehiclePlate, time);
                 }
+                
+                if (libraryGuard != null) {
+                    libraryGuard.registerEntry(createVehicleLibraryWrapper(vehiclePlate));
+                }
+                
                 System.out.println("Entrada registrada para: " + vehiclePlate);
             } else {
                 System.out.println("Entrada fallida. Estacionamiento lleno.");
@@ -81,6 +105,11 @@ public class SecurityGuard extends User {
         }
 
         if (controlSystem.registerExit(vehiclePlate)) {
+            // DELEGACIÓN A LA LIBRERÍA usando el método Factory sin nulls
+            if (libraryGuard != null) {
+                libraryGuard.registerExit(createVehicleLibraryWrapper(vehiclePlate));
+            }
+            
             System.out.println("Salida registrada para: " + vehiclePlate);
         } else {
             System.out.println("Salida fallida. Vehiculo no encontrado.");
@@ -88,11 +117,12 @@ public class SecurityGuard extends User {
     }
 
     public String getGuardID() {
-        return getUserID();
+        return libraryGuard.getId(); 
     }
 
     public void setGuardID(String guardID) {
         setUserID(guardID);
+        libraryGuard.setId(guardID);
     }
 
     public String getName() {
@@ -101,6 +131,7 @@ public class SecurityGuard extends User {
 
     public void setName(String name) {
         this.name = name;
+        libraryGuard.setName(name); 
     }
 
     public String getShift() {
@@ -109,6 +140,7 @@ public class SecurityGuard extends User {
 
     public void setShift(String shift) {
         this.shift = shift;
+        libraryGuard.setShift(shift); 
     }
 
     public String getPhoneNumber() {
