@@ -5,7 +5,6 @@ package view;
  * @author Team 1 - T.A.P. (The Art of Programming)
  */
 
-
 import model.*; // Importa todas las clases de tu paquete model
 import java.util.Date;
 import java.util.Scanner;
@@ -65,6 +64,7 @@ public class ParkingControlSystemSimulator {
         System.out.println("\n¡Sistema cargado y listo!");
         System.out.println(" Guardia " + guard.getName() + " está en servicio.");
         System.out.println(" (" + residentManager.getTotalResidents() + " residentes cargados)");
+        System.out.println(" (" + residentManager.getTotalVehicles() + " vehículos registrados)"); // ✅ CORREGIDO
         System.out.println(" (" + parkingLot.getTotalSpaces() + " espacios de parqueo cargados)");
 
         // --- 2. Bucle del Menú Principal ---
@@ -210,7 +210,8 @@ public class ParkingControlSystemSimulator {
         Visitor visitor = visitorManager.findVisitorById(visitorId);
         if (visitor == null) {
             System.out.print("Visitante no registrado. Ingrese el nombre: ");
-            
+            String name = scanner.nextLine();
+            visitor = new Visitor(visitorId, "TEMP-" + visitorId, name, "", new Date(), null);
         }
 
         // Usamos el método de alto nivel del ResidentManager para procesar al visitante
@@ -270,8 +271,9 @@ public class ParkingControlSystemSimulator {
         }
 
         System.out.println("Residente: " + resident.getName());
-        System.out.println("Vehículos actuales:");
-        resident.getVehicles().forEach(v -> System.out.println(" - " + v.getVehicleInfo()));
+        System.out.println("Vehículos actuales: " + resident.getVehicles().size());
+        
+        System.out.println("Total de vehículos en sistema: " + residentManager.getTotalVehicles());
 
         System.out.print("\n¿Desea (1) Añadir vehículo o (2) Quitar vehículo?: ");
         String opt = scanner.nextLine();
@@ -282,13 +284,32 @@ public class ParkingControlSystemSimulator {
             System.out.print("Modelo: "); String model = scanner.nextLine();
             
             Vehicle newVehicle = new Vehicle(plate, color, model, residentId);
-            residentManager.addVehicleToResident(residentId, newVehicle);
+            
+            if (newVehicle.validatePlate()) {
+                boolean success = residentManager.addVehicleToResident(residentId, newVehicle);
+                if (success) {
+                    System.out.println("✅ Vehículo agregado exitosamente");
+                    System.out.println("Nuevo total de vehículos: " + residentManager.getTotalVehicles());
+                } else {
+                    System.out.println("❌ No se pudo agregar - vehículo ya existe");
+                }
+            } else {
+                System.out.println("❌ No se pudo agregar - placa inválida");
+            }
+            
         } else if (opt.equals("2")) {
             System.out.print("Matrícula del vehículo a quitar: ");
             String plate = scanner.nextLine().toUpperCase();
-            residentManager.removeVehicleFromResident(residentId, plate);
+            boolean success = residentManager.removeVehicleFromResident(residentId, plate);
+            if (success) {
+                System.out.println("✅ Vehículo removido exitosamente");
+                System.out.println("Nuevo total de vehículos: " + residentManager.getTotalVehicles());
+            } else {
+                System.out.println("❌ No se pudo remover - vehículo no encontrado");
+            }
+        } else {
+            System.out.println("Opción no válida.");
         }
-        System.out.println("Lista de vehículos actualizada.");
         pausar();
     }
 
@@ -326,7 +347,6 @@ public class ParkingControlSystemSimulator {
             } else if (opt.equals("2")) {
                 String spaceId = resident.getCurrentRental().getSpaceId();
                 residentManager.cancelRentalForResident(residentId);
-                // ¡Importante! Liberar el espacio en el parqueadero
                 parkingLot.updateSpaceStatus(spaceId, "AVAILABLE");
                 System.out.println("Espacio " + spaceId + " ha sido liberado.");
             } else if (opt.equals("3")) {
@@ -388,6 +408,9 @@ public class ParkingControlSystemSimulator {
                 System.out.println(residentManager.generateRentalsReport());
                 break;
             case "4":
+                // ✅ CORREGIDO - Mostrar contador real
+                System.out.println("=== REPORTE DE VEHÍCULOS ===");
+                System.out.println("Total de vehículos registrados: " + residentManager.getTotalVehicles());
                 System.out.println(residentManager.generateVehiclesReport());
                 break;
             default:

@@ -232,6 +232,14 @@ public class ResidentManager {
         return processed;
     }
 
+    public int getTotalVehicles() {
+        int count = 0;
+        for (Resident resident : residents) {
+            count += resident.getVehicles().size();
+        }
+        return count;
+    }
+
     public List<Resident> getAllResidents() {
         return new ArrayList<>(residents);
     }
@@ -352,14 +360,6 @@ public class ResidentManager {
 
     public int getTotalResidents() {
         return residents.size();
-    }
-
-    public int getTotalVehicles() {
-        int count = 0;
-        for (Resident resident : residents) {
-            count += resident.getVehicles().size();
-        }
-        return count;
     }
 
     public boolean validateVisitorAccess(String visitorId) {

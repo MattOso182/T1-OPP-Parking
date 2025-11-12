@@ -10,11 +10,13 @@ import parkingcontrolsystem.library.ParkingSpaceLibrary;
 public class ParkingControlSystem {
 
     private ParkingControlSystemLibrary librarySystem;
-    private ParkingLot parkingLot;
+    private ParkingLot parkingLot; 
+    private VisitorManager visitorManager; 
 
     public ParkingControlSystem(String systemId, ParkingLot parkingLot) {
         this.parkingLot = parkingLot;
-        this.librarySystem = new ParkingControlSystemLibrary(systemId, false, 0);
+        this.visitorManager = new VisitorManager(); 
+        this.librarySystem = new ParkingControlSystemLibrary(systemId, true, 0);
     }
 
     public boolean startSystem() {
