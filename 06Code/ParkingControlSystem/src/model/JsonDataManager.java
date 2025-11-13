@@ -48,7 +48,6 @@ public class JsonDataManager {
 
             try (FileWriter writer = new FileWriter(PARKING_JSON_FILE_PATH)) {
                 gson.toJson(wrapper, writer);
-                System.out.println(" Parking data saved successfully to JSON");
             }
         } catch (IOException e) {
             System.out.println("Error saving parking JSON file: " + e.getMessage());
@@ -84,7 +83,6 @@ public class JsonDataManager {
 
             try (FileWriter writer = new FileWriter(RESIDENTS_JSON_FILE_PATH)) {
                 gson.toJson(root, writer);
-                System.out.println(" Residents data saved successfully to JSON");
             }
         } catch (IOException e) {
             System.out.println("Error saving residents JSON file: " + e.getMessage());

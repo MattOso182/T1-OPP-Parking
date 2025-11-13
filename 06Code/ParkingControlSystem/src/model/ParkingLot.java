@@ -91,7 +91,6 @@ public class ParkingLot {
             if (currentStructure != null) {
                 updateStructureWithCurrentStatus(currentStructure);
                 jsonManager.saveParkingData(currentStructure.getBlocks());
-                System.out.println("Estado actualizado guardado correctamente en JSON.");
             }
         } catch (Exception e) {
             System.out.println("Error guardando JSON: " + e.getMessage());
@@ -128,7 +127,6 @@ public class ParkingLot {
         if (spaceDefinitionsMap.containsKey(spaceId)) {
             SpaceDefinition spaceDef = spaceDefinitionsMap.get(spaceId);
             spaceDef.setOccupied(occupied);
-            System.out.println("Sincronizado: " + spaceId + " -> " + (occupied ? "OCUPADO" : "DISPONIBLE"));
         }
         
         saveToJson();

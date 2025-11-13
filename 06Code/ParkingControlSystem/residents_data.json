@@ -548,7 +548,17 @@
       ],
       "authorizedVisitors": [
         "VIS-023"
-      ]
+      ],
+      "currentRental": {
+        "rentalId": "RENT-7",
+        "residentId": "RES-026",
+        "spaceId": "AZU-A-03",
+        "startDate": "2025-11-13 00:40:24",
+        "endDate": "2026-01-13 00:40:24",
+        "monthlyPrice": 30.0,
+        "isActive": true,
+        "paymentStatus": "PENDING"
+      }
     },
     {
       "residentID": "RES-027",

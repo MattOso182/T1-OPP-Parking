@@ -5,6 +5,7 @@
         <group>
             <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/User.java</file>
             <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/view/ParkingControlSystemSimulator.java</file>
+            <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/ResidentData.java</file>
             <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/SecurityGuard.java</file>
             <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/UserType.java</file>
             <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/ParkingLot.java</file>
@@ -13,6 +14,7 @@
             <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/LicensePlate.java</file>
             <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/ParkingStructure.java</file>
             <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/VisitorManager.java</file>
+            <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/JsonDataManager.java</file>
             <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/ResidentDataManager.java</file>
             <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/Rental.java</file>
             <file>file:/D:/Universidad/T1-OPP-Parking/06Code/ParkingControlSystem/src/model/Resident.java</file>
