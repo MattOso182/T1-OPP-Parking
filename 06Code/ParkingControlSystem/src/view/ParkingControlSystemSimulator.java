@@ -63,7 +63,8 @@ public class ParkingControlSystemSimulator {
                     manageFeature1_RegistrationEntryExit();
                     break;
                 case "2":
-                    manageFeature2_TrackStateSpace();
+                    ParkingLot parkingLot = new ParkingLot("AZUAY_MAIN");
+                    parkingLot.showSpacesStatus();
                     break;
                 case "3":
                     manageFeature3_AssignSpaceManagement();
@@ -135,12 +136,7 @@ public class ParkingControlSystemSimulator {
         pausar();
     }
 
-    private static void manageFeature2_TrackStateSpace() {
-        System.out.println("\n--- [2] Estado de Espacios (Disponibles/Ocupados) ---");
-        // El controlSystem tiene el reporte más completo
-        System.out.println(controlSystem.generateReport());
-        pausar();
-    }
+    
 
     private static void manageFeature3_AssignSpaceManagement() {
         System.out.println("\n--- [3] Gestionar Espacios de Parqueo ---");
