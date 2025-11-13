@@ -24,13 +24,13 @@ public class Vehicle {
             System.out.println("Vehiculo " + plate + " registrado correctamente");
             return true;
         }
-        System.out.println("vehiculo no registrado. Placa invalida");
+        System.out.println("Vehiculo no registrado. Placa invalida");
         return false;
     }
     
     public void updateOwner(String newOwnerId) {
         this.ownerId = newOwnerId;
-        System.out.println("Vehículo" + plate + " propiedad actualizada a: " + newOwnerId);
+        System.out.println("Vehiculo " + plate + " propiedad actualizada a: " + newOwnerId);
     }
     
     public void assignSpot(String spotId) {
@@ -40,7 +40,7 @@ public class Vehicle {
     
     public void releaseSpot() {
         this.isParked = false;
-        System.out.println("Vehiculo" + plate + " liberado del lugar");
+        System.out.println("Vehiculo " + plate + " liberado del lugar");
     }
     
     public boolean validatePlate() {
@@ -49,7 +49,6 @@ public class Vehicle {
         return isValid;
     }
     
-    // Getters and Setters
     public String getPlate() { return plate; }
     public String getColor() { return color; }
     public String getModel() { return model; }

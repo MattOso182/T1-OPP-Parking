@@ -30,14 +30,14 @@ public class ParkingLot {
             
             ParkingStructure structure = jsonManager.loadParkingData();
             if (structure == null) {
-                System.out.println(" No se pudo cargar parking_data.json");
+                System.out.println("No se pudo cargar parking_data.json");
                 return;
             }
 
            
             List<Resident> residents = jsonManager.loadResidentsData();
             if (residents == null) {
-                System.out.println(" No se pudo cargar residents_data.json");
+                System.out.println("No se pudo cargar residents_data.json");
                 return;
             }
 
@@ -128,7 +128,7 @@ public class ParkingLot {
         if (spaceDefinitionsMap.containsKey(spaceId)) {
             SpaceDefinition spaceDef = spaceDefinitionsMap.get(spaceId);
             spaceDef.setOccupied(occupied);
-            System.out.println("✓ Sincronizado: " + spaceId + " -> " + (occupied ? "OCUPADO" : "DISPONIBLE"));
+            System.out.println("Sincronizado: " + spaceId + " -> " + (occupied ? "OCUPADO" : "DISPONIBLE"));
         }
         
         saveToJson();
@@ -141,11 +141,11 @@ public class ParkingLot {
                 
                 syncSpaceStatus(spaceId, true);
                 
-                System.out.println(" Espacio " + spaceId + " asignado a " + vehiclePlate);
+                System.out.println("Espacio " + spaceId + " asignado a " + vehiclePlate);
                 return true;
             }
         }
-        System.out.println(" No se pudo asignar espacio " + spaceId);
+        System.out.println("No se pudo asignar espacio " + spaceId);
         return false;
     }
     
@@ -180,7 +180,7 @@ public class ParkingLot {
         for (ParkingSpaceLibrary space : libraryParkingLot.getParkingSpaces()) {
             if (space.isOccupied()) {
                 ocupados++;
-                System.out.println("🚗 " + space.getSpaceId() + " - OCUPADO por: " + 
+                System.out.println(space.getSpaceId() + " - OCUPADO por: " + 
                                  (space.getVehiclePlate() != null ? space.getVehiclePlate() : "Desconocido"));
             } else {
                 disponibles++;

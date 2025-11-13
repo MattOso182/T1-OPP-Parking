@@ -86,7 +86,7 @@ public class Resident {
         if (removed) {
             System.out.println("Vehiculo " + plate + " eliminado correctamente ");
         } else {
-            System.out.println("Vehiculo " + plate + " not encontrado");
+            System.out.println("Vehiculo " + plate + " no encontrado");
         }
         return removed;
     }
@@ -103,10 +103,10 @@ public class Resident {
     public boolean authorizeVisitor(String visitorID) {
         if (!authorizedVisitors.contains(visitorID)) {
             authorizedVisitors.add(visitorID);
-            System.out.println("Visitante" + visitorID + " autorizado correctamente");
+            System.out.println("Visitante " + visitorID + " autorizado correctamente");
             return true;
         }
-        System.out.println("Visitante" + visitorID + " ya autorizado");
+        System.out.println("Visitante " + visitorID + " ya autorizado");
         return false;
     }
 
@@ -115,7 +115,7 @@ public class Resident {
         if (removed) {
             System.out.println("Autorización del visitante: " + visitorID + " eliminada");
         } else {
-            System.out.println("Visitante " + visitorID + " No se encuentra en la lista autorizada");
+            System.out.println("Visitante " + visitorID + " no se encuentra en la lista autorizada");
         }
         return removed;
     }
@@ -180,7 +180,7 @@ public class Resident {
         } else {
             info.append("Alquiler activo: ").append(hasActiveRental() ? "SI" : "NO").append("\n");
             if (hasActiveRental()) {
-                info.append("REspacio alquilado: ").append(currentRental.getSpaceId()).append("\n");
+                info.append("Espacio alquilado: ").append(currentRental.getSpaceId()).append("\n");
                 info.append("Fin del alquiler:").append(currentRental.getEndDate()).append("\n");
             }
         }

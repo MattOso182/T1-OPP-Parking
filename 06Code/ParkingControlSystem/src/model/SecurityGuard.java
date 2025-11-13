@@ -79,7 +79,7 @@ public class SecurityGuard extends User {
 
     public void registerEntry(String vehiclePlate, Date time) {
         if (!isOnDuty) {
-            System.out.println("Guardia " + this.name + " esta fuera de servicio. Entrada denegada.");
+            System.out.println("El guardia " + this.name + " esta fuera de servicio. Entrada denegada.");
             return;
         }
 
@@ -104,7 +104,7 @@ public class SecurityGuard extends User {
 
     public void registerExit(String vehiclePlate, Date time) {
         if (!isOnDuty) {
-            System.out.println("Guard " + this.name + " esta fuera de servicio. Salida denegada.");
+            System.out.println("El guardia " + this.name + " esta fuera de servicio. Salida denegada.");
             return;
         }
 

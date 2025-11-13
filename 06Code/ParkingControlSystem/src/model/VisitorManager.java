@@ -17,7 +17,7 @@ public class VisitorManager {
     public void addVisitor(Visitor visitor) {
         if (findVisitorById(visitor.getVisitorID()) == null) {
             this.visitors.add(visitor);
-            System.out.println("Manager: Visitor " + visitor.getName() + " added.");
+            System.out.println("Visitante " + visitor.getName() + " agregado.");
         }
     }
 

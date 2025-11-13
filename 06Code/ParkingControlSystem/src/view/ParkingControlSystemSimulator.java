@@ -350,85 +350,115 @@ private static void manageFeature3_AssignSpaceManagement() {
 }
 
     private static void manageFeature5_SearchVehicleLicensePlate() {
-        System.out.println("\n--- [5] Buscar Vehiculo por Placa ---");
-        System.out.print("Ingrese la placa a buscar: ");
-        String plate = scanner.nextLine().toUpperCase();
+    System.out.println("\n--- [5] Buscar Vehiculo por Placa ---");
+    System.out.print("Ingrese la placa a buscar: ");
+    String plate = scanner.nextLine().toUpperCase().trim();
 
-        LicensePlate lp = new LicensePlate(plate, new Date(), "N/A", "N/A");
-        System.out.println("Formato de Placa: " + (lp.validateFormat() ? "VALIDO" : "INVALIDO"));
-
-        Vehicle vehicle = residentManager.findVehicleByPlate(plate);
-
-        if (vehicle != null) {
-            System.out.println("\nVehiculo encontrado:");
-            System.out.println(vehicle.getVehicleInfo());
-
-            Resident owner = residentManager.findResidentByVehiclePlate(plate);
-            System.out.println("\nPropietario Registrado:");
-            System.out.println("ID: " + owner.getResidentID() + ", Nombre: " + owner.getName());
-        } else {
-            System.out.println("\nNo se encontro ningun vehiculo con esa placa en el sistema.");
-        }
+    if (plate.isEmpty()) {
+        System.out.println("ERROR: La placa no puede estar vacia.");
         pausar();
+        return;
     }
 
-    private static void manageFeature6_valideteUpdateVehicle() {
-        System.out.println("\n--- [6] Gestionar Vehiculos de Residente ---");
-        System.out.print("Ingrese el ID del Residente: ");
-        String residentId = scanner.nextLine();
+    if (!plate.matches("^[A-Z]{3}-\\d{3,4}$")) {
+        System.out.println("ERROR: Formato de placa invalido. Ejemplo: ABC-123 o ABC-1234");
+        pausar();
+        return;
+    }
 
-        Resident resident = residentManager.findResidentById(residentId);
-        if (resident == null) {
-            System.out.println("Residente no encontrado.");
+    Vehicle vehicle = residentManager.findVehicleByPlate(plate);
+    if (vehicle == null) {
+        System.out.println("No se encontro ningun vehiculo con esa placa en el sistema.");
+        pausar();
+        return;
+    }
+
+    System.out.println("\nVehiculo encontrado:");
+    System.out.println(vehicle.getVehicleInfo());
+    Resident owner = residentManager.findResidentByVehiclePlate(plate);
+    if (owner != null) {
+        System.out.println("\nPropietario Registrado:");
+        System.out.println("ID: " + owner.getResidentID() + ", Nombre: " + owner.getName());
+    } else {
+        System.out.println("\nVehiculo sin propietario registrado.");
+    }
+    pausar();
+}
+
+private static void manageFeature6_valideteUpdateVehicle() {
+    System.out.println("\n--- [6] Gestionar Vehiculos de Residente ---");
+    System.out.print("Ingrese el ID del Residente: ");
+    String residentId = scanner.nextLine().trim();
+
+    if (residentId.isEmpty()) {
+        System.out.println("ERROR: El ID no puede estar vacio.");
+        pausar();
+        return;
+    }
+
+    Resident resident = residentManager.findResidentById(residentId);
+    if (resident == null) {
+        System.out.println("Residente no encontrado.");
+        pausar();
+        return;
+    }
+
+    System.out.println("Residente: " + resident.getName());
+    System.out.println("Vehiculos actuales: " + resident.getVehicles().size());
+
+    System.out.print("\nDesea (1) Anadir vehiculo o (2) Quitar vehiculo?: ");
+    String opt = scanner.nextLine().trim();
+
+    if (opt.equals("1")) {
+        System.out.print("Matricula: ");
+        String plate = scanner.nextLine().toUpperCase().trim();
+        System.out.print("Color: ");
+        String color = scanner.nextLine().trim();
+        System.out.print("Modelo: ");
+        String model = scanner.nextLine().trim();
+
+        if (plate.isEmpty() || color.isEmpty() || model.isEmpty()) {
+            System.out.println("ERROR: Ningun campo puede estar vacio.");
             pausar();
             return;
         }
 
-        System.out.println("Residente: " + resident.getName());
-        System.out.println("Vehiculos actuales: " + resident.getVehicles().size());
-
-        System.out.println("Total de vehiculos en sistema: " + residentManager.getTotalVehicles());
-
-        System.out.print("\nDesea (1) Anadir vehiculo o (2) Quitar vehiculo?: ");
-        String opt = scanner.nextLine();
-
-        if (opt.equals("1")) {
-            System.out.print("Matricula: ");
-            String plate = scanner.nextLine().toUpperCase();
-            System.out.print("Color: ");
-            String color = scanner.nextLine();
-            System.out.print("Modelo: ");
-            String model = scanner.nextLine();
-
-            Vehicle newVehicle = new Vehicle(plate, color, model, residentId);
-
-            if (newVehicle.validatePlate()) {
-                boolean success = residentManager.addVehicleToResident(residentId, newVehicle);
-                if (success) {
-                    System.out.println("Vehiculo agregado exitosamente");
-                    System.out.println("Nuevo total de vehiculos: " + residentManager.getTotalVehicles());
-                } else {
-                    System.out.println("No se pudo agregar - vehiculo ya existe");
-                }
-            } else {
-                System.out.println("No se pudo agregar - placa invalida");
-            }
-
-        } else if (opt.equals("2")) {
-            System.out.print("Matricula del vehiculo a quitar: ");
-            String plate = scanner.nextLine().toUpperCase();
-            boolean success = residentManager.removeVehicleFromResident(residentId, plate);
-            if (success) {
-                System.out.println("Vehiculo removido exitosamente");
-                System.out.println("Nuevo total de vehiculos: " + residentManager.getTotalVehicles());
-            } else {
-                System.out.println("No se pudo remover - vehiculo no encontrado");
-            }
-        } else {
-            System.out.println("Opcion no valida.");
+        if (!plate.matches("^[A-Z]{3}-\\d{3,4}$")) {
+            System.out.println("ERROR: Formato de placa invalido. Ejemplo: ABC-123 o ABC-1234");
+            pausar();
+            return;
         }
-        pausar();
+
+        Vehicle newVehicle = new Vehicle(plate, color, model, residentId);
+        boolean success = residentManager.addVehicleToResident(residentId, newVehicle);
+        if (success) {
+            System.out.println("Vehiculo agregado exitosamente");
+        } else {
+            System.out.println("No se pudo agregar - vehiculo ya existe");
+        }
+
+    } else if (opt.equals("2")) {
+        System.out.print("Matricula del vehiculo a quitar: ");
+        String plate = scanner.nextLine().toUpperCase().trim();
+
+        if (plate.isEmpty()) {
+            System.out.println("ERROR: La placa no puede estar vacia.");
+            pausar();
+            return;
+        }
+
+        boolean success = residentManager.removeVehicleFromResident(residentId, plate);
+        if (success) {
+            System.out.println("Vehiculo removido exitosamente");
+        } else {
+            System.out.println("No se pudo remover - vehiculo no encontrado");
+        }
+
+    } else {
+        System.out.println("Opcion no valida.");
     }
+    pausar();
+}
 
     private static void manageFeature7_manageRentals() {
         System.out.println("\n--- [7] Gestionar Alquileres Temporales ---");

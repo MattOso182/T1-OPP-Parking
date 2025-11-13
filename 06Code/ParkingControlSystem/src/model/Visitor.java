@@ -31,7 +31,7 @@ public class Visitor extends User {
         if (this.libraryVisitor.registerVisit() && this.libraryVisitor.assignTemporarySpot()) {
             this.hasPass = true;
             setEntryTime(new Date());
-            System.out.println("MODEL: Pase temporal y registro de entrada concedidos.");
+            System.out.println("MODELO: Pase temporal y registro de entrada concedidos.");
             return true;
         }
         return false;
@@ -87,6 +87,6 @@ public class Visitor extends User {
     }
 
     public String getVisitorInfo() {
-        return this.libraryVisitor.getVisitorInfo() + "\nPass Active: " + this.hasPass;
+        return this.libraryVisitor.getVisitorInfo() + "\nPase Activo: " + this.hasPass;
     }
 }

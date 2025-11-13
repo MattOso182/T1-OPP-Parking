@@ -220,7 +220,7 @@ public class ResidentManager {
     public boolean processPaymentForRental(String residentId) {
         Resident resident = findResidentById(residentId);
         if (resident == null || !resident.hasActiveRental()) {
-            System.out.println("No se encontró al residente o no tiene un alquiler activo.");
+            System.out.println("No se encontro al residente o no tiene un alquiler activo.");
             return false;
         }
 
@@ -369,7 +369,7 @@ public class ResidentManager {
                 return true;
             }
         }
-        System.out.println("Visitante " + visitorId + " NO tiene autorización de ningún residente");
+        System.out.println("Visitante " + visitorId + " NO tiene autorizacion de ningun residente");
         return false;
     }
 
@@ -387,12 +387,12 @@ public class ResidentManager {
         System.out.println("Visitante: " + visitor.getName() + " (ID: " + visitor.getVisitorID() + ")");
 
         if (!visitor.verifyIdentity()) {
-            System.out.println("ACCESO DENEGADO: Identidad no válida");
+            System.out.println("ACCESO DENEGADO: Identidad no valida");
             return false;
         }
 
         if (!validateVisitorAccess(visitor.getVisitorID())) {
-            System.out.println("ACCESO DENEGADO: No tiene autorización de residente");
+            System.out.println("ACCESO DENEGADO: No tiene autorizacion de residente");
             return false;
         }
 
