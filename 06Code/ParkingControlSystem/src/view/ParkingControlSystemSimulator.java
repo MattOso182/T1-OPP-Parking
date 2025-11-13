@@ -126,8 +126,8 @@ public class ParkingControlSystemSimulator {
 
             ParkingSpaceLibrary existingSpace = parkingLot.findSpaceByVehicle(plate);
             if (existingSpace != null) {
-                System.out.println("⚠ El vehículo YA tiene un espacio asignado: " + existingSpace.getSpaceId());
-                System.out.print("¿Continuar con nuevo ingreso? (s/n): ");
+                System.out.println("El vehiculo YA tiene un espacio asignado: " + existingSpace.getSpaceId());
+                System.out.print("Continuar con nuevo ingreso? (s/n): ");
                 String respuesta = scanner.nextLine().toLowerCase();
                 if (!respuesta.equals("s")) {
                     pausar();
@@ -142,10 +142,10 @@ public class ParkingControlSystemSimulator {
 
             ParkingSpaceLibrary occupiedSpace = parkingLot.findSpaceByVehicle(plate);
             if (occupiedSpace != null) {
-                System.out.println("✓ Vehículo encontrado en espacio: " + occupiedSpace.getSpaceId());
+                System.out.println(" Vehiculo encontrado en espacio: " + occupiedSpace.getSpaceId());
                 guard.registerExit(plate, new Date());
             } else {
-                System.out.println("✗ No se encontró el vehículo en el estacionamiento");
+                System.out.println(" No se encontro el vehículo en el estacionamiento");
             }
         } else {
             System.out.println("Opcion no valida.");
@@ -153,129 +153,201 @@ public class ParkingControlSystemSimulator {
         pausar();
     }
 
-    private static void manageFeature3_AssignSpaceManagement() {
-        System.out.println("\n--- [3] Gestionar Espacios de Parqueo ---");
+private static void manageFeature3_AssignSpaceManagement() {
+    System.out.println("\n--- [3] Gestionar Espacios de Parqueo ---");
 
-        try {
-            if (parkingLot == null) {
-                System.out.println("Error: ParkingLot no está inicializado");
-                pausar();
-                return;
-            }
+    try {
+        if (parkingLot == null) {
+            System.out.println("Error: ParkingLot no esta inicializado");
+            pausar();
+            return;
+        }
 
-            parkingLot.showDetailedSpacesStatus();
+        parkingLot.showDetailedSpacesStatus();
 
-            System.out.println("\nOpciones:");
-            System.out.println("1. Asignar espacio manualmente");
-            System.out.println("2. Liberar espacio manualmente");
-            System.out.println("3. Ver detalle de espacio especifico");
-            System.out.print("Seleccione opción: ");
-            String opcion = scanner.nextLine();
+        System.out.println("\nOpciones:");
+        System.out.println("1. Asignar espacio manualmente");
+        System.out.println("2. Liberar espacio manualmente");
+        System.out.println("3. Ver detalle de espacio especifico");
+        System.out.print("Seleccione opcion: ");
+        
+        String opcion = scanner.nextLine().trim(); 
+        if (opcion.isEmpty()) {
+            System.out.println("ERROR: La opcion no puede estar vacia.");
+            pausar();
+            return;
+        }
 
-            switch (opcion) {
-                case "1":
-                    System.out.print("Ingrese ID del espacio a asignar: ");
-                    String spaceToAssign = scanner.nextLine().toUpperCase();
-                    System.out.print("Ingrese placa del vehículo: ");
-                    String plateToAssign = scanner.nextLine().toUpperCase();
-
-                    if (parkingLot.spaceExists(spaceToAssign)) {
-                        boolean assigned = parkingLot.assignSpaceToVehicle(spaceToAssign, plateToAssign, "Manual");
-                        if (assigned) {
-                            System.out.println("Espacio asignado exitosamente");
-                        } else {
-                            System.out.println("No se pudo asignar el espacio (puede estar ocupado)");
-                        }
-                    } else {
-                        System.out.println("El espacio " + spaceToAssign + " no existe");
-                    }
+        switch (opcion) {
+            case "1":
+                System.out.print("Ingrese ID del espacio a asignar: ");
+                String spaceToAssign = scanner.nextLine().toUpperCase().trim();
+                
+                if (spaceToAssign.isEmpty()) {
+                    System.out.println("ERROR: El ID del espacio no puede estar vacio.");
                     break;
+                }
+                
+                System.out.print("Ingrese placa del vehiculo: ");
+                String plateToAssign = scanner.nextLine().toUpperCase().trim();
 
-                case "2":
-                    System.out.print("Ingrese ID del espacio a liberar: ");
-                    String spaceToFree = scanner.nextLine().toUpperCase();
-
-                    if (parkingLot.spaceExists(spaceToFree)) {
-                        boolean freed = parkingLot.freeSpaceAndSync(spaceToFree);
-                        if (freed) {
-                            System.out.println("Espacio liberado exitosamente");
-                        } else {
-                            System.out.println("El espacio ya estaba disponible");
-                        }
-                    } else {
-                        System.out.println("El espacio " + spaceToFree + " no existe");
-                    }
+                if (plateToAssign.isEmpty()) {
+                    System.out.println("ERROR: La placa del vehiculo no puede estar vacia.");
                     break;
+                }
 
-                case "3":
-                    System.out.print("Ingrese el ID del espacio para ver detalle (ej. A-101): ");
-                    String spaceId = scanner.nextLine().toUpperCase();
-
+                if (parkingLot.spaceExists(spaceToAssign)) {
+                    
                     ParkingSpaceLibrary space = parkingLot.getSpaceList().stream()
-                            .filter(s -> s.getSpaceId().equalsIgnoreCase(spaceId))
-                            .findFirst()
-                            .orElse(null);
-
-                    if (space != null) {
-                        System.out.println("\n--- INFORMACION DETALLADA DEL ESPACIO ---");
-                        System.out.println("ID: " + space.getSpaceId());
-                        System.out.println("Estado: " + (space.isOccupied() ? "OCUPADO" : "DISPONIBLE"));
-                        System.out.println("Vehiculo: " + (space.isOccupied() && space.getVehiclePlate() != null ? space.getVehiclePlate() : "Ninguno"));
-                        System.out.println("Asignado a: " + (space.getAssignedTo() != null ? space.getAssignedTo() : "Nadie"));
-                        System.out.println("Tipo de residente: " + (space.getResidentType() != null ? space.getResidentType() : "Ninguno"));
-
-                        if (space.isOccupied() && space.getVehiclePlate() != null) {
-                            Resident owner = residentManager.findResidentByVehiclePlate(space.getVehiclePlate());
-                            if (owner != null) {
-                                System.out.println("\n--- PROPIETARIO REGISTRADO ---");
-                                System.out.println("Nombre: " + owner.getName());
-                                System.out.println("Apartamento: " + owner.getApartmentNumber());
-                                System.out.println("Tipo: " + owner.getUserType());
-                            } else {
-                                System.out.println("\nVehiculo no registrado con ningún residente");
-                            }
-                        }
-
-                        System.out.println("\n--- INFORMACION COMPLETA ---");
-                        System.out.println(space.getSpaceInfo());
-
-                    } else {
-                        System.out.println("No se encontro el espacio con ID: " + spaceId);
+                            .filter(s -> s.getSpaceId().equalsIgnoreCase(spaceToAssign))
+                            .findFirst().orElse(null);
+                            
+                    if (space == null) {
+                        System.out.println("Error interno: No se pudo recuperar la informacion del espacio.");
+                        break;
                     }
+
+                    if (space.isOccupied()) { 
+                         System.out.println("ERROR: El espacio " + spaceToAssign + " ya se encuentra ocupado.");
+                         break;
+                    }
+                    
+                    boolean assigned = parkingLot.assignSpaceToVehicle(spaceToAssign, plateToAssign, "Manual");
+                    if (assigned) {
+                        System.out.println("Espacio asignado exitosamente");
+                    } else {
+                        System.out.println("No se pudo asignar el espacio por una razon interna desconocida.");
+                    }
+                } else {
+                    System.out.println("El espacio " + spaceToAssign + " no existe");
+                }
+                break;
+
+            case "2":
+                System.out.print("Ingrese ID del espacio a liberar: ");
+                String spaceToFree = scanner.nextLine().toUpperCase().trim();
+
+                if (spaceToFree.isEmpty()) {
+                    System.out.println("ERROR: El ID del espacio no puede estar vacio.");
                     break;
+                }
 
-                default:
-                    System.out.println("Opcion no valida");
-            }
-        } catch (Exception e) {
-            System.out.println("Error en la gestion de espacios: " + e.getMessage());
-            e.printStackTrace();
+                if (parkingLot.spaceExists(spaceToFree)) {
+                    
+                    ParkingSpaceLibrary space = parkingLot.getSpaceList().stream()
+                            .filter(s -> s.getSpaceId().equalsIgnoreCase(spaceToFree))
+                            .findFirst().orElse(null);
+                            
+                    if (space == null) {
+                        System.out.println("Error interno: No se pudo recuperar la informacion del espacio.");
+                        break;
+                    }
+                    
+                    if (!space.isOccupied()) { 
+                        System.out.println("ERROR: El espacio " + spaceToFree + " ya esta disponible (no esta ocupado).");
+                        break;
+                    }
+
+                    boolean freed = parkingLot.freeSpaceAndSync(spaceToFree);
+                    if (freed) {
+                        System.out.println("Espacio liberado exitosamente");
+                    } else {
+                        System.out.println("No se pudo liberar el espacio por una razon interna desconocida.");
+                    }
+                } else {
+                    System.out.println("El espacio " + spaceToFree + " no existe");
+                }
+                break;
+
+            case "3":
+                System.out.print("Ingrese el ID del espacio para ver detalle: ");
+                String spaceId = scanner.nextLine().toUpperCase().trim();
+
+                if (spaceId.isEmpty()) {
+                    System.out.println("ERROR: El ID del espacio no puede estar vacio.");
+                    break;
+                }
+                
+                ParkingSpaceLibrary space = parkingLot.getSpaceList().stream()
+                        .filter(s -> s.getSpaceId().equalsIgnoreCase(spaceId))
+                        .findFirst()
+                        .orElse(null);
+
+                if (space != null) {
+                    System.out.println("\n--- INFORMACION DETALLADA DEL ESPACIO ---");
+                    System.out.println("ID: " + space.getSpaceId());
+                    System.out.println("Estado: " + (space.isOccupied() ? "OCUPADO" : "DISPONIBLE"));
+                    System.out.println("Vehiculo: " + (space.isOccupied() && space.getVehiclePlate() != null ? space.getVehiclePlate() : "Ninguno"));
+                    System.out.println("Asignado a: " + (space.getAssignedTo() != null ? space.getAssignedTo() : "Nadie"));
+                    System.out.println("Tipo de residente: " + (space.getResidentType() != null ? space.getResidentType() : "Ninguno"));
+
+                    if (space.isOccupied() && space.getVehiclePlate() != null) {
+                        Resident owner = residentManager.findResidentByVehiclePlate(space.getVehiclePlate());
+                        if (owner != null) {
+                            System.out.println("\n--- PROPIETARIO REGISTRADO ---");
+                            System.out.println("Nombre: " + owner.getName());
+                            System.out.println("Apartamento: " + owner.getApartmentNumber());
+                            System.out.println("Tipo: " + owner.getUserType());
+                        } else {
+                            System.out.println("\nVehiculo no registrado con ningun residente");
+                        }
+                    }
+
+                    System.out.println("\n--- INFORMACION COMPLETA ---");
+                    System.out.println(space.getSpaceInfo());
+
+                } else {
+                    System.out.println("No se encontro el espacio con ID: " + spaceId);
+                }
+                break;
+
+            default:
+                System.out.println("Opcion no valida");
         }
+    } catch (Exception e) {
+        System.out.println("Error en la gestion de espacios: " + e.getMessage());
+        e.printStackTrace();
+    }
+    pausar();
+}
+
+   private static void manageFeature4_VerifyAuthorization() {
+    System.out.println("\n--- [4] Verificar Autorizacion (Visitantes) ---");
+    System.out.print("Ingrese el ID del Visitante: ");
+    
+    String visitorId = scanner.nextLine().trim();
+    if (visitorId.isEmpty()) {
+        System.out.println("ERROR: El ID del Visitante no puede estar vacio.");
         pausar();
+        return;
+    }
+    
+    Visitor visitor = visitorManager.findVisitorById(visitorId);
+    
+    if (visitor == null) {
+        System.out.println("INFO: Visitante no registrado. Se creara un registro temporal.");
+        System.out.print("Ingrese el nombre del Visitante: ");
+        String name = scanner.nextLine().trim();
+        
+        if (name.isEmpty()) {
+            System.out.println("ERROR: El nombre no puede estar vacio para crear un registro temporal.");
+            pausar();
+            return;
+        }
+        
+        visitor = new Visitor(visitorId, "TEMP-" + visitorId, name, "VISITOR", new Date(), null);
     }
 
-    private static void manageFeature4_VerifyAuthorization() {
-        System.out.println("\n--- [4] Verificar Autorizacion (Visitantes) ---");
-        System.out.print("Ingrese el ID del Visitante: ");
-        String visitorId = scanner.nextLine();
+    boolean isAuthorized = residentManager.processVisitorEntry(visitor);
 
-        Visitor visitor = visitorManager.findVisitorById(visitorId);
-        if (visitor == null) {
-            System.out.print("Visitante no registrado. Ingrese el nombre: ");
-            String name = scanner.nextLine();
-            visitor = new Visitor(visitorId, "TEMP-" + visitorId, name, "", new Date(), null);
-        }
-
-        boolean isAuthorized = residentManager.processVisitorEntry(visitor);
-
-        if (isAuthorized) {
-            System.out.println("-> RESULTADO: VISITANTE AUTORIZADO Y PASE TEMPORAL ASIGNADO.");
-        } else {
-            System.out.println("-> RESULTADO: VISITANTE NO AUTORIZADO.");
-            System.out.println(" (Un residente debe autorizarlo primero)");
-        }
-        pausar();
+    if (isAuthorized) {
+        System.out.println("-> RESULTADO: VISITANTE AUTORIZADO Y PASE TEMPORAL ASIGNADO.");
+    } else {
+        System.out.println("-> RESULTADO: VISITANTE NO AUTORIZADO.");
+        System.out.println(" (Un residente debe autorizarlo primero)");
     }
+    pausar();
+}
 
     private static void manageFeature5_SearchVehicleLicensePlate() {
         System.out.println("\n--- [5] Buscar Vehiculo por Placa ---");
@@ -408,7 +480,7 @@ public class ParkingControlSystemSimulator {
                     System.out.println("Espacio encontrado: " + rentalSpace.getSpaceId());
                     System.out.print("Precio mensual (ej. 50.0): ");
                     double price = Double.parseDouble(scanner.nextLine());
-                    System.out.print("¿Cuantos meses? (ej. 1): ");
+                    System.out.print("Cuantos meses? (ej. 1): ");
                     int months = Integer.parseInt(scanner.nextLine());
 
                     residentManager.createRentalForResident(residentId, rentalSpace.getSpaceId(), months, price);
@@ -439,7 +511,7 @@ public class ParkingControlSystemSimulator {
 
         switch (opt) {
             case "1":
-                System.out.println("=== REPORTE DE OCUPACIÓN DE ESPACIOS ===");
+                System.out.println("=== REPORTE DE OCUPACION DE ESPACIOS ===");
                 System.out.println("Total espacios: " + parkingLot.getTotalSpaces());
                 System.out.println("Espacios disponibles: " + parkingLot.getAvailableSpaces());
                 System.out.println("Espacios ocupados: " + (parkingLot.getTotalSpaces() - parkingLot.getAvailableSpaces()));

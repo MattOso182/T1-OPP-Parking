@@ -21,31 +21,31 @@ public class Vehicle {
     
     public boolean registerVehicle() {
         if (validatePlate()) {
-            System.out.println("Vehicle " + plate + " registered successfully");
+            System.out.println("Vehiculo " + plate + " registrado correctamente");
             return true;
         }
-        System.out.println("Vehicle registration failed: invalid plate");
+        System.out.println("vehiculo no registrado. Placa invalida");
         return false;
     }
     
     public void updateOwner(String newOwnerId) {
         this.ownerId = newOwnerId;
-        System.out.println("Vehicle " + plate + " ownership updated to: " + newOwnerId);
+        System.out.println("Vehículo" + plate + " propiedad actualizada a: " + newOwnerId);
     }
     
     public void assignSpot(String spotId) {
         this.isParked = true;
-        System.out.println("Vehicle " + plate + " assigned to spot: " + spotId);
+        System.out.println("Vehiculo " + plate + " asignado a: " + spotId);
     }
     
     public void releaseSpot() {
         this.isParked = false;
-        System.out.println("Vehicle " + plate + " released from spot");
+        System.out.println("Vehiculo" + plate + " liberado del lugar");
     }
     
     public boolean validatePlate() {
         boolean isValid = plate != null && plate.length() >= 6 && plate.matches(".*[A-Z0-9].*");
-        System.out.println("Plate validation for " + plate + ": " + (isValid ? "VALID" : "INVALID"));
+        System.out.println(" Validacion de placa " + plate + ": " + (isValid ? "VALIDA" : "INVALIDA"));
         return isValid;
     }
     
@@ -57,10 +57,10 @@ public class Vehicle {
     public String getOwnerId() { return ownerId; }
     
     public String getVehicleInfo() {
-        return "Plate: " + plate +
+        return "Placa: " + plate +
                "\nColor: " + color +
-               "\nModel: " + model +
+               "\nModelo: " + model +
                "\nOwner ID: " + ownerId +
-               "\nStatus: " + (isParked ? "PARKED" : "NOT PARKED");
+               "\nStatus: " + (isParked ? "Estacionado" : "No estacionado");
     }
 }

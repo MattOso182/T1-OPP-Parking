@@ -72,21 +72,21 @@ public class Resident {
     public boolean addVehicle(Vehicle vehicle) {
         for (Vehicle v : vehicles) {
             if (v.getPlate().equals(vehicle.getPlate())) {
-                System.out.println("Vehicle with plate " + vehicle.getPlate() + " already exists");
+                System.out.println("Vehiculo con placa " + vehicle.getPlate() + " ya existe");
                 return false;
             }
         }
         vehicles.add(vehicle);
-        System.out.println("Vehicle " + vehicle.getPlate() + " added successfully");
+        System.out.println("Vehiculo " + vehicle.getPlate() + " agregado exitosamente");
         return true;
     }
 
     public boolean removeVehicle(String plate) {
         boolean removed = vehicles.removeIf(vehicle -> vehicle.getPlate().equals(plate));
         if (removed) {
-            System.out.println("Vehicle " + plate + " removed successfully");
+            System.out.println("Vehiculo " + plate + " eliminado correctamente ");
         } else {
-            System.out.println("Vehicle " + plate + " not found");
+            System.out.println("Vehiculo " + plate + " not encontrado");
         }
         return removed;
     }
@@ -103,19 +103,19 @@ public class Resident {
     public boolean authorizeVisitor(String visitorID) {
         if (!authorizedVisitors.contains(visitorID)) {
             authorizedVisitors.add(visitorID);
-            System.out.println("Visitor " + visitorID + " authorized successfully");
+            System.out.println("Visitante" + visitorID + " autorizado correctamente");
             return true;
         }
-        System.out.println("Visitor " + visitorID + " already authorized");
+        System.out.println("Visitante" + visitorID + " ya autorizado");
         return false;
     }
 
     public boolean removeAuthorizedVisitor(String visitorID) {
         boolean removed = authorizedVisitors.remove(visitorID);
         if (removed) {
-            System.out.println("Visitor " + visitorID + " authorization removed");
+            System.out.println("Autorización del visitante: " + visitorID + " eliminada");
         } else {
-            System.out.println("Visitor " + visitorID + " not found in authorized list");
+            System.out.println("Visitante " + visitorID + " No se encuentra en la lista autorizada");
         }
         return removed;
     }
@@ -169,28 +169,28 @@ public class Resident {
         StringBuilder info = new StringBuilder();
         info.append("=== RESIDENT INFORMATION ===\n");
         info.append("ID: ").append(residentID).append("\n");
-        info.append("Name: ").append(name).append("\n");
-        info.append("Apartment: ").append(apartmentNumber).append("\n");
-        info.append("Type: ").append(userType).append("\n");
+        info.append("Nombre: ").append(name).append("\n");
+        info.append("Apartamento: ").append(apartmentNumber).append("\n");
+        info.append("Tipo: ").append(userType).append("\n");
         info.append("Email: ").append(email).append("\n");
-        info.append("Phone: ").append(phone).append("\n");
+        info.append("Celular: ").append(phone).append("\n");
 
         if (userType == UserType.WITH_PARKING) {
-            info.append("Assigned Space: ").append(assignedParkingSpace).append("\n");
+            info.append("Espacio asignado: ").append(assignedParkingSpace).append("\n");
         } else {
-            info.append("Active Rental: ").append(hasActiveRental() ? "YES" : "NO").append("\n");
+            info.append("Alquiler activo: ").append(hasActiveRental() ? "SI" : "NO").append("\n");
             if (hasActiveRental()) {
-                info.append("Rented Space: ").append(currentRental.getSpaceId()).append("\n");
-                info.append("Rental End: ").append(currentRental.getEndDate()).append("\n");
+                info.append("REspacio alquilado: ").append(currentRental.getSpaceId()).append("\n");
+                info.append("Fin del alquiler:").append(currentRental.getEndDate()).append("\n");
             }
         }
 
-        info.append("Vehicles: ").append(vehicles.size()).append("\n");
+        info.append("Vehiculos: ").append(vehicles.size()).append("\n");
         for (Vehicle vehicle : vehicles) {
             info.append("  - ").append(vehicle.getPlate()).append(" (").append(vehicle.getModel()).append(")\n");
         }
 
-        info.append("Authorized Visitors: ").append(authorizedVisitors.size()).append("\n");
+        info.append("Visitantes autorizados: ").append(authorizedVisitors.size()).append("\n");
 
         return info.toString();
 

@@ -15,7 +15,7 @@ public class Rental {
     private Date endDate;
     private double monthlyPrice;
     private boolean isActive;
-    private String paymentStatus; // PENDING, PAID, OVERDUE
+    private String paymentStatus; 
 
     public Rental() {
     }
@@ -43,7 +43,7 @@ public class Rental {
 
     public boolean renewRental(int additionalMonths) {
         if (!isActive) {
-            System.out.println("Cannot renew inactive rental");
+            System.out.println("No se puede renovar un alquiler inactivo");
             return false;
         }
 
@@ -51,30 +51,30 @@ public class Rental {
         this.endDate = new Date(newEndDate);
         this.paymentStatus = "PENDING";
 
-        System.out.println("Rental renewed for " + additionalMonths + " months. New end date: " + endDate);
+        System.out.println("Alquiler renovado por " + additionalMonths + " meses. Nueva fecha de fin: " + endDate);
         return true;
     }
 
     public boolean cancelRental() {
         if (!isActive) {
-            System.out.println("Rental is already inactive");
+            System.out.println("El alquiler ya esta inactivo");
             return false;
         }
 
         this.isActive = false;
         this.paymentStatus = "CANCELLED";
-        System.out.println("Rental cancelled successfully");
+        System.out.println("Alquiler cancelado exitosamente");
         return true;
     }
 
     public boolean processPayment() {
         if (!isActive) {
-            System.out.println("Cannot process payment for inactive rental");
+            System.out.println("No se puede procesar el pago para un alquiler inactivo");
             return false;
         }
 
         this.paymentStatus = "PAID";
-        System.out.println("Payment processed for rental: " + rentalId);
+        System.out.println("Pago procesado para el alquiler: " + rentalId);
         return true;
     }
 
@@ -124,13 +124,13 @@ public class Rental {
     }
 
     public String getRentalInfo() {
-        return "Rental ID: " + rentalId
-                + "\nResident ID: " + residentId
-                + "\nSpace: " + spaceId
-                + "\nPeriod: " + startDate + " to " + endDate
-                + "\nMonthly Price: $" + monthlyPrice
-                + "\nStatus: " + (isActive ? "ACTIVE" : "INACTIVE")
-                + "\nPayment: " + paymentStatus
-                + "\nDays Remaining: " + (isActive ? getDaysRemaining() : 0);
+        return "ID de Alquiler: " + rentalId
+                + "\nID de Residente: " + residentId
+                + "\nEspacio: " + spaceId
+                + "\nPeríodo: " + startDate + " a " + endDate
+                + "\nPrecio Mensual: $" + monthlyPrice
+                + "\nEstado: " + (isActive ? "ACTIVO" : "INACTIVO")
+                + "\nPago: " + paymentStatus
+                + "\nDías Restantes: " + (isActive ? getDaysRemaining() : 0);
     }
 }

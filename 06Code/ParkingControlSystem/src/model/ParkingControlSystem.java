@@ -31,35 +31,35 @@ public class ParkingControlSystem {
 
     public boolean registerEntry(String plate) {
         if (!librarySystem.isActive()) {
-            System.out.println("System is not active");
+            System.out.println("El sistema no esta activo");
             return false;
         }
 
         ParkingSpaceLibrary availableSpace = parkingLot.findAvailableSpace();
         if (availableSpace != null) {
 
-            String userType = "Resident";
+            String userType = "Residente"; 
 
             if (residentManager != null) {
                 Resident resident = residentManager.findResidentByVehiclePlate(plate);
                 if (resident != null) {
-                    userType = "Resident";
+                    userType = "Residente";
                 }
             }
 
-            if (userType.equals("Resident") && visitorManager != null && visitorManager.isVisitorAuthorized(plate)) {
-                userType = "Visitor";
+            if (userType.equals("Residente") && visitorManager != null && visitorManager.isVisitorAuthorized(plate)) {
+                userType = "Visitante"; 
             }
 
-            availableSpace.assignSpace("Auto assigned", userType, plate);
+            availableSpace.assignSpace("Asignado automaticamente", userType, plate);
             librarySystem.registerEntry(plate);
 
             updateSpaceDefinitionStatus(availableSpace.getSpaceId(), true);
 
-            System.out.println("Vehicle " + plate + " registered in space " + availableSpace.getSpaceId() + " as " + userType);
+            System.out.println("Vehiculo " + plate + " registrado en el espacio " + availableSpace.getSpaceId() + " como " + userType);
             return true;
         }
-        System.out.println("No available spaces for vehicle " + plate);
+        System.out.println("No hay espacios disponibles para el vehiculo " + plate);
         return false;
     }
 
@@ -68,8 +68,8 @@ public class ParkingControlSystem {
             for (ParkingSpaceLibrary librarySpace : parkingLot.getSpaceList()) {
                 if (librarySpace.getSpaceId().equals(spaceId)) {
                     
-                    System.out.println("SpaceDefinition actualizado para: " + spaceId + " - "
-                            + (occupied ? "OCUPADO" : "DISPONIBLE"));
+                    System.out.println("SPACEDEFINITION ACTUALIZADO PARA: " + spaceId + " - "
+                                + (occupied ? "OCUPADO" : "DISPONIBLE"));
                     break;
                 }
             }
@@ -78,7 +78,7 @@ public class ParkingControlSystem {
 
     public boolean registerExit(String plate) {
         if (!librarySystem.isActive()) {
-            System.out.println("System is not active");
+            System.out.println("El sistema no esta activo");
             return false;
         }
 
@@ -86,11 +86,11 @@ public class ParkingControlSystem {
             if (space.isOccupied() && plate.equals(space.getVehiclePlate())) {
                 space.freeSpace();
                 librarySystem.registerExit(plate);
-                System.out.println("Vehicle " + plate + " exited from space " + space.getSpaceId());
+                System.out.println("Vehiculo " + plate + " salio del espacio " + space.getSpaceId());
                 return true;
             }
         }
-        System.out.println("Vehicle " + plate + " not found in the parking lot");
+        System.out.println("Vehiculo " + plate + " no encontrado en el estacionamiento");
         return false;
     }
 

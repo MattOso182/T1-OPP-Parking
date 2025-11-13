@@ -79,7 +79,7 @@ public class SecurityGuard extends User {
 
     public void registerEntry(String vehiclePlate, Date time) {
         if (!isOnDuty) {
-            System.out.println("Guard " + this.name + " esta fuera de servicio. Entrada denegada.");
+            System.out.println("Guardia " + this.name + " esta fuera de servicio. Entrada denegada.");
             return;
         }
 
@@ -164,7 +164,7 @@ public class SecurityGuard extends User {
 
     public void setOnDuty(boolean isOnDuty) {
         this.isOnDuty = isOnDuty;
-        System.out.println("Guard " + this.name + " status changed to: " + (isOnDuty ? "ON DUTY" : "OFF DUTY"));
+        System.out.println("Guardia " + this.name + " El estado cambio a: " + (isOnDuty ? "EN SERVICIO" : "FUERA DE SERVICIO"));
     }
 
     public ParkingControlSystem getControlSystem() {

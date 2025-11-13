@@ -24,16 +24,16 @@ public class LicensePlate {
     public boolean validateFormat() {
         boolean isValid = this.libraryPlate.isValid(); 
 
-        System.out.println("Validation for " + getPlateNumber() + ": " + (isValid ? "VALID" : "INVALID"));
+        System.out.println("Validacion para " + getPlateNumber() + ": " + (isValid ? "VALIDA" : "INVALIDA"));
         return isValid;
     }
 
     public void linkToUser(String userID) {
-        System.out.println("License plate " + getPlateNumber() + " linked to User ID: " + userID);
+        System.out.println("Placa " + getPlateNumber() + " vinculada al ID de Usuario: " + userID);
     }
 
     public String getPlateInfo() {
-        return String.format("Plate: %s | Province: %s | Type: %s | Reg Date: %s",
+        return String.format("Placa: %s | Provincia: %s | Tipo: %s | Fecha de Registro: %s",
                 getPlateNumber(), getProvince(), vehicleType, registrationDate);
     }
 

@@ -30,7 +30,7 @@ public class ResidentManager {
 
             setupRentalIdCounter();
         } else {
-            System.out.println(" No residents data found, starting with empty list");
+            System.out.println(" No se encontraron datos de residentes, comenzando con una lista vacia");
             this.residents = new ArrayList<>();
         }
     }
@@ -61,13 +61,13 @@ public class ResidentManager {
     public boolean addResident(Resident resident) {
         for (Resident r : residents) {
             if (r.getResidentID().equals(resident.getResidentID())) {
-                System.out.println("Resident with ID " + resident.getResidentID() + " already exists");
+                System.out.println("Ya existe un residente con ID: " + resident.getResidentID());
                 return false;
             }
         }
         residents.add(resident);
         saveResidentsToJson();
-        System.out.println("Resident " + resident.getName() + " added successfully");
+        System.out.println("Residente " + resident.getName() + " agregado correctamente");
         return true;
     }
 
@@ -94,10 +94,10 @@ public class ResidentManager {
         if (resident != null) {
             residents.remove(resident);
             saveResidentsToJson();
-            System.out.println("Resident " + residentID + " removed successfully");
+            System.out.println("Residente " + residentID + " eliminado con exito");
             return true;
         }
-        System.out.println("Resident " + residentID + " not found");
+        System.out.println("Residente " + residentID + "no encontrado");
         return false;
     }
 
@@ -107,10 +107,10 @@ public class ResidentManager {
             resident.setEmail(newEmail);
             resident.setPhone(newPhone);
             saveResidentsToJson();
-            System.out.println("Resident " + residentID + " information updated");
+            System.out.println("Informacion del residente " + residentID + " actualizada");
             return true;
         }
-        System.out.println("Resident " + residentID + " not found for update");
+        System.out.println("No se encontro al residente " + residentID );
         return false;
     }
 
@@ -163,12 +163,12 @@ public class ResidentManager {
     public Rental createRentalForResident(String residentId, String spaceId, int months, double monthlyPrice) {
         Resident resident = findResidentById(residentId);
         if (resident == null || resident.getUserType() != UserType.ROTATING) {
-            System.out.println("Invalid resident or resident is not ROTATING type");
+            System.out.println("Residente no valido o residente no es de tipo ROTATORIO");
             return null;
         }
 
         if (resident.hasActiveRental()) {
-            System.out.println("Resident already has an active rental");
+            System.out.println("El residente ya tiene un contrato de alquiler activo.");
             return null;
         }
 
@@ -182,14 +182,14 @@ public class ResidentManager {
 
         resident.setCurrentRental(newRental);
         saveResidentsToJson();
-        System.out.println("New rental created: " + rentalId + " for resident: " + resident.getName());
+        System.out.println("Nuevo alquiler creado " + rentalId + " para el residente " + resident.getName());
         return newRental;
     }
 
     public boolean cancelRentalForResident(String residentId) {
         Resident resident = findResidentById(residentId);
         if (resident == null || !resident.hasActiveRental()) {
-            System.out.println("Resident not found or has no active rental");
+            System.out.println("No se encontro al residente o no tiene un alquiler activo.");
             return false;
         }
 
@@ -197,7 +197,7 @@ public class ResidentManager {
         if (cancelled) {
             resident.setCurrentRental(null);
             saveResidentsToJson();
-            System.out.println("Rental cancelled for resident: " + resident.getName());
+            System.out.println("Alquier cancelado por el residente: " + resident.getName());
         }
         return cancelled;
     }
@@ -205,14 +205,14 @@ public class ResidentManager {
     public boolean renewRentalForResident(String residentId, int additionalMonths) {
         Resident resident = findResidentById(residentId);
         if (resident == null || !resident.hasActiveRental()) {
-            System.out.println("Resident not found or has no active rental");
+            System.out.println("No se encontro al residente o no tiene un alquiler activo.");
             return false;
         }
 
         boolean renewed = resident.getCurrentRental().renewRental(additionalMonths);
         if (renewed) {
             saveResidentsToJson();
-            System.out.println("Rental renewed for resident: " + resident.getName());
+            System.out.println("Alquiler renovado para el residente: " + resident.getName());
         }
         return renewed;
     }
@@ -220,14 +220,14 @@ public class ResidentManager {
     public boolean processPaymentForRental(String residentId) {
         Resident resident = findResidentById(residentId);
         if (resident == null || !resident.hasActiveRental()) {
-            System.out.println("Resident not found or has no active rental");
+            System.out.println("No se encontró al residente o no tiene un alquiler activo.");
             return false;
         }
 
         boolean processed = resident.getCurrentRental().processPayment();
         if (processed) {
             saveResidentsToJson();
-            System.out.println("Payment processed for resident: " + resident.getName());
+            System.out.println("Pago procesado para el residente:" + resident.getName());
         }
         return processed;
     }
@@ -297,11 +297,11 @@ public class ResidentManager {
     public String generateResidentsReport() {
         StringBuilder report = new StringBuilder();
         report.append("=== RESIDENTS REPORT ===\n");
-        report.append("Total Residents: ").append(residents.size()).append("\n");
-        report.append("With Parking: ").append(getResidentsWithParking().size()).append("\n");
-        report.append("Rotating: ").append(getRotatingResidents().size()).append("\n");
-        report.append("Active Rentals: ").append(getRotatingResidentsWithRental().size()).append("\n");
-        report.append("Expired Rentals: ").append(getExpiredRentals().size()).append("\n\n");
+        report.append("Total residentes: ").append(residents.size()).append("\n");
+        report.append("Con estacionamiento: ").append(getResidentsWithParking().size()).append("\n");
+        report.append("Rotante: ").append(getRotatingResidents().size()).append("\n");
+        report.append("Aquileres activos: ").append(getRotatingResidentsWithRental().size()).append("\n");
+        report.append("Alquileres vencidos ").append(getExpiredRentals().size()).append("\n\n");
 
         for (Resident resident : residents) {
             report.append(resident.getResidentInfo()).append("\n");
@@ -316,8 +316,8 @@ public class ResidentManager {
         List<Rental> activeRentals = getAllActiveRentals();
 
         report.append("=== RENTALS REPORT ===\n");
-        report.append("Active Rentals: ").append(activeRentals.size()).append("\n");
-        report.append("Expired Rentals: ").append(getExpiredRentals().size()).append("\n\n");
+        report.append("Aquileres activos: ").append(activeRentals.size()).append("\n");
+        report.append("Alquileres vencidos: ").append(getExpiredRentals().size()).append("\n\n");
 
         for (Rental rental : activeRentals) {
             report.append(rental.getRentalInfo()).append("\n");
@@ -331,17 +331,17 @@ public class ResidentManager {
         StringBuilder report = new StringBuilder();
         int totalVehicles = 0;
 
-        report.append("=== VEHICLES REPORT ===\n");
+        report.append("=== REPORTE DE VEHICULOS ===\n");
 
         for (Resident resident : residents) {
             totalVehicles += resident.getVehicles().size();
         }
 
-        report.append("Total Vehicles: ").append(totalVehicles).append("\n\n");
+        report.append("Total de vehiculos: ").append(totalVehicles).append("\n\n");
 
         for (Resident resident : residents) {
             if (!resident.getVehicles().isEmpty()) {
-                report.append("Resident: ").append(resident.getName()).append("\n");
+                report.append("Residente: ").append(resident.getName()).append("\n");
                 for (Vehicle vehicle : resident.getVehicles()) {
                     report.append("  - ").append(vehicle.getPlate())
                             .append(" (").append(vehicle.getModel()).append(")\n");

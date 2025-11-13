@@ -137,15 +137,15 @@ public class ParkingLot {
     public boolean assignSpaceToVehicle(String spaceId, String vehiclePlate, String userType) {
         for (ParkingSpaceLibrary space : libraryParkingLot.getParkingSpaces()) {
             if (space.getSpaceId().equals(spaceId) && !space.isOccupied()) {
-                space.assignSpace("Auto assigned", userType, vehiclePlate);
+                space.assignSpace("Auto asignado", userType, vehiclePlate);
                 
                 syncSpaceStatus(spaceId, true);
                 
-                System.out.println("✓ Espacio " + spaceId + " asignado a " + vehiclePlate);
+                System.out.println(" Espacio " + spaceId + " asignado a " + vehiclePlate);
                 return true;
             }
         }
-        System.out.println("✗ No se pudo asignar espacio " + spaceId);
+        System.out.println(" No se pudo asignar espacio " + spaceId);
         return false;
     }
     
