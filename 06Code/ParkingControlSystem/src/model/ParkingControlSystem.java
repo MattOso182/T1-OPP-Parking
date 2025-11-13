@@ -10,12 +10,14 @@ import parkingcontrolsystem.library.ParkingSpaceLibrary;
 public class ParkingControlSystem {
 
     private ParkingControlSystemLibrary librarySystem;
-    private ParkingLot parkingLot; 
-    private VisitorManager visitorManager; 
+    private ParkingLot parkingLot;
+    private VisitorManager visitorManager;
+    private ResidentManager residentManager;
 
-    public ParkingControlSystem(String systemId, ParkingLot parkingLot) {
+    public ParkingControlSystem(String systemId, ParkingLot parkingLot, ResidentManager residentManager) {
         this.parkingLot = parkingLot;
-        this.visitorManager = new VisitorManager(); 
+        this.visitorManager = new VisitorManager();
+        this.residentManager = residentManager; 
         this.librarySystem = new ParkingControlSystemLibrary(systemId, true, 0);
     }
 
@@ -35,13 +37,43 @@ public class ParkingControlSystem {
 
         ParkingSpaceLibrary availableSpace = parkingLot.findAvailableSpace();
         if (availableSpace != null) {
-            availableSpace.assignSpace("Auto assigned", "Visitor", plate);
+
+            String userType = "Resident";
+
+            if (residentManager != null) {
+                Resident resident = residentManager.findResidentByVehiclePlate(plate);
+                if (resident != null) {
+                    userType = "Resident";
+                }
+            }
+
+            if (userType.equals("Resident") && visitorManager != null && visitorManager.isVisitorAuthorized(plate)) {
+                userType = "Visitor";
+            }
+
+            availableSpace.assignSpace("Auto assigned", userType, plate);
             librarySystem.registerEntry(plate);
-            System.out.println("Vehicle " + plate + " registered in space " + availableSpace.getSpaceId());
+
+            updateSpaceDefinitionStatus(availableSpace.getSpaceId(), true);
+
+            System.out.println("Vehicle " + plate + " registered in space " + availableSpace.getSpaceId() + " as " + userType);
             return true;
         }
         System.out.println("No available spaces for vehicle " + plate);
         return false;
+    }
+
+    private void updateSpaceDefinitionStatus(String spaceId, boolean occupied) {
+        if (parkingLot != null) {
+            for (ParkingSpaceLibrary librarySpace : parkingLot.getSpaceList()) {
+                if (librarySpace.getSpaceId().equals(spaceId)) {
+                    
+                    System.out.println("SpaceDefinition actualizado para: " + spaceId + " - "
+                            + (occupied ? "OCUPADO" : "DISPONIBLE"));
+                    break;
+                }
+            }
+        }
     }
 
     public boolean registerExit(String plate) {

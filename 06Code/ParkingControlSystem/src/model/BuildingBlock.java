@@ -2,7 +2,7 @@ package model;
 
 /**
  *
- * @author T.A.P(The Art of Programming)
+ * @author Team 1 - T.A.P. (The Art of Programming)
  */
 import java.util.List;
 import parkingcontrolsystem.library.ParkingLotLibrary;

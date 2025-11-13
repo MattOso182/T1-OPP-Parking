@@ -3,7 +3,7 @@ package parkingcontrolsystem.library;
 
 /**
  *
- * @author Josue Carvajal, THE ART OF PROGRAMMING, @ESPE
+ * @author Team 1 - T.A.P. (The Art of Programming)
  */
 public class UserLibrary {
     private String userID;

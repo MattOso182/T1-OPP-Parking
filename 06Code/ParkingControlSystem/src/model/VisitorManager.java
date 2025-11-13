@@ -1,8 +1,8 @@
 package model;
 
 /**
- * Gestiona la colección de objetos Visitor del modelo.
- * * @author @ESPE T.A.P(The Art of Programming)
+ * 
+ * * @author Team 1 - T.A.P. (The Art of Programming)
  */
 import java.util.ArrayList;
 import java.util.List;

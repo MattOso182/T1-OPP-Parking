@@ -617,11 +617,28 @@
           "color": "Blanco",
           "model": "Volkswagen Vento",
           "isParked": false
+        },
+        {
+          "plate": "APT-1598",
+          "color": "Negro",
+          "model": "Chevrolet ",
+          "isParked": false,
+          "ownerId": "RES-030"
         }
       ],
       "authorizedVisitors": [
         "VIS-026"
-      ]
+      ],
+      "currentRental": {
+        "rentalId": "RENT-5",
+        "residentId": "RES-030",
+        "spaceId": "AZU-A-01",
+        "startDate": "2025-11-12 20:37:12",
+        "endDate": "2026-02-12 20:37:12",
+        "monthlyPrice": 50.0,
+        "isActive": true,
+        "paymentStatus": "PENDING"
+      }
     }
   ]
 }
