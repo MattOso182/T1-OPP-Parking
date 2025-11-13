@@ -4,10 +4,12 @@ package model;
  *
  * @author Gabriel
  */
-
 import parkingcontrolsystem.library.ParkingLotLibrary;
 import parkingcontrolsystem.library.ParkingSpaceLibrary;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ParkingLot {
 
@@ -17,66 +19,39 @@ public class ParkingLot {
     public ParkingLot(String lotId) {
         this.lotId = lotId;
         this.libraryParkingLot = new ParkingLotLibrary(lotId);
-        loadAndMergeJsonData();
+        loadFromJson();
     }
 
-    
-    private void loadAndMergeJsonData() {
+    private void loadFromJson() {
         try {
             JsonDataManager jsonManager = new JsonDataManager();
-
-            
             ParkingStructure structure = jsonManager.loadParkingData();
-            if (structure == null) {
-                System.out.println(" No se pudo cargar parking_data.json");
-                return;
-            }
 
-           
-            List<Resident> residents = jsonManager.loadResidentsData();
-            if (residents == null) {
-                System.out.println(" No se pudo cargar residents_data.json");
-                return;
-            }
+            if (structure != null) {
+                for (BuildingBlock block : structure.getBlocks()) {
+                    for (ParkingZone zone : block.getSections()) {
+                        for (SpaceDefinition spaceDef : zone.getSpaces()) {
+                            ParkingSpaceLibrary space = new ParkingSpaceLibrary(
+                                    spaceDef.getSpaceId(),
+                                    spaceDef.isOccupied(),
+                                    spaceDef.isOccupied() ? "PREVIOUSLY_OCCUPIED" : null,
+                                    "Resident",
+                                    spaceDef.isOccupied() ? "PREVIOUS_VEHICLE" : null
+                            );
 
-           
-            Set<String> occupiedSpaces = new HashSet<>();
-            for (Resident r : residents) {
-                if (r.getAssignedParkingSpace() != null && !r.getAssignedParkingSpace().isEmpty()) {
-                    occupiedSpaces.add(r.getAssignedParkingSpace());
-                }
-            }
-
-            
-            for (BuildingBlock block : structure.getBlocks()) {
-                for (ParkingZone zone : block.getSections()) {
-                    for (SpaceDefinition spaceDef : zone.getSpaces()) {
-
-                        boolean ocupado = occupiedSpaces.contains(spaceDef.getSpaceId());
-                        spaceDef.setOccupied(ocupado);
-
-                        ParkingSpaceLibrary space = new ParkingSpaceLibrary(
-                                spaceDef.getSpaceId(),
-                                ocupado,
-                                ocupado ? "OCCUPIED" : "AVAILABLE",
-                                spaceDef.getType(),
-                                ocupado ? "ASSIGNED_TO_RESIDENT" : "NONE"
-                        );
-
-                        libraryParkingLot.addParkingSpace(space);
+                            libraryParkingLot.addParkingSpace(space);
+                        }
                     }
                 }
+                System.out.println("Successfully loaded " + libraryParkingLot.getParkingSpaces().size() + " spaces from JSON");
+            } else {
+                System.out.println("Failed to load parking data from JSON");
             }
-
-            System.out.println("✅ Datos de parqueadero y residentes combinados correctamente.");
-            System.out.println("🔹 Total de espacios cargados: " + libraryParkingLot.getParkingSpaces().size());
-
         } catch (Exception e) {
-            System.out.println("⚠️ Error al combinar JSON: " + e.getMessage());
+            System.out.println("Error loading from JSON: " + e.getMessage());
             e.printStackTrace();
         }
     }
-
 
     public void saveToJson() {
         try {
@@ -86,15 +61,14 @@ public class ParkingLot {
             if (currentStructure != null) {
                 updateStructureWithCurrentStatus(currentStructure);
                 jsonManager.saveParkingData(currentStructure.getBlocks());
-                System.out.println("💾 Estado actualizado guardado correctamente en JSON.");
+                System.out.println("Parking data saved successfully to JSON");
             }
         } catch (Exception e) {
-            System.out.println("⚠️ Error guardando JSON: " + e.getMessage());
+            System.out.println("Error saving to JSON: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
- 
     private void updateStructureWithCurrentStatus(ParkingStructure structure) {
         Map<String, ParkingSpaceLibrary> currentSpacesMap = new HashMap<>();
         for (ParkingSpaceLibrary space : libraryParkingLot.getParkingSpaces()) {
@@ -113,17 +87,6 @@ public class ParkingLot {
         }
     }
 
-   
-    public void showSpacesStatus() {
-        System.out.println("\n=== ESTADO ACTUAL DE LOS ESPACIOS ===");
-        for (ParkingSpaceLibrary space : libraryParkingLot.getParkingSpaces()) {
-            System.out.println("Espacio: " + space.getSpaceId()
-                    + " | Estado: " + (space.isOccupied() ? "Ocupado" : "Libre"));
-        }
-    }
-
-  
-
     public String getOccupancyReport() {
         return libraryParkingLot.getParkingLotStatus();
     }
@@ -141,12 +104,21 @@ public class ParkingLot {
         return null;
     }
 
+    public ParkingSpaceLibrary findAvailableSpaceByType(String type) {
+        for (ParkingSpaceLibrary space : libraryParkingLot.getParkingSpaces()) {
+            if (!space.isOccupied() && "Resident".equals(type)) { // ✅ Adaptado para tu librería
+                return space;
+            }
+        }
+        return null;
+    }
+
     public void updateSpaceStatus(String spaceId, String status) {
         for (ParkingSpaceLibrary space : libraryParkingLot.getParkingSpaces()) {
             if (space.getSpaceId().equals(spaceId)) {
-                if (status.equalsIgnoreCase("AVAILABLE")) {
+                if (status.equals("AVAILABLE")) {
                     space.freeSpace();
-                } else if (status.equalsIgnoreCase("OCCUPIED")) {
+                } else if (status.equals("OCCUPIED")) {
                     space.assignSpace("Unknown", "Visitor", "TEMP_PLATE");
                 }
                 break;
