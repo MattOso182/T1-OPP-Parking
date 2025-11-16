@@ -7,12 +7,12 @@ import java.util.Date;
 import parkingcontrolsystem.library.VisitorLibrary;
 
 public class Visitor extends User {
-
+    
     private VisitorLibrary libraryVisitor;
 
-    private boolean hasPass;
+  private boolean hasPass;
 
-    public Visitor(String visitorID, String userID, String name, String vehiclePlate, Date entryTime, Date exitTime) {
+   public Visitor(String visitorID, String userID, String name, String vehiclePlate, Date entryTime, Date exitTime) {
         super(userID);
 
         this.libraryVisitor = new VisitorLibrary(
@@ -23,7 +23,7 @@ public class Visitor extends User {
         this.hasPass = false;
     }
 
-    public boolean verifyIdentity() {
+   public boolean verifyIdentity() {
         return this.libraryVisitor.verifyIdentity();
     }
 

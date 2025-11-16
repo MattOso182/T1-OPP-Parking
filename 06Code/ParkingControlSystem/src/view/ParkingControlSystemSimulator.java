@@ -89,13 +89,14 @@ public class ParkingControlSystemSimulator {
                 case "1":
                     System.out.println("Total de vehiculos registrados: " + residentManager.getTotalVehicles());
                     System.out.println(residentManager.generateVehiclesReport());
-                break;
+                    break;
                 case "2":
-                    
-                break;
+                    // 🚨 Opción 2 Implementada: Registrar nuevo residente + vehículo
+                    registerNewResidentAndVehicle();
+                    break;
                 case "3":
                     
-                break;
+                    break;
                 case "4":
                     manageFeature1_RegistrationEntryExit();
                     break;
@@ -135,10 +136,94 @@ public class ParkingControlSystemSimulator {
         System.out.println("Hasta luego...");
         scanner.close();
     }
+    private static void registerNewResidentAndVehicle() {
+        System.out.println("\n--- [2] Registrar Nuevo Residente + Vehiculo ---");
+
+        System.out.println("--- DATOS DEL RESIDENTE ---");
+        System.out.print("ID de Residente: ");
+        String residentID = scanner.nextLine().trim().toUpperCase();
+
+        if (residentManager.findResidentById(residentID) != null) {
+            System.out.println("ERROR: Ya existe un residente con el ID " + residentID);
+            pause();
+            return;
+        }
+
+        System.out.print("Nombre completo: ");
+        String name = scanner.nextLine().trim();
+        
+        System.out.print("Numero de Apartamento: ");
+        String apartmentNumber = scanner.nextLine().trim().toUpperCase();
+        
+        System.out.print("Email: ");
+        String email = scanner.nextLine().trim();
+        
+        System.out.print("Celular: ");
+        String phone = scanner.nextLine().trim();
+
+        System.out.print("Tipo de Residente (1) Asignado / (2) Rotatorio: ");
+        String typeOption = scanner.nextLine().trim();
+        
+        Resident newResident = null;
+        String assignedParkingSpace = null;
+
+        if (typeOption.equals("1")) {
+            System.out.print("Espacio de Parqueo Asignado (ej. P-A-15): ");
+            assignedParkingSpace = scanner.nextLine().trim().toUpperCase();
+            newResident = new Resident(residentID, name, apartmentNumber, email, phone, assignedParkingSpace);
+            System.out.println("Residente creado como tipo: ASIGNADO");
+        } else if (typeOption.equals("2")) {
+            newResident = new Resident(residentID, name, apartmentNumber, email, phone);
+            System.out.println("Residente creado como tipo: ROTATORIO");
+        } else {
+            System.out.println("ERROR: Opcion de tipo de residente no valida. Cancelando registro.");
+            pause();
+            return;
+        }
+
+        System.out.println("\n--- DATOS DEL VEHICULO ---");
+        System.out.print("Placa del Vehiculo: ");
+        String plate = scanner.nextLine().trim().toUpperCase();
+
+        if (residentManager.findVehicleByPlate(plate) != null) {
+            System.out.println("ERROR: La placa " + plate + " ya está registrada en el sistema.");
+            pause();
+            return;
+        }
+        
+        System.out.print("Color: ");
+        String color = scanner.nextLine().trim();
+        
+        System.out.print("Modelo: ");
+        String model = scanner.nextLine().trim();
+
+        Vehicle newVehicle = new Vehicle(plate, color, model, residentID);
+        
+                newResident.addVehicle(newVehicle);
+
+        if (residentManager.addResident(newResident)) {
+            System.out.println("\n REGISTRO COMPLETO Y GUARDADO");
+            System.out.println("Residente: " + name + " | Vehiculo: " + plate);
+            
+            if (newResident.getUserType() == UserType.WITH_PARKING && assignedParkingSpace != null) {
+                boolean assigned = parkingLot.assignSpaceToVehicle(assignedParkingSpace, plate, newResident.getUserType().toString());
+                if (assigned) {
+                    System.out.println("Nota: Espacio " + assignedParkingSpace + " asignado y ocupado por el vehiculo.");
+                } else {
+                    System.out.println("ADVERTENCIA: No se pudo asignar el vehiculo al espacio de parqueo. Revise si el espacio existe o si esta ocupado.");
+                }
+            }
+            
+        } else {
+            System.out.println(" ERROR: No se pudo agregar el residente.");
+        }
+        
+        pause();
+    }
 
     private static void showMenu() {
         System.out.println("\n" + "=".repeat(30));
-        System.out.println("   SISTEMA DE GESTION DE PARQUEADERO");
+        System.out.println("   SISTEMA DE GESTION DE PARQUEADERO");
         System.out.println("=".repeat(30));
         System.out.println("1. Ver vehiculos registrados en el sistema");
         System.out.println("2. Registrar nuevo residente + vehiculo");
@@ -651,7 +736,7 @@ public class ParkingControlSystemSimulator {
                                         break;
                                     } else {
                                         System.out.println("Opcion no valida. Por favor ingrese 's' para SI o 'n' para NO.");
-    
+                                        
                                     }
                                 } else {
                                     System.out.println("Los meses deben estar entre 1 y 24.");

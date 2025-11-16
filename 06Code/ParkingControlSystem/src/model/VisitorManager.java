@@ -13,7 +13,7 @@ public class VisitorManager {
     public VisitorManager() {
         this.visitors = new ArrayList<>();
     }
-
+    
     public void addVisitor(Visitor visitor) {
         if (findVisitorById(visitor.getVisitorID()) == null) {
             this.visitors.add(visitor);
@@ -48,7 +48,7 @@ public class VisitorManager {
             System.out.println(v.getVisitorInfo());
         }
     }
-    
+
     public List<Visitor> getAllVisitors() {
         return new ArrayList<>(visitors);
     }

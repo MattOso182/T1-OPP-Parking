@@ -649,6 +649,61 @@
         "isActive": true,
         "paymentStatus": "PENDING"
       }
+    },
+    {
+      "residentID": "D-404",
+      "name": "Emily Calle",
+      "apartmentNumber": "A-702",
+      "email": "emilyc@gmail.com",
+      "phone": "\u0027062769840",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "PBD-4039",
+          "color": "azul",
+          "model": "Jac",
+          "isParked": false,
+          "ownerId": "D-404"
+        }
+      ],
+      "authorizedVisitors": []
+    },
+    {
+      "residentID": "A-403",
+      "name": "Delia Villacis",
+      "apartmentNumber": "C-204",
+      "email": "deliav@gmail.com",
+      "phone": "0987865433",
+      "userType": "WITH_PARKING",
+      "assignedParkingSpace": "A-C-18",
+      "vehicles": [
+        {
+          "plate": "PDB-7090",
+          "color": "blanco",
+          "model": "Mazda",
+          "isParked": false,
+          "ownerId": "A-403"
+        }
+      ],
+      "authorizedVisitors": []
+    },
+    {
+      "residentID": "1714021298",
+      "name": "Lola",
+      "apartmentNumber": "A-321",
+      "email": "lola@gmail.com",
+      "phone": "095432245",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "ADE-4321",
+          "color": "VERDE",
+          "model": "SPORT",
+          "isParked": false,
+          "ownerId": "1714021298"
+        }
+      ],
+      "authorizedVisitors": []
     }
   ]
 }
