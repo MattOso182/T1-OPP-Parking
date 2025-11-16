@@ -7,7 +7,7 @@ package parkingcontrolsystem.library;
 public class SecurityGuardLibrary {
     private String id;
     private String name;
-    private String shift; // Ejemplo: "Diurno", "Nocturno"
+    private String shift; 
 
    
     public SecurityGuardLibrary(String id, String name, String shift) {

@@ -10,17 +10,18 @@ import parkingcontrolsystem.library.ParkingSpaceLibrary;
 public class ParkingControlSystem {
 
     private ParkingControlSystemLibrary librarySystem;
+    private String systemId;
     private ParkingLot parkingLot;
     private VisitorManager visitorManager;
     private ResidentManager residentManager;
 
-    public ParkingControlSystem(String systemId, ParkingLot parkingLot, ResidentManager residentManager) {
+public ParkingControlSystem(String systemId, ParkingLot parkingLot, ResidentManager residentManager) {
+        this.systemId = systemId;
         this.parkingLot = parkingLot;
-        this.visitorManager = new VisitorManager();
-        this.residentManager = residentManager; 
-        this.librarySystem = new ParkingControlSystemLibrary(systemId, true, 0);
+        this.residentManager = residentManager;
+        
+        System.out.println("Control System " + systemId + " initialized."); 
     }
-
     public boolean startSystem() {
         return librarySystem.startSystem();
     }

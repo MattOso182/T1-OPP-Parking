@@ -1,24 +1,35 @@
 package model;
 
 /**
- * 
- * * @author Team 1 - T.A.P. (The Art of Programming)
+ * * * @author Team 1 - T.A.P. (The Art of Programming)
  */
 import java.util.ArrayList;
 import java.util.List;
+import utils.JsonDataManager; 
 
 public class VisitorManager {
     private List<Visitor> visitors;
+    private final JsonDataManager dataManager; 
 
-    public VisitorManager() {
-        this.visitors = new ArrayList<>();
+    public VisitorManager(JsonDataManager dataManager) { 
+        this.dataManager = dataManager;
+        this.visitors = dataManager.loadVisitorsData(); 
+        if (this.visitors.isEmpty()) {
+             this.visitors = new ArrayList<>();
+        }
+        System.out.println("VisitorManager: " + this.visitors.size() + " visitantes cargados.");
     }
     
     public void addVisitor(Visitor visitor) {
         if (findVisitorById(visitor.getVisitorID()) == null) {
             this.visitors.add(visitor);
             System.out.println("Visitante " + visitor.getName() + " agregado.");
+            saveVisitors(); 
         }
+    }
+
+    public void saveVisitors() {
+        dataManager.saveVisitorsData(this.visitors);
     }
 
     public Visitor findVisitorById(String visitorID) {
@@ -38,7 +49,11 @@ public class VisitorManager {
     public boolean recordVisitorExit(String visitorID) {
         Visitor visitor = findVisitorById(visitorID);
         if (visitor != null) {
-            return visitor.recordExit();
+            boolean success = visitor.recordExit();
+            if (success) {
+                saveVisitors(); 
+            }
+            return success;
         }
         return false;
     }

@@ -8,6 +8,7 @@ import model.*;
 import java.util.Date;
 import java.util.Scanner;
 import parkingcontrolsystem.library.ParkingSpaceLibrary;
+import utils.JsonDataManager;
 
 public class ParkingControlSystemSimulator {
 
@@ -18,6 +19,7 @@ public class ParkingControlSystemSimulator {
     private static ParkingControlSystem controlSystem;
     private static EntryExitRecord logbook;
     private static SecurityGuard guard;
+    private static JsonDataManager dataManager; 
 
     public static void main(String[] args) {
         scanner = new Scanner(System.in);
@@ -27,20 +29,20 @@ public class ParkingControlSystemSimulator {
         final int MAX_ATTEMPTS = 3;
 
         while (!loggedIn && attempts < MAX_ATTEMPTS) {
-            System.out.println("=== SISTEMA DE GESTION DE PARQUEADEROS ===");
-            System.out.print("Usuario: ");
-            String username = scanner.nextLine().trim();
+             System.out.println("=== SISTEMA DE GESTION DE PARQUEADEROS ===");
+             System.out.print("Usuario: ");
+             String username = scanner.nextLine().trim();
 
-            System.out.print("Contrasenia: ");
-            String password = scanner.nextLine().trim();
+             System.out.print("Contrasenia: ");
+             String password = scanner.nextLine().trim();
 
-            if (username.equals("admin") && password.equals("123")) {
-                loggedIn = true;
-                System.out.println("\n¡Login exitoso! Bienvenido al sistema.\n");
-            } else {
-                attempts++;
-                System.out.println("\nCredenciales incorrectas. Intentos restantes: " + (MAX_ATTEMPTS - attempts) + "\n");
-            }
+             if (username.equals("admin") && password.equals("123")) {
+                 loggedIn = true;
+                 System.out.println("\n¡Login exitoso! Bienvenido al sistema.\n");
+             } else {
+                 attempts++;
+                 System.out.println("\nCredenciales incorrectas. Intentos restantes: " + (MAX_ATTEMPTS - attempts) + "\n");
+             }
         }
 
         if (!loggedIn) {
@@ -52,12 +54,15 @@ public class ParkingControlSystemSimulator {
         System.out.println("Iniciando Sistema de Parqueadero...");
 
         scanner = new Scanner(System.in);
+        
+        dataManager = new JsonDataManager(); 
 
-        residentManager = new ResidentManager();
+        residentManager = new ResidentManager(); 
+        
+        parkingLot = new ParkingLot("MainLot"); 
 
-        parkingLot = new ParkingLot("MainLot");
-
-        visitorManager = new VisitorManager();
+        visitorManager = new VisitorManager(dataManager); 
+        
         controlSystem = new ParkingControlSystem("PCS-01", parkingLot, residentManager);
         logbook = new EntryExitRecord();
 
@@ -69,7 +74,7 @@ public class ParkingControlSystemSimulator {
                 controlSystem,
                 logbook,
                 residentManager,
-                visitorManager
+                visitorManager 
         );
 
         guard.setOnDuty(true);
@@ -79,6 +84,7 @@ public class ParkingControlSystemSimulator {
         System.out.println(" (" + residentManager.getTotalResidents() + " residentes cargados)");
         System.out.println(" (" + residentManager.getTotalVehicles() + " vehiculos registrados)");
         System.out.println(" (" + parkingLot.getTotalSpaces() + " espacios de parqueo cargados)");
+        System.out.println(" (" + visitorManager.getAllVisitors().size() + " visitantes cargados)");
 
         boolean salir = false;
         while (!salir) {
@@ -91,11 +97,10 @@ public class ParkingControlSystemSimulator {
                     System.out.println(residentManager.generateVehiclesReport());
                     break;
                 case "2":
-                    // 🚨 Opción 2 Implementada: Registrar nuevo residente + vehículo
                     registerNewResidentAndVehicle();
                     break;
                 case "3":
-                    
+                    registerNewVisitor(); 
                     break;
                 case "4":
                     manageFeature1RegistrationEntryExit();
@@ -132,10 +137,43 @@ public class ParkingControlSystemSimulator {
         System.out.println("Cerrando el sistema...");
         guard.setOnDuty(false);
 
-        parkingLot.saveToJson();
+        parkingLot.saveToJson(); 
+        visitorManager.saveVisitors(); 
+
         System.out.println("Hasta luego...");
         scanner.close();
     }
+    
+  
+    private static void registerNewVisitor() {
+        System.out.println("\n--- [3] Registrar Visitante ---");
+        System.out.print("Ingrese ID del Visitante: ");
+        String visitorID = scanner.nextLine().trim().toUpperCase();
+
+        if (visitorManager.findVisitorById(visitorID) != null) {
+            System.out.println("ERROR: Ya existe un visitante registrado con el ID " + visitorID);
+            pause();
+            return;
+        }
+
+        System.out.print("Ingrese Nombre completo: ");
+        String name = scanner.nextLine().trim();
+
+        System.out.print("Ingrese Placa del Vehiculo: ");
+        String vehiclePlate = scanner.nextLine().trim().toUpperCase();
+
+        Visitor newVisitor = new Visitor(visitorID, visitorID, name, vehiclePlate, null, null);
+
+        visitorManager.addVisitor(newVisitor);
+
+        System.out.println("\n REGISTRO COMPLETO.");
+        System.out.println("Visitante " + name + " con placa " + vehiclePlate + " ha sido registrado.");
+        System.out.println("Nota: Ahora debe usar la Opcion 4 para registrar su ingreso y asignar un pase temporal.");
+
+        pause();
+    }
+
+
     private static void registerNewResidentAndVehicle() {
         System.out.println("\n--- [2] Registrar Nuevo Residente + Vehiculo ---");
 
@@ -221,13 +259,14 @@ public class ParkingControlSystemSimulator {
         pause();
     }
 
+
     private static void showMenu() {
         System.out.println("\n" + "=".repeat(30));
-        System.out.println("   SISTEMA DE GESTION DE PARQUEADERO");
+        System.out.println("    SISTEMA DE GESTION DE PARQUEADERO");
         System.out.println("=".repeat(30));
         System.out.println("1. Ver vehiculos registrados en el sistema");
         System.out.println("2. Registrar nuevo residente + vehiculo");
-        System.out.println("3. Registrar visitante");
+        System.out.println("3. Registrar visitante"); 
         System.out.println("4. Registrar ingreso/salida (Residentes/Visitantes)");
         System.out.println("5. Rastrear estado de espacios (Ocupacion)");
         System.out.println("6. Asignar y gestionar espacios de parqueo");
@@ -241,8 +280,9 @@ public class ParkingControlSystemSimulator {
         System.out.print("Seleccione una opcion: ");
     }
 
+
     private static void manageFeature1RegistrationEntryExit() {
-        System.out.println("\n--- [1] Registrar Ingreso/Salida ---");
+        System.out.println("\n--- [4] Registrar Ingreso/Salida ---");
         System.out.print("Va a (1) Registrar Ingreso o (2) Registrar Salida?: ");
         String tipo = scanner.nextLine();
         System.out.print("Ingrese la placa del vehiculo (ej. ABC-123): ");
@@ -281,7 +321,7 @@ public class ParkingControlSystemSimulator {
     }
 
     private static void manageFeature3AssignSpaceManagement() {
-        System.out.println("\n--- [3] Gestionar Espacios de Parqueo ---");
+        System.out.println("\n--- [6] Gestionar Espacios de Parqueo ---");
 
         try {
             if (parkingLot == null) {
@@ -439,7 +479,7 @@ public class ParkingControlSystemSimulator {
     }
 
     private static void manageFeature4VerifyAuthorization() {
-        System.out.println("\n--- [4] Verificar Autorizacion (Visitantes) ---");
+        System.out.println("\n--- [7] Verificar Autorizacion (Visitantes) ---");
         System.out.print("Ingrese el ID del Visitante: ");
 
         String visitorId = scanner.nextLine().trim();
@@ -463,21 +503,29 @@ public class ParkingControlSystemSimulator {
             }
 
             visitor = new Visitor(visitorId, "TEMP-" + visitorId, name, "VISITOR", new Date(), null);
+            visitorManager.addVisitor(visitor); 
         }
 
-        boolean isAuthorized = residentManager.processVisitorEntry(visitor);
-
-        if (isAuthorized) {
-            System.out.println("-> RESULTADO: VISITANTE AUTORIZADO Y PASE TEMPORAL ASIGNADO.");
+        if (visitor.hasTemporaryPass()) {
+             System.out.println("-> RESULTADO: VISITANTE YA TIENE PASE TEMPORAL ACTIVO.");
         } else {
-            System.out.println("-> RESULTADO: VISITANTE NO AUTORIZADO.");
-            System.out.println(" (Un residente debe autorizarlo primero)");
+             boolean assigned = visitor.assignTemporaryPass(); 
+
+             if (assigned) {
+                 System.out.println("-> RESULTADO: PASE TEMPORAL ASIGNADO Y REGISTRO DE ENTRADA CONCEDIDO.");
+             } else {
+                 System.out.println("-> RESULTADO: VISITANTE NO AUTORIZADO (O NO SE PUDO ASIGNAR LUGAR).");
+                 System.out.println(" (Un residente debe autorizarlo primero o no hay espacios temporales disponibles)");
+             }
         }
+        
+        visitorManager.saveVisitors(); 
+        
         pause();
     }
 
     private static void manageFeature5SearchVehicleLicensePlate() {
-        System.out.println("\n--- [5] Buscar Vehiculo por Placa ---");
+        System.out.println("\n--- [8] Buscar Vehiculo por Placa ---");
         System.out.print("Ingrese la placa a buscar: ");
         String plate = scanner.nextLine().toUpperCase().trim();
 
@@ -513,7 +561,7 @@ public class ParkingControlSystemSimulator {
     }
 
     private static void manageFeature6ValideteUpdateVehicle() {
-        System.out.println("\n--- [6] Gestionar Vehiculos de Residente ---");
+        System.out.println("\n--- [9] Gestionar Vehiculos de Residente ---");
         System.out.print("Ingrese el ID del Residente: ");
         String residentId = scanner.nextLine().trim();
 
@@ -588,7 +636,7 @@ public class ParkingControlSystemSimulator {
     }
 
     private static void manageFeature7ManageRentals() {
-        System.out.println("\n--- [7] Gestionar Alquileres Temporales ---");
+        System.out.println("\n--- [10] Gestionar Alquileres Temporales ---");
         System.out.print("Ingrese el ID del Residente (tipo ROTATING): ");
         String residentId = scanner.nextLine();
 
@@ -783,7 +831,7 @@ public class ParkingControlSystemSimulator {
     }
 
     private static void manageFeature8GenerateReports() {
-        System.out.println("\n--- [8] Generacion de Reportes ---");
+        System.out.println("\n--- [11] Generacion de Reportes ---");
         System.out.println("1. Reporte de Ocupacion de Espacios");
         System.out.println("2. Reporte de Residentes");
         System.out.println("3. Reporte de Alquileres Activos");

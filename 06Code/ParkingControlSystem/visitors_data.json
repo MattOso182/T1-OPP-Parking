@@ -1,0 +1,32 @@
+[
+  {
+    "libraryVisitor": {
+      "visitorID": "123231342",
+      "nameVisitor": "Rodrigo",
+      "vehiclePlate": "LOPEZ",
+      "userID": "123231342"
+    },
+    "hasPass": false,
+    "userID": "123231342"
+  },
+  {
+    "libraryVisitor": {
+      "visitorID": "1743212311",
+      "nameVisitor": "Emilio Fernandez",
+      "vehiclePlate": "ASD-4321",
+      "userID": "1743212311"
+    },
+    "hasPass": false,
+    "userID": "1743212311"
+  },
+  {
+    "libraryVisitor": {
+      "visitorID": "1334858382",
+      "nameVisitor": "Juan Rosas",
+      "vehiclePlate": "ADS-432",
+      "userID": "1334858382"
+    },
+    "hasPass": false,
+    "userID": "1334858382"
+  }
+]

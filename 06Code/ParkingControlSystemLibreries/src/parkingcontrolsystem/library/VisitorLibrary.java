@@ -10,7 +10,7 @@ import java.util.Date;
 
 public class VisitorLibrary extends UserLibrary {
     private String visitorID;
-    private String name;
+    private String nameVisitor;
     private String vehiclePlate;
     private Date entryTime;
     private Date exitTime;
@@ -20,10 +20,10 @@ public class VisitorLibrary extends UserLibrary {
     }
 
     
-    public VisitorLibrary(String visitorID, String userID, String name, String vehiclePlate, Date entryTime, Date exitTime) {
+    public VisitorLibrary(String visitorID, String userID, String nameVisitor, String vehiclePlate, Date entryTime, Date exitTime) {
         super(userID);
         this.visitorID = visitorID;
-        this.name = name;
+        this.nameVisitor = nameVisitor;
         this.vehiclePlate = vehiclePlate;
         this.entryTime = entryTime;
         this.exitTime = exitTime;
@@ -39,11 +39,11 @@ public class VisitorLibrary extends UserLibrary {
     }
 
     public String getName() {
-        return name;
+        return nameVisitor;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.nameVisitor = name;
     }
 
     public String getVehiclePlate() {
@@ -73,8 +73,8 @@ public class VisitorLibrary extends UserLibrary {
     
     public boolean registerVisit() {
         
-        if (vehiclePlate != null && name != null) {
-            System.out.println("Visitor " + name + " registered with plate " + vehiclePlate);
+        if (vehiclePlate != null && nameVisitor != null) {
+            System.out.println("Visitor " + nameVisitor + " registered with plate " + vehiclePlate);
             return true;
         }
         return false;
@@ -82,23 +82,23 @@ public class VisitorLibrary extends UserLibrary {
 
     public boolean assignTemporarySpot() {
         
-        System.out.println("Temporary parking spot assigned to visitor " + name);
+        System.out.println("Temporary parking spot assigned to visitor " + nameVisitor);
         return true;
     }
 
     public void exitParking() {
         this.exitTime = new Date();
-        System.out.println("Visitor " + name + " exited the parking lot at " + exitTime);
+        System.out.println("Visitor " + nameVisitor + " exited the parking lot at " + exitTime);
     }
 
     public boolean verifyIdentity() {
         
-        return name != null && vehiclePlate != null;
+        return nameVisitor != null && vehiclePlate != null;
     }
 
     public String getVisitorInfo() {
         return "Visitor ID: " + visitorID +
-               "\nName: " + name +
+               "\nName: " + nameVisitor +
                "\nVehicle Plate: " + vehiclePlate +
                "\nEntry Time: " + entryTime +
                "\nExit Time: " + exitTime;
