@@ -87,30 +87,40 @@ public class ParkingControlSystemSimulator {
 
             switch (opcion) {
                 case "1":
+                    System.out.println("Total de vehiculos registrados: " + residentManager.getTotalVehicles());
+                    System.out.println(residentManager.generateVehiclesReport());
+                break;
+                case "2":
+                    
+                break;
+                case "3":
+                    
+                break;
+                case "4":
                     manageFeature1_RegistrationEntryExit();
                     break;
-                case "2":
+                case "5":
                     parkingLot.showSpacesStatus();
                     break;
-                case "3":
+                case "6":
                     manageFeature3_AssignSpaceManagement();
                     break;
-                case "4":
+                case "7":
                     manageFeature4_VerifyAuthorization();
                     break;
-                case "5":
+                case "8":
                     manageFeature5_SearchVehicleLicensePlate();
                     break;
-                case "6":
+                case "9":
                     manageFeature6_valideteUpdateVehicle();
                     break;
-                case "7":
+                case "10":
                     manageFeature7_manageRentals();
                     break;
-                case "8":
+                case "11":
                     manageFeature8_GenerateReports();
                     break;
-                case "9":
+                case "12":
                     salir = true;
                     break;
                 default:
@@ -130,15 +140,18 @@ public class ParkingControlSystemSimulator {
         System.out.println("\n" + "=".repeat(30));
         System.out.println("   SISTEMA DE GESTION DE PARQUEADERO");
         System.out.println("=".repeat(30));
-        System.out.println("1. Registrar ingreso/salida (Residentes/Visitantes)");
-        System.out.println("2. Rastrear estado de espacios (Ocupacion)");
-        System.out.println("3. Asignar y gestionar espacios de parqueo");
-        System.out.println("4. Verificar autorizacion de usuarios/visitantes");
-        System.out.println("5. Buscar y verificar vehiculo/placa");
-        System.out.println("6. Validar y actualizar vehiculos de residentes");
-        System.out.println("7. Gestionar alquileres y asignaciones temporales");
-        System.out.println("8. Generar reportes y estadisticas");
-        System.out.println("9. Salir");
+        System.out.println("1. Ver vehiculos registrados en el sistema");
+        System.out.println("2. Registrar nuevo residente + vehiculo");
+        System.out.println("3. Registrar visitante");
+        System.out.println("4. Registrar ingreso/salida (Residentes/Visitantes)");
+        System.out.println("5. Rastrear estado de espacios (Ocupacion)");
+        System.out.println("6. Asignar y gestionar espacios de parqueo");
+        System.out.println("7. Verificar autorizacion de usuarios/visitantes");
+        System.out.println("8. Buscar y verificar vehiculo/placa");
+        System.out.println("9. Validar y actualizar vehiculos de residentes");
+        System.out.println("10. Gestionar alquileres y asignaciones temporales");
+        System.out.println("11. Generar reportes y estadisticas");
+        System.out.println("12. Salir");
         System.out.println("-".repeat(30));
         System.out.print("Seleccione una opcion: ");
     }
@@ -159,7 +172,7 @@ public class ParkingControlSystemSimulator {
                 System.out.print("Continuar con nuevo ingreso? (s/n): ");
                 String respuesta = scanner.nextLine().toLowerCase();
                 if (!respuesta.equals("s")) {
-                    pausar();
+                    pause();
                     return;
                 }
             }
@@ -179,7 +192,7 @@ public class ParkingControlSystemSimulator {
         } else {
             System.out.println("Opcion no valida.");
         }
-        pausar();
+        pause();
     }
 
     private static void manageFeature3_AssignSpaceManagement() {
@@ -188,7 +201,7 @@ public class ParkingControlSystemSimulator {
         try {
             if (parkingLot == null) {
                 System.out.println("Error: ParkingLot no esta inicializado");
-                pausar();
+                pause();
                 return;
             }
 
@@ -203,7 +216,7 @@ public class ParkingControlSystemSimulator {
             String opcion = scanner.nextLine().trim();
             if (opcion.isEmpty()) {
                 System.out.println("ERROR: La opcion no puede estar vacia.");
-                pausar();
+                pause();
                 return;
             }
 
@@ -337,7 +350,7 @@ public class ParkingControlSystemSimulator {
             System.out.println("Error en la gestion de espacios: " + e.getMessage());
             e.printStackTrace();
         }
-        pausar();
+        pause();
     }
 
     private static void manageFeature4_VerifyAuthorization() {
@@ -347,7 +360,7 @@ public class ParkingControlSystemSimulator {
         String visitorId = scanner.nextLine().trim();
         if (visitorId.isEmpty()) {
             System.out.println("ERROR: El ID del Visitante no puede estar vacio.");
-            pausar();
+            pause();
             return;
         }
 
@@ -360,7 +373,7 @@ public class ParkingControlSystemSimulator {
 
             if (name.isEmpty()) {
                 System.out.println("ERROR: El nombre no puede estar vacio para crear un registro temporal.");
-                pausar();
+                pause();
                 return;
             }
 
@@ -375,7 +388,7 @@ public class ParkingControlSystemSimulator {
             System.out.println("-> RESULTADO: VISITANTE NO AUTORIZADO.");
             System.out.println(" (Un residente debe autorizarlo primero)");
         }
-        pausar();
+        pause();
     }
 
     private static void manageFeature5_SearchVehicleLicensePlate() {
@@ -385,20 +398,20 @@ public class ParkingControlSystemSimulator {
 
         if (plate.isEmpty()) {
             System.out.println("ERROR: La placa no puede estar vacia.");
-            pausar();
+            pause();
             return;
         }
 
         if (!plate.matches("^[A-Z]{3}-\\d{3,4}$")) {
             System.out.println("ERROR: Formato de placa invalido. Ejemplo: ABC-123 o ABC-1234");
-            pausar();
+            pause();
             return;
         }
 
         Vehicle vehicle = residentManager.findVehicleByPlate(plate);
         if (vehicle == null) {
             System.out.println("No se encontro ningun vehiculo con esa placa en el sistema.");
-            pausar();
+            pause();
             return;
         }
 
@@ -411,7 +424,7 @@ public class ParkingControlSystemSimulator {
         } else {
             System.out.println("\nVehiculo sin propietario registrado.");
         }
-        pausar();
+        pause();
     }
 
     private static void manageFeature6_valideteUpdateVehicle() {
@@ -421,14 +434,14 @@ public class ParkingControlSystemSimulator {
 
         if (residentId.isEmpty()) {
             System.out.println("ERROR: El ID no puede estar vacio.");
-            pausar();
+            pause();
             return;
         }
 
         Resident resident = residentManager.findResidentById(residentId);
         if (resident == null) {
             System.out.println("Residente no encontrado.");
-            pausar();
+            pause();
             return;
         }
 
@@ -448,13 +461,13 @@ public class ParkingControlSystemSimulator {
 
             if (plate.isEmpty() || color.isEmpty() || model.isEmpty()) {
                 System.out.println("ERROR: Ningun campo puede estar vacio.");
-                pausar();
+                pause();
                 return;
             }
 
             if (!plate.matches("^[A-Z]{3}-\\d{3,4}$")) {
                 System.out.println("ERROR: Formato de placa invalido. Ejemplo: ABC-123 o ABC-1234");
-                pausar();
+                pause();
                 return;
             }
 
@@ -472,7 +485,7 @@ public class ParkingControlSystemSimulator {
 
             if (plate.isEmpty()) {
                 System.out.println("ERROR: La placa no puede estar vacia.");
-                pausar();
+                pause();
                 return;
             }
 
@@ -486,7 +499,7 @@ public class ParkingControlSystemSimulator {
         } else {
             System.out.println("Opcion no valida.");
         }
-        pausar();
+        pause();
     }
 
     private static void manageFeature7_manageRentals() {
@@ -497,13 +510,13 @@ public class ParkingControlSystemSimulator {
         Resident resident = residentManager.findResidentById(residentId);
         if (resident == null) {
             System.out.println("Residente no encontrado.");
-            pausar();
+            pause();
             return;
         }
 
         if (resident.getUserType() == UserType.WITH_PARKING) {
             System.out.println("Este residente tiene un espacio asignado permanentemente. No requiere alquiler.");
-            pausar();
+            pause();
             return;
         }
 
@@ -681,7 +694,7 @@ public class ParkingControlSystemSimulator {
                 }
             }
         }
-        pausar();
+        pause();
     }
 
     private static void manageFeature8_GenerateReports() {
@@ -750,10 +763,10 @@ public class ParkingControlSystemSimulator {
         System.out.println("=".repeat(50));
         System.out.println("FIN DEL REPORTE");
         System.out.println("=".repeat(50));
-        pausar();
+        pause();
     }
 
-    private static void pausar() {
+    private static void pause() {
         System.out.println("\nPresione Enter para continuar...");
         scanner.nextLine();
     }

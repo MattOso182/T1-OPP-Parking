@@ -1,15 +1,18 @@
-package model;
+package utils;
 
 /**
  *
  * @author Team 1 - T.A.P. (The Art of Programming)
  */
+
+
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
+import model.*;
 
 public class JsonDataManager {
 

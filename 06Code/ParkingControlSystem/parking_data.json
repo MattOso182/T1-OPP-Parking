@@ -26,7 +26,7 @@
               {
                 "spaceId": "AZU-A-03",
                 "type": "RENTAL",
-                "isOccupied": true,
+                "isOccupied": false,
                 "isAvailableForRent": true
               },
               {

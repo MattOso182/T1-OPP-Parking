@@ -8,6 +8,7 @@ package model;
 import parkingcontrolsystem.library.ParkingLotLibrary;
 import parkingcontrolsystem.library.ParkingSpaceLibrary;
 import java.util.*;
+import utils.*;
 
 public class ParkingLot {
 

@@ -1,4 +1,4 @@
-package model;
+package utils;
 
 /**
  *
@@ -11,6 +11,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import model.*;
 
 public class ResidentDataManager {
     private static final String RESIDENTS_JSON_PATH = "residents_data.json";

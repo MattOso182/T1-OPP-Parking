@@ -7,7 +7,7 @@ package model;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import model.ResidentData;
-import model.ResidentDataManager;
+import utils.*;
 
 public class ResidentManager {
 
