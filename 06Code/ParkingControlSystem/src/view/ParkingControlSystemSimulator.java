@@ -98,28 +98,28 @@ public class ParkingControlSystemSimulator {
                     
                     break;
                 case "4":
-                    manageFeature1_RegistrationEntryExit();
+                    manageFeature1RegistrationEntryExit();
                     break;
                 case "5":
                     parkingLot.showSpacesStatus();
                     break;
                 case "6":
-                    manageFeature3_AssignSpaceManagement();
+                    manageFeature3AssignSpaceManagement();
                     break;
                 case "7":
-                    manageFeature4_VerifyAuthorization();
+                    manageFeature4VerifyAuthorization();
                     break;
                 case "8":
-                    manageFeature5_SearchVehicleLicensePlate();
+                    manageFeature5SearchVehicleLicensePlate();
                     break;
                 case "9":
-                    manageFeature6_valideteUpdateVehicle();
+                    manageFeature6ValideteUpdateVehicle();
                     break;
                 case "10":
-                    manageFeature7_manageRentals();
+                    manageFeature7ManageRentals();
                     break;
                 case "11":
-                    manageFeature8_GenerateReports();
+                    manageFeature8GenerateReports();
                     break;
                 case "12":
                     salir = true;
@@ -241,7 +241,7 @@ public class ParkingControlSystemSimulator {
         System.out.print("Seleccione una opcion: ");
     }
 
-    private static void manageFeature1_RegistrationEntryExit() {
+    private static void manageFeature1RegistrationEntryExit() {
         System.out.println("\n--- [1] Registrar Ingreso/Salida ---");
         System.out.print("Va a (1) Registrar Ingreso o (2) Registrar Salida?: ");
         String tipo = scanner.nextLine();
@@ -280,7 +280,7 @@ public class ParkingControlSystemSimulator {
         pause();
     }
 
-    private static void manageFeature3_AssignSpaceManagement() {
+    private static void manageFeature3AssignSpaceManagement() {
         System.out.println("\n--- [3] Gestionar Espacios de Parqueo ---");
 
         try {
@@ -431,14 +431,14 @@ public class ParkingControlSystemSimulator {
                 default:
                     System.out.println("Opcion no valida");
             }
-        } catch (Exception e) {
-            System.out.println("Error en la gestion de espacios: " + e.getMessage());
-            e.printStackTrace();
+        } catch (Exception exception) {
+            System.out.println("Error en la gestion de espacios: " + exception.getMessage());
+            exception.printStackTrace();
         }
         pause();
     }
 
-    private static void manageFeature4_VerifyAuthorization() {
+    private static void manageFeature4VerifyAuthorization() {
         System.out.println("\n--- [4] Verificar Autorizacion (Visitantes) ---");
         System.out.print("Ingrese el ID del Visitante: ");
 
@@ -476,7 +476,7 @@ public class ParkingControlSystemSimulator {
         pause();
     }
 
-    private static void manageFeature5_SearchVehicleLicensePlate() {
+    private static void manageFeature5SearchVehicleLicensePlate() {
         System.out.println("\n--- [5] Buscar Vehiculo por Placa ---");
         System.out.print("Ingrese la placa a buscar: ");
         String plate = scanner.nextLine().toUpperCase().trim();
@@ -512,7 +512,7 @@ public class ParkingControlSystemSimulator {
         pause();
     }
 
-    private static void manageFeature6_valideteUpdateVehicle() {
+    private static void manageFeature6ValideteUpdateVehicle() {
         System.out.println("\n--- [6] Gestionar Vehiculos de Residente ---");
         System.out.print("Ingrese el ID del Residente: ");
         String residentId = scanner.nextLine().trim();
@@ -587,7 +587,7 @@ public class ParkingControlSystemSimulator {
         pause();
     }
 
-    private static void manageFeature7_manageRentals() {
+    private static void manageFeature7ManageRentals() {
         System.out.println("\n--- [7] Gestionar Alquileres Temporales ---");
         System.out.print("Ingrese el ID del Residente (tipo ROTATING): ");
         String residentId = scanner.nextLine();
@@ -782,7 +782,7 @@ public class ParkingControlSystemSimulator {
         pause();
     }
 
-    private static void manageFeature8_GenerateReports() {
+    private static void manageFeature8GenerateReports() {
         System.out.println("\n--- [8] Generacion de Reportes ---");
         System.out.println("1. Reporte de Ocupacion de Espacios");
         System.out.println("2. Reporte de Residentes");
