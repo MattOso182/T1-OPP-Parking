@@ -1,0 +1,21 @@
+[
+  {
+    "libraryVisitor": {
+      "visitorID": "VIS-333",
+      "nameVisitor": "Visitante A",
+      "vehiclePlate": "XYZ-789",
+      "userID": "VIS-333"
+    },
+    "hasPass": false,
+    "userID": "VIS-333"
+  },
+  {
+    "libraryVisitor": {
+      "nameVisitor": "Null",
+      "vehiclePlate": "NULL-0",
+      "userID": "TEMP"
+    },
+    "hasPass": false,
+    "userID": "TEMP"
+  }
+]

@@ -1,0 +1,59 @@
+{
+  "residents": [
+    {
+      "residentID": "RES-202",
+      "name": "Juan Perez",
+      "apartmentNumber": "2B",
+      "email": "juan@res.com",
+      "phone": "222",
+      "userType": "ROTATING",
+      "vehicles": [
+        {
+          "plate": "DEF-456",
+          "color": "Azul",
+          "model": "Truck",
+          "isParked": false,
+          "ownerId": "RES-202"
+        },
+        {
+          "plate": "ROT-999",
+          "color": "Blanco",
+          "model": "Bike",
+          "isParked": false,
+          "ownerId": "RES-202"
+        }
+      ],
+      "authorizedVisitors": [],
+      "currentRental": {
+        "rentalId": "RENT-1",
+        "residentId": "RES-202",
+        "spaceId": "R-A-01",
+        "startDate": "2025-11-30 19:50:16",
+        "endDate": "2025-12-30 19:50:16",
+        "monthlyPrice": 30.0,
+        "isActive": true,
+        "paymentStatus": "PENDING"
+      }
+    },
+    {
+      "residentID": "RES-300",
+      "name": "Carlos",
+      "apartmentNumber": "3C",
+      "email": "c@res.com",
+      "phone": "333",
+      "userType": "ROTATING",
+      "vehicles": [],
+      "authorizedVisitors": []
+    },
+    {
+      "name": "Test",
+      "apartmentNumber": "1A",
+      "email": "t@t.com",
+      "phone": "111",
+      "userType": "WITH_PARKING",
+      "assignedParkingSpace": "P-A-10",
+      "vehicles": [],
+      "authorizedVisitors": []
+    }
+  ]
+}

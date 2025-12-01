@@ -28,5 +28,15 @@
     },
     "hasPass": false,
     "userID": "1334858382"
+  },
+  {
+    "libraryVisitor": {
+      "visitorID": "1884323832",
+      "nameVisitor": "Linda Yaguana",
+      "vehiclePlate": "QWE-3243",
+      "userID": "1884323832"
+    },
+    "hasPass": false,
+    "userID": "1884323832"
   }
 ]
