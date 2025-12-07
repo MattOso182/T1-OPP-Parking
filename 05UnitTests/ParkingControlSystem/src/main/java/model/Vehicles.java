@@ -4,14 +4,14 @@ package model;
  *
  * @author Team 1 - T.A.P. (The Art of Programming)
  */
-public class Vehicle {
+public class Vehicles {
     private String plate;
     private String color;
     private String model;
     private boolean isParked;
     private String ownerId;
     
-    public Vehicle(String plate, String color, String model, String ownerId) {
+    public Vehicles(String plate, String color, String model, String ownerId) {
         this.plate = plate;
         this.color = color;
         this.model = model;

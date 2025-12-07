@@ -1,7 +1,7 @@
-package ec.edu.espe.parkinglot.view;
+package view;
 
-import ec.edu.espe.parkinglot.model.Vehicle;
-import ec.edu.espe.parkinglot.model.ParkingData;
+import model.Vehicle;
+import model.ParkingData;
 import java.util.Date; 
 import javax.swing.JOptionPane;
 /**
@@ -197,6 +197,7 @@ public class FrmVehicleEntry extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(FrmVehicleEntry.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */

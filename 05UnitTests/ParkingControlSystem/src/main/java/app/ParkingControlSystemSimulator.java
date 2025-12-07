@@ -1,4 +1,4 @@
-package view;
+package app;
 
 /**
  *
@@ -92,45 +92,22 @@ public class ParkingControlSystemSimulator {
             String opcion = scanner.nextLine();
 
             switch (opcion) {
-                case "1":
+                case "1" -> {
                     System.out.println("Total de vehiculos registrados: " + residentManager.getTotalVehicles());
                     System.out.println(residentManager.generateVehiclesReport());
-                    break;
-                case "2":
-                    registerNewResidentAndVehicle();
-                    break;
-                case "3":
-                    registerNewVisitor(); 
-                    break;
-                case "4":
-                    manageFeature1RegistrationEntryExit();
-                    break;
-                case "5":
-                    parkingLot.showSpacesStatus();
-                    break;
-                case "6":
-                    manageFeature3AssignSpaceManagement();
-                    break;
-                case "7":
-                    manageFeature4VerifyAuthorization();
-                    break;
-                case "8":
-                    manageFeature5SearchVehicleLicensePlate();
-                    break;
-                case "9":
-                    manageFeature6ValideteUpdateVehicle();
-                    break;
-                case "10":
-                    manageFeature7ManageRentals();
-                    break;
-                case "11":
-                    manageFeature8GenerateReports();
-                    break;
-                case "12":
-                    salir = true;
-                    break;
-                default:
-                    System.out.println("Opcion no valida. Por favor, intente de nuevo.");
+                }
+                case "2" -> registerNewResidentAndVehicle();
+                case "3" -> registerNewVisitor();
+                case "4" -> manageFeature1RegistrationEntryExit();
+                case "5" -> parkingLot.showSpacesStatus();
+                case "6" -> manageFeature3AssignSpaceManagement();
+                case "7" -> manageFeature4VerifyAuthorization();
+                case "8" -> manageFeature5SearchVehicleLicensePlate();
+                case "9" -> manageFeature6ValideteUpdateVehicle();
+                case "10" -> manageFeature7ManageRentals();
+                case "11" -> manageFeature8GenerateReports();
+                case "12" -> salir = true;
+                default -> System.out.println("Opcion no valida. Por favor, intente de nuevo.");
             }
         }
 
@@ -235,7 +212,7 @@ public class ParkingControlSystemSimulator {
         System.out.print("Modelo: ");
         String model = scanner.nextLine().trim();
 
-        Vehicle newVehicle = new Vehicle(plate, color, model, residentID);
+        Vehicles newVehicle = new Vehicles(plate, color, model, residentID);
         
                 newResident.addVehicle(newVehicle);
 
@@ -541,7 +518,7 @@ public class ParkingControlSystemSimulator {
             return;
         }
 
-        Vehicle vehicle = residentManager.findVehicleByPlate(plate);
+        Vehicles vehicle = residentManager.findVehicleByPlate(plate);
         if (vehicle == null) {
             System.out.println("No se encontro ningun vehiculo con esa placa en el sistema.");
             pause();
@@ -604,7 +581,7 @@ public class ParkingControlSystemSimulator {
                 return;
             }
 
-            Vehicle newVehicle = new Vehicle(plate, color, model, residentId);
+            Vehicles newVehicle = new Vehicles(plate, color, model, residentId);
             boolean success = residentManager.addVehicleToResident(residentId, newVehicle);
             if (success) {
                 System.out.println("Vehiculo agregado exitosamente");

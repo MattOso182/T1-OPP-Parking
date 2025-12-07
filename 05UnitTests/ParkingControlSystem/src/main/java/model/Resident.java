@@ -16,7 +16,7 @@ public class Resident {
     private String phone;
     private UserType userType;
     private String assignedParkingSpace;
-    private List<Vehicle> vehicles;
+    private List<Vehicles> vehicles;
     private List<String> authorizedVisitors;
     private Rental currentRental;
 
@@ -69,8 +69,8 @@ public class Resident {
         return currentRental;
     }
 
-    public boolean addVehicle(Vehicle vehicle) {
-        for (Vehicle v : vehicles) {
+    public boolean addVehicle(Vehicles vehicle) {
+        for (Vehicles v : vehicles) {
             if (v.getPlate().equals(vehicle.getPlate())) {
                 System.out.println("Vehiculo con placa " + vehicle.getPlate() + " ya existe");
                 return false;
@@ -91,8 +91,8 @@ public class Resident {
         return removed;
     }
 
-    public Vehicle findVehicleByPlate(String plate) {
-        for (Vehicle vehicle : vehicles) {
+    public Vehicles findVehicleByPlate(String plate) {
+        for (Vehicles vehicle : vehicles) {
             if (vehicle.getPlate().equals(plate)) {
                 return vehicle;
             }
@@ -148,7 +148,7 @@ public class Resident {
         return assignedParkingSpace;
     }
 
-    public List<Vehicle> getVehicles() {
+    public List<Vehicles> getVehicles() {
         return vehicles;
     }
 
@@ -186,7 +186,7 @@ public class Resident {
         }
 
         info.append("Vehiculos: ").append(vehicles.size()).append("\n");
-        for (Vehicle vehicle : vehicles) {
+        for (Vehicles vehicle : vehicles) {
             info.append("  - ").append(vehicle.getPlate()).append(" (").append(vehicle.getModel()).append(")\n");
         }
 

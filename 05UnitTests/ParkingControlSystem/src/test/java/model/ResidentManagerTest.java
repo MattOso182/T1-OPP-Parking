@@ -118,7 +118,7 @@ public class ResidentManagerTest {
     public void testAddVehicleToResident() {
         System.out.println("addVehicleToResident");
         String residentID = "";
-        Vehicle vehicle = null;
+        Vehicles vehicle = null;
         ResidentManager instance = new ResidentManager();
         boolean expResult = false;
         boolean result = instance.addVehicleToResident(residentID, vehicle);
@@ -151,8 +151,8 @@ public class ResidentManagerTest {
         System.out.println("findVehicleByPlate");
         String plate = "";
         ResidentManager instance = new ResidentManager();
-        Vehicle expResult = null;
-        Vehicle result = instance.findVehicleByPlate(plate);
+        Vehicles expResult = null;
+        Vehicles result = instance.findVehicleByPlate(plate);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

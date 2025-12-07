@@ -114,7 +114,7 @@ public class ResidentManager {
         return false;
     }
 
-    public boolean addVehicleToResident(String residentID, Vehicle vehicle) {
+    public boolean addVehicleToResident(String residentID, Vehicles vehicle) {
         Resident resident = findResidentById(residentID);
         if (resident != null && resident.addVehicle(vehicle)) {
             saveResidentsToJson();
@@ -132,9 +132,9 @@ public class ResidentManager {
         return false;
     }
 
-    public Vehicle findVehicleByPlate(String plate) {
+    public Vehicles findVehicleByPlate(String plate) {
         for (Resident resident : residents) {
-            Vehicle vehicle = resident.findVehicleByPlate(plate);
+            Vehicles vehicle = resident.findVehicleByPlate(plate);
             if (vehicle != null) {
                 return vehicle;
             }
@@ -342,7 +342,7 @@ public class ResidentManager {
         for (Resident resident : residents) {
             if (!resident.getVehicles().isEmpty()) {
                 report.append("Residente: ").append(resident.getName()).append("\n");
-                for (Vehicle vehicle : resident.getVehicles()) {
+                for (Vehicles vehicle : resident.getVehicles()) {
                     report.append("  - ").append(vehicle.getPlate())
                             .append(" (").append(vehicle.getModel()).append(")\n");
                 }

@@ -160,7 +160,7 @@ public class FrmVisitors extends javax.swing.JFrame {
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Car", "SUV", "Hatchback", "Sedan", "Coupe", "Convertible", "Minivan", "Motorcycle" }));
 
-        cmbAccessType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "For 1 hour", "For 2-3 hours", "For 2-6 hours", "For 1 day", "Temporary ( -1 hour)" }));
+        cmbAccessType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 hora ", "2-3 horas", "4-6 horas", "1 día", "Temporal (-1 hora)" }));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);

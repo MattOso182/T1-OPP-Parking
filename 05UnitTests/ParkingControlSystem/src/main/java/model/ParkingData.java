@@ -1,4 +1,4 @@
-package ec.edu.espe.parkinglot.model;
+package model;
 
 import java.util.ArrayList;
 import java.util.List;

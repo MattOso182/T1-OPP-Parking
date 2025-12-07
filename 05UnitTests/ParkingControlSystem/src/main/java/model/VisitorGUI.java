@@ -1,10 +1,10 @@
-package ec.edu.espe.parkinglot.model;
+package model;
 
 /**
  *
  * @author Emily Calle, @ESPE
  */
-public class Visitor {
+public class VisitorGUI {
     private int visitorId;
     private String firstName;
     private String lastName;
@@ -14,7 +14,7 @@ public class Visitor {
     private String hasPass;
     private int cI; //cedula
 
-    public Visitor(int visitorId, String firstName, String lastName, String plate, String vehicleType, int age, String hasPass, int cI) {
+    public VisitorGUI(int visitorId, String firstName, String lastName, String plate, String vehicleType, int age, String hasPass, int cI) {
         this.visitorId = visitorId;
         this.firstName = firstName;
         this.lastName = lastName;

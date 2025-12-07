@@ -95,7 +95,7 @@ public class ResidentTest {
     @Test
     public void testAddVehicle() {
         System.out.println("addVehicle");
-        Vehicle vehicle = null;
+        Vehicles vehicle = null;
         Resident instance = new Resident();
         boolean expResult = false;
         boolean result = instance.addVehicle(vehicle);
@@ -127,8 +127,8 @@ public class ResidentTest {
         System.out.println("findVehicleByPlate");
         String plate = "";
         Resident instance = new Resident();
-        Vehicle expResult = null;
-        Vehicle result = instance.findVehicleByPlate(plate);
+        Vehicles expResult = null;
+        Vehicles result = instance.findVehicleByPlate(plate);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -269,8 +269,8 @@ public class ResidentTest {
     public void testGetVehicles() {
         System.out.println("getVehicles");
         Resident instance = new Resident();
-        List<Vehicle> expResult = null;
-        List<Vehicle> result = instance.getVehicles();
+        List<Vehicles> expResult = null;
+        List<Vehicles> result = instance.getVehicles();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

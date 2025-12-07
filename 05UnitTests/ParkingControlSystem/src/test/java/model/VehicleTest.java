@@ -34,12 +34,12 @@ public class VehicleTest {
     }
 
     /**
-     * Test of registerVehicle method, of class Vehicle.
+     * Test of registerVehicle method, of class Vehicles.
      */
     @Test
     public void testRegisterVehicle() {
         System.out.println("registerVehicle");
-        Vehicle instance = null;
+        Vehicles instance = null;
         boolean expResult = false;
         boolean result = instance.registerVehicle();
         assertEquals(expResult, result);
@@ -48,50 +48,50 @@ public class VehicleTest {
     }
 
     /**
-     * Test of updateOwner method, of class Vehicle.
+     * Test of updateOwner method, of class Vehicles.
      */
     @Test
     public void testUpdateOwner() {
         System.out.println("updateOwner");
         String newOwnerId = "";
-        Vehicle instance = null;
+        Vehicles instance = null;
         instance.updateOwner(newOwnerId);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of assignSpot method, of class Vehicle.
+     * Test of assignSpot method, of class Vehicles.
      */
     @Test
     public void testAssignSpot() {
         System.out.println("assignSpot");
         String spotId = "";
-        Vehicle instance = null;
+        Vehicles instance = null;
         instance.assignSpot(spotId);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of releaseSpot method, of class Vehicle.
+     * Test of releaseSpot method, of class Vehicles.
      */
     @Test
     public void testReleaseSpot() {
         System.out.println("releaseSpot");
-        Vehicle instance = null;
+        Vehicles instance = null;
         instance.releaseSpot();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of validatePlate method, of class Vehicle.
+     * Test of validatePlate method, of class Vehicles.
      */
     @Test
     public void testValidatePlate() {
         System.out.println("validatePlate");
-        Vehicle instance = null;
+        Vehicles instance = null;
         boolean expResult = false;
         boolean result = instance.validatePlate();
         assertEquals(expResult, result);
@@ -100,12 +100,12 @@ public class VehicleTest {
     }
 
     /**
-     * Test of getPlate method, of class Vehicle.
+     * Test of getPlate method, of class Vehicles.
      */
     @Test
     public void testGetPlate() {
         System.out.println("getPlate");
-        Vehicle instance = null;
+        Vehicles instance = null;
         String expResult = "";
         String result = instance.getPlate();
         assertEquals(expResult, result);
@@ -114,12 +114,12 @@ public class VehicleTest {
     }
 
     /**
-     * Test of getColor method, of class Vehicle.
+     * Test of getColor method, of class Vehicles.
      */
     @Test
     public void testGetColor() {
         System.out.println("getColor");
-        Vehicle instance = null;
+        Vehicles instance = null;
         String expResult = "";
         String result = instance.getColor();
         assertEquals(expResult, result);
@@ -128,12 +128,12 @@ public class VehicleTest {
     }
 
     /**
-     * Test of getModel method, of class Vehicle.
+     * Test of getModel method, of class Vehicles.
      */
     @Test
     public void testGetModel() {
         System.out.println("getModel");
-        Vehicle instance = null;
+        Vehicles instance = null;
         String expResult = "";
         String result = instance.getModel();
         assertEquals(expResult, result);
@@ -142,12 +142,12 @@ public class VehicleTest {
     }
 
     /**
-     * Test of isParked method, of class Vehicle.
+     * Test of isParked method, of class Vehicles.
      */
     @Test
     public void testIsParked() {
         System.out.println("isParked");
-        Vehicle instance = null;
+        Vehicles instance = null;
         boolean expResult = false;
         boolean result = instance.isParked();
         assertEquals(expResult, result);
@@ -156,12 +156,12 @@ public class VehicleTest {
     }
 
     /**
-     * Test of getOwnerId method, of class Vehicle.
+     * Test of getOwnerId method, of class Vehicles.
      */
     @Test
     public void testGetOwnerId() {
         System.out.println("getOwnerId");
-        Vehicle instance = null;
+        Vehicles instance = null;
         String expResult = "";
         String result = instance.getOwnerId();
         assertEquals(expResult, result);
@@ -170,12 +170,12 @@ public class VehicleTest {
     }
 
     /**
-     * Test of getVehicleInfo method, of class Vehicle.
+     * Test of getVehicleInfo method, of class Vehicles.
      */
     @Test
     public void testGetVehicleInfo() {
         System.out.println("getVehicleInfo");
-        Vehicle instance = null;
+        Vehicles instance = null;
         String expResult = "";
         String result = instance.getVehicleInfo();
         assertEquals(expResult, result);

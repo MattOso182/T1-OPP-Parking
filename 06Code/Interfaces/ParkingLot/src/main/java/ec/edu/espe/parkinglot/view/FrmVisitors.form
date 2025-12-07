@@ -380,11 +380,11 @@
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="5">
-                    <StringItem index="0" value="For 1 hour"/>
-                    <StringItem index="1" value="For 2-3 hours"/>
-                    <StringItem index="2" value="For 2-6 hours"/>
-                    <StringItem index="3" value="For 1 day"/>
-                    <StringItem index="4" value="Temporary ( -1 hour)"/>
+                    <StringItem index="0" value="1 hora "/>
+                    <StringItem index="1" value="2-3 horas"/>
+                    <StringItem index="2" value="4-6 horas"/>
+                    <StringItem index="3" value="1 d&#xed;a"/>
+                    <StringItem index="4" value="Temporal (-1 hora)"/>
                   </StringArray>
                 </Property>
               </Properties>
