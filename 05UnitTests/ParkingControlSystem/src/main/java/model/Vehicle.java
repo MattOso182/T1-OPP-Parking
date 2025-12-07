@@ -1,65 +1,31 @@
-package model;
+package ec.edu.espe.parkinglot.model;
 
-/**
- *
- * @author Team 1 - T.A.P. (The Art of Programming)
- */
-public class Vehicle {
-    private String plate;
-    private String color;
-    private String model;
-    private boolean isParked;
-    private String ownerId;
-    
-    public Vehicle(String plate, String color, String model, String ownerId) {
-        this.plate = plate;
-        this.color = color;
-        this.model = model;
-        this.ownerId = ownerId;
-        this.isParked = false;
+import java.util.Date;
+
+public class Vehicle { 
+
+    private String licensePlate; 
+    private String vehicleType;  
+    private Date entryTime;      
+
+    public Vehicle(String licensePlate, String vehicleType, Date entryTime) {
+        this.licensePlate = licensePlate;
+        this.vehicleType = vehicleType;
+        this.entryTime = entryTime;
+    }
+
+    public String getLicensePlate() { 
+        return licensePlate; 
     }
     
-    public boolean registerVehicle() {
-        if (validatePlate()) {
-            System.out.println("Vehiculo " + plate + " registrado correctamente");
-            return true;
-        }
-        System.out.println("Vehiculo no registrado. Placa invalida");
-        return false;
+    public String getVehicleType() { 
+        return vehicleType; 
     }
     
-    public void updateOwner(String newOwnerId) {
-        this.ownerId = newOwnerId;
-        System.out.println("Vehiculo " + plate + " propiedad actualizada a: " + newOwnerId);
+    public Date getEntryTime() { 
+        return entryTime; 
     }
-    
-    public void assignSpot(String spotId) {
-        this.isParked = true;
-        System.out.println("Vehiculo " + plate + " asignado a: " + spotId);
-    }
-    
-    public void releaseSpot() {
-        this.isParked = false;
-        System.out.println("Vehiculo " + plate + " liberado del lugar");
-    }
-    
-    public boolean validatePlate() {
-        boolean isValid = plate != null && plate.length() >= 6 && plate.matches(".*[A-Z0-9].*");
-        System.out.println(" Validacion de placa " + plate + ": " + (isValid ? "VALIDA" : "INVALIDA"));
-        return isValid;
-    }
-    
-    public String getPlate() { return plate; }
-    public String getColor() { return color; }
-    public String getModel() { return model; }
-    public boolean isParked() { return isParked; }
-    public String getOwnerId() { return ownerId; }
-    
-    public String getVehicleInfo() {
-        return "Placa: " + plate +
-               "\nColor: " + color +
-               "\nModelo: " + model +
-               "\nOwner ID: " + ownerId +
-               "\nStatus: " + (isParked ? "Estacionado" : "No estacionado");
+    public void setVehicleType(String vehicleType) { // ¡AGREGAR ESTO!
+        this.vehicleType = vehicleType;
     }
 }
