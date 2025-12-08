@@ -294,7 +294,7 @@ public class FrmViewReport extends javax.swing.JFrame {
                 txtReportArea.append("Visitor ID: " + visitor.getVisitorID() + "\n");
                 txtReportArea.append("Name: " + visitor.getNameVisitor() + "\n");
 
-                String vehicleInfo = visitor.getVehicleDate();
+                String vehicleInfo = visitor.getVehiclePlate();
                 if (vehicleInfo != null && !vehicleInfo.isEmpty()) {
                     txtReportArea.append("Vehicle/Date: " + vehicleInfo + "\n");
                 } else {

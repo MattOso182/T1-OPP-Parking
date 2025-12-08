@@ -10,6 +10,9 @@ import org.bson.Document;
 import java.util.ArrayList;
 import java.util.List;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.result.UpdateResult;
+import com.mongodb.client.result.DeleteResult;
+import static com.mongodb.client.model.Filters.eq; 
 import javax.swing.JOptionPane;
 
 public class VisitorController {
@@ -96,7 +99,6 @@ public class VisitorController {
         try {
             System.out.println("\nConvirtiendo documento...");
 
-            // PRIMERA OPCIÓN: Estructura con "libraryVisitor" como objeto
             if (doc.containsKey("libraryVisitor")) {
                 System.out.println("  Encontrado campo 'libraryVisitor'");
                 Object libraryVisitorObj = doc.get("libraryVisitor");
@@ -105,10 +107,8 @@ public class VisitorController {
                     Document libraryVisitorDoc = (Document) libraryVisitorObj;
                     System.out.println("  'libraryVisitor' es un Document con campos: " + libraryVisitorDoc.keySet());
 
-                    // Extraer campos del objeto libraryVisitor
                     extractFromLibraryVisitor(visitor, libraryVisitorDoc);
 
-                    // Campos adicionales del documento principal
                     if (doc.containsKey("hasPass")) {
                         visitor.setHasPass(doc.getBoolean("hasPass"));
                         System.out.println("  hasPass desde documento principal: " + doc.getBoolean("hasPass"));
@@ -125,11 +125,10 @@ public class VisitorController {
                     System.out.println("  'libraryVisitor' NO es un Document, es: "
                             + (libraryVisitorObj != null ? libraryVisitorObj.getClass().getSimpleName() : "null"));
                 }
-            } // SEGUNDA OPCIÓN: Campos directos en el documento principal
+            } 
             else {
                 System.out.println("  No hay campo 'libraryVisitor', buscando campos directos...");
 
-                // Buscar visitorID (puede estar en diferentes campos)
                 if (doc.containsKey("visitorID")) {
                     visitor.setVisitorID(cleanField(doc.getString("visitorID")));
                     System.out.println("  visitorID directo: " + visitor.getVisitorID());
@@ -138,7 +137,6 @@ public class VisitorController {
                     System.out.println("  usando userID como visitorID: " + visitor.getVisitorID());
                 }
 
-                // Buscar nameVisitor
                 if (doc.containsKey("nameVisitor")) {
                     visitor.setNameVisitor(cleanField(doc.getString("nameVisitor")));
                     System.out.println("  nameVisitor: " + visitor.getNameVisitor());
@@ -147,29 +145,25 @@ public class VisitorController {
                     System.out.println("  name: " + visitor.getNameVisitor());
                 }
 
-                // Buscar vehicleDate
                 if (doc.containsKey("vehicleDate")) {
-                    visitor.setVehicleDate(cleanField(doc.getString("vehicleDate")));
-                    System.out.println("  vehicleDate: " + visitor.getVehicleDate());
+                    visitor.setVehiclePlate(cleanField(doc.getString("vehicleDate")));
+                    System.out.println("  vehicleDate: " + visitor.getVehiclePlate());
                 } else if (doc.containsKey("vehiclePlate")) {
-                    visitor.setVehicleDate(cleanField(doc.getString("vehiclePlate")));
-                    System.out.println("  vehiclePlate: " + visitor.getVehicleDate());
+                    visitor.setVehiclePlate(cleanField(doc.getString("vehiclePlate")));
+                    System.out.println("  vehiclePlate: " + visitor.getVehiclePlate());
                 }
 
-                // Buscar userID
                 if (doc.containsKey("userID") && (visitor.getUserID() == null || visitor.getUserID().isEmpty())) {
                     visitor.setUserID(cleanField(doc.getString("userID")));
                     System.out.println("  userID: " + visitor.getUserID());
                 }
 
-                // Buscar hasPass
                 if (doc.containsKey("hasPass")) {
                     visitor.setHasPass(doc.getBoolean("hasPass"));
                     System.out.println("  hasPass: " + visitor.isHasPass());
                 }
             }
 
-            // Si tenemos al menos un ID o nombre, consideramos el visitante válido
             boolean hasValidData = (visitor.getVisitorID() != null && !visitor.getVisitorID().isEmpty())
                     || (visitor.getNameVisitor() != null && !visitor.getNameVisitor().isEmpty());
 
@@ -178,7 +172,6 @@ public class VisitorController {
                 return null;
             }
 
-            // Asignar status basado en hasPass
             visitor.setLibraryVisitorStatus(visitor.isHasPass() ? "WITH_PASS" : "NO_PASS");
             System.out.println("  Visitante creado exitosamente: " + visitor.getNameVisitor());
 
@@ -199,19 +192,16 @@ public class VisitorController {
                 System.out.println("    visitorID desde libraryVisitor: " + visitor.getVisitorID());
             }
 
-            // nameVisitor desde libraryVisitor
             if (libraryVisitorDoc.containsKey("nameVisitor")) {
                 visitor.setNameVisitor(cleanField(libraryVisitorDoc.getString("nameVisitor")));
                 System.out.println("    nameVisitor desde libraryVisitor: " + visitor.getNameVisitor());
             }
 
-            // vehicleDate desde libraryVisitor
             if (libraryVisitorDoc.containsKey("vehicleDate")) {
-                visitor.setVehicleDate(cleanField(libraryVisitorDoc.getString("vehicleDate")));
-                System.out.println("    vehicleDate desde libraryVisitor: " + visitor.getVehicleDate());
+                visitor.setVehiclePlate(cleanField(libraryVisitorDoc.getString("vehicleDate")));
+                System.out.println("    vehicleDate desde libraryVisitor: " + visitor.getVehiclePlate());
             }
 
-            // userID desde libraryVisitor
             if (libraryVisitorDoc.containsKey("userID")) {
                 visitor.setUserID(cleanField(libraryVisitorDoc.getString("userID")));
                 System.out.println("    userID desde libraryVisitor: " + visitor.getUserID());
@@ -255,23 +245,20 @@ public class VisitorController {
                 System.out.println("_id: " + doc.getObjectId("_id"));
                 System.out.println("Todos los campos: " + doc.keySet());
 
-                // Mostrar cada campo con su valor y tipo
                 for (String key : doc.keySet()) {
                     if (key.equals("_id")) {
-                        continue; // Saltar _id que ya mostramos
+                        continue;
                     }
                     Object value = doc.get(key);
                     String typeName = value != null ? value.getClass().getSimpleName() : "null";
                     String valueStr = value != null ? value.toString() : "null";
 
-                    // Limitar longitud para valores largos
                     if (valueStr.length() > 100) {
                         valueStr = valueStr.substring(0, 100) + "...";
                     }
 
                     System.out.println("  " + key + ": " + valueStr + " [Tipo: " + typeName + "]");
 
-                    // Si es un Document, mostrar sus campos también
                     if (value instanceof Document) {
                         Document subDoc = (Document) value;
                         System.out.println("    Sub-campos de " + key + ": " + subDoc.keySet());
@@ -289,7 +276,6 @@ public class VisitorController {
         }
     }
 
-    // Método para probar la conversión de un documento específico
     public void testDocumentConversion() {
         if (collection == null) {
             return;
@@ -307,6 +293,94 @@ public class VisitorController {
             }
         } catch (Exception e) {
             System.err.println("Error en prueba de conversión: " + e.getMessage());
+        }
+    }
+ 
+    private Document convertVisitorToDocument(Visitor visitor) {
+    Document doc = new Document();
+    
+    doc.append("visitorID", visitor.getVisitorID());
+    doc.append("nameVisitor", visitor.getNameVisitor());
+    doc.append("vehiclePlate", visitor.getVehiclePlate());
+    doc.append("userID", visitor.getUserID());
+    doc.append("hasPass", visitor.isHasPass());
+    doc.append("libraryVisitorStatus", visitor.getLibraryVisitorStatus()); 
+    
+    
+    return doc;
+}
+
+    public void saveVisitor(Visitor visitor) {
+    if (collection == null) {
+        JOptionPane.showMessageDialog(null, "Colección no disponible.", "Error de BD", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
+        try {
+        Document doc = convertVisitorToDocument(visitor);
+        collection.insertOne(doc);
+        System.out.println("Visitante agregado con éxito: " + visitor.getNameVisitor());
+     } catch (Exception e) {
+        System.err.println("Error al guardar visitante: " + e.getMessage());
+        JOptionPane.showMessageDialog(null, "Error al guardar: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+  
+    public boolean updateVisitor(Visitor visitor) {
+    if (collection == null) {
+        JOptionPane.showMessageDialog(null, "Colección no disponible.", "Error de BD", JOptionPane.ERROR_MESSAGE);
+        return false;
+    }
+    
+    try {
+        Document filter = new Document("visitorID", visitor.getVisitorID());
+        
+        Document updateSet = new Document("$set", new Document()
+                .append("nameVisitor", visitor.getNameVisitor())
+                .append("vehicleDate", visitor.getVehiclePlate())
+                .append("userID", visitor.getUserID())
+                .append("hasPass", visitor.isHasPass())
+                .append("libraryVisitorStatus", visitor.getLibraryVisitorStatus()));
+        
+        com.mongodb.client.result.UpdateResult result = collection.updateOne(filter, updateSet);
+        
+        if (result.getModifiedCount() > 0) {
+            System.out.println("Visitante actualizado: " + visitor.getVisitorID());
+            return true;
+            } else {
+            System.out.println("No se encontró el visitante para actualizar: " + visitor.getVisitorID());
+            return false;
+        }
+            } catch (Exception e) {
+        System.err.println("Error al actualizar visitante: " + e.getMessage());
+        JOptionPane.showMessageDialog(null, "Error al actualizar: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        return false;
+         }
+    }
+   
+    public boolean deleteVisitor(String visitorID) {
+    if (collection == null) {
+        JOptionPane.showMessageDialog(null, "Colección no disponible.", "Error de BD", JOptionPane.ERROR_MESSAGE);
+        return false;
+    }
+    
+     try {
+        Document filter = new Document("visitorID", visitorID);
+        
+        com.mongodb.client.result.DeleteResult result = collection.deleteOne(filter);
+        
+            if (result.getDeletedCount() > 0) {
+                System.out.println("Visitante eliminado: " + visitorID);
+                return true;
+            } else {
+                System.out.println("No se encontró el visitante para eliminar: " + visitorID);
+                return false;
+            }
+        } catch (Exception e) {
+            System.err.println("Error al eliminar visitante: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al eliminar: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
     }
 }
