@@ -1,11 +1,15 @@
-package ec.edu.espe.rentalresidentgui.view;
+package ec.edu.espe.parkinglotgui.view;
 
 /**
  *
  * @author Mateo Aymacaña, T.A.P. (The Art of Programming), @ESPE
  */
-import ec.edu.espe.rentalresidentgui.controller.*;
-import ec.edu.espe.rentalresidentgui.model.*;
+import ec.edu.espe.parkinglotgui.model.Resident;
+import ec.edu.espe.parkinglotgui.model.Visitor;
+import ec.edu.espe.parkinglotgui.model.Vehicle;
+import ec.edu.espe.parkinglotgui.controller.ParkingSpaceController;
+import ec.edu.espe.parkinglotgui.controller.ResidentController;
+import ec.edu.espe.parkinglotgui.controller.VisitorController;
 import java.util.HashMap;
 import org.bson.Document;
 import javax.swing.JOptionPane;

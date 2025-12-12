@@ -1,8 +1,8 @@
 
-package ec.edu.espe.rentalresidentgui.view;
+package ec.edu.espe.parkinglotgui.view;
 
-import ec.edu.espe.rentalresidentgui.controller.VisitorController;
-import ec.edu.espe.rentalresidentgui.model.Visitor;
+import ec.edu.espe.parkinglotgui.controller.VisitorController;
+import ec.edu.espe.parkinglotgui.model.Visitor;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;

@@ -1,4 +1,4 @@
-package ec.edu.espe.rentalresidentgui.controller;
+package ec.edu.espe.parkinglotgui.controller;
 
 /**
  *

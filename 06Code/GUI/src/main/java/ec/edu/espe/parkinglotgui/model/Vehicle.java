@@ -1,4 +1,4 @@
-package ec.edu.espe.rentalresidentgui.model;
+package ec.edu.espe.parkinglotgui.model;
 
 import org.bson.Document;
 

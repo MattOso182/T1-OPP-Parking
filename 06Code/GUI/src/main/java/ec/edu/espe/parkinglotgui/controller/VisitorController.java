@@ -1,10 +1,10 @@
-package ec.edu.espe.rentalresidentgui.controller;
+package ec.edu.espe.parkinglotgui.controller;
 
 /**
  *
  * @author Mateo Aymacaña, T.A.P. (The Art of Programming), @ESPE
  */
-import ec.edu.espe.rentalresidentgui.model.Visitor;
+import ec.edu.espe.parkinglotgui.model.Visitor;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 import java.util.ArrayList;
