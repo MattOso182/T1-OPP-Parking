@@ -18,10 +18,7 @@ public class FrmVisitor extends javax.swing.JFrame {
         
         this.visitorController = new VisitorController();
         loadVisitorsTable();
-        cmbStatus.addItem("ACTIVO");
-        cmbStatus.addItem("INACTIVO");
-        cmbStatus.addItem("CON PASE");
-        cmbStatus.addItem("SIN PASE");
+ 
         clearFields();
     }
     private void clearFields() {
