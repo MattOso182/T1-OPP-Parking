@@ -12,9 +12,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FrmVisitor extends javax.swing.JFrame {
 
-    /**
-     * Creates new form FrmVisitor
-     */
     private final VisitorController visitorController;
     public FrmVisitor() {
         initComponents();
@@ -96,6 +93,8 @@ public class FrmVisitor extends javax.swing.JFrame {
         lblTitle.setText("REGISTRO DE VISITANTES");
 
         lblVisitorID.setText("ID Visitante:");
+
+        txtVisitorID.setEditable(false);
 
         lblNameVisitor.setText("Nombre:");
 

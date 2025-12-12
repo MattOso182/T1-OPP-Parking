@@ -6,10 +6,13 @@ ec\edu\espe\rentalresidentgui\model\Visitor.class
 ec\edu\espe\rentalresidentgui\view\FrmVisitor$5.class
 ec\edu\espe\rentalresidentgui\view\FrmVisitor$4.class
 ec\edu\espe\rentalresidentgui\view\FrmVisitor.class
+ec\edu\espe\rentalresidentgui\view\FrmLogin.class
+ec\edu\espe\rentalresidentgui\view\FrmLogin$2.class
 ec\edu\espe\rentalresidentgui\model\Resident$UserType.class
 ec\edu\espe\rentalresidentgui\view\FrmViewReport.class
 ec\edu\espe\rentalresidentgui\view\FrmVisitor$1.class
 ec\edu\espe\rentalresidentgui\controller\ResidentController.class
+ec\edu\espe\rentalresidentgui\view\FrmLogin$1.class
 ec\edu\espe\rentalresidentgui\controller\VisitorController.class
 ec\edu\espe\rentalresidentgui\view\FrmResidentRental.class
 ec\edu\espe\rentalresidentgui\controller\MongoDBConnection.class
