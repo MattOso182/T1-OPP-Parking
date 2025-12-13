@@ -1,0 +1,9 @@
+[ {
+  "id" : "1",
+  "tipo" : "Vehiculo",
+  "capacidad" : 30
+}, {
+  "id" : "2",
+  "tipo" : "Moto",
+  "capacidad" : 20
+} ]

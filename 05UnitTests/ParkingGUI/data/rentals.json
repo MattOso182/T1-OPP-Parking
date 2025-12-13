@@ -1,0 +1,13 @@
+[ {
+  "id" : null,
+  "residentId" : null,
+  "zoneId" : null,
+  "startDate" : null,
+  "fechaFin" : null
+}, {
+  "id" : "2",
+  "residentId" : "2",
+  "zoneId" : "3",
+  "startDate" : "12/12/2026",
+  "fechaFin" : null
+} ]
