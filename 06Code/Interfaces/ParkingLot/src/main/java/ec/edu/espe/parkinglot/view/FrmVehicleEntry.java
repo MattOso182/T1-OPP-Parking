@@ -34,7 +34,6 @@ public class FrmVehicleEntry extends javax.swing.JFrame {
         lblType = new java.awt.Label();
         cmbType = new javax.swing.JComboBox<>();
         btnRegister = new javax.swing.JButton();
-        btnRefresh = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -53,45 +52,34 @@ public class FrmVehicleEntry extends javax.swing.JFrame {
             }
         });
 
-        btnRefresh.setText("Actualizar");
-        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRefreshActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(108, 108, 108))
             .addGroup(layout.createSequentialGroup()
                 .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnRegister)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblPlate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(btnRegister)
-                                .addComponent(lblType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(lblType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cmbType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPlate, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 240, Short.MAX_VALUE)
-                        .addComponent(btnRefresh)))
-                .addGap(67, 67, 67))
+                            .addComponent(txtPlate, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(174, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(113, 113, 113))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(47, 47, 47)
+                .addGap(34, 34, 34)
                 .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21)
+                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblPlate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtPlate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -99,11 +87,9 @@ public class FrmVehicleEntry extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnRefresh)
-                    .addComponent(btnRegister))
-                .addGap(87, 87, 87))
+                .addGap(52, 52, 52)
+                .addComponent(btnRegister)
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pack();
@@ -145,33 +131,6 @@ public class FrmVehicleEntry extends javax.swing.JFrame {
     
     }//GEN-LAST:event_btnRegisterActionPerformed
 
-    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
-        // TODO add your handling code here:
-       String licensePlate = txtPlate.getText().trim();
-    String newVehicleType = (String) cmbType.getSelectedItem();
-    
-    if (licensePlate.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Debe ingresar la Placa del Vehículo a actualizar.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    
-    try {
-        boolean success = this.parkingData.updateVehicleType(licensePlate, newVehicleType); 
-        
-        if (success) {
-            JOptionPane.showMessageDialog(this, 
-                    "Tipo de vehículo para la placa " + licensePlate + " actualizado a " + newVehicleType + ".", 
-                    "Actualización Exitosa", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-             JOptionPane.showMessageDialog(this, 
-                     "No se encontró el vehículo con placa: " + licensePlate + " para actualizar.", 
-                     "Error de Actualización", JOptionPane.WARNING_MESSAGE);
-        }
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado durante la actualización: " + e.getMessage(), "Error Grave", JOptionPane.ERROR_MESSAGE);
-    }
-    }//GEN-LAST:event_btnRefreshActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -208,7 +167,6 @@ public class FrmVehicleEntry extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnRegister;
     private javax.swing.JComboBox<String> cmbType;
     private java.awt.Label lblPlate;

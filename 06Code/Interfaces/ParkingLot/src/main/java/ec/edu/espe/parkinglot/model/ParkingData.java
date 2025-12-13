@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ParkingData { 
     
-    private List<Vehicle> registeredVehicles; 
+    private final List<Vehicle> registeredVehicles; 
 
     public ParkingData() {
         this.registeredVehicles = new ArrayList<>();

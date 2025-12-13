@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import com.mongodb.client.MongoDatabase;
+import ec.edu.espe.parkinglotgui.utils.MongoDBConnection;
 import java.text.SimpleDateFormat;
 
 public class ResidentController {

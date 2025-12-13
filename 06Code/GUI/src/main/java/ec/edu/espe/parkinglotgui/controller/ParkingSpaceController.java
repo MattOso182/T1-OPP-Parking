@@ -6,6 +6,7 @@ package ec.edu.espe.parkinglotgui.controller;
  */
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import ec.edu.espe.parkinglotgui.utils.MongoDBConnection;
 import org.bson.Document;
 import java.util.ArrayList;
 import java.util.List;

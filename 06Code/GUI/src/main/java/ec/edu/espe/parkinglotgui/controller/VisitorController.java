@@ -13,6 +13,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.result.UpdateResult;
 import com.mongodb.client.result.DeleteResult;
 import static com.mongodb.client.model.Filters.eq; 
+import ec.edu.espe.parkinglotgui.utils.MongoDBConnection;
 import javax.swing.JOptionPane;
 
 public class VisitorController {
