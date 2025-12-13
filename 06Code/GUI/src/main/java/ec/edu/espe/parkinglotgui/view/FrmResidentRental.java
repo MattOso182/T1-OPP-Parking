@@ -22,6 +22,22 @@ public class FrmResidentRental extends javax.swing.JFrame {
      */
     public FrmResidentRental() {
         initComponents();
+        btnPayAndRenew.setEnabled(false);
+
+        cmbAvailableSpaces.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                validatePayAndRenewButton();
+            }
+        });
+
+        cmbMonthsSubscription.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                validatePayAndRenewButton();
+            }
+        });
+
         loadAvailableSpacesToComboBox();
     }
 
@@ -61,7 +77,7 @@ public class FrmResidentRental extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 25)); // NOI18N
-        jLabel1.setText("Resident Rental");
+        jLabel1.setText("PAGO DE RENTA");
         jLabel1.setToolTipText("");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -70,20 +86,20 @@ public class FrmResidentRental extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(204, 204, 204))
+                .addComponent(jLabel1)
+                .addGap(207, 207, 207))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
-        jLabel2.setText("Entry ID:");
+        jLabel2.setText("Ingrese ID:");
 
-        btnSearchResident.setText("Search Resident");
+        btnSearchResident.setText("Buscar Residente");
         btnSearchResident.addActionListener(this::btnSearchResidentActionPerformed);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -96,11 +112,11 @@ public class FrmResidentRental extends javax.swing.JFrame {
                     .addComponent(lblMessage)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtFindResident, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(47, 47, 47)
+                        .addGap(41, 41, 41)
                         .addComponent(btnSearchResident)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(248, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -115,20 +131,20 @@ public class FrmResidentRental extends javax.swing.JFrame {
                 .addContainerGap(9, Short.MAX_VALUE))
         );
 
-        jLabel3.setText("Value to pay:");
+        jLabel3.setText("Valor a pagar:");
 
-        jLabel4.setText("Months of use:");
+        jLabel4.setText("Meses de uso:");
 
-        jLabel5.setText("If you wish to renew your subscrption, please fill in the following fields");
+        jLabel5.setText("Si desea renovar su estado de renta llene los siguientes campos: ");
 
-        lblSelectedSpace.setText("Available spaces:");
+        lblSelectedSpace.setText("Espacios disponibles:");
 
         cmbAvailableSpaces.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AZU-A-03", "AZU-B-02", "CAR-A-04", "CAR-B-03", "CAN-B-03", "CHI-A-03", "CHI-B-02", "COT-B-03", "ORO-A-03", "ORO-B-02", "ESM-B-03" }));
         cmbAvailableSpaces.addActionListener(this::cmbAvailableSpacesActionPerformed);
 
-        jLabel7.setText("Months of subscription:");
+        jLabel7.setText("Meses de uso:");
 
-        cmbMonthsSubscription.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 to 3 months", "3 to 6 months", "6 to 12 months" }));
+        cmbMonthsSubscription.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 a 3 meses", "3 a 6 meses", "6 a 12 meses" }));
         cmbMonthsSubscription.addActionListener(this::cmbMonthsSubscriptionActionPerformed);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -146,7 +162,7 @@ public class FrmResidentRental extends javax.swing.JFrame {
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cmbMonthsSubscription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 58, Short.MAX_VALUE))
+                        .addGap(0, 101, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -181,13 +197,13 @@ public class FrmResidentRental extends javax.swing.JFrame {
                 .addContainerGap(54, Short.MAX_VALUE))
         );
 
-        btnPay.setText("Pay");
+        btnPay.setText("Pagar");
         btnPay.addActionListener(this::btnPayActionPerformed);
 
-        btnPayAndRenew.setText("Pay and Renew");
+        btnPayAndRenew.setText("Pagar y renovar");
         btnPayAndRenew.addActionListener(this::btnPayAndRenewActionPerformed);
 
-        btnExit.setText("Exit");
+        btnExit.setText("Volver al menú");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -196,11 +212,11 @@ public class FrmResidentRental extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(59, 59, 59)
                 .addComponent(btnPay)
-                .addGap(116, 116, 116)
-                .addComponent(btnPayAndRenew)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnPayAndRenew)
+                .addGap(106, 106, 106)
                 .addComponent(btnExit)
-                .addGap(61, 61, 61))
+                .addGap(26, 26, 26))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -298,17 +314,6 @@ public class FrmResidentRental extends javax.swing.JFrame {
         }
     }
 
-    private void refreshAvailableSpaces() {
-        loadAvailableSpacesToComboBox();
-
-        int itemCount = cmbAvailableSpaces.getItemCount() - 1;
-        if (itemCount > 0) {
-            JOptionPane.showMessageDialog(this,
-                    "Available spaces list refreshed\n" + itemCount + " spaces available",
-                    "Refresh Complete",
-                    JOptionPane.INFORMATION_MESSAGE);
-        }
-    }
 
     private void cmbMonthsSubscriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbMonthsSubscriptionActionPerformed
         // TODO add your handling code here:
@@ -347,6 +352,7 @@ public class FrmResidentRental extends javax.swing.JFrame {
                     lblMessage.setForeground(new Color(0, 150, 0));
                     lblMessage.setText(lblMessage.getText() + " | ROTANTE");
                     enableRotatingElements(foundResident);
+                    validatePayAndRenewButton();
 
                 } else if ("WITH_PARKING".equals(foundResident.getUserType())) {
                     lblMessage.setForeground(new Color(100, 0, 0));
@@ -381,6 +387,7 @@ public class FrmResidentRental extends javax.swing.JFrame {
 
             clearFormFields();
         }
+        
     }
 
     private void displayResidentInfo(Resident resident) {
@@ -596,38 +603,32 @@ public class FrmResidentRental extends javax.swing.JFrame {
                     "Payment Cancelled",
                     JOptionPane.INFORMATION_MESSAGE);
         }
-    }
-
-    private void updateStatusAfterPayment() {
-        lblValueToPay.setText("");
-        lblMonthsOfUse.setText("");
-
-        cmbAvailableSpaces.setSelectedIndex(0);
-        cmbMonthsSubscription.setSelectedIndex(0);
-
-        lblMessage.setText("Payment completed - Resident account updated");
-        lblMessage.setForeground(new Color(0, 100, 0));
-
-        txtFindResident.setText("");
-        txtFindResident.requestFocus();
-
-        btnPay.setEnabled(false);
-        btnPayAndRenew.setEnabled(false);
     }//GEN-LAST:event_btnPayActionPerformed
 
     private void btnPayAndRenewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPayAndRenewActionPerformed
-        if (lblMessage.getText().isEmpty() || !lblMessage.getText().contains("ROTANTE")) {
+        String selectedSpace = (String) cmbAvailableSpaces.getSelectedItem();
+        String renewalPeriod = (String) cmbMonthsSubscription.getSelectedItem();
+
+        if (selectedSpace == null || selectedSpace.equals("Select space...")
+                || selectedSpace.equals("- Select -")) {
             JOptionPane.showMessageDialog(this,
-                    "Please search for a ROTATING resident first",
-                    "No Resident Selected",
+                    "Please select an available space",
+                    "No Space Selected",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (renewalPeriod == null || renewalPeriod.equals("Select months...")
+                || renewalPeriod.equals("- Select -")) {
+            JOptionPane.showMessageDialog(this,
+                    "Please select a renewal period",
+                    "No Period Selected",
                     JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         String paymentValue = lblValueToPay.getText();
         String monthsUsed = lblMonthsOfUse.getText();
-        String selectedSpace = (String) cmbAvailableSpaces.getSelectedItem();
-        String renewalPeriod = (String) cmbMonthsSubscription.getSelectedItem();
 
         if (paymentValue.isEmpty() || paymentValue.equals("$0.00")) {
             JOptionPane.showMessageDialog(this,
@@ -680,6 +681,34 @@ public class FrmResidentRental extends javax.swing.JFrame {
                     "Cancelled",
                     JOptionPane.INFORMATION_MESSAGE);
         }
+    }
+
+    private void validatePayAndRenewButton() {
+
+        Object selectedSpace = cmbAvailableSpaces.getSelectedItem();
+        boolean isValidSpace = false;
+
+        if (selectedSpace != null && !selectedSpace.toString().isEmpty()) {
+            String selectedText = selectedSpace.toString();
+            isValidSpace = !selectedText.equals("Select space...")
+                    && !selectedText.equals("- Select -")
+                    && !selectedText.equals("Select a space...");
+        }
+
+        Object selectedMonths = cmbMonthsSubscription.getSelectedItem();
+        boolean isValidMonths = false;
+
+        if (selectedMonths != null && !selectedMonths.toString().isEmpty()) {
+            String monthsText = selectedMonths.toString();
+            isValidMonths = !monthsText.equals("Select months...")
+                    && !monthsText.equals("- Select -")
+                    && !monthsText.equals("Select subscription...");
+        }
+
+        boolean hasRotatingResident = !lblMessage.getText().isEmpty()
+                && lblMessage.getText().contains("ROTANTE");
+
+        btnPayAndRenew.setEnabled(isValidSpace && isValidMonths && hasRotatingResident);
     }
 
     private void updateStateAfterPayment() {

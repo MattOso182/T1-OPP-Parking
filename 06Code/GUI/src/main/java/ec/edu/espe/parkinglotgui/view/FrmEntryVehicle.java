@@ -1,10 +1,11 @@
-
 package ec.edu.espe.parkinglotgui.view;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
 import ec.edu.espe.parkinglotgui.controller.VehicleEntryController;
+import java.util.Set;
+import org.bson.Document;
 
 /**
  *
@@ -32,6 +33,7 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         txtLicensePlate = new java.awt.TextField();
         btnRegisterEntry = new javax.swing.JButton();
+        lblMessage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -56,11 +58,14 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
                 .addGap(94, 94, 94))
             .addGroup(layout.createSequentialGroup()
                 .addGap(42, 42, 42)
-                .addComponent(jLabel2)
-                .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnRegisterEntry)
-                    .addComponent(txtLicensePlate, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(22, 22, 22)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnRegisterEntry)
+                            .addComponent(txtLicensePlate, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -72,36 +77,76 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2)
                     .addComponent(txtLicensePlate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(56, 56, 56)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnRegisterEntry)
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegisterEntryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterEntryActionPerformed
-    String licensePlate = txtLicensePlate.getText().trim();
+        String licensePlate = txtLicensePlate.getText().trim().toUpperCase();
 
-    if (licensePlate.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Por favor, ingrese la placa del vehículo.", 
-                                      "Error de Validación", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    
-    VehicleEntryController controller = new VehicleEntryController();
-    
-    if (controller.registerEntry(licensePlate)) {
-        JOptionPane.showMessageDialog(this, "Entrada registrada con éxito a las: " 
-                                      + LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")), 
-                                      "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                txtLicensePlate.setText("");
-        
-    } else {
-        JOptionPane.showMessageDialog(this, "Error al guardar el registro en MongoDB.", 
-                                      "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
-    }
+        if (licensePlate.isEmpty()) {
+            lblMessage.setText("ERROR: La placa no puede estar vacía.");
+            lblMessage.setForeground(java.awt.Color.RED);
+            txtLicensePlate.requestFocus();
+            return;
+        }
 
+        if (!licensePlate.matches("^[A-Z]{3}-\\d{4}$")) {
+            lblMessage.setText("ERROR: Formato inválido. Use: ABC-1234");
+            lblMessage.setForeground(java.awt.Color.RED);
+            txtLicensePlate.requestFocus();
+            txtLicensePlate.selectAll();
+            return;
+        }
+
+        VehicleEntryController entryController = new VehicleEntryController();
+        if (entryController.isVehicleParked(licensePlate)) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "El vehículo con placa " + licensePlate + " ya se encuentra estacionado.",
+                    "Vehículo Ya Estacionado",
+                    JOptionPane.WARNING_MESSAGE
+            );
+            lblMessage.setText("ERROR: El vehículo ya está estacionado.");
+            lblMessage.setForeground(java.awt.Color.RED);
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "¿Está seguro que desea registrar la ENTRADA del vehículo?\n\n"
+                + "Placa: " + licensePlate,
+                "Confirmar Registro de ENTRADA",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE
+        );
+
+        if (confirm != JOptionPane.YES_OPTION) {
+            lblMessage.setText("Registro de entrada cancelado.");
+            lblMessage.setForeground(java.awt.Color.RED);
+            txtLicensePlate.setText("");
+            txtLicensePlate.requestFocusInWindow();
+            
+            return;
+        }
+
+        boolean success = entryController.registerEntry(licensePlate);
+
+        if (success) {
+            lblMessage.setText("ENTRADA de " + licensePlate + " registrada con éxito.");
+            lblMessage.setForeground(new java.awt.Color(0, 100, 0));
+            txtLicensePlate.setText("");
+            txtLicensePlate.requestFocus();
+        } else {
+            lblMessage.setText("ERROR: No se pudo registrar la entrada.");
+            lblMessage.setForeground(java.awt.Color.RED);
+        }
     }//GEN-LAST:event_btnRegisterEntryActionPerformed
 
     /**
@@ -144,6 +189,7 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
     private javax.swing.JButton btnRegisterEntry;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel lblMessage;
     private java.awt.TextField txtLicensePlate;
     // End of variables declaration//GEN-END:variables
 }

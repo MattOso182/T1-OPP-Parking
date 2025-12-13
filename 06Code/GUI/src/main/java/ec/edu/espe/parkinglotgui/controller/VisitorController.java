@@ -10,9 +10,6 @@ import org.bson.Document;
 import java.util.ArrayList;
 import java.util.List;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.result.UpdateResult;
-import com.mongodb.client.result.DeleteResult;
-import static com.mongodb.client.model.Filters.eq; 
 import ec.edu.espe.parkinglotgui.utils.MongoDBConnection;
 import javax.swing.JOptionPane;
 
@@ -24,11 +21,9 @@ public class VisitorController {
         try {
             MongoDatabase database = MongoDBConnection.getConnection();
             if (database != null) {
-                // Conectar directamente a la colección "Visitors"
                 collection = database.getCollection("Visitors");
                 System.out.println("VisitorController conectado a la colección: Visitors");
 
-                // Verificar que existe
                 long count = collection.countDocuments();
                 System.out.println("Documentos en colección Visitors: " + count);
             } else {
@@ -61,14 +56,12 @@ public class VisitorController {
                 System.out.println("\n--- Documento " + docCount + " ---");
                 System.out.println("Campos disponibles: " + doc.keySet());
 
-                // Mostrar todos los campos para debugging
                 for (String key : doc.keySet()) {
                     Object value = doc.get(key);
                     System.out.println("  " + key + ": " + value
                             + " (Tipo: " + (value != null ? value.getClass().getSimpleName() : "null") + ")");
                 }
 
-                // Convertir documento a Visitor
                 Visitor visitor = convertDocumentToVisitor(doc);
                 if (visitor != null) {
                     System.out.println("Visitante convertido: " + visitor.getNameVisitor());
