@@ -278,6 +278,9 @@ public class FrmVehicleList extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         vehicleList = new javax.swing.JTable();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        itemReturnMenu = new javax.swing.JMenuItem();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -400,6 +403,20 @@ public class FrmVehicleList extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jMenu1.setText("Sistema");
+
+        itemReturnMenu.setText("Regresar al menu");
+        itemReturnMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemReturnMenuActionPerformed(evt);
+            }
+        });
+        jMenu1.add(itemReturnMenu);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -431,6 +448,12 @@ public class FrmVehicleList extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_deleteVehicleActionPerformed
 
+    private void itemReturnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemReturnMenuActionPerformed
+        FrmSecurityGuardMenu frmSecurityGuardMenu = new FrmSecurityGuardMenu();
+        frmSecurityGuardMenu.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_itemReturnMenuActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -460,6 +483,9 @@ public class FrmVehicleList extends javax.swing.JFrame {
     private javax.swing.JButton addVehicle;
     private javax.swing.JButton deleteVehicle;
     private javax.swing.JButton editVehicle;
+    private javax.swing.JMenuItem itemReturnMenu;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;

@@ -34,6 +34,9 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
         txtLicensePlate = new java.awt.TextField();
         btnRegisterEntry = new javax.swing.JButton();
         lblMessage = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        itemReturnMenu = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -47,6 +50,20 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
                 btnRegisterEntryActionPerformed(evt);
             }
         });
+
+        jMenu1.setText("Sistema");
+
+        itemReturnMenu.setText("Regresar al menu ");
+        itemReturnMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemReturnMenuActionPerformed(evt);
+            }
+        });
+        jMenu1.add(itemReturnMenu);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -81,7 +98,7 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
                 .addComponent(lblMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnRegisterEntry)
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         pack();
@@ -149,6 +166,12 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnRegisterEntryActionPerformed
 
+    private void itemReturnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemReturnMenuActionPerformed
+        FrmSecurityGuardMenu frmSecurityGuardMenu = new FrmSecurityGuardMenu();
+        frmSecurityGuardMenu.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_itemReturnMenuActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -187,8 +210,11 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegisterEntry;
+    private javax.swing.JMenuItem itemReturnMenu;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JLabel lblMessage;
     private java.awt.TextField txtLicensePlate;
     // End of variables declaration//GEN-END:variables

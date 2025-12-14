@@ -84,6 +84,9 @@ public class FrmVisitor extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblVisitors = new javax.swing.JTable();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        itemReturnMenu = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -144,6 +147,20 @@ public class FrmVisitor extends javax.swing.JFrame {
             }
         });
         jScrollPane2.setViewportView(tblVisitors);
+
+        jMenu1.setText("Sistema");
+
+        itemReturnMenu.setText("Regresar al menu");
+        itemReturnMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemReturnMenuActionPerformed(evt);
+            }
+        });
+        jMenu1.add(itemReturnMenu);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -225,7 +242,7 @@ public class FrmVisitor extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -325,6 +342,12 @@ public class FrmVisitor extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tblVisitorsMouseClicked
 
+    private void itemReturnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemReturnMenuActionPerformed
+        FrmSecurityGuardMenu frmSecurityGuardMenu = new FrmSecurityGuardMenu();
+        frmSecurityGuardMenu.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_itemReturnMenuActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -366,6 +389,9 @@ public class FrmVisitor extends javax.swing.JFrame {
     private javax.swing.JButton btnUpdate;
     private javax.swing.JCheckBox chkHasPass;
     private javax.swing.JComboBox<String> cmbStatus;
+    private javax.swing.JMenuItem itemReturnMenu;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblNameVisitor;

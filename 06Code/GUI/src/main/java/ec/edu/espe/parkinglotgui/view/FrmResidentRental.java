@@ -73,6 +73,10 @@ public class FrmResidentRental extends javax.swing.JFrame {
         btnPay = new javax.swing.JButton();
         btnPayAndRenew = new javax.swing.JButton();
         btnExit = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        itemReturnMenu = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -229,6 +233,17 @@ public class FrmResidentRental extends javax.swing.JFrame {
                 .addContainerGap(22, Short.MAX_VALUE))
         );
 
+        jMenu1.setText("Sistema");
+
+        itemReturnMenu.setText("Regresar al menú");
+        itemReturnMenu.addActionListener(this::itemReturnMenuActionPerformed);
+        jMenu1.add(itemReturnMenu);
+
+        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -245,11 +260,11 @@ public class FrmResidentRental extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(12, 12, 12)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -387,7 +402,7 @@ public class FrmResidentRental extends javax.swing.JFrame {
 
             clearFormFields();
         }
-        
+
     }
 
     private void displayResidentInfo(Resident resident) {
@@ -761,6 +776,12 @@ public class FrmResidentRental extends javax.swing.JFrame {
         return sdf.format(cal.getTime());
     }//GEN-LAST:event_btnPayAndRenewActionPerformed
 
+    private void itemReturnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemReturnMenuActionPerformed
+        FrmResidentMenu frmResidentMenu = new FrmResidentMenu();
+        frmResidentMenu.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_itemReturnMenuActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -793,12 +814,16 @@ public class FrmResidentRental extends javax.swing.JFrame {
     private javax.swing.JButton btnSearchResident;
     private javax.swing.JComboBox<String> cmbAvailableSpaces;
     private javax.swing.JComboBox<String> cmbMonthsSubscription;
+    private javax.swing.JMenuItem itemReturnMenu;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
