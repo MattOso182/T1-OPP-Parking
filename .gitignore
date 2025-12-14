@@ -1,24 +1,18 @@
-/06Code/ParkingControlSystemLibreries/nbproject/private/
-/06Code/ParkingControlSystemLibreries/build/
-/06Code/ParkingControlSystemLibreries/dist/
-/06Code/ParkingControlSystem/build/
-/06Code/ParkingControlSystem/dist/
-/05UnitTests/ParkingControlSystem/build/
-/05UnitTests/ParkingControlSystem/nbproject/private/
-/05UnitTests/ParkingControlSystemLibreries/build/
-/05UnitTests/ParkingControlSystemLibreries/dist/
-/05UnitTests/ParkingControlSystemLibreries/nbproject/private/
-/05UnitTests/ParkingControlSystem/dist/
-/05UnitTests/ParkingControlSystemLibreries/ParkingControlSystem/build/
-/05UnitTests/ParkingControlSystemLibreries/ParkingControlSystem/dist
-/05UnitTests/ParkingControlSystemLibreries/ParkingControlSystem/nbproject/private
-/05UnitTests/ParkingControlSystem/target/
-/05UnitTests/ParkingControlSystemLibraries/target/
-/05UnitTests/ParkingControlSystem/nbproject/
-/06Code/05UnitTests/ParkingControlSystem/nbproject/
-/06Code/05UnitTests/ParkingControlSystem/target/
-/06Code/05UnitTests/ParkingControlSystemLibraries/target/
-/06Code/ParkingLot/ParkingControlSystem/nbproject/
-/06Code/ParkingLot/ParkingControlSystem/target/
-/06Code/ParkingLot/ParkingControlSystemLibraries/target/
-/06Code/Interfaces/ParkingLot/target/
+# ===== Java / Maven =====
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# ===== NetBeans =====
+nbproject/private/
+build/
+dist/
+
+# ===== Logs =====
+*.log
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
