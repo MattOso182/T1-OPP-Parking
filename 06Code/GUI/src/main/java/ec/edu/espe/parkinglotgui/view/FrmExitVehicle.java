@@ -1,7 +1,7 @@
-
 package ec.edu.espe.parkinglotgui.view;
 
 import ec.edu.espe.parkinglotgui.controller.VehicleExitController;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -10,6 +10,7 @@ import ec.edu.espe.parkinglotgui.controller.VehicleExitController;
 public class FrmExitVehicle extends javax.swing.JFrame {
 
     private VehicleExitController exitController;
+
     public FrmExitVehicle() {
         exitController = new VehicleExitController();
         initComponents();
@@ -54,7 +55,7 @@ public class FrmExitVehicle extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(118, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(94, 94, 94))
             .addGroup(layout.createSequentialGroup()
@@ -67,9 +68,9 @@ public class FrmExitVehicle extends javax.swing.JFrame {
                             .addComponent(btnRegisterExit)
                             .addComponent(txtLicensePlate, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(62, 62, 62)
-                        .addComponent(lblMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(68, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addComponent(lblMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -80,37 +81,88 @@ public class FrmExitVehicle extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2)
                     .addComponent(txtLicensePlate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(56, 56, 56)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
                 .addComponent(btnRegisterExit)
-                .addGap(18, 18, 18)
-                .addComponent(lblMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegisterExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterExitActionPerformed
-    
-       String licensePlate = txtLicensePlate.getText().trim().toUpperCase(); 
+        String licensePlate = txtLicensePlate.getText().trim().toUpperCase();
 
-    if (licensePlate.isEmpty()) {
-        lblMessage.setText("ERROR: La placa no puede estar vacía."); 
-        lblMessage.setForeground(java.awt.Color.RED);
-        return;
-    }
+        if (licensePlate.isEmpty()) {
+            lblMessage.setText("ERROR: La placa no puede estar vacía.");
+            lblMessage.setForeground(java.awt.Color.RED);
+            txtLicensePlate.requestFocus();
+            return;
+        }
 
-    boolean success = exitController.registerExit(licensePlate);
+        if (!licensePlate.matches("^[A-Z]{3}-\\d{4}$")) {
+            lblMessage.setText("ERROR: Formato inválido. Use: ABC-1234");
+            lblMessage.setForeground(java.awt.Color.RED);
+            txtLicensePlate.requestFocus();
+            txtLicensePlate.selectAll();
+            return;
+        }
 
-    if (success) {
-        lblMessage.setText("Salida de " + licensePlate + " registrada con éxito.");
-        lblMessage.setForeground(java.awt.Color.BLUE);
-        txtLicensePlate.setText(""); // Limpia el campo después del éxito
-    } else {
-        lblMessage.setText("ERROR: No se pudo registrar la salida. Verifique la placa y la conexión.");
-        lblMessage.setForeground(java.awt.Color.RED);
-    }
+        VehicleExitController exitController = new VehicleExitController();
 
+        if (!exitController.isVehicleParked(licensePlate)) {
+            lblMessage.setText("ERROR: El vehículo no está estacionado.");
+            lblMessage.setForeground(java.awt.Color.RED);
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "El vehículo con placa " + licensePlate + " no se encuentra estacionado.\n"
+                    + "No hay registro de entrada para este vehículo.",
+                    "Vehículo No Estacionado",
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+            txtLicensePlate.requestFocus();
+            txtLicensePlate.selectAll();
+            return;
+        }
+
+        // 4. Mostrar confirmación
+        int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "¿Registrar SALIDA del vehículo?\n\n"
+                + "Placa: " + licensePlate,
+                "Confirmar Salida",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE
+        );
+
+        // 5. Si el usuario dice NO
+        if (confirm != JOptionPane.YES_OPTION) {
+            lblMessage.setText("Registro cancelado.");
+            lblMessage.setForeground(java.awt.Color.ORANGE);
+
+            // Limpiar campo y poner foco
+            txtLicensePlate.setText("");
+            txtLicensePlate.requestFocus();
+            return;
+        }
+
+        // 6. Registrar salida
+        boolean success = exitController.registerExit(licensePlate);
+
+        if (success) {
+            lblMessage.setText("SALIDA de " + licensePlate + " registrada.");
+            lblMessage.setForeground(java.awt.Color.BLUE);
+            txtLicensePlate.setText("");
+            txtLicensePlate.requestFocus();
+        } else {
+            lblMessage.setText("ERROR: No se pudo registrar la salida.");
+            lblMessage.setForeground(java.awt.Color.RED);
+            txtLicensePlate.requestFocus();
+            txtLicensePlate.selectAll();
+        }
     }//GEN-LAST:event_btnRegisterExitActionPerformed
 
     private void txtLicensePlateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLicensePlateActionPerformed
