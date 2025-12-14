@@ -17,9 +17,7 @@ public class MongoConnectionEntrances {
             String connectionString = "mongodb+srv://Mateo:Mateo21032006@cluster0.t4qmrfv.mongodb.net/?appName=Cluster0"; 
             mongoClient = MongoClients.create(connectionString);
             database = mongoClient.getDatabase(DATABASE_NAME);
-            System.out.println("Conexión a MongoDB exitosa.");
         } catch (Exception e) {
-            System.err.println("Error al conectar a MongoDB: " + e.getMessage());
         }
     }
 
@@ -34,7 +32,6 @@ public class MongoConnectionEntrances {
         if (mongoClient != null) {
             mongoClient.close();
             mongoClient = null; 
-            System.out.println("Conexión a MongoDB cerrada.");
         }
     }
 }

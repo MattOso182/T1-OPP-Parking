@@ -9,7 +9,7 @@ public class Visitor {
     private String visitorID;
     private String nameVisitor;
     private String vehiclePlate;
-    private String userID;
+    private String residentID;
     private boolean hasPass;
     private String libraryVisitorStatus; 
 
@@ -22,7 +22,7 @@ public class Visitor {
         this.visitorID = visitorID;
         this.nameVisitor = nameVisitor;
         this.vehiclePlate = vehicleDate;
-        this.userID = userID;
+        this.residentID = userID;
         this.hasPass = false;
         this.libraryVisitorStatus = "ACTIVE";
     }
@@ -51,12 +51,12 @@ public class Visitor {
         this.vehiclePlate = vehiclePlate;
     }
 
-    public String getUserID() {
-        return userID;
+    public String getResidentID() {
+        return residentID;
     }
 
-    public void setUserID(String userID) {
-        this.userID = userID;
+    public void setResidentID(String residentID) {
+        this.residentID = residentID;
     }
 
     public boolean isHasPass() {
@@ -81,7 +81,7 @@ public class Visitor {
         info.append("Visitor ID: ").append(visitorID).append("\n");
         info.append("Name: ").append(nameVisitor).append("\n");
         info.append("Vehicle/Date: ").append(vehiclePlate).append("\n");
-        info.append("User ID: ").append(userID).append("\n");
+        info.append("User ID: ").append(residentID).append("\n");
         info.append("Has Pass: ").append(hasPass ? "Yes" : "No").append("\n");
         info.append("Status: ").append(libraryVisitorStatus).append("\n");
         return info.toString();

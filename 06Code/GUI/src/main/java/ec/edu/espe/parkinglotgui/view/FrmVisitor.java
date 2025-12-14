@@ -25,7 +25,7 @@ public class FrmVisitor extends javax.swing.JFrame {
         txtVisitorID.setText("");
         txtNameVisitor.setText("");
         txtVehiclePlate.setText(""); 
-        txtUserID.setText("");
+        txResidentID.setText("");
         chkHasPass.setSelected(false);
         cmbStatus.setSelectedIndex(0); 
         txtVisitorID.setEditable(true); 
@@ -47,7 +47,7 @@ public class FrmVisitor extends javax.swing.JFrame {
             model.addRow(new Object[]{
                 visitor.getVisitorID(),
                 visitor.getNameVisitor(),
-                visitor.getUserID(),
+                visitor.getResidentID(),
                 visitor.getVehiclePlate(), 
                 visitor.isHasPass(),
                 visitor.getLibraryVisitorStatus()
@@ -55,7 +55,29 @@ public class FrmVisitor extends javax.swing.JFrame {
         }
         tblVisitors.setModel(model);
     }
-    
+    private Visitor getVisitorFromForm() {
+       
+        
+        String visitorID = txtVisitorID.getText().trim();
+        String nameVisitor = txtNameVisitor.getText().trim();
+        String residentID = txResidentID.getText().trim(); 
+        String vehiclePlate = txtVehiclePlate.getText().trim();
+        boolean hasPass = chkHasPass.isSelected();
+
+        Visitor visitor = new Visitor();
+        
+        visitor.setVisitorID(visitorID);
+        visitor.setNameVisitor(nameVisitor);
+        visitor.setResidentID(residentID);
+        visitor.setVehiclePlate(vehiclePlate);
+        
+        visitor.setHasPass(hasPass);
+        
+        String selectedStatus = (String) cmbStatus.getSelectedItem();
+        visitor.setLibraryVisitorStatus(selectedStatus); 
+        
+        return visitor;
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -72,7 +94,7 @@ public class FrmVisitor extends javax.swing.JFrame {
         lblNameVisitor = new javax.swing.JLabel();
         txtNameVisitor = new java.awt.TextField();
         lblUserID = new javax.swing.JLabel();
-        txtUserID = new java.awt.TextField();
+        txResidentID = new java.awt.TextField();
         lblVehiclePlate = new javax.swing.JLabel();
         txtVehiclePlate = new java.awt.TextField();
         chkHasPass = new javax.swing.JCheckBox();
@@ -98,7 +120,7 @@ public class FrmVisitor extends javax.swing.JFrame {
 
         lblNameVisitor.setText("Nombre:");
 
-        lblUserID.setText("ID Usuario:");
+        lblUserID.setText("ID Residente:");
 
         lblVehiclePlate.setText("Placa del Vehiculo:");
 
@@ -187,7 +209,7 @@ public class FrmVisitor extends javax.swing.JFrame {
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(txtVisitorID, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
                                         .addComponent(txtNameVisitor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(txtUserID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(txResidentID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(txtVehiclePlate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -221,7 +243,7 @@ public class FrmVisitor extends javax.swing.JFrame {
                     .addComponent(txtNameVisitor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtUserID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txResidentID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblUserID))
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -259,7 +281,7 @@ public class FrmVisitor extends javax.swing.JFrame {
             Visitor newVisitor = new Visitor();
             newVisitor.setVisitorID(txtVisitorID.getText());
             newVisitor.setNameVisitor(txtNameVisitor.getText());
-            newVisitor.setUserID(txtUserID.getText());
+            newVisitor.setResidentID(txResidentID.getText());
             newVisitor.setVehiclePlate(txtVehiclePlate.getText()); 
             newVisitor.setHasPass(chkHasPass.isSelected());
             newVisitor.setLibraryVisitorStatus((String) cmbStatus.getSelectedItem());
@@ -276,32 +298,37 @@ public class FrmVisitor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        // TODO add your handling code here:
         try {
-            String visitorID = txtVisitorID.getText();
-            if (txtVisitorID.isEditable() || visitorID.isEmpty()) {
+            // Validación de pre-requisito: Asegura que se ha seleccionado un registro para editar.
+            if (txtVisitorID.isEditable() || txtVisitorID.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Debe seleccionar un visitante de la tabla para actualizar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
                 return;
             }
             
-            Visitor updatedVisitor = new Visitor();
-            updatedVisitor.setVisitorID(visitorID); 
-            updatedVisitor.setNameVisitor(txtNameVisitor.getText());
-            updatedVisitor.setUserID(txtUserID.getText());
-            updatedVisitor.setVehiclePlate(txtVehiclePlate.getText()); 
-            updatedVisitor.setHasPass(chkHasPass.isSelected());
-            updatedVisitor.setLibraryVisitorStatus((String) cmbStatus.getSelectedItem());
-
-            // Llama al controlador para actualizar
+            // 1. Ensamblar el objeto Visitor con los datos actuales del formulario (llama al método auxiliar)
+            Visitor updatedVisitor = getVisitorFromForm();
+            
+            // 2. Ejecutar la actualización a través del controlador
+            // El controlador realizará todas las validaciones de unicidad, formato y existencia del residente.
             if (visitorController.updateVisitor(updatedVisitor)) { 
-                loadVisitorsTable();
-                clearFields();
+                
+                // Si la actualización fue exitosa (el controlador devolvió true):
+                
+                // 3. Mostrar mensaje de éxito
+                JOptionPane.showMessageDialog(this, "Datos del visitante actualizados correctamente.", "Actualización Completa", JOptionPane.INFORMATION_MESSAGE);
+                
+                // 4. Actualizar la interfaz de usuario
+                loadVisitorsTable(); 
+                clearFields();       
             }
+            // Si la actualización falla (devuelve false), el controlador ya mostró un mensaje de error 
+            // (ej: placa duplicada, residente no existe) y los datos permanecen en el formulario.
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Ocurrió un error al actualizar: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Ocurrió un error al procesar la actualización: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-        
+    
+    
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -333,7 +360,7 @@ public class FrmVisitor extends javax.swing.JFrame {
 
             txtVisitorID.setText(model.getValueAt(selectedRow, 0).toString());
             txtNameVisitor.setText(model.getValueAt(selectedRow, 1).toString());
-            txtUserID.setText(model.getValueAt(selectedRow, 2).toString());
+            txResidentID.setText(model.getValueAt(selectedRow, 2).toString());
             txtVehiclePlate.setText(model.getValueAt(selectedRow, 3).toString());
             chkHasPass.setSelected((Boolean) model.getValueAt(selectedRow, 4));
             cmbStatus.setSelectedItem(model.getValueAt(selectedRow, 5).toString());
@@ -401,8 +428,8 @@ public class FrmVisitor extends javax.swing.JFrame {
     private javax.swing.JLabel lblVehiclePlate;
     private javax.swing.JLabel lblVisitorID;
     private javax.swing.JTable tblVisitors;
+    private java.awt.TextField txResidentID;
     private java.awt.TextField txtNameVisitor;
-    private java.awt.TextField txtUserID;
     private java.awt.TextField txtVehiclePlate;
     private java.awt.TextField txtVisitorID;
     // End of variables declaration//GEN-END:variables

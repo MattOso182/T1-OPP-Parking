@@ -22,9 +22,7 @@ public class MongoConnectionResidents {
         try {
             mongoClient = MongoClients.create(CONNECTION_STRING);
             database = mongoClient.getDatabase(DATABASE_NAME);
-            System.out.println("Conectado a MongoDB Residents");
         } catch (Exception e) {
-            System.err.println("Error conectando a MongoDB Residents: " + e.getMessage());
         }
     }
 
@@ -48,7 +46,6 @@ public class MongoConnectionResidents {
     public void closeConnection() {
         if (mongoClient != null) {
             mongoClient.close();
-            System.out.println("🔌 Conexión Residents cerrada");
         }
     }
 }

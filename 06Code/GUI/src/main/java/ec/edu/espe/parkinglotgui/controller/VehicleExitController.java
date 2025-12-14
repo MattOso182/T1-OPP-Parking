@@ -1,5 +1,9 @@
 package ec.edu.espe.parkinglotgui.controller;
 
+/**
+ *
+ * @author Emily Calle, T.A.P. (The Art of Programming), @ESPE
+ */
 import ec.edu.espe.parkinglotgui.utils.MongoConnectionEntrances;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;

@@ -68,7 +68,7 @@
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="txtVisitorID" pref="92" max="32767" attributes="0"/>
                                       <Component id="txtNameVisitor" max="32767" attributes="0"/>
-                                      <Component id="txtUserID" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="txResidentID" alignment="0" max="32767" attributes="0"/>
                                       <Component id="txtVehiclePlate" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
@@ -117,7 +117,7 @@
               </Group>
               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="txtUserID" min="-2" max="-2" attributes="0"/>
+                  <Component id="txResidentID" min="-2" max="-2" attributes="0"/>
                   <Component id="lblUserID" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
@@ -172,10 +172,10 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblUserID">
       <Properties>
-        <Property name="text" type="java.lang.String" value="ID Usuario:"/>
+        <Property name="text" type="java.lang.String" value="ID Residente:"/>
       </Properties>
     </Component>
-    <Component class="java.awt.TextField" name="txtUserID">
+    <Component class="java.awt.TextField" name="txResidentID">
     </Component>
     <Component class="javax.swing.JLabel" name="lblVehiclePlate">
       <Properties>

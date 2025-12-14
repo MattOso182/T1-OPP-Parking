@@ -305,7 +305,7 @@ public class FrmViewReport extends javax.swing.JFrame {
                     txtReportArea.append("Vehicle/Date: Not specified\n");
                 }
 
-                txtReportArea.append("User ID: " + visitor.getUserID() + "\n");
+                txtReportArea.append("User ID: " + visitor.getResidentID() + "\n");
                 txtReportArea.append("Has Pass: " + (visitor.isHasPass() ? "Yes" : "No") + "\n");
                 txtReportArea.append("Status: " + visitor.getLibraryVisitorStatus() + "\n");
                 txtReportArea.append("\n");

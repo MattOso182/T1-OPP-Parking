@@ -9,7 +9,7 @@ import org.bson.Document;
 public class Zone {
 
     private int id;
-    private String type; // VEHICLE | MOTO
+    private String type; 
     private int capacity;
     private int occupied;
 
@@ -56,16 +56,37 @@ public class Zone {
         }
     }
 
-    // Getters & Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public int getId() {
+        return id;
+    }
 
-    public String getType() { return type; }
-    public void setType(String type) { this.type = type; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public int getCapacity() { return capacity; }
-    public void setCapacity(int capacity) { this.capacity = capacity; }
+    public String getType() {
+        return type;
+    }
 
-    public int getOccupied() { return occupied; }
-    public void setOccupied(int occupied) { this.occupied = occupied; }
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public int getOccupied() {
+        return occupied;
+    }
+
+    public void setOccupied(int occupied) {
+        this.occupied = occupied;
+    }
+
+    
 }
