@@ -7,6 +7,7 @@ ec\edu\espe\parkinglotgui\view\FrmResidentRental.class
 ec\edu\espe\parkinglotgui\view\FrmZoneForm.class
 ec\edu\espe\parkinglotgui\view\FrmBlockList$3.class
 ec\edu\espe\parkinglotgui\model\Visitor.class
+ec\edu\espe\parkinglotgui\model\VehicleDAO.class
 ec\edu\espe\parkinglotgui\controller\VehicleExitController.class
 ec\edu\espe\parkinglotgui\view\FrmVisitor$2.class
 ec\edu\espe\parkinglotgui\view\FrmEntryVehicle$3.class
@@ -19,6 +20,7 @@ ec\edu\espe\parkinglotgui\view\FrmVisitor$5.class
 ec\edu\espe\parkinglotgui\utils\MongoConnectionVisitors.class
 ec\edu\espe\parkinglotgui\view\FrmViewReport.class
 ec\edu\espe\parkinglotgui\view\FrmLogin$1.class
+ec\edu\espe\parkinglotgui\model\ResidentDAO.class
 ec\edu\espe\parkinglotgui\model\Zone.class
 ec\edu\espe\parkinglotgui\view\FrmExitVehicle$4.class
 ec\edu\espe\parkinglotgui\view\FrmZoneList$4.class

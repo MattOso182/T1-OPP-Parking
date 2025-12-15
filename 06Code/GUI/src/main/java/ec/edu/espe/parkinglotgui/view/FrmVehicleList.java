@@ -1,10 +1,17 @@
 package ec.edu.espe.parkinglotgui.view;
 
+import ec.edu.espe.parkinglotgui.model.VehicleDAO;
+import org.bson.Document;
+import javax.swing.table.DefaultTableModel;
+import java.util.List;
+import java.util.ArrayList;
+
 /**
  *
  * @author Arelis Samantha Bonilla Cruz, Student, @ESPE
  */
 public class FrmVehicleList extends javax.swing.JFrame {
+    private final VehicleDAO vehicleDAO = new VehicleDAO();
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmVehicleList.class.getName());
 
@@ -21,14 +28,13 @@ public class FrmVehicleList extends javax.swing.JFrame {
     }
     
     private void addVehicleActionPerformed() {
-        com.mongodb.client.MongoDatabase database = ec.edu.espe.parkinglotgui.utils.MongoConnectionResidents.getDatabase();
-        com.mongodb.client.MongoCollection<org.bson.Document> collection = database.getCollection("Vehicles");
-
+        
         java.util.List<String> residentIds = new java.util.ArrayList<>();
-        for (org.bson.Document doc : collection.find()) {
+        for (org.bson.Document doc : vehicleDAO.findAll()) {
             org.bson.Document r = doc.get("resident", org.bson.Document.class);
             residentIds.add(r.getString("residentId"));
-        }
+        }   
+
 
         String selectedResidentId = (String) javax.swing.JOptionPane.showInputDialog(
                 this,
@@ -71,10 +77,7 @@ public class FrmVehicleList extends javax.swing.JFrame {
                 .append("model", modelField.getText())
                 .append("type", typeField.getText());
 
-        collection.updateOne(
-                new org.bson.Document("resident.residentId", selectedResidentId),
-                new org.bson.Document("$push", new org.bson.Document("resident.vehicles", newVehicle))
-        );
+        vehicleDAO.addVehicle(selectedResidentId, newVehicle);
 
         javax.swing.JOptionPane.showMessageDialog(this, "Vehículo agregado exitosamente");
         loadVehicleData();
@@ -95,30 +98,22 @@ public class FrmVehicleList extends javax.swing.JFrame {
 
         if (confirm != javax.swing.JOptionPane.YES_OPTION) return;
 
-        com.mongodb.client.MongoDatabase database = ec.edu.espe.parkinglotgui.utils.MongoConnectionResidents.getDatabase();
-        com.mongodb.client.MongoCollection<org.bson.Document> collection = database.getCollection("Vehicles");
-
-        collection.updateOne(
-                new org.bson.Document("resident.residentId", residentId),
-                new org.bson.Document("$pull", new org.bson.Document("resident.vehicles",
-                        new org.bson.Document("plate", plate)))
-        );
+        vehicleDAO.deleteVehicle(residentId, plate);
 
         javax.swing.JOptionPane.showMessageDialog(this, "Vehículo eliminado exitosamente");
         loadVehicleData();
     }
     private void editVehicleActionPerformed() {
-        com.mongodb.client.MongoDatabase database = ec.edu.espe.parkinglotgui.utils.MongoConnectionResidents.getDatabase();
-        com.mongodb.client.MongoCollection<org.bson.Document> collection = database.getCollection("Vehicles");
-
+        
         java.util.List<org.bson.Document> residents = new java.util.ArrayList<>();
         java.util.List<String> residentIds = new java.util.ArrayList<>();
 
-        for (org.bson.Document doc : collection.find()) {
+        for (org.bson.Document doc : vehicleDAO.findAll()) {
             org.bson.Document r = doc.get("resident", org.bson.Document.class);
             residents.add(r);
             residentIds.add(r.getString("residentId"));
         }
+
 
         String selectedResidentId = (String) javax.swing.JOptionPane.showInputDialog(
                 this,
@@ -197,59 +192,35 @@ public class FrmVehicleList extends javax.swing.JFrame {
                 .append("model", modelField.getText())
                 .append("type", typeField.getText());
 
-        collection.updateOne(
-                new org.bson.Document("resident.residentId", selectedResidentId),
-                new org.bson.Document("$pull", new org.bson.Document("resident.vehicles",
-                        new org.bson.Document("plate", selectedPlate)))
-        );
+        vehicleDAO.deleteVehicle(selectedResidentId, selectedPlate);
+        vehicleDAO.addVehicle(selectedResidentId, newVehicle);
 
-        collection.updateOne(
-                new org.bson.Document("resident.residentId", selectedResidentId),
-                new org.bson.Document("$push", new org.bson.Document("resident.vehicles", newVehicle))
-        );
 
         javax.swing.JOptionPane.showMessageDialog(this, "Vehículo modificado exitosamente");
         loadVehicleData();
     }
     
     private void loadVehicleData() {
-        com.mongodb.client.MongoDatabase database = ec.edu.espe.parkinglotgui.utils.MongoConnectionResidents.getDatabase();
-        com.mongodb.client.MongoCollection<org.bson.Document> collection = database.getCollection("Vehicles");
-
-        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) vehicleList.getModel();
+        DefaultTableModel model = (DefaultTableModel) vehicleList.getModel();
         model.setRowCount(0);
 
-        for (org.bson.Document doc : collection.find()) {
-            org.bson.Document resident = doc.get("resident", org.bson.Document.class);
+        for (Document doc : vehicleDAO.findAll()) {
+            Document resident = doc.get("resident", Document.class);
+            List<Document> vehicles = resident.getList("vehicles", Document.class);
 
-            String residentId = resident.getString("residentId");
-            String name = resident.getString("name");
-            String apartment = resident.getString("apartmentNumber");
-            String email = resident.getString("email");
-            String phone = resident.getString("phone");
-            String userType = resident.getString("userType");
-
-            java.util.List<org.bson.Document> vehicles = resident.getList("vehicles", org.bson.Document.class);
-
-            for (org.bson.Document vehicle : vehicles) {
-                String plate = vehicle.getString("plate");
-
-                String details = 
-                    vehicle.getString("color") + ", " +
-                    vehicle.getString("brand") + ", " +
-                    vehicle.getString("model") + ", " +
-                    vehicle.getString("type");
-
-
+            for (Document v : vehicles) {
                 model.addRow(new Object[]{
-                    residentId,
-                    name,
-                    apartment,
-                    email,
-                    phone,
-                    userType,
-                    plate,
-                    details
+                    resident.getString("residentId"),
+                    resident.getString("name"),
+                    resident.getString("apartmentNumber"),
+                    resident.getString("email"),
+                    resident.getString("phone"),
+                    resident.getString("userType"),
+                    v.getString("plate"),
+                    v.getString("color") + ", " +
+                    v.getString("brand") + ", " +
+                    v.getString("model") + ", " +
+                    v.getString("type")
                 });
             }
         }

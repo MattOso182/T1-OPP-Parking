@@ -1,10 +1,15 @@
 package ec.edu.espe.parkinglotgui.view;
 
+import ec.edu.espe.parkinglotgui.model.ResidentDAO;
+import org.bson.Document;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Arelis Samantha Bonilla Cruz, Student, @ESPE
  */
 public class FrmResidentList extends javax.swing.JFrame {
+    private final ResidentDAO residentDAO = new ResidentDAO();
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmResidentList.class.getName());
 
@@ -73,10 +78,8 @@ private void addResidentActionPerformed(java.awt.event.ActionEvent evt) {
         return;
     }
 
-    com.mongodb.client.MongoDatabase db = ec.edu.espe.parkinglotgui.utils.MongoConnectionResidents.getDatabase();
-    com.mongodb.client.MongoCollection<org.bson.Document> col = db.getCollection("Residents");
+    long count = residentDAO.count();
 
-    long count = col.countDocuments();
     String newID = String.format("RES-%03d", count + 1);
 
     org.bson.Document doc = new org.bson.Document()
@@ -88,7 +91,7 @@ private void addResidentActionPerformed(java.awt.event.ActionEvent evt) {
             .append("userType", type)
             .append("assignedParkingSpace", parking);
 
-    col.insertOne(doc);
+    residentDAO.insert(doc);
 
     loadResidentData();
     javax.swing.JOptionPane.showMessageDialog(this, "Residente agregado con ID: " + newID);
@@ -111,10 +114,7 @@ private void deleteResidentActionPerformed(java.awt.event.ActionEvent evt) {
 
     if (confirm != javax.swing.JOptionPane.YES_OPTION) return;
 
-    com.mongodb.client.MongoDatabase db = ec.edu.espe.parkinglotgui.utils.MongoConnectionResidents.getDatabase();
-    com.mongodb.client.MongoCollection<org.bson.Document> col = db.getCollection("Residents");
-
-    col.deleteOne(new org.bson.Document("residentID", id));
+    residentDAO.deleteById(id);
 
     loadResidentData();
     javax.swing.JOptionPane.showMessageDialog(this, "Residente eliminado");
@@ -199,9 +199,6 @@ private void editResidentActionPerformed(java.awt.event.ActionEvent evt) {
         return;
     }
 
-    com.mongodb.client.MongoDatabase db = ec.edu.espe.parkinglotgui.utils.MongoConnectionResidents.getDatabase();
-    com.mongodb.client.MongoCollection<org.bson.Document> col = db.getCollection("Residents");
-
     org.bson.Document update = new org.bson.Document()
             .append("name", newName)
             .append("apartmentNumber", newApt)
@@ -210,10 +207,7 @@ private void editResidentActionPerformed(java.awt.event.ActionEvent evt) {
             .append("userType", newType)
             .append("assignedParkingSpace", newParking);
 
-    col.updateOne(
-            new org.bson.Document("residentID", originalID),
-            new org.bson.Document("$set", update)
-    );
+    residentDAO.update(originalID, update);
 
     loadResidentData();
     javax.swing.JOptionPane.showMessageDialog(this, "Residente actualizado correctamente.");
@@ -221,32 +215,22 @@ private void editResidentActionPerformed(java.awt.event.ActionEvent evt) {
 
 
 private void loadResidentData() {
-    com.mongodb.client.MongoDatabase database = ec.edu.espe.parkinglotgui.utils.MongoConnectionResidents.getDatabase();
-    com.mongodb.client.MongoCollection<org.bson.Document> collection = database.getCollection("Residents");
-
-    javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) listResident.getModel();
+    DefaultTableModel model = (DefaultTableModel) listResident.getModel();
     model.setRowCount(0);
 
-    for (org.bson.Document doc : collection.find()) {
-        String id = doc.getString("residentID");
-        String name = doc.getString("name");
-        String apt = doc.getString("apartmentNumber");
-        String email = doc.getString("email");
-        String phone = doc.getString("phone");
-        String type = doc.getString("userType");
-        String parking = doc.getString("assignedParkingSpace");
-
+    for (Document doc : residentDAO.findAll()) {
         model.addRow(new Object[]{
-            id,
-            name,
-            apt,
-            email,
-            phone,
-            type,
-            parking
+            doc.getString("residentID"),
+            doc.getString("name"),
+            doc.getString("apartmentNumber"),
+            doc.getString("email"),
+            doc.getString("phone"),
+            doc.getString("userType"),
+            doc.getString("assignedParkingSpace")
         });
     }
-}  
+}
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
