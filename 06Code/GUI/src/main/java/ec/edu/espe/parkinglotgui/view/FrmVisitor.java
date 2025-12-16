@@ -1,4 +1,3 @@
-
 package ec.edu.espe.parkinglotgui.view;
 
 import ec.edu.espe.parkinglotgui.controller.VisitorController;
@@ -6,6 +5,7 @@ import ec.edu.espe.parkinglotgui.model.Visitor;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Emily Calle, @ESPE
@@ -13,32 +13,35 @@ import javax.swing.table.DefaultTableModel;
 public class FrmVisitor extends javax.swing.JFrame {
 
     private final VisitorController visitorController;
+
     public FrmVisitor() {
         initComponents();
-        
+
         this.visitorController = new VisitorController();
         loadVisitorsTable();
- 
+
         clearFields();
     }
+
     private void clearFields() {
         txtVisitorID.setText("");
         txtNameVisitor.setText("");
-        txtVehiclePlate.setText(""); 
+        txtVehiclePlate.setText("");
         txResidentID.setText("");
         chkHasPass.setSelected(false);
-        cmbStatus.setSelectedIndex(0); 
-        txtVisitorID.setEditable(true); 
+        cmbStatus.setSelectedIndex(0);
+        txtVisitorID.setEditable(true);
     }
+
     private void loadVisitorsTable() {
         DefaultTableModel model = new DefaultTableModel();
-        
+
         model.setColumnIdentifiers(new Object[]{
-            "ID Visitante", 
-            "Nombre", 
-            "ID Residente", 
-            "Placa Vehículo", 
-            "Tiene Pase", 
+            "ID Visitante",
+            "Nombre",
+            "ID Residente",
+            "Placa Vehículo",
+            "Tiene Pase",
             "Estado"
         });
         List<Visitor> visitors = visitorController.getAllVisitors();
@@ -48,37 +51,37 @@ public class FrmVisitor extends javax.swing.JFrame {
                 visitor.getVisitorID(),
                 visitor.getNameVisitor(),
                 visitor.getResidentID(),
-                visitor.getVehiclePlate(), 
+                visitor.getVehiclePlate(),
                 visitor.isHasPass(),
                 visitor.getLibraryVisitorStatus()
             });
         }
         tblVisitors.setModel(model);
     }
+
     private Visitor getVisitorFromForm() {
-       
-        
+
         String visitorID = txtVisitorID.getText().trim();
         String nameVisitor = txtNameVisitor.getText().trim();
-        String residentID = txResidentID.getText().trim(); 
+        String residentID = txResidentID.getText().trim();
         String vehiclePlate = txtVehiclePlate.getText().trim();
         boolean hasPass = chkHasPass.isSelected();
 
         Visitor visitor = new Visitor();
-        
+
         visitor.setVisitorID(visitorID);
         visitor.setNameVisitor(nameVisitor);
         visitor.setResidentID(residentID);
         visitor.setVehiclePlate(vehiclePlate);
-        
+
         visitor.setHasPass(hasPass);
-        
+
         String selectedStatus = (String) cmbStatus.getSelectedItem();
-        visitor.setLibraryVisitorStatus(selectedStatus); 
-        
+        visitor.setLibraryVisitorStatus(selectedStatus);
+
         return visitor;
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -117,8 +120,19 @@ public class FrmVisitor extends javax.swing.JFrame {
         lblVisitorID.setText("ID Visitante:");
 
         txtVisitorID.setEditable(false);
+        txtVisitorID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtVisitorIDActionPerformed(evt);
+            }
+        });
 
         lblNameVisitor.setText("Nombre:");
+
+        txtNameVisitor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNameVisitorActionPerformed(evt);
+            }
+        });
 
         lblUserID.setText("ID Residente:");
 
@@ -271,23 +285,50 @@ public class FrmVisitor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        // TODO add your handling code here:
         try {
             if (txtVisitorID.getText().isEmpty() || txtNameVisitor.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "El ID Visitante y el Nombre son campos obligatorios.", "Advertencia", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            
+            String nameVisitor = txtNameVisitor.getText().trim();
+            if (nameVisitor.isEmpty()) {
+                JOptionPane.showMessageDialog(this,
+                        "El nombre del visitante no puede estar vacío.",
+                        "Error de Validación",
+                        JOptionPane.ERROR_MESSAGE);
+                txtNameVisitor.requestFocus();
+                return;
+            }
+
+            if (nameVisitor.length() < 2) {
+                JOptionPane.showMessageDialog(this,
+                        "El nombre debe tener al menos 2 caracteres.",
+                        "Error de Validación",
+                        JOptionPane.ERROR_MESSAGE);
+                txtNameVisitor.requestFocus();
+                txtNameVisitor.selectAll();
+                return;
+            }
+
+            if (nameVisitor.matches(".*\\d.*")) {
+                JOptionPane.showMessageDialog(this,
+                        "El nombre no puede contener números.",
+                        "Error de Validación",
+                        JOptionPane.ERROR_MESSAGE);
+                txtNameVisitor.requestFocus();
+                txtNameVisitor.selectAll();
+                return;
+            }
+
             Visitor newVisitor = new Visitor();
             newVisitor.setVisitorID(txtVisitorID.getText());
             newVisitor.setNameVisitor(txtNameVisitor.getText());
             newVisitor.setResidentID(txResidentID.getText());
-            newVisitor.setVehiclePlate(txtVehiclePlate.getText()); 
+            newVisitor.setVehiclePlate(txtVehiclePlate.getText());
             newVisitor.setHasPass(chkHasPass.isSelected());
             newVisitor.setLibraryVisitorStatus((String) cmbStatus.getSelectedItem());
 
-            // Llama al controlador para guardar
-            visitorController.saveVisitor(newVisitor); 
+            visitorController.saveVisitor(newVisitor);
 
             loadVisitorsTable();
             clearFields();
@@ -299,54 +340,44 @@ public class FrmVisitor extends javax.swing.JFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         try {
-            // Validación de pre-requisito: Asegura que se ha seleccionado un registro para editar.
             if (txtVisitorID.isEditable() || txtVisitorID.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Debe seleccionar un visitante de la tabla para actualizar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            
-            // 1. Ensamblar el objeto Visitor con los datos actuales del formulario (llama al método auxiliar)
+
             Visitor updatedVisitor = getVisitorFromForm();
-            
-            // 2. Ejecutar la actualización a través del controlador
-            // El controlador realizará todas las validaciones de unicidad, formato y existencia del residente.
-            if (visitorController.updateVisitor(updatedVisitor)) { 
-                
-                // Si la actualización fue exitosa (el controlador devolvió true):
-                
-                // 3. Mostrar mensaje de éxito
+
+            if (visitorController.updateVisitor(updatedVisitor)) {
+
                 JOptionPane.showMessageDialog(this, "Datos del visitante actualizados correctamente.", "Actualización Completa", JOptionPane.INFORMATION_MESSAGE);
-                
-                // 4. Actualizar la interfaz de usuario
-                loadVisitorsTable(); 
-                clearFields();       
+
+                loadVisitorsTable();
+                clearFields();
             }
-            // Si la actualización falla (devuelve false), el controlador ya mostró un mensaje de error 
-            // (ej: placa duplicada, residente no existe) y los datos permanecen en el formulario.
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Ocurrió un error al procesar la actualización: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-    
-    
+
+
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
         String idToDelete = txtVisitorID.getText();
-        
+
         if (txtVisitorID.isEditable() || idToDelete.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe seleccionar un visitante de la tabla para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        int confirm = JOptionPane.showConfirmDialog(this, 
-                "¿Está seguro de que desea eliminar al visitante con ID: " + idToDelete + "?", 
-                "Confirmar Eliminación", 
+        int confirm = JOptionPane.showConfirmDialog(this,
+                "¿Está seguro de que desea eliminar al visitante con ID: " + idToDelete + "?",
+                "Confirmar Eliminación",
                 JOptionPane.YES_NO_OPTION);
 
         if (confirm == JOptionPane.YES_OPTION) {
-            if (visitorController.deleteVisitor(idToDelete)) { 
+            if (visitorController.deleteVisitor(idToDelete)) {
                 loadVisitorsTable();
                 clearFields();
             }
@@ -374,6 +405,14 @@ public class FrmVisitor extends javax.swing.JFrame {
         frmSecurityGuardMenu.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_itemReturnMenuActionPerformed
+
+    private void txtVisitorIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtVisitorIDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtVisitorIDActionPerformed
+
+    private void txtNameVisitorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameVisitorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNameVisitorActionPerformed
 
     /**
      * @param args the command line arguments

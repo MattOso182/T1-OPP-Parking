@@ -25,6 +25,7 @@ ec\edu\espe\parkinglotgui\model\Zone.class
 ec\edu\espe\parkinglotgui\view\FrmExitVehicle$4.class
 ec\edu\espe\parkinglotgui\view\FrmZoneList$4.class
 ec\edu\espe\parkinglotgui\view\FrmVisitor$4.class
+ec\edu\espe\parkinglotgui\view\FrmVisitor$8.class
 ec\edu\espe\parkinglotgui\view\FrmZoneList.class
 ec\edu\espe\parkinglotgui\view\FrmZoneForm$2.class
 ec\edu\espe\parkinglotgui\view\FrmLogin$5.class
@@ -41,6 +42,7 @@ ec\edu\espe\parkinglotgui\view\FrmParkingSplash.class
 ec\edu\espe\parkinglotgui\view\FrmEntryVehicle.class
 ec\edu\espe\parkinglotgui\controller\ZoneController.class
 ec\edu\espe\parkinglotgui\controller\ParkingSpaceController.class
+ec\edu\espe\parkinglotgui\view\FrmVisitor$7.class
 ec\edu\espe\parkinglotgui\view\FrmEntryVehicle$1.class
 ec\edu\espe\parkinglotgui\view\FrmZoneForm$1.class
 ec\edu\espe\parkinglotgui\view\FrmLogin.class

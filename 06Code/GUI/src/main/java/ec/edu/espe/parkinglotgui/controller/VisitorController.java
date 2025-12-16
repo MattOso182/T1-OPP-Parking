@@ -25,6 +25,7 @@ public class VisitorController {
 
     private static final Pattern PLATE_PATTERN = Pattern.compile("^[A-Z]{3}-\\d{4}$", Pattern.CASE_INSENSITIVE);
     private static final Pattern ID_PATTERN = Pattern.compile("^\\d+$");
+    private static final Pattern NAME_PATTERN = Pattern.compile("^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\\s\\-' ]+$");
     
     public VisitorController() {
         try {

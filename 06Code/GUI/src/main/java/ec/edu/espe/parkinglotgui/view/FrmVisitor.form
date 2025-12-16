@@ -162,6 +162,9 @@
       <Properties>
         <Property name="editable" type="boolean" value="false"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtVisitorIDActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lblNameVisitor">
       <Properties>
@@ -169,6 +172,9 @@
       </Properties>
     </Component>
     <Component class="java.awt.TextField" name="txtNameVisitor">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtNameVisitorActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lblUserID">
       <Properties>
