@@ -13,8 +13,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.result.UpdateResult;
 import ec.edu.espe.parkinglotgui.utils.MongoDBConnection;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class ResidentController {
 
@@ -351,6 +353,531 @@ public class ResidentController {
             Resident resident = searchResidentById(residentId);
             return resident != null;
         } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean renewRentalFromToday(String residentId, int selectedMonths, String spaceId) {
+        try {
+            if (collection == null) {
+                System.err.println("Collection is null");
+                return false;
+            }
+
+            residentId = cleanField(residentId);
+            spaceId = cleanField(spaceId);
+
+            System.out.println("Renovando alquiler desde HOY para: " + residentId);
+            System.out.println("   Meses seleccionados: " + selectedMonths);
+            System.out.println("   Espacio: " + spaceId);
+            System.out.println("   Precio mensual: $120.00");
+
+            Date today = new Date();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(today);
+            cal.add(Calendar.MONTH, selectedMonths);
+            Date newEndDate = cal.getTime();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String formattedStartDate = sdf.format(today);
+            String formattedEndDate = sdf.format(newEndDate);
+
+            double monthlyPrice = 120.00;
+            double totalAmount = monthlyPrice * selectedMonths;
+
+            System.out.println("   Start Date (hoy): " + formattedStartDate);
+            System.out.println("   End Date: " + formattedEndDate);
+            System.out.println("   Total a pagar: $" + totalAmount);
+
+            Document query1 = new Document("residents.residentID", residentId);
+            Document update1 = new Document("$set",
+                    new Document("residents.$.currentRental.startDate", formattedStartDate)
+                            .append("residents.$.currentRental.endDate", formattedEndDate)
+                            .append("residents.$.currentRental.monthlyPrice", totalAmount)
+                            .append("residents.$.currentRental.spaceId", spaceId)
+                            .append("residents.$.currentRental.paymentStatus", "PENDING")
+                            .append("residents.$.currentRental.isActive", true)
+            );
+
+            UpdateResult result1 = collection.updateOne(query1, update1);
+
+            if (result1.getModifiedCount() > 0) {
+                System.out.println("Alquiler renovado desde hoy exitosamente");
+                return true;
+            }
+
+            Document query2 = new Document("residentID", residentId);
+            Document update2 = new Document("$set",
+                    new Document("currentRental.startDate", formattedStartDate)
+                            .append("currentRental.endDate", formattedEndDate)
+                            .append("currentRental.monthlyPrice", totalAmount)
+                            .append("currentRental.spaceId", spaceId)
+                            .append("currentRental.paymentStatus", "PENDING")
+                            .append("currentRental.isActive", true)
+            );
+
+            UpdateResult result2 = collection.updateOne(query2, update2);
+
+            if (result2.getModifiedCount() > 0) {
+                System.out.println("Alquiler renovado (documento directo)");
+                return true;
+            }
+
+            System.err.println("No se pudo renovar el alquiler para: " + residentId);
+            return false;
+
+        } catch (Exception e) {
+            System.err.println("Error renovando alquiler: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updatePaymentStatusOnly(String residentId, String paymentStatus) {
+        try {
+            if (collection == null) {
+                System.err.println("Collection is null");
+                return false;
+            }
+
+            residentId = cleanField(residentId);
+            System.out.println("Cambiando estado de pago para: " + residentId);
+            System.out.println("   Nuevo estado: " + paymentStatus);
+
+            Document query1 = new Document("residents.residentID", residentId);
+            Document update1 = new Document("$set",
+                    new Document("residents.$.currentRental.paymentStatus", paymentStatus)
+            );
+
+            UpdateResult result1 = collection.updateOne(query1, update1);
+
+            if (result1.getModifiedCount() > 0) {
+                System.out.println("Estado de pago actualizado a: " + paymentStatus);
+                return true;
+            }
+
+            Document query2 = new Document("residentID", residentId);
+            Document update2 = new Document("$set",
+                    new Document("currentRental.paymentStatus", paymentStatus)
+            );
+
+            UpdateResult result2 = collection.updateOne(query2, update2);
+
+            if (result2.getModifiedCount() > 0) {
+                System.out.println("Estado de pago actualizado (documento directo)");
+                return true;
+            }
+
+            System.err.println("No se encontró residente con ID: " + residentId);
+            return false;
+
+        } catch (Exception e) {
+            System.err.println("Error actualizando estado de pago: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean processPaymentWithRenewal(String residentId, int additionalMonths) {
+        try {
+            if (collection == null) {
+                System.err.println(" Collection is null");
+                return false;
+            }
+
+            residentId = cleanField(residentId);
+            System.out.println("Procesando pago con renovación para: " + residentId);
+            System.out.println("   Meses adicionales: " + additionalMonths);
+
+            Resident resident = searchResidentById(residentId);
+            if (resident == null || resident.getCurrentRental() == null) {
+                System.err.println("No se encontró alquiler activo para: " + residentId);
+                return false;
+            }
+
+            Date currentEndDate = resident.getCurrentRental().getEndDate();
+            Date newEndDate;
+
+            Calendar cal = Calendar.getInstance();
+            if (currentEndDate != null && currentEndDate.after(new Date())) {
+                cal.setTime(currentEndDate);
+            } else {
+                cal.setTime(new Date());
+            }
+
+            cal.add(Calendar.MONTH, additionalMonths);
+            newEndDate = cal.getTime();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String formattedEndDate = sdf.format(newEndDate);
+
+            System.out.println("   Fecha actual de fin: "
+                    + (currentEndDate != null ? sdf.format(currentEndDate) : "Ninguna"));
+            System.out.println("   Nueva fecha de fin: " + formattedEndDate);
+
+            Document query1 = new Document("residents.residentID", residentId);
+            Document update1 = new Document("$set",
+                    new Document("residents.$.currentRental.endDate", formattedEndDate)
+                            .append("residents.$.currentRental.isActive", true)
+            );
+
+            UpdateResult result1 = collection.updateOne(query1, update1);
+
+            if (result1.getModifiedCount() > 0) {
+                System.out.println("Pago con renovación procesado exitosamente");
+                return true;
+            }
+
+            Document query2 = new Document("residentID", residentId);
+            Document update2 = new Document("$set",
+                    new Document("currentRental.paymentStatus", "PAID")
+                            .append("currentRental.endDate", formattedEndDate)
+                            .append("currentRental.isActive", true)
+            );
+
+            UpdateResult result2 = collection.updateOne(query2, update2);
+
+            if (result2.getModifiedCount() > 0) {
+                System.out.println("Pago con renovación procesado (documento directo)");
+                return true;
+            }
+
+            System.err.println("No se pudo procesar el pago para: " + residentId);
+            return false;
+
+        } catch (Exception e) {
+            System.err.println("Error procesando pago con renovación: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean renewRentalOnly(String residentId, int selectedMonths) {
+        try {
+            if (collection == null) {
+                System.err.println("Collection is null");
+                return false;
+            }
+
+            residentId = cleanField(residentId);
+            System.out.println("Renovando alquiler para: " + residentId);
+            System.out.println("   Meses seleccionados: " + selectedMonths);
+
+            Resident resident = searchResidentById(residentId);
+            if (resident == null || resident.getCurrentRental() == null) {
+                System.err.println("No se encontró alquiler activo para: " + residentId);
+                return false;
+            }
+
+            Date startDate = new Date();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(startDate);
+
+            cal.add(Calendar.MONTH, selectedMonths);
+            Date newEndDate = cal.getTime();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String formattedStartDate = sdf.format(startDate);
+            String formattedEndDate = sdf.format(newEndDate);
+
+            System.out.println("   Nueva fecha de inicio: " + formattedStartDate);
+            System.out.println("   Nueva fecha de fin: " + formattedEndDate);
+            System.out.println("   Estado de pago se mantiene: " + resident.getCurrentRental().getPaymentStatus());
+
+            Document query1 = new Document("residents.residentID", residentId);
+            Document update1 = new Document("$set",
+                    new Document("residents.$.currentRental.startDate", formattedStartDate)
+                            .append("residents.$.currentRental.endDate", formattedEndDate)
+                            .append("residents.$.currentRental.isActive", true)
+            );
+
+            UpdateResult result1 = collection.updateOne(query1, update1);
+
+            if (result1.getModifiedCount() > 0) {
+                System.out.println("Alquiler renovado exitosamente");
+                return true;
+            }
+
+            Document query2 = new Document("residentID", residentId);
+            Document update2 = new Document("$set",
+                    new Document("currentRental.startDate", formattedStartDate)
+                            .append("currentRental.endDate", formattedEndDate)
+                            .append("currentRental.isActive", true)
+            );
+
+            UpdateResult result2 = collection.updateOne(query2, update2);
+
+            if (result2.getModifiedCount() > 0) {
+                System.out.println("Alquiler renovado");
+                return true;
+            }
+
+            System.err.println("No se pudo renovar el alquiler para: " + residentId);
+            return false;
+
+        } catch (Exception e) {
+            System.err.println("Error renovando alquiler: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public String getPaymentStatus(String residentId) {
+        try {
+            Resident resident = searchResidentById(residentId);
+            if (resident != null && resident.getCurrentRental() != null) {
+                return resident.getCurrentRental().getPaymentStatus();
+            }
+            return null;
+        } catch (Exception e) {
+            System.err.println("Error obteniendo estado de pago: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public boolean updateSpaceOccupation(String spaceId, boolean isOccupied) {
+        try {
+            MongoDatabase database = MongoDBConnection.getConnection();
+            MongoCollection<Document> collection = database.getCollection("ParkingSpaces");
+
+            Document query = new Document("spaceId", spaceId);
+            Document update = new Document("$set",
+                    new Document("isOccupied", isOccupied)
+            );
+
+            UpdateResult result = collection.updateOne(query, update);
+
+            if (result.getModifiedCount() > 0) {
+                System.out.println("Space " + spaceId + " updated. isOccupied: " + isOccupied);
+                return true;
+            } else {
+                System.err.println("Space not found or not updated: " + spaceId);
+                return false;
+            }
+
+        } catch (Exception e) {
+            System.err.println("Error updating space occupation: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean renewRentalWithSpace(String residentId, int selectedMonths, String spaceId) {
+        try {
+            if (collection == null) {
+                System.err.println("Collection is null");
+                return false;
+            }
+
+            residentId = cleanField(residentId);
+            spaceId = cleanField(spaceId);
+
+            System.out.println("Renovando alquiler para: " + residentId);
+            System.out.println("   Meses seleccionados: " + selectedMonths);
+            System.out.println("   Nuevo espacio: " + spaceId);
+
+            Date startDate = new Date();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(startDate);
+            cal.add(Calendar.MONTH, selectedMonths);
+            Date newEndDate = cal.getTime();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String formattedStartDate = sdf.format(startDate);
+            String formattedEndDate = sdf.format(newEndDate);
+
+            System.out.println("   Nueva fecha de inicio: " + formattedStartDate);
+            System.out.println("   Nueva fecha de fin: " + formattedEndDate);
+            // Actualizar con el nuevo espacio
+            Document query1 = new Document("residents.residentID", residentId);
+            Document update1 = new Document("$set",
+                    new Document("residents.$.currentRental.startDate", formattedStartDate)
+                            .append("residents.$.currentRental.endDate", formattedEndDate)
+                            .append("residents.$.currentRental.spaceId", spaceId)
+                            .append("residents.$.currentRental.isActive", true)
+            );
+
+            UpdateResult result1 = collection.updateOne(query1, update1);
+
+            if (result1.getModifiedCount() > 0) {
+                System.out.println("Alquiler renovado con nuevo espacio exitosamente");
+                return true;
+            }
+
+            Document query2 = new Document("residentID", residentId);
+            Document update2 = new Document("$set",
+                    new Document("currentRental.startDate", formattedStartDate)
+                            .append("currentRental.endDate", formattedEndDate)
+                            .append("currentRental.spaceId", spaceId)
+                            .append("currentRental.isActive", true)
+            );
+
+            UpdateResult result2 = collection.updateOne(query2, update2);
+
+            if (result2.getModifiedCount() > 0) {
+                System.out.println("Alquiler renovado con nuevo espacio");
+                return true;
+            }
+
+            System.err.println("No se pudo renovar el alquiler para: " + residentId);
+            return false;
+
+        } catch (Exception e) {
+            System.err.println("Error renovando alquiler con espacio: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean cancelRental(String residentId) {
+        try {
+            if (collection == null) {
+                System.err.println("Collection is null");
+                return false;
+            }
+
+            residentId = cleanField(residentId);
+            System.out.println("Cancelando renta para: " + residentId);
+
+            Resident resident = searchResidentById(residentId);
+            if (resident == null || resident.getCurrentRental() == null) {
+                System.err.println("No se encontró alquiler activo para: " + residentId);
+                return false;
+            }
+
+            String currentStatus = resident.getCurrentRental().getPaymentStatus();
+            System.out.println("Estado actual de pago: " + currentStatus);
+
+            if (!"PAID".equalsIgnoreCase(currentStatus)) {
+                System.err.println("No se puede cancelar renta con estado: " + currentStatus);
+                return false;
+            }
+
+            String spaceId = resident.getCurrentRental().getSpaceId();
+            System.out.println("Espacio a liberar: " + spaceId);
+
+            Document query1 = new Document("residents.residentID", residentId);
+            Document update1 = new Document("$set",
+                    new Document("residents.$.currentRental.paymentStatus", "RENTAL_CANCELED")
+                            .append("residents.$.currentRental.isActive", false)
+            );
+
+            UpdateResult result1 = collection.updateOne(query1, update1);
+
+            if (result1.getModifiedCount() > 0) {
+                System.out.println("Renta cancelada exitosamente para: " + residentId);
+                return true;
+            }
+
+            Document query2 = new Document("residentID", residentId);
+            Document update2 = new Document("$set",
+                    new Document("currentRental.paymentStatus", "RENTAL_CANCELED")
+                            .append("currentRental.isActive", false)
+            );
+
+            UpdateResult result2 = collection.updateOne(query2, update2);
+
+            if (result2.getModifiedCount() > 0) {
+                System.out.println("Renta cancelada (documento directo)");
+                return true;
+            }
+
+            System.err.println("No se pudo cancelar la renta para: " + residentId);
+            return false;
+
+        } catch (Exception e) {
+            System.err.println("Error cancelando renta: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean activateRental(String residentId, int selectedMonths, String spaceId) {
+        try {
+            if (collection == null) {
+                System.err.println("Collection is null");
+                return false;
+            }
+
+            residentId = cleanField(residentId);
+            spaceId = cleanField(spaceId);
+
+            System.out.println("Activando renta para: " + residentId);
+            System.out.println("   Meses seleccionados: " + selectedMonths);
+            System.out.println("   Espacio: " + spaceId);
+            System.out.println("   Precio mensual: $120.00");
+
+            Resident resident = searchResidentById(residentId);
+            if (resident == null) {
+                System.err.println("No se encontró residente con ID: " + residentId);
+                return false;
+            }
+
+            if (resident.getCurrentRental() != null) {
+                String currentStatus = resident.getCurrentRental().getPaymentStatus();
+                if (!"RENTAL_CANCELED".equalsIgnoreCase(currentStatus)) {
+                    System.err.println("No se puede activar renta con estado: " + currentStatus);
+                    return false;
+                }
+            }
+
+            Date today = new Date();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(today);
+            cal.add(Calendar.MONTH, selectedMonths);
+            Date newEndDate = cal.getTime();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String formattedStartDate = sdf.format(today);
+            String formattedEndDate = sdf.format(newEndDate);
+
+            double monthlyPrice = 120.00;
+            double totalAmount = monthlyPrice * selectedMonths;
+
+            System.out.println("   Start Date (hoy): " + formattedStartDate);
+            System.out.println("   End Date: " + formattedEndDate);
+            System.out.println("   Total a pagar: $" + totalAmount);
+
+            Document query1 = new Document("residents.residentID", residentId);
+            Document update1 = new Document("$set",
+                    new Document("residents.$.currentRental.startDate", formattedStartDate)
+                            .append("residents.$.currentRental.endDate", formattedEndDate)
+                            .append("residents.$.currentRental.monthlyPrice", totalAmount)
+                            .append("residents.$.currentRental.spaceId", spaceId)
+                            .append("residents.$.currentRental.paymentStatus", "PENDING")
+                            .append("residents.$.currentRental.isActive", true)
+            );
+
+            UpdateResult result1 = collection.updateOne(query1, update1);
+
+            if (result1.getModifiedCount() > 0) {
+                System.out.println("Renta activada exitosamente");
+                return true;
+            }
+
+            Document query2 = new Document("residentID", residentId);
+            Document update2 = new Document("$set",
+                    new Document("currentRental.startDate", formattedStartDate)
+                            .append("currentRental.endDate", formattedEndDate)
+                            .append("currentRental.monthlyPrice", totalAmount)
+                            .append("currentRental.spaceId", spaceId)
+                            .append("currentRental.paymentStatus", "PENDING")
+                            .append("currentRental.isActive", true)
+            );
+
+            UpdateResult result2 = collection.updateOne(query2, update2);
+
+            if (result2.getModifiedCount() > 0) {
+                System.out.println("Renta activada (documento directo)");
+                return true;
+            }
+
+            System.err.println("No se pudo activar la renta para: " + residentId);
+            return false;
+
+        } catch (Exception e) {
+            System.err.println("Error activando renta: " + e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }

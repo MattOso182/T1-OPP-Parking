@@ -4,9 +4,12 @@ package ec.edu.espe.parkinglotgui.model;
  *
  * @author Mateo Aymacaña, T.A.P. (The Art of Programming), @ESPE
  */
+import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class Rental {
+
     private String rentalId;
     private String residentId;
     private String spaceId;
@@ -37,31 +40,31 @@ public class Rental {
     public void setRentalId(String rentalId) {
         this.rentalId = rentalId;
     }
-    
+
     public void setResidentId(String residentId) {
         this.residentId = residentId;
     }
-    
+
     public void setSpaceId(String spaceId) {
         this.spaceId = spaceId;
     }
-    
+
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
-    
+
     public void setActive(boolean isActive) {
         this.isActive = isActive;
     }
-    
+
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
-    
+
     public void setMonthlyPrice(double monthlyPrice) {
         this.monthlyPrice = monthlyPrice;
     }
-    
+
     public void setPaymentStatus(String paymentStatus) {
         this.paymentStatus = paymentStatus;
     }
@@ -102,10 +105,53 @@ public class Rental {
         return new Date().after(endDate);
     }
 
-    public long getDaysRemaining() {
-        if (endDate == null) return 0;
-        long diff = endDate.getTime() - new Date().getTime();
-        return diff / (1000 * 60 * 60 * 24);
+    public int getMonthsUsed() {
+        if (startDate == null) {
+            return 0;
+        }
+
+        Date referenceDate;
+        Date currentDate = new Date();
+
+        if (endDate == null || endDate.after(currentDate)) {
+            referenceDate = currentDate;
+        } else {
+            referenceDate = endDate;
+        }
+
+        Calendar startCal = Calendar.getInstance();
+        startCal.setTime(startDate);
+
+        Calendar endCal = Calendar.getInstance();
+        endCal.setTime(referenceDate);
+
+        int yearsDiff = endCal.get(Calendar.YEAR) - startCal.get(Calendar.YEAR);
+        int monthsDiff = endCal.get(Calendar.MONTH) - startCal.get(Calendar.MONTH);
+        int totalMonths = yearsDiff * 12 + monthsDiff;
+
+        if (endCal.get(Calendar.DAY_OF_MONTH) < startCal.get(Calendar.DAY_OF_MONTH)) {
+            totalMonths--;
+        }
+
+        return Math.max(1, totalMonths);
+    }
+
+    public long getDaysUsed() {
+        if (startDate == null) {
+            return 0;
+        }
+
+        Date referenceDate;
+        Date currentDate = new Date();
+
+        if (endDate == null || endDate.after(currentDate)) {
+            referenceDate = currentDate;
+        } else {
+            referenceDate = endDate;
+        }
+
+        long diff = referenceDate.getTime() - startDate.getTime();
+        return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
     }
 
     public boolean renewRental(int additionalMonths) {
@@ -117,7 +163,7 @@ public class Rental {
         if (endDate == null) {
             endDate = new Date();
         }
-        
+
         long newEndDate = endDate.getTime() + (additionalMonths * 30L * 24 * 60 * 60 * 1000);
         this.endDate = new Date(newEndDate);
         this.paymentStatus = "PENDING";
@@ -149,20 +195,9 @@ public class Rental {
         return true;
     }
 
-    public String getRentalInfo() {
-        return "Rental ID: " + rentalId
-                + "\nResident ID: " + residentId
-                + "\nSpace: " + spaceId
-                + "\nPeriod: " + startDate + " to " + endDate
-                + "\nMonthly Price: $" + monthlyPrice
-                + "\nStatus: " + (isActive ? "ACTIVE" : "INACTIVE")
-                + "\nPayment: " + paymentStatus
-                + "\nDays Remaining: " + (isActive ? getDaysRemaining() : 0);
-    }
-    
     @Override
     public String toString() {
-        return spaceId + " - $" + monthlyPrice + "/month - " + 
-               (isActive ? "Active" : "Inactive");
+        return spaceId + " - $" + monthlyPrice + "/month - "
+                + (isActive ? "Active" : "Inactive");
     }
 }
