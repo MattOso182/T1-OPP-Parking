@@ -79,11 +79,11 @@ public class Visitor {
         StringBuilder info = new StringBuilder();
         info.append("=== VISITOR INFORMATION ===\n");
         info.append("Visitor ID: ").append(visitorID).append("\n");
-        info.append("Name: ").append(nameVisitor).append("\n");
-        info.append("Vehicle/Date: ").append(vehiclePlate).append("\n");
-        info.append("User ID: ").append(residentID).append("\n");
-        info.append("Has Pass: ").append(hasPass ? "Yes" : "No").append("\n");
-        info.append("Status: ").append(libraryVisitorStatus).append("\n");
+        info.append("Nombre: ").append(nameVisitor).append("\n");
+        info.append("Vehículo/Fecha: ").append(vehiclePlate).append("\n");
+        info.append("ID de Usuario: ").append(residentID).append("\n");
+        info.append("Tiene pase: ").append(hasPass ? "Sí" : "No").append("\n");
+        info.append("Estado: ").append(libraryVisitorStatus).append("\n");
         return info.toString();
     }
 

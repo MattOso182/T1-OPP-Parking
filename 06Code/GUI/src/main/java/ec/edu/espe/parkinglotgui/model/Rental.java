@@ -156,7 +156,7 @@ public class Rental {
 
     public boolean renewRental(int additionalMonths) {
         if (!isActive) {
-            System.out.println("Cannot renew an inactive rental");
+            System.out.println("No se puede renovar un alquiler inactivo");
             return false;
         }
 
@@ -168,30 +168,30 @@ public class Rental {
         this.endDate = new Date(newEndDate);
         this.paymentStatus = "PENDING";
 
-        System.out.println("Rental renewed for " + additionalMonths + " months. New end date: " + endDate);
+        System.out.println("Alquiler renovado por " + additionalMonths + " meses. Nueva fecha de finalización: " + endDate);
         return true;
     }
 
     public boolean cancelRental() {
         if (!isActive) {
-            System.out.println("Rental is already inactive");
+            System.out.println("El alquiler ya está inactivo");
             return false;
         }
 
         this.isActive = false;
         this.paymentStatus = "CANCELLED";
-        System.out.println("Rental cancelled successfully");
+        System.out.println("Alquiler cancelado con éxito");
         return true;
     }
 
     public boolean processPayment() {
         if (!isActive) {
-            System.out.println("Cannot process payment for an inactive rental");
+            System.out.println("No se puede procesar el pago de un alquiler inactivo");
             return false;
         }
 
         this.paymentStatus = "PAID";
-        System.out.println("Payment processed for rental: " + rentalId);
+        System.out.println("Pago procesado por alquiler: " + rentalId);
         return true;
     }
 

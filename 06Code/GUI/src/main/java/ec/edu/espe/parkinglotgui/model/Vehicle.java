@@ -89,39 +89,39 @@ public class Vehicle {
 
     public boolean registerVehicle() {
         if (validatePlate()) {
-            System.out.println("Vehicle " + plate + " registered successfully");
+            System.out.println("Vehículo " + plate + " registrado exitosamente");
             return true;
         }
-        System.out.println("Vehicle not registered. Invalid license plate");
+        System.out.println("Vehículo no matriculado. Placa no válida.");
         return false;
     }
 
     public void updateOwner(String newOwnerId) {
         this.ownerId = newOwnerId;
-        System.out.println("Vehicle " + plate + " ownership updated to: " + newOwnerId);
+        System.out.println("Vehículo " + plate + " propiedad actualizada a: " + newOwnerId);
     }
 
     public void assignSpot(String spotId) {
         this.isParked = true;
-        System.out.println("Vehicle " + plate + " assigned to: " + spotId);
+        System.out.println("Vehículo " + plate + " asignado a: " + spotId);
     }
 
     public void releaseSpot() {
         this.isParked = false;
-        System.out.println("Vehicle " + plate + " released from spot");
+        System.out.println("Vehículo " + plate + " liberado del lugar");
     }
 
     public boolean validatePlate() {
         boolean isValid = plate != null && plate.length() >= 6 && plate.matches(".*[A-Z0-9].*");
-        System.out.println("License plate validation " + plate + ": " + (isValid ? "VALID" : "INVALID"));
+        System.out.println("Validación de placas " + plate + ": " + (isValid ? "VALID" : "INVALID"));
         return isValid;
     }
 
     public String getVehicleInfo() {
-        return "License Plate: " + plate
+        return "Placa: " + plate
                 + "\nColor: " + color
-                + "\nModel: " + model
-                + "\nOwner ID: " + ownerId
-                + "\nStatus: " + (isParked ? "Parked" : "Not parked");
+                + "\nModelo: " + model
+                + "\nID del Propietario: " + ownerId
+                + "\nEstado: " + (isParked ? "Parked" : "Not parked");
     }
 }

@@ -160,18 +160,18 @@ public class Resident {
     
     public String getFullInfo() {
         StringBuilder info = new StringBuilder();
-        info.append("=== RESIDENT INFORMATION ===\n");
+        info.append("=== INFORMACIÓN PARA RESIDENTES ===\n");
         info.append("ID: ").append(residentID).append("\n");
-        info.append("Name: ").append(name).append("\n");
-        info.append("Apartment: ").append(apartmentNumber).append("\n");
-        info.append("Type: ").append(userType).append("\n");
+        info.append("Nombre: ").append(name).append("\n");
+        info.append("Apartmento: ").append(apartmentNumber).append("\n");
+        info.append("Tipo: ").append(userType).append("\n");
         info.append("Email: ").append(email).append("\n");
-        info.append("Phone: ").append(phone).append("\n");
-        info.append("Assigned Space: ").append(assignedParkingSpace != null ? assignedParkingSpace : "None").append("\n");
+        info.append("Celular: ").append(phone).append("\n");
+        info.append("Espacio Asignado: ").append(assignedParkingSpace != null ? assignedParkingSpace : "Ninguno").append("\n");
 
         if (currentRental != null) {
-            info.append("Active Rental: Yes\n");
-            info.append("Rented Space: ").append(currentRental.getSpaceId()).append("\n");
+            info.append("Alquiler activo: Sí\n");
+            info.append("Espacio alquilado: ").append(currentRental.getSpaceId()).append("\n");
         }
 
         return info.toString();

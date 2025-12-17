@@ -166,8 +166,8 @@ public class FrmViewReport extends javax.swing.JFrame {
 
         if (selectedOption == null || selectedOption.isEmpty()) {
             JOptionPane.showMessageDialog(this,
-                    "Please select an option from the dropdown",
-                    "Selection Required",
+                    "Seleccione una opción del menú desplegable.",
+                    "Selección requerida",
                     JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -175,7 +175,7 @@ public class FrmViewReport extends javax.swing.JFrame {
         txtReportArea.setText("");
 
         try {
-            txtReportArea.append("Loading data from: " + selectedOption + "\n");
+            txtReportArea.append("Cargando datos desde: " + selectedOption + "\n");
             txtReportArea.append("========================================\n\n");
 
             switch (selectedOption) {
@@ -192,7 +192,7 @@ public class FrmViewReport extends javax.swing.JFrame {
                     break;
 
                 default:
-                    txtReportArea.append("Option not implemented: " + selectedOption + "\n");
+                    txtReportArea.append("Opción no implementada: " + selectedOption + "\n");
             }
 
             txtReportArea.append("\n========================================\n");
@@ -200,7 +200,7 @@ public class FrmViewReport extends javax.swing.JFrame {
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,
-                    "Error loading data: " + e.getMessage(),
+                    "Error al cargar datos: " + e.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
@@ -220,48 +220,48 @@ public class FrmViewReport extends javax.swing.JFrame {
                 return;
             }
 
-            txtReportArea.append("TOTAL RESIDENTS: " + residents.size() + "\n\n");
+            txtReportArea.append("TOTAL DE RESIDENTES: " + residents.size() + "\n\n");
 
             for (int i = 0; i < residents.size(); i++) {
                 Resident resident = residents.get(i);
 
-                txtReportArea.append("=== RESIDENT " + (i + 1) + " ===\n");
+                txtReportArea.append("=== RESIDENTE " + (i + 1) + " ===\n");
                 txtReportArea.append("ID: " + resident.getResidentID() + "\n");
-                txtReportArea.append("Name: " + resident.getName() + "\n");
-                txtReportArea.append("Apartment: " + resident.getApartmentNumber() + "\n");
+                txtReportArea.append("Nombre: " + resident.getName() + "\n");
+                txtReportArea.append("Apartmento: " + resident.getApartmentNumber() + "\n");
                 txtReportArea.append("Email: " + resident.getEmail() + "\n");
-                txtReportArea.append("Phone: " + resident.getPhone() + "\n");
-                txtReportArea.append("Type: " + resident.getUserType() + "\n");
+                txtReportArea.append("Celular: " + resident.getPhone() + "\n");
+                txtReportArea.append("Tipo: " + resident.getUserType() + "\n");
 
                 String assignedSpace = resident.getAssignedParkingSpace();
                 if (assignedSpace != null && !assignedSpace.isEmpty()) {
-                    txtReportArea.append("Assigned Parking: " + assignedSpace + "\n");
+                    txtReportArea.append("Estacionamiento asignado: " + assignedSpace + "\n");
                 } else {
-                    txtReportArea.append("Assigned Parking: None\n");
+                    txtReportArea.append("Estacionamiento asignado: Ninguno\n");
                 }
 
                 if (resident.hasActiveRental()) {
-                    txtReportArea.append("Current Rental: Yes\n");
-                    txtReportArea.append("Rented Space: " + resident.getRentedSpace() + "\n");
+                    txtReportArea.append("Alquiler actual: Sí\n");
+                    txtReportArea.append("Espacio alquilado: " + resident.getRentedSpace() + "\n");
                 } else {
-                    txtReportArea.append("Current Rental: No\n");
+                    txtReportArea.append("Alquiler actual: No\n");
                 }
 
                 List<Vehicle> vehicles = resident.getVehicles();
                 if (vehicles != null && !vehicles.isEmpty()) {
-                    txtReportArea.append("Vehicles (" + vehicles.size() + "):\n");
+                    txtReportArea.append("Vehículos (" + vehicles.size() + "):\n");
                     for (Vehicle vehicle : vehicles) {
                         txtReportArea.append("  - " + vehicle.getPlate()
                                 + " (" + vehicle.getModel()
                                 + ", " + vehicle.getColor() + ")\n");
                     }
                 } else {
-                    txtReportArea.append("Vehicles: None\n");
+                    txtReportArea.append("Vehículos: Ninguno\n");
                 }
 
                 List<String> authorizedVisitors = resident.getAuthorizedVisitors();
                 if (authorizedVisitors != null && !authorizedVisitors.isEmpty()) {
-                    txtReportArea.append("Authorized Visitors (" + authorizedVisitors.size() + "):\n");
+                    txtReportArea.append("Visitantes autorizados (" + authorizedVisitors.size() + "):\n");
                     for (String visitorId : authorizedVisitors) {
                         txtReportArea.append("  - " + visitorId + "\n");
                     }
@@ -271,7 +271,7 @@ public class FrmViewReport extends javax.swing.JFrame {
             }
 
         } catch (Exception e) {
-            txtReportArea.append("ERROR loading residents: " + e.getMessage() + "\n");
+            txtReportArea.append("ERROR al cargar residentes: " + e.getMessage() + "\n");
             e.printStackTrace();
         }
     }
@@ -285,34 +285,34 @@ public class FrmViewReport extends javax.swing.JFrame {
             List<Visitor> visitors = visitorController.getAllVisitors();
 
             if (visitors.isEmpty()) {
-                txtReportArea.append("No visitors found in database.\n");
+                txtReportArea.append("No se encontraron visitantes en la base de datos.\n");
                 return;
             }
 
-            txtReportArea.append("TOTAL VISITORS: " + visitors.size() + "\n\n");
+            txtReportArea.append("TOTAL DE VISITANTES: " + visitors.size() + "\n\n");
 
             for (int i = 0; i < visitors.size(); i++) {
                 Visitor visitor = visitors.get(i);
 
-                txtReportArea.append("=== VISITOR " + (i + 1) + " ===\n");
-                txtReportArea.append("Visitor ID: " + visitor.getVisitorID() + "\n");
-                txtReportArea.append("Name: " + visitor.getNameVisitor() + "\n");
+                txtReportArea.append("=== VISITANTE " + (i + 1) + " ===\n");
+                txtReportArea.append("ID del visitante: " + visitor.getVisitorID() + "\n");
+                txtReportArea.append("Nombre: " + visitor.getNameVisitor() + "\n");
 
                 String vehicleInfo = visitor.getVehiclePlate();
                 if (vehicleInfo != null && !vehicleInfo.isEmpty()) {
-                    txtReportArea.append("Vehicle/Date: " + vehicleInfo + "\n");
+                    txtReportArea.append("Vehículo/Fecha: " + vehicleInfo + "\n");
                 } else {
-                    txtReportArea.append("Vehicle/Date: Not specified\n");
+                    txtReportArea.append("Vehículo/Fecha: No especificado\n");
                 }
 
-                txtReportArea.append("User ID: " + visitor.getResidentID() + "\n");
-                txtReportArea.append("Has Pass: " + (visitor.isHasPass() ? "Yes" : "No") + "\n");
-                txtReportArea.append("Status: " + visitor.getLibraryVisitorStatus() + "\n");
+                txtReportArea.append("ID de usuario: " + visitor.getResidentID() + "\n");
+                txtReportArea.append("Tiene pase: " + (visitor.isHasPass() ? "Sí" : "No") + "\n");
+                txtReportArea.append("Estado: " + visitor.getLibraryVisitorStatus() + "\n");
                 txtReportArea.append("\n");
             }
 
         } catch (Exception e) {
-            txtReportArea.append("ERROR loading visitors: " + e.getMessage() + "\n");
+            txtReportArea.append("ERROR al cargar visitantes: " + e.getMessage() + "\n");
             e.printStackTrace();
         }
     }
@@ -325,21 +325,21 @@ public class FrmViewReport extends javax.swing.JFrame {
 
             txtReportArea.setText("");
 
-            txtReportArea.append("PARKING SPACES REPORT\n");
+            txtReportArea.append("REPORTE DE PLAZAS DE ESTACIONAMIENTO\n");
             txtReportArea.append("=====================\n\n");
 
             Document complexInfo = parkingController.getParkingComplexInfo();
             if (complexInfo != null) {
-                txtReportArea.append("COMPLEX INFORMATION:\n");
+                txtReportArea.append("INFORMACIÓN COMPLEJA:\n");
 
                 if (complexInfo.containsKey("name")) {
-                    txtReportArea.append("Name: " + complexInfo.getString("name") + "\n");
+                    txtReportArea.append("Nombre: " + complexInfo.getString("name") + "\n");
                 }
                 if (complexInfo.containsKey("totalSpaces")) {
-                    txtReportArea.append("Total Spaces: " + complexInfo.getInteger("totalSpaces") + "\n");
+                    txtReportArea.append("Espacios totales: " + complexInfo.getInteger("totalSpaces") + "\n");
                 }
                 if (complexInfo.containsKey("availableForRent")) {
-                    txtReportArea.append("Available for Rent: " + complexInfo.getInteger("availableForRent") + "\n");
+                    txtReportArea.append("Disponible para alquiler: " + complexInfo.getInteger("availableForRent") + "\n");
                 }
 
                 txtReportArea.append("\n");
@@ -348,13 +348,13 @@ public class FrmViewReport extends javax.swing.JFrame {
             List<String> availableSpaces = parkingController.getAvailableSpaces();
 
             if (availableSpaces.isEmpty()) {
-                txtReportArea.append("No available parking spaces found.\n");
+                txtReportArea.append("No se encontraron plazas de aparcamiento disponibles.\n");
                 return;
             }
 
-            txtReportArea.append("AVAILABLE SPACES FOR RENT: " + availableSpaces.size() + "\n\n");
+            txtReportArea.append("ESPACIOS DISPONIBLES PARA ALQUILER: " + availableSpaces.size() + "\n\n");
 
-            txtReportArea.append("LIST OF AVAILABLE SPACES:\n");
+            txtReportArea.append("LISTA DE PLAZAS DISPONIBLES:\n");
             txtReportArea.append("-------------------------\n\n");
 
             for (int i = 0; i < availableSpaces.size(); i++) {
@@ -368,11 +368,11 @@ public class FrmViewReport extends javax.swing.JFrame {
                     Boolean isAvailableForRent = spaceDetails.getBoolean("isAvailableForRent");
 
                     txtReportArea.append(String.format("%3d. %s\n", i + 1, spaceId));
-                    txtReportArea.append("     Type: " + (type != null ? type : "N/A") + "\n");
-                    txtReportArea.append("     Status: "
+                    txtReportArea.append("     Tipo: " + (type != null ? type : "N/A") + "\n");
+                    txtReportArea.append("     Estado: "
                             + (isOccupied != null && isOccupied ? "OCCUPIED" : "AVAILABLE") + "\n");
-                    txtReportArea.append("     Available for Rent: "
-                            + (isAvailableForRent != null && isAvailableForRent ? "YES" : "NO") + "\n");
+                    txtReportArea.append("     Disponible para alquiler: "
+                            + (isAvailableForRent != null && isAvailableForRent ? "SÍ" : "NO") + "\n");
                     txtReportArea.append("\n");
 
                 } else {
@@ -382,10 +382,10 @@ public class FrmViewReport extends javax.swing.JFrame {
             }
 
             txtReportArea.append("\n");
-            txtReportArea.append("Total spaces listed: " + availableSpaces.size() + "\n");
+            txtReportArea.append("Total de espacios listados: " + availableSpaces.size() + "\n");
 
         } catch (Exception e) {
-            txtReportArea.append("ERROR loading parking spaces: " + e.getMessage() + "\n");
+            txtReportArea.append("ERROR al cargar plazas de aparcamiento: " + e.getMessage() + "\n");
             e.printStackTrace();
         }
 
