@@ -360,7 +360,7 @@ public class FrmResidentRental extends javax.swing.JFrame {
         try {
             cmbAvailableSpaces.removeAllItems();
 
-            cmbAvailableSpaces.addItem("Selecciona un espacio...");
+            cmbAvailableSpaces.addItem("Selecciona un espacio.");
 
             ParkingSpaceController spaceController = new ParkingSpaceController();
             List<String> availableSpaces = spaceController.getAvailableSpaces();
@@ -370,17 +370,17 @@ public class FrmResidentRental extends javax.swing.JFrame {
             }
 
             if (availableSpaces.isEmpty()) {
-                cmbAvailableSpaces.addItem("No available spaces");
+                cmbAvailableSpaces.addItem("No hay espacios disponibles.");
                 cmbAvailableSpaces.setEnabled(false);
-                lblMessage.setText("No parking spaces available for rent");
+                lblMessage.setText("No hay plazas de aparcamiento disponibles para alquilar.");
             } else {
                 cmbAvailableSpaces.setEnabled(true);
-                lblMessage.setText(availableSpaces.size() + " spaces available");
+                lblMessage.setText(availableSpaces.size() + " espacios disponibles.");
             }
 
         } catch (Exception e) {
-            System.err.println("Error loading spaces to combo box: " + e.getMessage());
-            cmbAvailableSpaces.addItem("Error loading spaces");
+            System.err.println("Error al cargar espacios en el combo box: " + e.getMessage());
+            cmbAvailableSpaces.addItem("Error al cargar espacios");
             cmbAvailableSpaces.setEnabled(false);
         }
     }
@@ -398,43 +398,43 @@ public class FrmResidentRental extends javax.swing.JFrame {
         System.out.println("Input: '" + input + "'");
 
         if (input.isEmpty()) {
-            System.err.println("Input is empty");
+            System.err.println("La entrada está vacía.");
             JOptionPane.showMessageDialog(this,
-                    "Please enter an ID or Full Name to search",
-                    "Empty Field",
+                    "Por favor ingrese un ID o nombre completo para buscar.",
+                    "Campo vacío",
                     JOptionPane.WARNING_MESSAGE);
             txtFindResident.requestFocus();
             lblMessage.setText("");
             return;
         }
 
-        lblMessage.setText("Searching for: " + input + "...");
+        lblMessage.setText("Buscando por: " + input + "...");
         lblMessage.setForeground(Color.BLUE);
 
         try {
             ResidentController controller = new ResidentController();
-            System.out.println("Controller created, searching...");
+            System.out.println("Controlador creado, buscando...");
 
             Resident foundResident = controller.searchResidentById(input);
 
             if (foundResident == null) {
-                System.out.println("Not found by ID, trying general search...");
+                System.out.println("No encontrado por ID, intentando búsqueda general...");
                 foundResident = controller.searchResident(input);
             }
 
             if (foundResident != null) {
-                System.out.println("RESIDENT FOUND!");
-                System.out.println("Name: " + foundResident.getName());
+                System.out.println("RESIDENTE ENCONTRADO!");
+                System.out.println("Nombre: " + foundResident.getName());
                 System.out.println("ID: " + foundResident.getResidentID());
-                System.out.println("Type: " + foundResident.getUserType());
-                System.out.println("Apartment: " + foundResident.getApartmentNumber());
+                System.out.println("Tipo: " + foundResident.getUserType());
+                System.out.println("Apartmento: " + foundResident.getApartmentNumber());
 
                 if (foundResident.getCurrentRental() != null) {
-                    System.out.println("Rental exists");
-                    System.out.println("Payment Status: " + foundResident.getCurrentRental().getPaymentStatus());
-                    System.out.println("Monthly Price: " + foundResident.getCurrentRental().getMonthlyPrice());
+                    System.out.println("El alquiler existe");
+                    System.out.println("Estado del pago: " + foundResident.getCurrentRental().getPaymentStatus());
+                    System.out.println("Precio mensual: " + foundResident.getCurrentRental().getMonthlyPrice());
                 } else {
-                    System.out.println("No rental info");
+                    System.out.println("No hay información de alquiler.");
                 }
 
                 String paymentStatus = "UNKNOWN";
@@ -451,10 +451,10 @@ public class FrmResidentRental extends javax.swing.JFrame {
                         .append(" | Apt: ").append(foundResident.getApartmentNumber());
 
                 if ("ROTATING".equals(foundResident.getUserType())) {
-                    System.out.println("Resident is ROTATING");
+                    System.out.println("El Residente es ROTATING");
                     lblMessage.setForeground(new Color(0, 150, 0));
                     displayText.append(" | ROTANTE");
-                    displayText.append(" | Payment: ").append(paymentStatus);
+                    displayText.append(" | Pago: ").append(paymentStatus);
 
                     enableRotatingElements(foundResident);
                     validateButtons();
@@ -466,53 +466,53 @@ public class FrmResidentRental extends javax.swing.JFrame {
                         displayText.append(" | Space: ").append(foundResident.getAssignedParkingSpace());
                     }
 
-                    System.out.println("Search completed successfully");
+                    System.out.println("Búsqueda completada exitosamente.");
 
                 } else if ("WITH_PARKING".equals(foundResident.getUserType())) {
-                    System.out.println("Resident is WITH_PARKING (permanent)");
+                    System.out.println("El Residente es WITH_PARKING (permanente)");
                     lblMessage.setForeground(new Color(100, 0, 0));
                     displayText.append(" | PERMANENTE");
                     disableAllPaymentButtons();
 
                     JOptionPane.showMessageDialog(this,
-                            "This resident has PERMANENT parking assignment.\n"
-                            + "The rental payment system is not available for permanent residents.",
-                            "Permanent Resident",
+                            "Este residente tiene asignación de estacionamiento PERMANENTE.\n"
+                            + "El sistema de pago de alquiler no está disponible para residentes permanentes.",
+                            "Residente Permanente",
                             JOptionPane.INFORMATION_MESSAGE);
 
                 } else {
-                    System.out.println("Unknown user type: " + foundResident.getUserType());
+                    System.out.println("Tipo de usuario desconocido: " + foundResident.getUserType());
                     lblMessage.setForeground(Color.BLACK);
                     displayText.append(" | ").append(foundResident.getUserType());
                     disableAllPaymentButtons();
                 }
 
                 lblMessage.setText(displayText.toString());
-                System.out.println("Final message text: " + lblMessage.getText());
+                System.out.println("Texto del mensaje final: " + lblMessage.getText());
 
             } else {
-                System.err.println("Resident not found");
-                lblMessage.setText("Resident not found: " + input);
+                System.err.println("Residente no encontrado");
+                lblMessage.setText("Residente no encontrado: " + input);
                 lblMessage.setForeground(Color.RED);
 
                 JOptionPane.showMessageDialog(this,
-                        "No resident found with: " + input + "\n"
-                        + "Please verify the ID or name is correct.",
-                        "Not Found",
+                        "No se encontró ningún residente con: " + input + "\n"
+                        + "Por favor verifique que la identificación o el nombre sean correctos.",
+                        "No encontrado",
                         JOptionPane.WARNING_MESSAGE);
 
                 clearFormFields();
             }
 
         } catch (Exception e) {
-            System.err.println("EXCEPTION in search: " + e.getMessage());
+            System.err.println("EXCEPCIÓN en la búsqueda: " + e.getMessage());
             e.printStackTrace();
 
-            lblMessage.setText("Search error - Check database connection");
+            lblMessage.setText("Error de búsqueda: comprobar la conexión a la base de datos");
             lblMessage.setForeground(Color.RED);
 
             JOptionPane.showMessageDialog(this,
-                    "Database error: " + e.getMessage(),
+                    "Error de base de datos: " + e.getMessage(),
                     "Connection Error",
                     JOptionPane.ERROR_MESSAGE);
 
@@ -1589,15 +1589,14 @@ public class FrmResidentRental extends javax.swing.JFrame {
                     JOptionPane.QUESTION_MESSAGE);
 
             if (response == JOptionPane.YES_OPTION) {
-                boolean rentalActivated = controller.activateRental(residentId, selectedMonths, selectedSpace);
+
+                boolean rentalActivated = controller.activateRentalWithSpace(
+                        residentId,
+                        selectedMonths,
+                        selectedSpace
+                );
 
                 if (rentalActivated) {
-                    ParkingSpaceController spaceController = new ParkingSpaceController();
-                    boolean spaceUpdated = spaceController.updateSpaceOccupation(selectedSpace, true);
-
-                    if (!spaceUpdated) {
-                        System.err.println("Warning: Could not update space occupation");
-                    }
 
                     loadAvailableSpacesToComboBox();
 
@@ -1624,6 +1623,7 @@ public class FrmResidentRental extends javax.swing.JFrame {
                             "Error de Activación",
                             JOptionPane.ERROR_MESSAGE);
                 }
+
             } else {
                 JOptionPane.showMessageDialog(this,
                         "Activación cancelada por el usuario",
@@ -1631,7 +1631,15 @@ public class FrmResidentRental extends javax.swing.JFrame {
                         JOptionPane.INFORMATION_MESSAGE);
             }
 
+        } catch (IllegalStateException ex) {
+
+            JOptionPane.showMessageDialog(this,
+                    ex.getMessage(),
+                    "Error de Negocio",
+                    JOptionPane.ERROR_MESSAGE);
+
         } catch (Exception e) {
+
             System.err.println("Error in activate rent process: " + e.getMessage());
             e.printStackTrace();
 
@@ -1640,7 +1648,8 @@ public class FrmResidentRental extends javax.swing.JFrame {
                     + "Error: " + e.getMessage(),
                     "Error del Sistema",
                     JOptionPane.ERROR_MESSAGE);
-        }
+}
+
     }//GEN-LAST:event_btnActivateRentActionPerformed
 
     private void updateStateAfterActivation(String endDate, double totalAmount) {

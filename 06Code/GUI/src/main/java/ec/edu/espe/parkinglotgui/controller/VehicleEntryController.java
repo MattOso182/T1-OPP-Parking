@@ -8,6 +8,7 @@ import ec.edu.espe.parkinglotgui.utils.MongoConnectionEntrances;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class VehicleEntryController {
@@ -37,41 +38,61 @@ public class VehicleEntryController {
     }
 
     public boolean registerEntry(String licensePlate) {
-        try {
-            if (!validateLicensePlateFormat(licensePlate)) {
-                System.err.println("La placa " + licensePlate + " tiene formato inválido");
-                return false;
-            }
-            
-            Document activeEntry = entrancesCollection.find(
-                new Document("licensePlate", licensePlate)
-                    .append("status", "PARKED")
-            ).first();
-            
-            if (activeEntry != null) {
-                System.err.println("El vehículo con placa " + licensePlate + " ya está estacionado");
-                return false;
-            }
-            
-            Date entryTime = new Date();
-            
-            Document entryRecord = new Document("licensePlate", licensePlate)
-                                           .append("entryTime", entryTime)
-                                           .append("status", "PARKED");
-
-            entrancesCollection.insertOne(entryRecord);
-            System.out.println("Registro de entrada exitoso para placa: " + licensePlate);
-            
-            mongoConnectionEntrances.closeConnection();
-            
-            return true;
-            
-        } catch (Exception e) {
-            System.err.println("Error al registrar la entrada del vehículo: " + e.getMessage());
-            mongoConnectionEntrances.closeConnection();
+    try {
+        if (!validateLicensePlateFormat(licensePlate)) {
+            System.err.println("La placa " + licensePlate + " tiene formato inválido");
             return false;
         }
+
+        Document activeEntry = entrancesCollection.find(
+            new Document("licensePlate", licensePlate)
+                .append("status", "PARKED")
+        ).first();
+
+        if (activeEntry != null) {
+            System.err.println("El vehículo con placa " + licensePlate + " ya está estacionado");
+            return false;
+        }
+
+        ParkingSpaceController spaceController = new ParkingSpaceController();
+        List<String> availableSpaces = spaceController.getAvailableSpaces();
+
+        if (availableSpaces.isEmpty()) {
+            System.err.println("No hay espacios disponibles para asignar");
+            return false;
+        }
+
+        String assignedSpace = availableSpaces.get(0);
+
+        boolean updated = spaceController.updateSpaceOccupation(assignedSpace, true);
+
+        if (!updated) {
+            System.err.println("No se pudo marcar el espacio como ocupado: " + assignedSpace);
+            return false;
+        }
+
+        Date entryTime = new Date();
+
+        Document entryRecord = new Document("licensePlate", licensePlate)
+                .append("spaceId", assignedSpace)
+                .append("entryTime", entryTime)
+                .append("status", "PARKED");
+
+        entrancesCollection.insertOne(entryRecord);
+
+        System.out.println("Entrada registrada para placa: " 
+                + licensePlate + " en el espacio: " + assignedSpace);
+
+        mongoConnectionEntrances.closeConnection();
+        return true;
+
+    } catch (Exception e) {
+        System.err.println("Error al registrar la entrada del vehículo: " + e.getMessage());
+        mongoConnectionEntrances.closeConnection();
+        return false;
     }
+}
+
     
     public boolean isVehicleParked(String licensePlate) {
         try {

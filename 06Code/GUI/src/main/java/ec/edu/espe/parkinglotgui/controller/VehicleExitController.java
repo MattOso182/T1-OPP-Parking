@@ -67,6 +67,24 @@ public class VehicleExitController {
                 return false;
             }
 
+            Document activeEntry = collection.find(
+                    new Document("licensePlate", licensePlate)
+                            .append("status", "PARKED")
+            ).first();
+
+            if (activeEntry == null) {
+                System.err.println("Error: No se encontró ningún vehículo con placa "
+                        + licensePlate + " en estado 'PARKED'.");
+                return false;
+            }
+
+            String spaceId = activeEntry.getString("spaceId");
+
+            if (spaceId != null && !spaceId.isEmpty()) {
+                ParkingSpaceController spaceController = new ParkingSpaceController();
+                spaceController.freeParkingSpace(spaceId);
+            }
+
             Date exitTime = new Date();
 
             Bson filter = Filters.and(
@@ -82,7 +100,8 @@ public class VehicleExitController {
             UpdateResult result = collection.updateOne(filter, updates);
 
             if (result.getMatchedCount() == 0) {
-                System.err.println("Error: No se encontró ningún vehículo con placa " + licensePlate + " en estado 'PARKED'.");
+                System.err.println("Error: No se encontró ningún vehículo con placa "
+                        + licensePlate + " en estado 'PARKED'.");
                 return false;
             }
 
@@ -95,4 +114,5 @@ public class VehicleExitController {
             return false;
         }
     }
+
 }
