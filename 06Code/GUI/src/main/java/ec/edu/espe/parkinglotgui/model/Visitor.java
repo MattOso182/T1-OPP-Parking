@@ -77,8 +77,8 @@ public class Visitor {
 
     public String getInfo() {
         StringBuilder info = new StringBuilder();
-        info.append("=== VISITOR INFORMATION ===\n");
-        info.append("Visitor ID: ").append(visitorID).append("\n");
+        info.append("=== INFORMACIÓN DEL VISITANTE ===\n");
+        info.append("ID del Visitante: ").append(visitorID).append("\n");
         info.append("Nombre: ").append(nameVisitor).append("\n");
         info.append("Vehículo/Fecha: ").append(vehiclePlate).append("\n");
         info.append("ID de Usuario: ").append(residentID).append("\n");

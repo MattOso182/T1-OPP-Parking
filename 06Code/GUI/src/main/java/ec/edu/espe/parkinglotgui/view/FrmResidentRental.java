@@ -141,6 +141,8 @@ public class FrmResidentRental extends javax.swing.JFrame {
 
         jLabel2.setText("Ingrese ID:");
 
+        txtFindResident.addActionListener(this::txtFindResidentActionPerformed);
+
         btnSearchResident.setText("Buscar Residente");
         btnSearchResident.addActionListener(this::btnSearchResidentActionPerformed);
 
@@ -390,9 +392,15 @@ public class FrmResidentRental extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbMonthsSubscriptionActionPerformed
 
-
+    private boolean isSearchingResident = false;
     private void btnSearchResidentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchResidentActionPerformed
         String input = txtFindResident.getText().trim();
+
+        if (isSearchingResident) {
+            return;
+        }
+
+        isSearchingResident = true;
 
         System.out.println("\n=== SEARCH BUTTON CLICKED ===");
         System.out.println("Input: '" + input + "'");
@@ -405,6 +413,7 @@ public class FrmResidentRental extends javax.swing.JFrame {
                     JOptionPane.WARNING_MESSAGE);
             txtFindResident.requestFocus();
             lblMessage.setText("");
+            isSearchingResident = false;
             return;
         }
 
@@ -458,7 +467,6 @@ public class FrmResidentRental extends javax.swing.JFrame {
 
                     enableRotatingElements(foundResident);
                     validateButtons();
-
                     loadAvailableSpacesToComboBox();
 
                     if (foundResident.getAssignedParkingSpace() != null
@@ -517,9 +525,12 @@ public class FrmResidentRental extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
 
             clearFormFields();
+        } finally {
+            isSearchingResident = false;
         }
 
         System.out.println("=== BÚSQUEDA COMPLETADA ===\n");
+
     }
 
     private void displayResidentInfo(Resident resident) {
@@ -1651,6 +1662,10 @@ public class FrmResidentRental extends javax.swing.JFrame {
 }
 
     }//GEN-LAST:event_btnActivateRentActionPerformed
+
+    private void txtFindResidentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFindResidentActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFindResidentActionPerformed
 
     private void updateStateAfterActivation(String endDate, double totalAmount) {
         System.out.println("\n=== UPDATING STATE AFTER ACTIVATION ===");
