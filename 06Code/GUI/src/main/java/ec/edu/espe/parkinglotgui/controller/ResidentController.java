@@ -115,11 +115,14 @@ public class ResidentController {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
-            if (doc.get("startDate") instanceof String)
+            if (doc.get("startDate") instanceof String) {
                 r.setStartDate(sdf.parse(doc.getString("startDate")));
-            if (doc.get("endDate") instanceof String)
+            }
+            if (doc.get("endDate") instanceof String) {
                 r.setEndDate(sdf.parse(doc.getString("endDate")));
-        } catch (Exception ignored) {}
+            }
+        } catch (Exception e) {
+        }
 
         return r;
     }
@@ -217,17 +220,15 @@ public class ResidentController {
         );
         return result.getModifiedCount() > 0;
     }
+
     public List<Resident> getAllResidents() {
         List<Resident> residents = new ArrayList<>();
 
         for (Document mainDoc : collection.find()) {
-
             if (mainDoc.containsKey("residents")) {
-                List<Document> residentDocs = mainDoc.getList("residents", Document.class);
-                for (Document rDoc : residentDocs) {
+                for (Document rDoc : mainDoc.getList("residents", Document.class)) {
                     residents.add(convertDocumentToResident(rDoc));
                 }
-
             } else {
                 residents.add(convertDocumentToResident(mainDoc));
             }

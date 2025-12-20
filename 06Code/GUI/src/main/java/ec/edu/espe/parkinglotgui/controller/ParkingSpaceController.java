@@ -1,9 +1,11 @@
 package ec.edu.espe.parkinglotgui.controller;
 
+
 /**
  *
  * @author Mateo Aymacaña, T.A.P. (The Art of Programming), @ESPE
  */
+
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import ec.edu.espe.parkinglotgui.utils.MongoDBConnection;
@@ -20,45 +22,17 @@ public class ParkingSpaceController {
             MongoDatabase database = MongoDBConnection.getConnection();
             if (database != null) {
                 collection = database.getCollection("ParkingSpaces");
-                System.out.println("ParkingSpaceController connected to: ParkingSpaces");
-
-                Document firstDoc = collection.find().first();
-                if (firstDoc != null) {
-                    System.out.println("First document keys: " + firstDoc.keySet());
-
-                    if (firstDoc.containsKey("parkingComplex")) {
-                        Document parkingComplex = firstDoc.get("parkingComplex", Document.class);
-                        System.out.println("parkingComplex keys: " + parkingComplex.keySet());
-
-                        if (parkingComplex.containsKey("blocks")) {
-                            List<Document> blocks = parkingComplex.getList("blocks", Document.class);
-                            System.out.println("Blocks found inside parkingComplex: " + blocks.size());
-                        }
-                    }
-                }
             }
         } catch (Exception e) {
-            System.err.println("Error initializing ParkingSpaceController: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
     public Document getFirstDocument() {
         try {
             if (collection != null) {
-                Document firstDoc = collection.find().first();
-                if (firstDoc != null) {
-                    System.out.println("Retrieved first document from ParkingSpaces collection");
-                    return firstDoc;
-                } else {
-                    System.err.println("No documents found in ParkingSpaces collection");
-                }
-            } else {
-                System.err.println("Collection is not initialized");
+                return collection.find().first();
             }
         } catch (Exception e) {
-            System.err.println("Error getting first document: " + e.getMessage());
-            e.printStackTrace();
         }
         return null;
     }
@@ -100,7 +74,6 @@ public class ParkingSpaceController {
                 return info;
             }
         } catch (Exception e) {
-            System.err.println("Error getting parking complex info: " + e.getMessage());
         }
         return null;
     }
@@ -109,80 +82,44 @@ public class ParkingSpaceController {
         List<String> availableSpaces = new ArrayList<>();
 
         try {
-            System.out.println("\n=== GETTING AVAILABLE SPACES ===");
-
             Document firstDoc = collection.find().first();
-
             if (firstDoc == null) {
-                System.out.println("ERROR: No documents found");
                 return availableSpaces;
             }
 
-            System.out.println("Document keys: " + firstDoc.keySet());
-
             if (firstDoc.containsKey("parkingComplex")) {
                 Document parkingComplex = firstDoc.get("parkingComplex", Document.class);
-                System.out.println("Found parkingComplex with keys: " + parkingComplex.keySet());
 
                 if (parkingComplex.containsKey("blocks")) {
                     List<Document> blocks = parkingComplex.getList("blocks", Document.class);
-                    System.out.println("Processing " + blocks.size() + " blocks...");
 
                     for (Document block : blocks) {
-                        String blockName = block.getString("blockName");
-                        System.out.println("  Block: " + cleanField(blockName));
-
                         if (block.containsKey("sections")) {
                             List<Document> sections = block.getList("sections", Document.class);
 
                             for (Document section : sections) {
-                                String sectionName = section.getString("section");
-                                System.out.println("    Section: " + cleanField(sectionName));
-
                                 if (section.containsKey("spaces")) {
                                     List<Document> spaces = section.getList("spaces", Document.class);
-                                    System.out.println("      Spaces in this section: " + spaces.size());
 
                                     for (Document space : spaces) {
                                         String spaceId = space.getString("spaceId");
                                         Boolean isOccupied = space.getBoolean("isOccupied");
                                         Boolean isAvailableForRent = space.getBoolean("isAvailableForRent");
 
-                                        String cleanedSpaceId = cleanSpaceId(spaceId);
-                                        System.out.println("      Space: " + cleanedSpaceId
-                                                + " | Occupied: " + isOccupied
-                                                + " | AvailableForRent: " + isAvailableForRent);
-
                                         if (isOccupied != null && !isOccupied
-                                                && isAvailableForRent != null && isAvailableForRent) {
+                                                && isAvailableForRent != null && isAvailableForRent
+                                                && spaceId != null && !spaceId.trim().isEmpty()) {
 
-                                            if (spaceId != null && !spaceId.trim().isEmpty()) {
-                                                availableSpaces.add(cleanedSpaceId);
-                                                System.out.println("        ADDED TO AVAILABLE LIST");
-                                            }
+                                            availableSpaces.add(cleanSpaceId(spaceId));
                                         }
                                     }
-                                } else {
-                                    System.out.println("      No 'spaces' key in section");
                                 }
                             }
-                        } else {
-                            System.out.println("    No 'sections' key in block");
                         }
                     }
-                } else {
-                    System.out.println("No 'blocks' key in parkingComplex");
                 }
-            } else {
-                System.out.println("No 'parkingComplex' key found");
             }
-
-            System.out.println("Total available spaces found: " + availableSpaces.size());
-            System.out.println("Available spaces: " + availableSpaces);
-
         } catch (Exception e) {
-            System.err.println("Error getting available spaces: " + e.getMessage());
-            e.printStackTrace();
         }
 
         return availableSpaces;
@@ -243,7 +180,6 @@ public class ParkingSpaceController {
                 }
             }
         } catch (Exception e) {
-            System.err.println("Error getting space details: " + e.getMessage());
         }
         return null;
     }
@@ -251,17 +187,11 @@ public class ParkingSpaceController {
     public boolean updateSpaceOccupation(String spaceId, boolean isOccupied) {
         try {
             if (collection == null) {
-                System.err.println("Collection is not initialized");
                 return false;
             }
 
-            System.out.println("\n=== UPDATING SPACE OCCUPATION ===");
-            System.out.println("Space ID: " + spaceId);
-            System.out.println("New isOccupied: " + isOccupied);
-
             Document firstDoc = collection.find().first();
             if (firstDoc == null) {
-                System.err.println("No documents found in collection");
                 return false;
             }
 
@@ -277,23 +207,13 @@ public class ParkingSpaceController {
             arrayFilters.add(new Document("section.spaces.spaceId", spaceId));
             arrayFilters.add(new Document("space.spaceId", spaceId));
 
-            com.mongodb.client.result.UpdateResult result = collection.updateOne(
+            return collection.updateOne(
                     query,
                     update,
                     new com.mongodb.client.model.UpdateOptions().arrayFilters(arrayFilters)
-            );
-
-            if (result.getModifiedCount() > 0) {
-                System.out.println("SUCCESS: Space " + spaceId + " updated. isOccupied: " + isOccupied);
-                return true;
-            } else {
-                System.out.println("Space not found or not updated: " + spaceId);
-                return false;
-            }
+            ).getModifiedCount() > 0;
 
         } catch (Exception e) {
-            System.err.println("Error updating space occupation: " + e.getMessage());
-            e.printStackTrace();
             return false;
         }
     }
@@ -301,16 +221,11 @@ public class ParkingSpaceController {
     public boolean freeParkingSpace(String spaceId) {
         try {
             if (collection == null) {
-                System.err.println("Collection is not initialized");
                 return false;
             }
 
-            System.out.println("\n=== FREEING PARKING SPACE ===");
-            System.out.println("Space ID: " + spaceId);
-
             Document firstDoc = collection.find().first();
             if (firstDoc == null) {
-                System.err.println("No documents found in collection");
                 return false;
             }
 
@@ -327,23 +242,19 @@ public class ParkingSpaceController {
             arrayFilters.add(new Document("section.spaces.spaceId", spaceId));
             arrayFilters.add(new Document("space.spaceId", spaceId));
 
-            com.mongodb.client.result.UpdateResult result = collection.updateOne(
+            boolean updated = collection.updateOne(
                     query,
                     update,
                     new com.mongodb.client.model.UpdateOptions().arrayFilters(arrayFilters)
-            );
+            ).getModifiedCount() > 0;
 
-            if (result.getModifiedCount() > 0) {
-                System.out.println("SUCCESS: Space " + spaceId + " freed and available for rent");
-                return true;
-            } else {
-                System.out.println("Space not found or not updated: " + spaceId);
+            if (!updated) {
                 return freeParkingSpaceAlternative(spaceId);
             }
 
+            return true;
+
         } catch (Exception e) {
-            System.err.println("Error freeing parking space: " + e.getMessage());
-            e.printStackTrace();
             return false;
         }
     }
@@ -357,8 +268,6 @@ public class ParkingSpaceController {
 
             Document parkingComplex = firstDoc.get("parkingComplex", Document.class);
             List<Document> blocks = parkingComplex.getList("blocks", Document.class);
-
-            boolean foundAndUpdated = false;
 
             for (int b = 0; b < blocks.size(); b++) {
                 Document block = blocks.get(b);
@@ -382,40 +291,18 @@ public class ParkingSpaceController {
                             blocks.set(b, block);
                             parkingComplex.put("blocks", blocks);
 
-                            Document update = new Document("$set",
-                                    new Document("parkingComplex", parkingComplex)
-                            );
-
-                            com.mongodb.client.result.UpdateResult result = collection.updateOne(
+                            return collection.updateOne(
                                     new Document("_id", firstDoc.getObjectId("_id")),
-                                    update
-                            );
-
-                            foundAndUpdated = result.getModifiedCount() > 0;
-
-                            if (foundAndUpdated) {
-                                System.out.println("ALTERNATIVE SUCCESS: Space " + spaceId + " freed");
-                            }
-                            break;
+                                    new Document("$set", new Document("parkingComplex", parkingComplex))
+                            ).getModifiedCount() > 0;
                         }
                     }
-                    if (foundAndUpdated) {
-                        break;
-                    }
-                }
-                if (foundAndUpdated) {
-                    break;
                 }
             }
 
-            if (!foundAndUpdated) {
-                System.err.println("Space not found: " + spaceId);
-            }
-
-            return foundAndUpdated;
+            return false;
 
         } catch (Exception e) {
-            System.err.println("Error in alternative free space: " + e.getMessage());
             return false;
         }
     }
