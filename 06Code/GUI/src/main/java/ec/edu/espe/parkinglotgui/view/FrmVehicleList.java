@@ -5,6 +5,11 @@ import org.bson.Document;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
 import java.util.ArrayList;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /**
  *
@@ -22,210 +27,7 @@ public class FrmVehicleList extends javax.swing.JFrame {
         initComponents();
         loadVehicleData();
         
-        addVehicle.addActionListener(evt -> addVehicleActionPerformed());
-        deleteVehicle.addActionListener(evt -> deleteVehicleActionPerformed());
-        editVehicle.addActionListener(evt -> editVehicleActionPerformed());
     }
-    
-    private void addVehicleActionPerformed() {
-        
-        java.util.List<String> residentIds = new java.util.ArrayList<>();
-        for (org.bson.Document doc : vehicleDAO.findAll()) {
-            org.bson.Document r = doc.get("resident", org.bson.Document.class);
-            residentIds.add(r.getString("residentId"));
-        }   
-
-
-        String selectedResidentId = (String) javax.swing.JOptionPane.showInputDialog(
-                this,
-                "Selecciona un residente",
-                "Agregar Vehículo",
-                javax.swing.JOptionPane.QUESTION_MESSAGE,
-                null,
-                residentIds.toArray(),
-                null
-        );
-
-        if (selectedResidentId == null) return;
-
-        javax.swing.JTextField plateField = new javax.swing.JTextField();
-        javax.swing.JTextField colorField = new javax.swing.JTextField();
-        javax.swing.JTextField brandField = new javax.swing.JTextField();
-        javax.swing.JTextField modelField = new javax.swing.JTextField();
-        javax.swing.JTextField typeField = new javax.swing.JTextField();
-
-        javax.swing.JPanel panel = new javax.swing.JPanel(new java.awt.GridLayout(0, 1));
-        panel.add(new javax.swing.JLabel("Placa"));
-        panel.add(plateField);
-        panel.add(new javax.swing.JLabel("Color"));
-        panel.add(colorField);
-        panel.add(new javax.swing.JLabel("Marca"));
-        panel.add(brandField);
-        panel.add(new javax.swing.JLabel("Modelo"));
-        panel.add(modelField);
-        panel.add(new javax.swing.JLabel("Tipo"));
-        panel.add(typeField);
-
-        int result = javax.swing.JOptionPane.showConfirmDialog(this, panel, "Datos del Vehículo",
-                javax.swing.JOptionPane.OK_CANCEL_OPTION);
-
-        if (result != javax.swing.JOptionPane.OK_OPTION) return;
-
-        org.bson.Document newVehicle = new org.bson.Document("plate", plateField.getText())
-                .append("color", colorField.getText())
-                .append("brand", brandField.getText())
-                .append("model", modelField.getText())
-                .append("type", typeField.getText());
-
-        vehicleDAO.addVehicle(selectedResidentId, newVehicle);
-
-        javax.swing.JOptionPane.showMessageDialog(this, "Vehículo agregado exitosamente");
-        loadVehicleData();
-    }
-    private void deleteVehicleActionPerformed() {
-        int row = vehicleList.getSelectedRow();
-        if (row == -1) return;
-
-        String residentId = vehicleList.getValueAt(row, 0).toString();
-        String plate = vehicleList.getValueAt(row, 6).toString();
-
-        int confirm = javax.swing.JOptionPane.showConfirmDialog(
-                this,
-                "¿Estás seguro de eliminar este vehículo?",
-                "Confirmar eliminación",
-                javax.swing.JOptionPane.YES_NO_OPTION
-        );
-
-        if (confirm != javax.swing.JOptionPane.YES_OPTION) return;
-
-        vehicleDAO.deleteVehicle(residentId, plate);
-
-        javax.swing.JOptionPane.showMessageDialog(this, "Vehículo eliminado exitosamente");
-        loadVehicleData();
-    }
-    private void editVehicleActionPerformed() {
-        
-        java.util.List<org.bson.Document> residents = new java.util.ArrayList<>();
-        java.util.List<String> residentIds = new java.util.ArrayList<>();
-
-        for (org.bson.Document doc : vehicleDAO.findAll()) {
-            org.bson.Document r = doc.get("resident", org.bson.Document.class);
-            residents.add(r);
-            residentIds.add(r.getString("residentId"));
-        }
-
-
-        String selectedResidentId = (String) javax.swing.JOptionPane.showInputDialog(
-                this,
-                "Selecciona el residente",
-                "Editar Vehículo",
-                javax.swing.JOptionPane.QUESTION_MESSAGE,
-                null,
-                residentIds.toArray(),
-                null
-        );
-
-        if (selectedResidentId == null) return;
-
-        org.bson.Document resident = null;
-        for (org.bson.Document r : residents) {
-            if (r.getString("residentId").equals(selectedResidentId)) {
-                resident = r;
-                break;
-            }
-        }
-
-        java.util.List<org.bson.Document> vehicles = resident.getList("vehicles", org.bson.Document.class);
-        java.util.List<String> plates = new java.util.ArrayList<>();
-        for (org.bson.Document v : vehicles) plates.add(v.getString("plate"));
-
-        String selectedPlate = (String) javax.swing.JOptionPane.showInputDialog(
-                this,
-                "Selecciona el vehículo a editar",
-                "Editar Vehículo",
-                javax.swing.JOptionPane.QUESTION_MESSAGE,
-                null,
-                plates.toArray(),
-                null
-        );
-
-        if (selectedPlate == null) return;
-
-        org.bson.Document vehicleToEdit = null;
-        for (org.bson.Document v : vehicles) {
-            if (v.getString("plate").equals(selectedPlate)) {
-                vehicleToEdit = v;
-                break;
-            }
-        }
-
-        javax.swing.JTextField plateField = new javax.swing.JTextField(vehicleToEdit.getString("plate"));
-        javax.swing.JTextField colorField = new javax.swing.JTextField(vehicleToEdit.getString("color"));
-        javax.swing.JTextField brandField = new javax.swing.JTextField(vehicleToEdit.getString("brand"));
-        javax.swing.JTextField modelField = new javax.swing.JTextField(vehicleToEdit.getString("model"));
-        javax.swing.JTextField typeField = new javax.swing.JTextField(vehicleToEdit.getString("type"));
-
-        javax.swing.JPanel panel = new javax.swing.JPanel(new java.awt.GridLayout(0, 1));
-        panel.add(new javax.swing.JLabel("Placa"));
-        panel.add(plateField);
-        panel.add(new javax.swing.JLabel("Color"));
-        panel.add(colorField);
-        panel.add(new javax.swing.JLabel("Marca"));
-        panel.add(brandField);
-        panel.add(new javax.swing.JLabel("Modelo"));
-        panel.add(modelField);
-        panel.add(new javax.swing.JLabel("Tipo"));
-        panel.add(typeField);
-
-        int result = javax.swing.JOptionPane.showConfirmDialog(
-                this,
-                panel,
-                "Editar Vehículo",
-                javax.swing.JOptionPane.OK_CANCEL_OPTION
-        );
-
-        if (result != javax.swing.JOptionPane.OK_OPTION) return;
-
-        org.bson.Document newVehicle = new org.bson.Document("plate", plateField.getText())
-                .append("color", colorField.getText())
-                .append("brand", brandField.getText())
-                .append("model", modelField.getText())
-                .append("type", typeField.getText());
-
-        vehicleDAO.deleteVehicle(selectedResidentId, selectedPlate);
-        vehicleDAO.addVehicle(selectedResidentId, newVehicle);
-
-
-        javax.swing.JOptionPane.showMessageDialog(this, "Vehículo modificado exitosamente");
-        loadVehicleData();
-    }
-    
-    private void loadVehicleData() {
-        DefaultTableModel model = (DefaultTableModel) vehicleList.getModel();
-        model.setRowCount(0);
-
-        for (Document doc : vehicleDAO.findAll()) {
-            Document resident = doc.get("resident", Document.class);
-            List<Document> vehicles = resident.getList("vehicles", Document.class);
-
-            for (Document v : vehicles) {
-                model.addRow(new Object[]{
-                    resident.getString("residentId"),
-                    resident.getString("name"),
-                    resident.getString("apartmentNumber"),
-                    resident.getString("email"),
-                    resident.getString("phone"),
-                    resident.getString("userType"),
-                    v.getString("plate"),
-                    v.getString("color") + ", " +
-                    v.getString("brand") + ", " +
-                    v.getString("model") + ", " +
-                    v.getString("type")
-                });
-            }
-        }
-    }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -281,17 +83,17 @@ public class FrmVehicleList extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        tittle.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 24)); // NOI18N
+        tittle.setFont(new java.awt.Font("Eras Demi ITC", 0, 36)); // NOI18N
         tittle.setText("Lista de Vehículos");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(364, 364, 364)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(tittle)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(289, 289, 289))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -302,6 +104,11 @@ public class FrmVehicleList extends javax.swing.JFrame {
         );
 
         addVehicle.setText("Agregar");
+        addVehicle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addVehicleActionPerformed(evt);
+            }
+        });
 
         deleteVehicle.setText("Eliminar");
         deleteVehicle.addActionListener(new java.awt.event.ActionListener() {
@@ -311,6 +118,11 @@ public class FrmVehicleList extends javax.swing.JFrame {
         });
 
         editVehicle.setText("Editar");
+        editVehicle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editVehicleActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -338,17 +150,17 @@ public class FrmVehicleList extends javax.swing.JFrame {
 
         vehicleList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Resident ID", "Nombre", "N° de Apartamento", "Email", "Celular", "Tipo de Usuario", "Placa", "Detalles"
+                "ID de Propietario", "Nombre del Propietario", "Placa", "Color", "Modelo", "¿Parqueado?"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -417,6 +229,64 @@ public class FrmVehicleList extends javax.swing.JFrame {
 
     private void deleteVehicleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteVehicleActionPerformed
         // TODO add your handling code here:
+
+        List<Document> docs = vehicleDAO.findAll();
+
+        List<String> ownerIds = new ArrayList<>();
+        List<Document> owners = new ArrayList<>();
+
+        for (Document d : docs) {
+            String ownerId = d.getString("ownerId");
+            if (!ownerIds.contains(ownerId)) {
+                ownerIds.add(ownerId);
+                owners.add(d);
+            }
+        }
+
+        String selectedOwnerId = (String) JOptionPane.showInputDialog(
+                this,
+                "Selecciona un propietario",
+                "Eliminar Vehículo",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                ownerIds.toArray(),
+                null
+        );
+
+        if (selectedOwnerId == null) return;
+
+        List<String> plates = new ArrayList<>();
+        for (Document d : docs) {
+            if (d.getString("ownerId").equals(selectedOwnerId)) {
+                plates.add(d.getString("plate"));
+            }
+        }
+
+        String selectedPlate = (String) JOptionPane.showInputDialog(
+                this,
+                "Selecciona el vehículo",
+                "Eliminar Vehículo",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                plates.toArray(),
+                null
+        );
+
+        if (selectedPlate == null) return;
+
+        int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "¿Estás seguro de eliminar este vehículo?",
+                "Confirmación",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm != JOptionPane.YES_OPTION) return;
+
+        vehicleDAO.deleteByOwnerAndPlate(selectedOwnerId, selectedPlate);
+
+        JOptionPane.showMessageDialog(this, "Vehículo eliminado correctamente");
+        loadVehicleData();
     }//GEN-LAST:event_deleteVehicleActionPerformed
 
     private void itemReturnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemReturnMenuActionPerformed
@@ -425,6 +295,206 @@ public class FrmVehicleList extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_itemReturnMenuActionPerformed
 
+    private void addVehicleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addVehicleActionPerformed
+        // TODO add your handling code here:
+
+        List<Document> docs = vehicleDAO.findAll();
+
+        List<String> ownerIds = new ArrayList<>();
+        List<Document> owners = new ArrayList<>();
+
+        for (Document d : docs) {
+            String ownerId = d.getString("ownerId");
+            if (!ownerIds.contains(ownerId)) {
+                ownerIds.add(ownerId);
+                owners.add(d);
+            }
+        }
+
+        String selectedOwnerId = (String) JOptionPane.showInputDialog(
+                this,
+                "Selecciona un propietario",
+                "Agregar Vehículo",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                ownerIds.toArray(),
+                null
+        );
+
+        if (selectedOwnerId == null) return;
+
+        Document selectedOwner = null;
+        for (Document d : owners) {
+            if (d.getString("ownerId").equals(selectedOwnerId)) {
+                selectedOwner = d;
+                break;
+            }
+        }
+
+        JTextField plateField = new JTextField();
+        JTextField colorField = new JTextField();
+        JTextField modelField = new JTextField();
+        JCheckBox parkedCheck = new JCheckBox("¿Parqueado?");
+
+        JPanel panel = new JPanel(new java.awt.GridLayout(0, 1));
+        panel.add(new JLabel("Placa"));
+        panel.add(plateField);
+        panel.add(new JLabel("Color"));
+        panel.add(colorField);
+        panel.add(new JLabel("Modelo"));
+        panel.add(modelField);
+        panel.add(parkedCheck);
+
+        int result = JOptionPane.showConfirmDialog(
+                this,
+                panel,
+                "Datos del Vehículo",
+                JOptionPane.OK_CANCEL_OPTION
+        );
+
+        if (result != JOptionPane.OK_OPTION) return;
+
+        Document newVehicle = new Document()
+                .append("ownerId", selectedOwner.getString("ownerId"))
+                .append("ownerName", selectedOwner.getString("ownerName"))
+                .append("plate", plateField.getText())
+                .append("color", colorField.getText())
+                .append("model", modelField.getText())
+                .append("parked", parkedCheck.isSelected());
+
+        vehicleDAO.insert(newVehicle);
+
+        JOptionPane.showMessageDialog(this, "Vehículo agregado correctamente");
+        loadVehicleData();
+    }//GEN-LAST:event_addVehicleActionPerformed
+
+    private void editVehicleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editVehicleActionPerformed
+        // TODO add your handling code here:
+
+        List<Document> docs = vehicleDAO.findAll();
+
+        List<String> ownerIds = new ArrayList<>();
+        for (Document d : docs) {
+            if (!ownerIds.contains(d.getString("ownerId"))) {
+                ownerIds.add(d.getString("ownerId"));
+            }
+        }
+
+        String selectedOwnerId = (String) JOptionPane.showInputDialog(
+                this,
+                "Selecciona un propietario",
+                "Editar Vehículo",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                ownerIds.toArray(),
+                null
+        );
+
+        if (selectedOwnerId == null) return;
+
+        List<Document> vehicles = new ArrayList<>();
+        List<String> plates = new ArrayList<>();
+
+        for (Document d : docs) {
+            if (d.getString("ownerId").equals(selectedOwnerId)) {
+                vehicles.add(d);
+                plates.add(d.getString("plate"));
+            }
+        }
+
+        String selectedPlate = (String) JOptionPane.showInputDialog(
+                this,
+                "Selecciona el vehículo",
+                "Editar Vehículo",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                plates.toArray(),
+                null
+        );
+
+        if (selectedPlate == null) return;
+
+        Document vehicle = null;
+        for (Document d : vehicles) {
+            if (d.getString("plate").equals(selectedPlate)) {
+                vehicle = d;
+                break;
+            }
+        }
+
+        JTextField plateField = new JTextField(vehicle.getString("plate"));
+        JTextField colorField = new JTextField(vehicle.getString("color"));
+        JTextField modelField = new JTextField(vehicle.getString("model"));
+        JCheckBox parkedCheck = new JCheckBox("¿Parqueado?", vehicle.getBoolean("parked"));
+
+        JPanel panel = new JPanel(new java.awt.GridLayout(0, 1));
+        panel.add(new JLabel("Placa"));
+        panel.add(plateField);
+        panel.add(new JLabel("Color"));
+        panel.add(colorField);
+        panel.add(new JLabel("Modelo"));
+        panel.add(modelField);
+        panel.add(parkedCheck);
+
+        int result = JOptionPane.showConfirmDialog(
+                this,
+                panel,
+                "Editar Vehículo",
+                JOptionPane.OK_CANCEL_OPTION
+        );
+
+        if (result != JOptionPane.OK_OPTION) return;
+
+        int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "¿Deseas guardar los cambios?",
+                "Confirmación",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm != JOptionPane.YES_OPTION) return;
+
+        vehicleDAO.updateVehicle(
+                selectedOwnerId,
+                selectedPlate,
+                new Document()
+                        .append("plate", plateField.getText())
+                        .append("color", colorField.getText())
+                        .append("model", modelField.getText())
+                        .append("parked", parkedCheck.isSelected())
+        );
+
+        JOptionPane.showMessageDialog(this, "Vehículo actualizado correctamente");
+        loadVehicleData();
+    }//GEN-LAST:event_editVehicleActionPerformed
+
+    private void loadVehicleData() {
+        DefaultTableModel model = (DefaultTableModel) vehicleList.getModel();
+        model.setRowCount(0);
+
+        List<Document> docs = vehicleDAO.findAllSortedByOwner();
+
+        String lastOwnerId = "";
+
+        for (Document doc : docs) {
+            String ownerId = doc.getString("ownerId");
+            String ownerName = doc.getString("ownerName");
+
+            String showOwnerId = ownerId.equals(lastOwnerId) ? "" : ownerId;
+            String showOwnerName = ownerId.equals(lastOwnerId) ? "" : ownerName;
+
+            model.addRow(new Object[]{
+                showOwnerId,
+                showOwnerName,
+                doc.getString("plate"),
+                doc.getString("color"),
+                doc.getString("model"),
+                doc.getBoolean("parked")
+            });
+
+            lastOwnerId = ownerId;
+        }
+    }
     /**
      * @param args the command line arguments
      */

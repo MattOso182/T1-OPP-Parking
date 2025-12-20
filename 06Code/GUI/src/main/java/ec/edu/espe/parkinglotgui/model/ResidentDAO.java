@@ -11,6 +11,7 @@ import java.util.List;
  *
  * @author Arelis Samantha Bonilla Cruz, Student, @ESPE
  */
+
 public class ResidentDAO {
 
     private final MongoCollection<Document> collection;
@@ -28,18 +29,22 @@ public class ResidentDAO {
         collection.insertOne(doc);
     }
 
-    public void deleteById(String id) {
-        collection.deleteOne(new Document("residentID", id));
+    public void deleteById(String residentID) {
+        collection.deleteOne(new Document("residentID", residentID));
     }
 
-    public void update(String id, Document update) {
+    public void update(String residentID, Document update) {
         collection.updateOne(
-            new Document("residentID", id),
-            new Document("$set", update)
+                new Document("residentID", residentID),
+                new Document("$set", update)
         );
     }
 
     public long count() {
         return collection.countDocuments();
+    }
+
+    public Document findByResidentID(String residentID) {
+        return collection.find(new Document("residentID", residentID)).first();
     }
 }

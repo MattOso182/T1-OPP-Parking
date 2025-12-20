@@ -1,6 +1,15 @@
 package ec.edu.espe.parkinglotgui.view;
 
 import ec.edu.espe.parkinglotgui.model.ResidentDAO;
+import java.awt.GridLayout;
+import java.util.List;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import org.bson.Document;
 import javax.swing.table.DefaultTableModel;
 
@@ -25,210 +34,25 @@ public class FrmResidentList extends javax.swing.JFrame {
         deleteResident.addActionListener(evt -> deleteResidentActionPerformed(evt));
 
     }
-    
-private void addResidentActionPerformed(java.awt.event.ActionEvent evt) {                                            
-    javax.swing.JTextField nameField = new javax.swing.JTextField();
-    javax.swing.JTextField aptField = new javax.swing.JTextField();
-    javax.swing.JTextField emailField = new javax.swing.JTextField();
-    javax.swing.JTextField phoneField = new javax.swing.JTextField();
-    javax.swing.JTextField typeField = new javax.swing.JTextField();
-    javax.swing.JTextField parkingField = new javax.swing.JTextField();
-
-    javax.swing.JPanel panel = new javax.swing.JPanel(new java.awt.GridLayout(0, 2, 5, 5));
-
-    panel.add(new javax.swing.JLabel("Nombre:"));
-    panel.add(nameField);
-
-    panel.add(new javax.swing.JLabel("N° Apartamento:"));
-    panel.add(aptField);
-
-    panel.add(new javax.swing.JLabel("Email:"));
-    panel.add(emailField);
-
-    panel.add(new javax.swing.JLabel("Celular:"));
-    panel.add(phoneField);
-
-    panel.add(new javax.swing.JLabel("Tipo de Usuario:"));
-    panel.add(typeField);
-
-    panel.add(new javax.swing.JLabel("Parqueo Asignado:"));
-    panel.add(parkingField);
-
-    int result = javax.swing.JOptionPane.showConfirmDialog(
-            this,
-            panel,
-            "Agregar Residente",
-            javax.swing.JOptionPane.OK_CANCEL_OPTION,
-            javax.swing.JOptionPane.PLAIN_MESSAGE
-    );
-
-    if (result != javax.swing.JOptionPane.OK_OPTION) {
-        return;
-    }
-
-    String name = nameField.getText().trim();
-    String apt = aptField.getText().trim();
-    String email = emailField.getText().trim();
-    String phone = phoneField.getText().trim();
-    String type = typeField.getText().trim();
-    String parking = parkingField.getText().trim();
-
-    if (name.isEmpty() || apt.isEmpty() || email.isEmpty() || phone.isEmpty() || type.isEmpty() || parking.isEmpty()) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Complete todos los campos.");
-        return;
-    }
-
-    long count = residentDAO.count();
-
-    String newID = String.format("RES-%03d", count + 1);
-
-    org.bson.Document doc = new org.bson.Document()
-            .append("residentID", newID)
-            .append("name", name)
-            .append("apartmentNumber", apt)
-            .append("email", email)
-            .append("phone", phone)
-            .append("userType", type)
-            .append("assignedParkingSpace", parking);
-
-    residentDAO.insert(doc);
-
-    loadResidentData();
-    javax.swing.JOptionPane.showMessageDialog(this, "Residente agregado con ID: " + newID);
-}      
-private void deleteResidentActionPerformed(java.awt.event.ActionEvent evt) {                                              
-    int row = listResident.getSelectedRow();
-    if (row == -1) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Seleccione un residente");
-        return;
-    }
-
-    String id = listResident.getValueAt(row, 0).toString();
-
-    int confirm = javax.swing.JOptionPane.showConfirmDialog(
-            this,
-            "¿Está seguro de eliminar al residente con ID: " + id + "?",
-            "Confirmar Eliminación",
-            javax.swing.JOptionPane.YES_NO_OPTION
-    );
-
-    if (confirm != javax.swing.JOptionPane.YES_OPTION) return;
-
-    residentDAO.deleteById(id);
-
-    loadResidentData();
-    javax.swing.JOptionPane.showMessageDialog(this, "Residente eliminado");
-}
-private void editResidentActionPerformed(java.awt.event.ActionEvent evt) {                                             
-    int row = listResident.getSelectedRow();
-    if (row == -1) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Seleccione un residente para editar.");
-        return;
-    }
-
-    String originalID = listResident.getValueAt(row, 0).toString();
-    String originalName = listResident.getValueAt(row, 1).toString();
-    String originalApt = listResident.getValueAt(row, 2).toString();
-    String originalEmail = listResident.getValueAt(row, 3).toString();
-    String originalPhone = listResident.getValueAt(row, 4).toString();
-    String originalType = listResident.getValueAt(row, 5).toString();
-    String originalParking = listResident.getValueAt(row, 6).toString();
-
-    javax.swing.JTextField idField = new javax.swing.JTextField(originalID);
-    idField.setEnabled(false);
-
-    javax.swing.JTextField nameField = new javax.swing.JTextField(originalName);
-    javax.swing.JTextField aptField = new javax.swing.JTextField(originalApt);
-    javax.swing.JTextField emailField = new javax.swing.JTextField(originalEmail);
-    javax.swing.JTextField phoneField = new javax.swing.JTextField(originalPhone);
-    javax.swing.JTextField typeField = new javax.swing.JTextField(originalType);
-    javax.swing.JTextField parkingField = new javax.swing.JTextField(originalParking);
-
-    javax.swing.JPanel panel = new javax.swing.JPanel(new java.awt.GridLayout(0, 2, 5, 5));
-
-    panel.add(new javax.swing.JLabel("ID (No editable):"));
-    panel.add(idField);
-
-    panel.add(new javax.swing.JLabel("Nombre:"));
-    panel.add(nameField);
-
-    panel.add(new javax.swing.JLabel("N° Apartamento:"));
-    panel.add(aptField);
-
-    panel.add(new javax.swing.JLabel("Email:"));
-    panel.add(emailField);
-
-    panel.add(new javax.swing.JLabel("Celular:"));
-    panel.add(phoneField);
-
-    panel.add(new javax.swing.JLabel("Tipo de Usuario:"));
-    panel.add(typeField);
-
-    panel.add(new javax.swing.JLabel("Parqueo Asignado:"));
-    panel.add(parkingField);
-
-    int result = javax.swing.JOptionPane.showConfirmDialog(
-            this,
-            panel,
-            "Editar Residente",
-            javax.swing.JOptionPane.OK_CANCEL_OPTION,
-            javax.swing.JOptionPane.PLAIN_MESSAGE
-    );
-
-    if (result != javax.swing.JOptionPane.OK_OPTION) {
-        return;
-    }
-
-    String newName = nameField.getText().trim();
-    String newApt = aptField.getText().trim();
-    String newEmail = emailField.getText().trim();
-    String newPhone = phoneField.getText().trim();
-    String newType = typeField.getText().trim();
-    String newParking = parkingField.getText().trim();
-
-    boolean changed =
-            !newName.equals(originalName) ||
-            !newApt.equals(originalApt) ||
-            !newEmail.equals(originalEmail) ||
-            !newPhone.equals(originalPhone) ||
-            !newType.equals(originalType) ||
-            !newParking.equals(originalParking);
-
-    if (!changed) {
-        javax.swing.JOptionPane.showMessageDialog(this, "No se realizaron cambios.");
-        return;
-    }
-
-    org.bson.Document update = new org.bson.Document()
-            .append("name", newName)
-            .append("apartmentNumber", newApt)
-            .append("email", newEmail)
-            .append("phone", newPhone)
-            .append("userType", newType)
-            .append("assignedParkingSpace", newParking);
-
-    residentDAO.update(originalID, update);
-
-    loadResidentData();
-    javax.swing.JOptionPane.showMessageDialog(this, "Residente actualizado correctamente.");
-}
-
 
 private void loadResidentData() {
     DefaultTableModel model = (DefaultTableModel) listResident.getModel();
     model.setRowCount(0);
 
     for (Document doc : residentDAO.findAll()) {
+        List<String> plates = doc.getList("vehiclePlates", String.class);
+        String platesStr = (plates != null) ? String.join(", ", plates) : "";
+
         model.addRow(new Object[]{
             doc.getString("residentID"),
             doc.getString("name"),
             doc.getString("apartmentNumber"),
-            doc.getString("email"),
             doc.getString("phone"),
-            doc.getString("userType"),
-            doc.getString("assignedParkingSpace")
+            doc.getBoolean("activeRental"),
+            platesStr
         });
     }
+
 }
 
     /**
@@ -252,7 +76,7 @@ private void loadResidentData() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        residentList.setFont(new java.awt.Font("Segoe UI Semibold", 0, 36)); // NOI18N
+        residentList.setFont(new java.awt.Font("Eras Demi ITC", 0, 36)); // NOI18N
         residentList.setText("Lista de Residentes");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -262,29 +86,29 @@ private void loadResidentData() {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(residentList)
-                .addGap(184, 184, 184))
+                .addGap(166, 166, 166))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(41, 41, 41)
+                .addGap(42, 42, 42)
                 .addComponent(residentList)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         listResident.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nombre", "N° de Apartamento", "Email", "Celular", "Tipo de Usuario", "Espacio de Parqueo Asignado"
+                "ID", "Nombre", "N° de Apartamento", "Celular", "¿Renta Activa?", "Placa Vehicular"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -292,6 +116,14 @@ private void loadResidentData() {
             }
         });
         jScrollPane1.setViewportView(listResident);
+        if (listResident.getColumnModel().getColumnCount() > 0) {
+            listResident.getColumnModel().getColumn(0).setHeaderValue("ID");
+            listResident.getColumnModel().getColumn(1).setHeaderValue("Nombre");
+            listResident.getColumnModel().getColumn(2).setHeaderValue("N° de Apartamento");
+            listResident.getColumnModel().getColumn(3).setHeaderValue("Celular");
+            listResident.getColumnModel().getColumn(4).setHeaderValue("¿Renta Activa?");
+            listResident.getColumnModel().getColumn(5).setHeaderValue("Placa Vehicular");
+        }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -311,10 +143,25 @@ private void loadResidentData() {
         );
 
         addResident.setText("Agregar");
+        addResident.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addResidentActionPerformed(evt);
+            }
+        });
 
         editResident.setText("Editar");
+        editResident.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editResidentActionPerformed(evt);
+            }
+        });
 
         deleteResident.setText("Eliminar");
+        deleteResident.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteResidentActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -366,6 +213,213 @@ private void loadResidentData() {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void addResidentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addResidentActionPerformed
+        // TODO add your handling code here:
+
+        JTextField nameField = new JTextField();
+        JTextField phoneField = new JTextField();
+        JTextField plateField = new JTextField();
+        JCheckBox rentalCheck = new JCheckBox("Renta activa");
+
+        String[] apartments = {"A-101","A-102","A-103","B-201","B-202","B-203","C-301","C-302","C-303","D-401","D-402","D-403"};
+        JComboBox<String> aptCombo = new JComboBox<>(apartments);
+
+        JPanel panel = new JPanel(new GridLayout(0, 2, 5, 5));
+        panel.add(new JLabel("Nombre:")); panel.add(nameField);
+        panel.add(new JLabel("Apartamento:")); panel.add(aptCombo);
+        panel.add(new JLabel("Celular:")); panel.add(phoneField);
+        panel.add(new JLabel("Placa Vehicular:")); panel.add(plateField);
+        panel.add(new JLabel("Estado de Renta:")); panel.add(rentalCheck);
+
+        int result = JOptionPane.showConfirmDialog(
+                this,
+                panel,
+                "Agregar Residente",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE
+        );
+
+        if (result != JOptionPane.OK_OPTION) return;
+
+        String name = nameField.getText().trim();
+        String apt = (String) aptCombo.getSelectedItem();
+        String phone = phoneField.getText().trim();
+        String plate = plateField.getText().trim();
+        boolean activeRental = rentalCheck.isSelected();
+
+        if (name.isEmpty() || apt == null || phone.isEmpty() || plate.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Complete todos los campos.");
+            return;
+        }
+
+        if (!name.matches("[a-zA-Z\\s]+")) {
+            JOptionPane.showMessageDialog(this, "Nombre solo puede contener letras y espacios.");
+            return;
+        }
+
+        if (!phone.matches("09\\d{8}")) {
+            JOptionPane.showMessageDialog(this, "Celular debe tener 10 dígitos y comenzar con 09.");
+            return;
+        }
+
+        if (!plate.matches("[A-Z]{3}-\\d{4}")) {
+            JOptionPane.showMessageDialog(this, "Placa debe tener el formato ABC-1234.");
+            return;
+        }
+
+        long count = residentDAO.count() + 1;
+        String newID = String.format("RES-%03d", count);
+
+        Document doc = new Document()
+                .append("residentID", newID)
+                .append("name", name)
+                .append("apartmentNumber", apt)
+                .append("phone", phone)
+                .append("activeRental", activeRental)
+                .append("vehiclePlates", List.of(plate));
+
+        residentDAO.insert(doc);
+        loadResidentData();
+        JOptionPane.showMessageDialog(this, "Residente agregado correctamente con ID: " + newID);
+
+
+    }//GEN-LAST:event_addResidentActionPerformed
+
+    private void deleteResidentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteResidentActionPerformed
+        // TODO add your handling code here:
+
+        List<Document> residents = residentDAO.findAll();
+        if (residents.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "No hay residentes registrados.");
+            return;
+        }
+
+        String[] residentOptions = residents.stream()
+                .map(r -> r.getString("residentID") + " - " + r.getString("name"))
+                .toArray(String[]::new);
+
+        String selected = (String) javax.swing.JOptionPane.showInputDialog(
+                this,
+                "Seleccione el residente a eliminar:",
+                "Eliminar Residente",
+                javax.swing.JOptionPane.PLAIN_MESSAGE,
+                null,
+                residentOptions,
+                residentOptions[0]
+        );
+
+        if (selected == null) return;
+
+        String residentID = selected.split(" - ")[0];
+
+        int confirm = javax.swing.JOptionPane.showConfirmDialog(
+                this,
+                "¿Está seguro de eliminar al residente con ID: " + residentID + "?",
+                "Confirmar eliminación",
+                javax.swing.JOptionPane.YES_NO_OPTION,
+                javax.swing.JOptionPane.WARNING_MESSAGE
+        );
+
+        if (confirm != javax.swing.JOptionPane.YES_OPTION) return;
+
+        residentDAO.deleteById(residentID);
+        loadResidentData();
+        javax.swing.JOptionPane.showMessageDialog(this, "Residente eliminado correctamente");
+
+    }//GEN-LAST:event_deleteResidentActionPerformed
+
+    private void editResidentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editResidentActionPerformed
+        // TODO add your handling code here:
+
+        List<Document> residents = residentDAO.findAll();
+        if (residents.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "No hay residentes registrados.");
+            return;
+        }
+
+        String[] residentOptions = residents.stream()
+                .map(r -> r.getString("residentID") + " - " + r.getString("name"))
+                .toArray(String[]::new);
+
+        String selected = (String) javax.swing.JOptionPane.showInputDialog(
+                this,
+                "Seleccione el residente a editar:",
+                "Editar Residente",
+                javax.swing.JOptionPane.PLAIN_MESSAGE,
+                null,
+                residentOptions,
+                residentOptions[0]
+        );
+
+        if (selected == null) return;
+
+        String residentID = selected.split(" - ")[0];
+        Document resident = residentDAO.findByResidentID(residentID);
+
+        String originalName = resident.getString("name");
+        String originalApt = resident.getString("apartmentNumber");
+        String originalPhone = resident.getString("phone");
+        Boolean originalActive = resident.getBoolean("activeRental");
+        List<String> originalPlates = resident.getList("vehiclePlates", String.class);
+        String originalPlatesStr = (originalPlates != null) ? String.join(", ", originalPlates) : "";
+
+        javax.swing.JTextField nameField = new javax.swing.JTextField(originalName);
+        javax.swing.JTextField aptField = new javax.swing.JTextField(originalApt);
+        javax.swing.JTextField phoneField = new javax.swing.JTextField(originalPhone);
+        javax.swing.JTextField plateField = new javax.swing.JTextField(originalPlatesStr);
+        javax.swing.JCheckBox activeCheck = new javax.swing.JCheckBox("Renta activa");
+        activeCheck.setSelected(originalActive);
+
+        javax.swing.JPanel panel = new javax.swing.JPanel(new java.awt.GridLayout(0, 2, 5, 5));
+        panel.add(new javax.swing.JLabel("Nombre:"));
+        panel.add(nameField);
+        panel.add(new javax.swing.JLabel("N° Apartamento:"));
+        panel.add(aptField);
+        panel.add(new javax.swing.JLabel("Celular:"));
+        panel.add(phoneField);
+        panel.add(new javax.swing.JLabel("Placas Vehiculares (separadas por coma):"));
+        panel.add(plateField);
+        panel.add(new javax.swing.JLabel("Estado de Renta:"));
+        panel.add(activeCheck);
+
+        int result = javax.swing.JOptionPane.showConfirmDialog(
+                this,
+                panel,
+                "Editar Residente",
+                javax.swing.JOptionPane.OK_CANCEL_OPTION,
+                javax.swing.JOptionPane.PLAIN_MESSAGE
+        );
+
+        if (result != javax.swing.JOptionPane.OK_OPTION) return;
+
+        String newName = nameField.getText().trim();
+        String newApt = aptField.getText().trim();
+        String newPhone = phoneField.getText().trim();
+        boolean newActive = activeCheck.isSelected();
+        String platesInput = plateField.getText().trim();
+
+        if (newName.isEmpty() || newApt.isEmpty() || newPhone.isEmpty() || platesInput.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Complete todos los campos.");
+            return;
+        }
+
+        List<String> platesList = java.util.Arrays.stream(platesInput.split(","))
+                .map(String::trim)
+                .toList();
+
+        org.bson.Document update = new org.bson.Document()
+                .append("name", newName)
+                .append("apartmentNumber", newApt)
+                .append("phone", newPhone)
+                .append("activeRental", newActive)
+                .append("vehiclePlates", platesList);
+
+        residentDAO.update(residentID, update);
+        loadResidentData();
+        javax.swing.JOptionPane.showMessageDialog(this, "Residente actualizado correctamente.");
+
+    }//GEN-LAST:event_editResidentActionPerformed
 
     /**
      * @param args the command line arguments
