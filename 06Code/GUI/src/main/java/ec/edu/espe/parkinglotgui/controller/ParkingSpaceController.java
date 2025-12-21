@@ -1,11 +1,9 @@
 package ec.edu.espe.parkinglotgui.controller;
 
-
 /**
  *
  * @author Mateo Aymacaña, T.A.P. (The Art of Programming), @ESPE
  */
-
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import ec.edu.espe.parkinglotgui.utils.MongoDBConnection;
@@ -305,5 +303,123 @@ public class ParkingSpaceController {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public List<Document> getAvailableSpacesDetails() {
+        List<Document> availableSpaces = new ArrayList<>();
+
+        try {
+            if (collection == null) {
+                System.err.println("Error: Collection es null");
+                return availableSpaces;
+            }
+
+            Document firstDoc = collection.find().first();
+            if (firstDoc == null) {
+                System.err.println("Error: No se encontraron documentos en ParkingSpaces");
+                return availableSpaces;
+            }
+
+            if (firstDoc.containsKey("parkingComplex")) {
+                Document parkingComplex = firstDoc.get("parkingComplex", Document.class);
+
+                if (parkingComplex.containsKey("blocks")) {
+                    List<Document> blocks = parkingComplex.getList("blocks", Document.class);
+                    System.out.println("Número de bloques: " + blocks.size());
+
+                    for (Document block : blocks) {
+                        String blockName = block.getString("blockName");
+                        if (blockName == null) {
+                            blockName = block.getString("name");
+                        }
+                        if (blockName == null) {
+                            blockName = "Bloque " + (blocks.indexOf(block) + 1);
+                        }
+
+                        String blockCode = block.getString("blockCode");
+
+                        System.out.println("Procesando bloque: " + blockName + " (Código: " + blockCode + ")");
+
+                        if (block.containsKey("sections")) {
+                            List<Document> sections = block.getList("sections", Document.class);
+                            System.out.println("Número de secciones: " + sections.size());
+
+                            for (Document section : sections) {
+                                String sectionName = section.getString("section");
+                                if (sectionName == null) {
+                                    sectionName = section.getString("sectionName");
+                                }
+                                if (sectionName == null) {
+                                    sectionName = "Sección " + (sections.indexOf(section) + 1);
+                                }
+
+                                System.out.println("Procesando sección: " + sectionName);
+
+                                if (section.containsKey("spaces")) {
+                                    List<Document> spaces = section.getList("spaces", Document.class);
+                                    System.out.println("Número de espacios en sección: " + spaces.size());
+
+                                    for (Document space : spaces) {
+                                        String spaceId = space.getString("spaced");
+                                        if (spaceId == null) {
+                                            spaceId = space.getString("spaceId");
+                                        }
+
+                                        Boolean isOccupied = space.getBoolean("isOccupied");
+                                        Boolean isAvailableForRent = space.getBoolean("isAvailableForRent");
+                                        String type = space.getString("type");
+
+                                        System.out.println("Espacio: " + spaceId
+                                                + ", Tipo: " + type
+                                                + ", Ocupado: " + isOccupied
+                                                + ", Disponible renta: " + isAvailableForRent);
+
+                                        boolean showSpace = false;
+
+                                        if (spaceId != null && !spaceId.trim().isEmpty()) {
+                                            if (isOccupied != null && isOccupied == false) {
+
+                                                if (type != null && type.equals("RESIDENT")) {
+                                                    showSpace = true;
+                                                } else {
+                                                    showSpace = true;
+                                                }
+                                            }
+                                        }
+
+                                        if (showSpace) {
+                                            Document spaceDetail = new Document()
+                                                    .append("block", cleanField(blockName))
+                                                    .append("blockCode", cleanField(blockCode))
+                                                    .append("section", cleanField(sectionName))
+                                                    .append("id", cleanSpaceId(spaceId))
+                                                    .append("type", type != null ? type : "DESCONOCIDO")
+                                                    .append("fullId", blockCode + "-" + sectionName + "-" + cleanSpaceId(spaceId));
+
+                                            availableSpaces.add(spaceDetail);
+
+                                        }
+                                    }
+                                } else {
+                                    System.out.println("Advertencia: Sección no tiene campo 'spaces'");
+                                }
+                            }
+                        } else {
+                            System.out.println("Advertencia: Bloque no tiene campo 'sections'");
+                        }
+                    }
+                } else {
+                    System.out.println("Advertencia: ParkingComplex no tiene campo 'blocks'");
+                }
+            } else {
+                System.out.println("Error: Documento no tiene campo 'parkingComplex'");
+            }
+
+        } catch (Exception e) {
+            System.err.println("Error en getAvailableSpacesDetails: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return availableSpaces;
     }
 }
