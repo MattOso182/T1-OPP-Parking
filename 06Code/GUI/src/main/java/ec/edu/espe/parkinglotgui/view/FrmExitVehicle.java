@@ -1,7 +1,7 @@
 package ec.edu.espe.parkinglotgui.view;
 
 import ec.edu.espe.parkinglotgui.controller.VehicleExitController;
-import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -12,8 +12,8 @@ public class FrmExitVehicle extends javax.swing.JFrame {
     private VehicleExitController exitController;
 
     public FrmExitVehicle() {
-        exitController = new VehicleExitController();
         initComponents();
+        loadParkedVehicles();
     }
 
     /**
@@ -30,6 +30,8 @@ public class FrmExitVehicle extends javax.swing.JFrame {
         txtLicensePlate = new java.awt.TextField();
         btnRegisterExit = new javax.swing.JButton();
         lblMessage = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblParkedVehicles = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         itemReturnMenu = new javax.swing.JMenuItem();
@@ -53,6 +55,24 @@ public class FrmExitVehicle extends javax.swing.JFrame {
             }
         });
 
+        tblParkedVehicles.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblParkedVehicles.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblParkedVehiclesMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblParkedVehicles);
+
         jMenu1.setText("Sistema");
 
         itemReturnMenu.setText("Regresar al menu");
@@ -71,86 +91,94 @@ public class FrmExitVehicle extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(118, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(94, 94, 94))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
-                        .addComponent(jLabel2)
-                        .addGap(22, 22, 22)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnRegisterExit)
-                            .addComponent(txtLicensePlate, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(179, 179, 179)
+                        .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(lblMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel2)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(110, 110, 110)
+                                .addComponent(lblMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(19, 19, 19)
+                                .addComponent(txtLicensePlate, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(275, 275, 275)
+                        .addComponent(btnRegisterExit)))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(44, 44, 44)
+                .addGap(37, 37, 37)
                 .addComponent(jLabel1)
-                .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2)
-                    .addComponent(txtLicensePlate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(51, 51, 51)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtLicensePlate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)
+                        .addComponent(lblMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(btnRegisterExit)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    private void loadParkedVehicles() {
+    DefaultTableModel model = new DefaultTableModel();
+    model.addColumn("Placa");
+    model.addColumn("Espacio");
+    model.addColumn("Hora de Entrada");
 
+    VehicleExitController controller = new VehicleExitController();
+    java.util.List<org.bson.Document> vehicles = controller.getParkedVehicles();
+
+    for (org.bson.Document doc : vehicles) {
+        model.addRow(new Object[]{
+            doc.getString("licensePlate"),
+            doc.getString("spaceId"),
+            doc.get("entryTime").toString()
+        });
+    }
+    tblParkedVehicles.setModel(model);
+}
     private void btnRegisterExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterExitActionPerformed
-        String licensePlate = txtLicensePlate.getText().trim().toUpperCase();
+    String plate = txtLicensePlate.getText().trim().toUpperCase();
 
-        if (licensePlate.isEmpty()) {
-            lblMessage.setText("ERROR: La placa no puede estar vacía.");
-            lblMessage.setForeground(java.awt.Color.RED);
-            txtLicensePlate.requestFocus();
-            return;
+    if (plate.isEmpty()) {
+        lblMessage.setText("Error: Seleccione un vehículo de la tabla o ingrese placa.");
+        return;
+    }
+
+    VehicleExitController controller = new VehicleExitController();
+
+    int confirm = javax.swing.JOptionPane.showConfirmDialog(this, 
+            "¿Confirmar salida del vehículo " + plate + "?", 
+            "Salida", javax.swing.JOptionPane.YES_NO_OPTION);
+
+    if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+        if (controller.registerExit(plate)) {
+            lblMessage.setText("Salida registrada. Espacio liberado.");
+            lblMessage.setForeground(new java.awt.Color(0, 102, 0));
+            txtLicensePlate.setText("");
+            
+            loadParkedVehicles(); 
+        } else {
+            lblMessage.setText("Error al procesar salida.");
         }
+    }
 
-        if (!licensePlate.matches("^[A-Z]{3}-\\d{4}$")) {
-            lblMessage.setText("ERROR: Formato inválido. Use: ABC-1234");
-            lblMessage.setForeground(java.awt.Color.RED);
-            txtLicensePlate.requestFocus();
-            return;
-        }
-
-        VehicleExitController controller = new VehicleExitController();
-
-        if (!controller.isVehicleParked(licensePlate)) {
-            JOptionPane.showMessageDialog(this, 
-                "El vehículo con placa " + licensePlate + " no se encuentra estacionado.",
-                "Vehículo No Estacionado", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        int confirm = JOptionPane.showConfirmDialog(this,
-                "¿Confirmar SALIDA del vehículo " + licensePlate + "?",
-                "Confirmar Salida", JOptionPane.YES_NO_OPTION);
-
-        if (confirm == JOptionPane.YES_OPTION) {
-            boolean success = controller.registerExit(licensePlate);
-
-            if (success) {
-                lblMessage.setText("SALIDA registrada. Espacio liberado.");
-                lblMessage.setForeground(new java.awt.Color(0, 102, 204));
-                txtLicensePlate.setText("");
-                txtLicensePlate.requestFocus();
-            } else {
-                lblMessage.setText("ERROR: No se pudo procesar la salida.");
-                lblMessage.setForeground(java.awt.Color.RED);
-            }
-        }
     
     }//GEN-LAST:event_btnRegisterExitActionPerformed
 
@@ -163,6 +191,14 @@ public class FrmExitVehicle extends javax.swing.JFrame {
         frmSecurityGuardMenu.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_itemReturnMenuActionPerformed
+
+    private void tblParkedVehiclesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblParkedVehiclesMouseClicked
+        int fila = tblParkedVehicles.getSelectedRow();
+    if (fila != -1) {
+        String placa = tblParkedVehicles.getValueAt(fila, 0).toString();
+        txtLicensePlate.setText(placa);
+    }
+    }//GEN-LAST:event_tblParkedVehiclesMouseClicked
 
     /**
      * @param args the command line arguments
@@ -213,7 +249,9 @@ public class FrmExitVehicle extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblMessage;
+    private javax.swing.JTable tblParkedVehicles;
     private java.awt.TextField txtLicensePlate;
     // End of variables declaration//GEN-END:variables
 }
