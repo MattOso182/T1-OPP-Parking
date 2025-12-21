@@ -1,6 +1,8 @@
 package ec.edu.espe.parkinglotgui.view;
 
+import java.awt.Image;
 import java.awt.event.KeyEvent;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -13,10 +15,28 @@ public class FrmParkingSplash extends javax.swing.JFrame {
     /**
      * Creates new form FrmParkingSplash
      */
-    public FrmParkingSplash() {
-        initComponents();
+   public FrmParkingSplash() {
+    initComponents(); 
+    this.setLocationRelativeTo(null); 
+    
+    try {
+        java.net.URL imgURL = getClass().getResource("/images/LOGO.png");
+        
+        if (imgURL != null) {
+            ImageIcon icon = new ImageIcon(imgURL);
+            
+            Image img = icon.getImage();
+            Image scaledImg = img.getScaledInstance(jLabelLogo.getWidth(), jLabelLogo.getHeight(), Image.SCALE_SMOOTH);
+            
+            jLabelLogo.setIcon(new ImageIcon(scaledImg));
+            jLabelLogo.setText(""); 
+        } else {
+            System.err.println("Error: No se encontró la imagen en /src/main/resources/images/LOGO.png");
+        }
+    } catch (Exception e) {
+        System.err.println("Error al cargar imagen: " + e.getMessage());
     }
-
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,7 +48,7 @@ public class FrmParkingSplash extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        jLabelLogo = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         btnNext = new javax.swing.JButton();
         btnExit = new javax.swing.JButton();
@@ -42,7 +62,7 @@ public class FrmParkingSplash extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setText("Multifamiliares Luluncoto ");
 
-        jLabel3.setText("IMAGEN LOGO");
+        jLabelLogo.setText("IMAGEN LOGO");
 
         jLabel4.setText("Bienvenido");
 
@@ -70,17 +90,18 @@ public class FrmParkingSplash extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnNext, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel3)
                             .addComponent(btnExit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(225, 225, 225))))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(167, 167, 167)
-                        .addComponent(jLabel2))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(242, 242, 242)
-                        .addComponent(jLabel4)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(242, 242, 242)
+                            .addComponent(jLabel4))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(167, 167, 167)
+                            .addComponent(jLabel2))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -90,9 +111,9 @@ public class FrmParkingSplash extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
-                .addGap(55, 55, 55)
-                .addComponent(jLabel3)
-                .addGap(50, 50, 50)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnNext)
@@ -150,7 +171,7 @@ public class FrmParkingSplash extends javax.swing.JFrame {
     private javax.swing.JButton btnNext;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabelLogo;
     // End of variables declaration//GEN-END:variables
 }
