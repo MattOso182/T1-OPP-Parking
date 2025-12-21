@@ -92,4 +92,13 @@ public class VehicleExitController {
             mongoConnection.closeConnection();
         }
     }
+    public java.util.List<Document> getParkedVehicles() {
+        java.util.List<Document> parkedVehicles = new java.util.ArrayList<>();
+        try {
+            collection.find(Filters.eq("status", "PARKED")).into(parkedVehicles);
+        } catch (Exception e) {
+            System.err.println("Error al obtener vehículos estacionados: " + e.getMessage());
+        }
+        return parkedVehicles;
+    }
 }
