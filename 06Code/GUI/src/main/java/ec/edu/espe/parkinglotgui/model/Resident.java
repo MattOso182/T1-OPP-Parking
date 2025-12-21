@@ -157,23 +157,4 @@ public class Resident {
         return name + " - " + (isPermanent() ? "PERMANENT" : "ROTATING")
                 + " - Apt: " + apartmentNumber;
     }
-    
-    public String getFullInfo() {
-        StringBuilder info = new StringBuilder();
-        info.append("=== INFORMACIÓN PARA RESIDENTES ===\n");
-        info.append("ID: ").append(residentID).append("\n");
-        info.append("Nombre: ").append(name).append("\n");
-        info.append("Apartmento: ").append(apartmentNumber).append("\n");
-        info.append("Tipo: ").append(userType).append("\n");
-        info.append("Email: ").append(email).append("\n");
-        info.append("Celular: ").append(phone).append("\n");
-        info.append("Espacio Asignado: ").append(assignedParkingSpace != null ? assignedParkingSpace : "Ninguno").append("\n");
-
-        if (currentRental != null) {
-            info.append("Alquiler activo: Sí\n");
-            info.append("Espacio alquilado: ").append(currentRental.getSpaceId()).append("\n");
-        }
-
-        return info.toString();
-    }
 }

@@ -45,7 +45,6 @@
     
     <build>
         <plugins>
-            <!-- Plugin para JAR normal -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -61,7 +60,6 @@
                 </configuration>
             </plugin>
             
-            <!-- Plugin para copiar dependencias -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -80,7 +78,6 @@
                 </executions>
             </plugin>
             
-            <!-- Plugin para compilar -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -90,7 +87,6 @@
                 </configuration>
             </plugin>
             
-            <!-- Plugin para FAT JAR (CON DEPENDENCIAS INCLUIDAS) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>

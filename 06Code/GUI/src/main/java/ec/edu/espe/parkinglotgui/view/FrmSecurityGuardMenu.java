@@ -43,7 +43,8 @@ public class FrmSecurityGuardMenu extends javax.swing.JFrame {
 
         jMenu5.setText("Configuracion");
 
-        jMenuItem1.setText("Ayuda");
+        jMenuItem1.setText("Salir");
+        jMenuItem1.addActionListener(this::jMenuItem1ActionPerformed);
         jMenu5.add(jMenuItem1);
 
         itemReturnMenu.setText("Regresar al menu principal");
@@ -112,8 +113,8 @@ public class FrmSecurityGuardMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_itemRegisterEntryActionPerformed
 
     private void itemReturnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemReturnMenuActionPerformed
-        FrmParkingSplash frmParkingSplash = new FrmParkingSplash();
-        frmParkingSplash.setVisible(true);
+        FrmLogin frmLogin = new FrmLogin();
+        frmLogin.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_itemReturnMenuActionPerformed
 
@@ -134,6 +135,10 @@ public class FrmSecurityGuardMenu extends javax.swing.JFrame {
         frmVehicleList.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments

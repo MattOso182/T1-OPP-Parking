@@ -1,8 +1,9 @@
 package ec.edu.espe.parkinglotgui.view;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.event.KeyEvent;
-import javax.swing.ImageIcon;
+import javax.swing.*;
 
 /**
  *
@@ -10,33 +11,194 @@ import javax.swing.ImageIcon;
  */
 public class FrmParkingSplash extends javax.swing.JFrame {
 
+    private javax.swing.Timer timer;
+    private int progreso = 0;
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmParkingSplash.class.getName());
 
     /**
      * Creates new form FrmParkingSplash
      */
-   public FrmParkingSplash() {
-    initComponents(); 
-    this.setLocationRelativeTo(null); 
-    
-    try {
-        java.net.URL imgURL = getClass().getResource("/images/LOGO.png");
-        
-        if (imgURL != null) {
-            ImageIcon icon = new ImageIcon(imgURL);
-            
-            Image img = icon.getImage();
-            Image scaledImg = img.getScaledInstance(jLabelLogo.getWidth(), jLabelLogo.getHeight(), Image.SCALE_SMOOTH);
-            
-            jLabelLogo.setIcon(new ImageIcon(scaledImg));
-            jLabelLogo.setText(""); 
-        } else {
-            System.err.println("Error: No se encontró la imagen en /src/main/resources/images/LOGO.png");
+    public FrmParkingSplash() {
+        initComponents();
+        this.setLocationRelativeTo(null);
+
+        progressBar.setStringPainted(true);
+        progressBarConfiguration();
+        startAutomaticsProgress();
+
+        try {
+            java.net.URL imgURL = getClass().getResource("/images/LOGO.png");
+
+            if (imgURL != null) {
+                ImageIcon icon = new ImageIcon(imgURL);
+
+                Image img = icon.getImage();
+                Image scaledImg = img.getScaledInstance(jLabelLogo.getWidth(), jLabelLogo.getHeight(), Image.SCALE_SMOOTH);
+
+                jLabelLogo.setIcon(new ImageIcon(scaledImg));
+                jLabelLogo.setText("");
+            } else {
+                System.err.println("Error: No se encontró la imagen en /src/main/resources/images/LOGO.png");
+            }
+        } catch (Exception e) {
+            System.err.println("Error al cargar imagen: " + e.getMessage());
         }
-    } catch (Exception e) {
-        System.err.println("Error al cargar imagen: " + e.getMessage());
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                progressBar.setUI(new javax.swing.plaf.basic.BasicProgressBarUI());
+
+                progressBar.setForeground(new Color(0, 102, 204));
+
+                progressBar.repaint();
+            }
+        });
+
     }
-}
+
+    private void progressBarConfiguration() {
+        progressBar.setMinimum(0);
+        progressBar.setMaximum(100);
+        progressBar.setValue(0);
+        progressBar.setForeground(new java.awt.Color(0, 150, 0));
+        progressBar.setBackground(new java.awt.Color(240, 240, 240));
+        progressBar.setString("0%");
+        progressBar.setVisible(true);
+
+    }
+
+    private void startAutomaticsProgress() {
+        timer = new javax.swing.Timer(50, new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                progreso++;
+
+                progressBar.setValue(progreso);
+                progressBar.setString(progreso + "%");
+
+                updateBarColor(progreso);
+
+                updateProgressMessage(progreso);
+
+                if (progreso >= 100) {
+                    timer.stop();
+                    goLoginScreen(); 
+                }
+            }
+        });
+
+        javax.swing.Timer delayTimer = new javax.swing.Timer(1000, new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                timer.start();
+            }
+        });
+        delayTimer.setRepeats(false);
+        delayTimer.start();
+    }
+
+    private void updateBarColor(int percentage) {
+        Color barColor;
+
+        if (percentage < 30) {
+            barColor = new Color(70, 150, 230);
+        } else if (percentage < 70) {
+            barColor = new Color(0, 100, 200);
+        } else {
+            barColor = new Color(0, 60, 150);
+        }
+
+        progressBar.setForeground(barColor);
+
+        Color colorTexto = calculateContrastColor(barColor);
+
+        aplicarColorTexto(colorTexto);
+
+        progressBar.repaint();
+    }
+
+    private Color calculateContrastColor(Color backgroundColor) {
+
+        double brightness = (0.299 * backgroundColor.getRed()
+                + 0.587 * backgroundColor.getGreen()
+                + 0.114 * backgroundColor.getBlue()) / 255;
+
+        if (brightness > 0.5) {
+            return Color.BLACK;
+        } else {
+            return Color.WHITE;
+        }
+    }
+
+    private void aplicarColorTexto(Color textColor) {
+        Color currentBarColor = progressBar.getForeground();
+
+        progressBar.setUI(new javax.swing.plaf.basic.BasicProgressBarUI() {
+            @Override
+            protected Color getSelectionForeground() {
+                return textColor;
+            }
+
+            @Override
+            protected Color getSelectionBackground() {
+                return currentBarColor;
+            }
+
+            @Override
+            public void paintDeterminate(Graphics g, JComponent c) {
+                Color oldColor = g.getColor();
+
+                g.setColor(currentBarColor);
+
+                super.paintDeterminate(g, c);
+
+                g.setColor(oldColor);
+            }
+        });
+
+        progressBar.setForeground(currentBarColor);
+
+        progressBar.repaint();
+    }
+
+    private void updateProgressMessage(int percentage) {
+        String message = "";
+
+        if (percentage < 20) {
+            message = "Iniciando sistema...";
+        } else if (percentage < 40) {
+            message = "Cargando módulos...";
+        } else if (percentage < 60) {
+            message = "Conectando a base de datos MongoDB...";
+        } else if (percentage < 80) {
+            message = "Configurando interfaz...";
+        } else if (percentage < 100) {
+            message = "Finalizando...";
+        } else {
+            message = "¡Listo!";
+        }
+
+        if (lblState != null) {
+            lblState.setText(message);
+        }
+
+        System.out.println(message);
+    }
+
+    private void goLoginScreen() {
+        this.dispose();
+
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                FrmLogin login = new FrmLogin();
+                login.setVisible(true);
+                login.setLocationRelativeTo(null);
+            }
+        });
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -49,9 +211,12 @@ public class FrmParkingSplash extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabelLogo = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        btnNext = new javax.swing.JButton();
-        btnExit = new javax.swing.JButton();
+        progressBar = new javax.swing.JProgressBar();
+        jLabel6 = new javax.swing.JLabel();
+        lblState = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -64,82 +229,71 @@ public class FrmParkingSplash extends javax.swing.JFrame {
 
         jLabelLogo.setText("IMAGEN LOGO");
 
-        jLabel4.setText("Bienvenido");
+        jLabel3.setText("Version 0.5.2 ");
 
-        btnNext.setText("Continuar");
-        btnNext.addActionListener(this::btnNextActionPerformed);
-        btnNext.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                btnNextKeyPressed(evt);
-            }
-        });
+        jLabel5.setText("©2025");
 
-        btnExit.setText("Salir");
-        btnExit.addActionListener(this::btnExitActionPerformed);
+        jLabel4.setText("NetBeans 21");
+
+        jLabel6.setText("Sistema de Parqueadero Automatizado ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(130, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(61, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(113, 113, 113))
+                        .addComponent(jLabel3)
+                        .addGap(193, 193, 193)
+                        .addComponent(jLabel5)
+                        .addGap(146, 146, 146)
+                        .addComponent(jLabel4)
+                        .addGap(81, 81, 81))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnNext, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnExit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(225, 225, 225))))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(242, 242, 242)
-                            .addComponent(jLabel4))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(167, 167, 167)
-                            .addComponent(jLabel2))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(181, 181, 181))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(130, 130, 130))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel2))
+                        .addGap(220, 220, 220))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(170, 170, 170))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(lblState, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(191, 191, 191))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnNext)
+                .addContainerGap(11, Short.MAX_VALUE)
+                .addComponent(jLabelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnExit)
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6)
+                .addGap(18, 18, 18)
+                .addComponent(lblState, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel4))
+                .addGap(18, 18, 18))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
-        FrmLogin frmLogin = new FrmLogin();
-        this.setVisible(false);
-        frmLogin.setVisible(true);
-    }//GEN-LAST:event_btnNextActionPerformed
-
-    private void btnNextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnNextKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            btnNext.doClick();
-        }
-    }//GEN-LAST:event_btnNextKeyPressed
-
-    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_btnExitActionPerformed
 
     /**
      * @param args the command line arguments
@@ -167,11 +321,14 @@ public class FrmParkingSplash extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnExit;
-    private javax.swing.JButton btnNext;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabelLogo;
+    private javax.swing.JLabel lblState;
+    private javax.swing.JProgressBar progressBar;
     // End of variables declaration//GEN-END:variables
 }

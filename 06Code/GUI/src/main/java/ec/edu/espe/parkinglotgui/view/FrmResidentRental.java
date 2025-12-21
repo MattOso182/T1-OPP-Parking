@@ -1,13 +1,11 @@
 package ec.edu.espe.parkinglotgui.view;
 
-import ec.edu.espe.parkinglotgui.controller.ResidentController;
-import ec.edu.espe.parkinglotgui.controller.ParkingSpaceController;
+import ec.edu.espe.parkinglotgui.controller.ResidentRentalController;
 import ec.edu.espe.parkinglotgui.model.Resident;
 import ec.edu.espe.parkinglotgui.model.Rental;
 import javax.swing.JOptionPane;
 import java.awt.Color;
 import java.util.List;
-import org.bson.Document;
 
 /**
  *
@@ -16,54 +14,30 @@ import org.bson.Document;
 public class FrmResidentRental extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmResidentRental.class.getName());
+    private ResidentRentalController rentalController;
 
     /**
      * Creates new form FrmResidentRental
      */
     public FrmResidentRental() {
         initComponents();
+        rentalController = new ResidentRentalController();
+        initializeView();
+    }
 
+    private void initializeView() {
         btnPay.setEnabled(false);
         btnPayAndRenew.setEnabled(false);
         btnRenew.setEnabled(false);
         btnCancelRent.setEnabled(false);
-        btnActivateRent.setEnabled(false);
 
         initializeMonthsComboBox();
-
-        cmbAvailableSpaces.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                if (evt != null) {
-                    cmbAvailableSpacesActionPerformed(evt);
-                }
-
-                validateButtons();
-
-                validatePayAndRenewButton();
-            }
-        });
-
-        cmbMonthsSubscription.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                if (evt != null) {
-                    cmbMonthsSubscriptionActionPerformed(evt);
-                }
-
-                validateButtons();
-
-                validatePayAndRenewButton();
-            }
-        });
-
-        loadAvailableSpacesToComboBox();
-
+        loadAvailableSpaces();
+        setupEventListeners();
     }
 
     private void initializeMonthsComboBox() {
         cmbMonthsSubscription.removeAllItems();
-
         cmbMonthsSubscription.addItem("Selecciona tu tiempo de uso...");
 
         String[] monthsOptions = {
@@ -74,7 +48,28 @@ public class FrmResidentRental extends javax.swing.JFrame {
         for (String option : monthsOptions) {
             cmbMonthsSubscription.addItem(option);
         }
+    }
 
+    private void setupEventListeners() {
+        cmbAvailableSpaces.addActionListener(e -> {
+            String selectedSpace = (String) cmbAvailableSpaces.getSelectedItem();
+            if (selectedSpace != null && rentalController.isValidSpaceSelection(selectedSpace)) {
+                showSpaceDetails(selectedSpace);
+            }
+            updateButtonStates();
+        });
+
+        cmbMonthsSubscription.addActionListener(e -> {
+            updateButtonStates();
+            updatePaymentDisplay();
+        });
+    }
+
+    private void showSpaceDetails(String spaceId) {
+        String details = rentalController.getSpaceDetails(spaceId);
+        if (!details.isEmpty()) {
+            cmbAvailableSpaces.setToolTipText(details);
+        }
     }
 
     /**
@@ -110,7 +105,6 @@ public class FrmResidentRental extends javax.swing.JFrame {
         btnPayAndRenew = new javax.swing.JButton();
         btnRenew = new javax.swing.JButton();
         btnCancelRent = new javax.swing.JButton();
-        btnActivateRent = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         itemReturnMenu = new javax.swing.JMenuItem();
@@ -129,14 +123,14 @@ public class FrmResidentRental extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(207, 207, 207))
+                .addGap(215, 215, 215))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLabel2.setText("Ingrese ID:");
@@ -153,14 +147,16 @@ public class FrmResidentRental extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblMessage)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(lblMessage)
+                        .addContainerGap(643, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtFindResident, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(41, 41, 41)
-                        .addComponent(btnSearchResident)))
-                .addContainerGap(248, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSearchResident)
+                        .addGap(26, 26, 26))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -206,7 +202,7 @@ public class FrmResidentRental extends javax.swing.JFrame {
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cmbMonthsSubscription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 119, Short.MAX_VALUE))
+                        .addGap(0, 171, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -253,24 +249,18 @@ public class FrmResidentRental extends javax.swing.JFrame {
         btnCancelRent.setText("Cancelar Renta");
         btnCancelRent.addActionListener(this::btnCancelRentActionPerformed);
 
-        btnActivateRent.setText("Activar Renta");
-        btnActivateRent.addActionListener(this::btnActivateRentActionPerformed);
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(150, 150, 150)
-                .addComponent(btnCancelRent)
-                .addGap(105, 105, 105)
-                .addComponent(btnActivateRent)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel4Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnPay)
-                .addGap(84, 84, 84)
-                .addComponent(btnPayAndRenew)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnCancelRent)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(btnPay)
+                        .addGap(84, 84, 84)
+                        .addComponent(btnPayAndRenew)))
                 .addGap(89, 89, 89)
                 .addComponent(btnRenew)
                 .addGap(84, 84, 84))
@@ -283,11 +273,9 @@ public class FrmResidentRental extends javax.swing.JFrame {
                     .addComponent(btnPay)
                     .addComponent(btnPayAndRenew)
                     .addComponent(btnRenew))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCancelRent)
-                    .addComponent(btnActivateRent))
-                .addContainerGap(78, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnCancelRent)
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         jMenu1.setText("Sistema");
@@ -339,430 +327,61 @@ public class FrmResidentRental extends javax.swing.JFrame {
 
             showSpaceDetails(selectedSpace);
         }
-    }
-
-    private void showSpaceDetails(String spaceId) {
-        lblSelectedSpace.setText("Seleccionado: " + spaceId);
-
-        ParkingSpaceController controller = new ParkingSpaceController();
-        Document spaceDetails = controller.getSpaceDetails(spaceId);
-
-        if (spaceDetails != null) {
-            String type = spaceDetails.getString("type");
-            Boolean isOccupied = spaceDetails.getBoolean("isOccupied");
-
-            String details = "Type: " + type
-                    + "\nStatus: " + (isOccupied != null && isOccupied ? "Occupied" : "Available");
-
-            cmbAvailableSpaces.setToolTipText(details);
-        }
     }//GEN-LAST:event_cmbAvailableSpacesActionPerformed
-
-    private void loadAvailableSpacesToComboBox() {
-        try {
-            cmbAvailableSpaces.removeAllItems();
-
-            cmbAvailableSpaces.addItem("Selecciona un espacio.");
-
-            ParkingSpaceController spaceController = new ParkingSpaceController();
-            List<String> availableSpaces = spaceController.getAvailableSpaces();
-
-            for (String space : availableSpaces) {
-                cmbAvailableSpaces.addItem(space);
-            }
-
-            if (availableSpaces.isEmpty()) {
-                cmbAvailableSpaces.addItem("No hay espacios disponibles.");
-                cmbAvailableSpaces.setEnabled(false);
-                lblMessage.setText("No hay plazas de aparcamiento disponibles para alquilar.");
-            } else {
-                cmbAvailableSpaces.setEnabled(true);
-                lblMessage.setText(availableSpaces.size() + " espacios disponibles.");
-            }
-
-        } catch (Exception e) {
-            System.err.println("Error al cargar espacios en el combo box: " + e.getMessage());
-            cmbAvailableSpaces.addItem("Error al cargar espacios");
-            cmbAvailableSpaces.setEnabled(false);
-        }
-    }
-
 
     private void cmbMonthsSubscriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbMonthsSubscriptionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbMonthsSubscriptionActionPerformed
 
-    private boolean isSearchingResident = false;
     private void btnSearchResidentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchResidentActionPerformed
+        String residentId = txtFindResident.getText().trim();
 
-        if (isSearchingResident) {
-            return;
-        }
-
-        isSearchingResident = true;
-
-        String input = txtFindResident.getText().trim();
-
-        if (input.isEmpty()) {
+        if (residentId.isEmpty()) {
             JOptionPane.showMessageDialog(this,
                     "Ingrese un ID de residente con el formato RES-001.",
                     "Campo vacío",
                     JOptionPane.WARNING_MESSAGE);
             txtFindResident.requestFocus();
-            isSearchingResident = false;
             return;
         }
 
-        // Validación estricta del formato RES-001
-        if (!input.matches("^RES-\\d{3}$")) {
-            JOptionPane.showMessageDialog(this,
-                    "Formato de ID inválido.\nUse el formato: RES-001",
-                    "Formato incorrecto",
-                    JOptionPane.ERROR_MESSAGE);
-            txtFindResident.requestFocus();
-            isSearchingResident = false;
-            return;
-        }
+        Object[] result = rentalController.searchResident(residentId);
+        boolean success = (Boolean) result[0];
+        String message = (String) result[1];
+        Color color = (Color) result[2];
+        Resident resident = (Resident) result[3];
 
-        lblMessage.setText("Buscando residente...");
-        lblMessage.setForeground(Color.BLUE);
+        lblMessage.setText(message);
+        lblMessage.setForeground(color);
 
-        try {
-            ResidentController controller = new ResidentController();
-            Resident foundResident = controller.searchResidentById(input);
+        if (success && resident != null) {
+            if (resident.getCurrentRental() != null) {
+                Rental rental = resident.getCurrentRental();
 
-            if (foundResident == null) {
-                lblMessage.setText("Residente no encontrado: " + input);
-                lblMessage.setForeground(Color.RED);
+                updatePaymentDisplay();
 
-                JOptionPane.showMessageDialog(this,
-                        "No se encontró ningún residente con el ID:\n" + input,
-                        "Residente no encontrado",
-                        JOptionPane.WARNING_MESSAGE);
+                String paymentStatus = rental.getPaymentStatus();
+                String spaceId = rental.getSpaceId();
 
-                clearFormFields();
-                isSearchingResident = false;
-                return;
-            }
-
-            StringBuilder displayText = new StringBuilder();
-            displayText.append(foundResident.getName())
-                    .append(" | ID: ").append(foundResident.getResidentID())
-                    .append(" | Apt: ").append(foundResident.getApartmentNumber());
-
-            if ("ROTATING".equals(foundResident.getUserType())) {
-                lblMessage.setForeground(new Color(0, 150, 0));
-                displayText.append(" | ROTANTE");
-
-                enableRotatingElements(foundResident);
-                validateButtons();
-                loadAvailableSpacesToComboBox();
-
-                if (foundResident.getAssignedParkingSpace() != null
-                        && !foundResident.getAssignedParkingSpace().isEmpty()) {
-                    displayText.append(" | Space: ")
-                            .append(foundResident.getAssignedParkingSpace());
+                if ("PENDING".equals(paymentStatus)) {
+                    lblValueToPay.setBackground(new Color(255, 240, 240));
+                    lblMonthsOfUse.setBackground(new Color(255, 240, 240));
+                } else if ("PAID".equals(paymentStatus)) {
+                    lblValueToPay.setBackground(new Color(240, 255, 240));
+                    lblMonthsOfUse.setBackground(new Color(240, 255, 240));
+                } else if ("RENTAL_CANCELED".equals(paymentStatus)) {
+                    lblValueToPay.setBackground(new Color(255, 245, 230));
+                    lblMonthsOfUse.setBackground(new Color(255, 245, 230));
                 }
 
-            } else if ("WITH_PARKING".equals(foundResident.getUserType())) {
-                lblMessage.setForeground(new Color(100, 0, 0));
-                displayText.append(" | PERMANENTE");
-
-                disableAllPaymentButtons();
-
-                JOptionPane.showMessageDialog(this,
-                        "Este residente tiene estacionamiento permanente.\n"
-                        + "No requiere gestión de pago.",
-                        "Residente Permanente",
-                        JOptionPane.INFORMATION_MESSAGE);
-
             } else {
-                lblMessage.setForeground(Color.BLACK);
-                displayText.append(" | ").append(foundResident.getUserType());
-                disableAllPaymentButtons();
+                updatePaymentDisplay();
             }
-
-            lblMessage.setText(displayText.toString());
-
-        } catch (Exception e) {
-            lblMessage.setText("Error al buscar residente");
-            lblMessage.setForeground(Color.RED);
-
-            JOptionPane.showMessageDialog(this,
-                    "Error al conectar con la base de datos.",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-
-            clearFormFields();
-
-        } finally {
-            isSearchingResident = false;
-        }
-
-    }
-
-    private void displayResidentInfo(Resident resident) {
-        String paymentStatus = "UNKNOWN";
-        if (resident.getCurrentRental() != null) {
-            paymentStatus = resident.getCurrentRental().getPaymentStatus();
-            if (paymentStatus == null) {
-                paymentStatus = "UNKNOWN";
-            }
-        }
-
-        String displayText = resident.getName()
-                + " | ID: " + resident.getResidentID()
-                + " | Apt: " + resident.getApartmentNumber()
-                + " | Pago: " + paymentStatus;
-
-        lblMessage.setText(displayText);
-
-        if ("ROTATING".equals(resident.getUserType())) {
-            lblMessage.setForeground(new Color(0, 150, 0));
-            lblMessage.setText(lblMessage.getText() + " | ROTANTE");
-            updateButtonsBasedOnPaymentStatus(paymentStatus, resident);
-
-        } else if ("WITH_PARKING".equals(resident.getUserType())) {
-            lblMessage.setForeground(new Color(100, 0, 0));
-            lblMessage.setText(lblMessage.getText() + " | PERMANENTE");
-            disableAllPaymentButtons();
+            updateButtonStates();
 
         } else {
-            lblMessage.setForeground(Color.BLACK);
-            lblMessage.setText(lblMessage.getText() + " | " + resident.getUserType());
-            disableAllPaymentButtons();
-        }
-
-        if (resident.getAssignedParkingSpace() != null
-                && !resident.getAssignedParkingSpace().isEmpty()) {
-            lblMessage.setText(lblMessage.getText() + " | Espacio: " + resident.getAssignedParkingSpace());
-        }
-    }
-
-    private void enableRotatingElements(Resident resident) {
-        System.out.println("\n=== HABILITACIÓN DE ELEMENTOS ROTATING ===");
-
-        lblValueToPay.setEnabled(true);
-        lblMonthsOfUse.setEnabled(true);
-        cmbAvailableSpaces.setEnabled(true);
-        cmbMonthsSubscription.setEnabled(true);
-
-        lblValueToPay.setBackground(Color.WHITE);
-        lblMonthsOfUse.setBackground(Color.WHITE);
-
-        if (resident.getCurrentRental() != null) {
-            Rental rental = resident.getCurrentRental();
-            String paymentStatus = rental.getPaymentStatus();
-            System.out.println("Alquiler encontrado - Estado: " + paymentStatus);
-
-            if ("PENDING".equalsIgnoreCase(paymentStatus)) {
-                lblValueToPay.setText("$" + rental.getMonthlyPrice());
-                int monthsUsed = rental.getMonthsUsed();
-                lblMonthsOfUse.setText(String.valueOf(monthsUsed));
-
-                lblValueToPay.setBackground(new Color(255, 240, 240));
-                lblMonthsOfUse.setBackground(new Color(255, 240, 240));
-
-            } else if ("PAID".equalsIgnoreCase(paymentStatus)) {
-                lblValueToPay.setText("");
-                lblMonthsOfUse.setText("");
-
-                lblValueToPay.setBackground(new Color(240, 255, 240));
-                lblMonthsOfUse.setBackground(new Color(240, 255, 240));
-
-            } else if ("RENTAL_CANCELED".equalsIgnoreCase(paymentStatus)) {
-                lblValueToPay.setText("");
-                lblMonthsOfUse.setText("");
-
-                lblValueToPay.setBackground(new Color(240, 240, 240));
-                lblMonthsOfUse.setBackground(new Color(240, 240, 240));
-            }
-
-        } else {
-            lblValueToPay.setText("$0.00");
-            lblMonthsOfUse.setText("0");
-        }
-
-        validateButtons();
-
-        System.out.println("=== ELEMENTOS ROTATING HABILITADOS ===\n");
-    }
-
-    private void updateButtonsBasedOnPaymentStatus(String paymentStatus, Resident resident) {
-        lblValueToPay.setEnabled(true);
-        lblMonthsOfUse.setEnabled(true);
-        cmbAvailableSpaces.setEnabled(true);
-        cmbMonthsSubscription.setEnabled(true);
-
-        lblValueToPay.setBackground(Color.WHITE);
-        lblMonthsOfUse.setBackground(Color.WHITE);
-        if (resident.getCurrentRental() != null) {
-            Rental rental = resident.getCurrentRental();
-            lblValueToPay.setText("$" + rental.getMonthlyPrice());
-
-            int monthsUsed = rental.getMonthsUsed();
-            lblMonthsOfUse.setText(String.valueOf(monthsUsed));
-
-            if (cmbAvailableSpaces != null && rental.getSpaceId() != null) {
-                selectSpaceInComboBox(rental.getSpaceId());
-            }
-        } else {
-            lblValueToPay.setText("$0.00");
-            lblMonthsOfUse.setText("0");
-        }
-
-        if ("PAID".equalsIgnoreCase(paymentStatus)) {
-            btnPay.setEnabled(false);
-            btnPayAndRenew.setEnabled(false);
-            btnRenew.setEnabled(true);
-
-            lblValueToPay.setText("");
-            lblMonthsOfUse.setText("");
-
-            lblValueToPay.setEnabled(false);
-            lblMonthsOfUse.setEnabled(false);
-            cmbAvailableSpaces.setEnabled(true);
-            cmbMonthsSubscription.setEnabled(true);
-
-            lblValueToPay.setBackground(new Color(230, 245, 230));
-            lblMonthsOfUse.setBackground(new Color(230, 245, 230));
-
-            lblMessage.setForeground(new Color(0, 100, 0));
-            if (!lblMessage.getText().contains("(PAID)")) {
-                lblMessage.setText(lblMessage.getText() + " (PAID - Listo para renovación)");
-            }
-
-        } else if ("PENDING".equalsIgnoreCase(paymentStatus)) {
-            btnPay.setEnabled(true);
-            btnPayAndRenew.setEnabled(true);
-            btnRenew.setEnabled(false);
-
-            lblValueToPay.setBackground(new Color(255, 230, 200));
-            lblMonthsOfUse.setBackground(new Color(255, 230, 200));
-
-            lblMessage.setForeground(new Color(200, 100, 0));
-
-            validatePayAndRenewButton();
-
-        } else {
-            btnPay.setEnabled(false);
-            btnPayAndRenew.setEnabled(false);
-            btnRenew.setEnabled(false);
-
-            lblValueToPay.setBackground(Color.LIGHT_GRAY);
-            lblMonthsOfUse.setBackground(Color.LIGHT_GRAY);
-        }
-    }
-
-    private void disableAllPaymentButtons() {
-
-        lblValueToPay.setEnabled(false);
-        lblMonthsOfUse.setEnabled(false);
-        cmbAvailableSpaces.setEnabled(false);
-        cmbMonthsSubscription.setEnabled(false);
-
-        lblValueToPay.setBackground(Color.LIGHT_GRAY);
-        lblMonthsOfUse.setBackground(Color.LIGHT_GRAY);
-
-        lblValueToPay.setText("");
-        lblMonthsOfUse.setText("");
-    }
-
-    private void disablePaymentElements() {
-        lblValueToPay.setText("");
-        lblMonthsOfUse.setText("");
-
-        lblValueToPay.setEnabled(false);
-        lblMonthsOfUse.setEnabled(false);
-        cmbAvailableSpaces.setEnabled(false);
-        cmbMonthsSubscription.setEnabled(false);
-        btnPay.setEnabled(false);
-        btnPayAndRenew.setEnabled(false);
-
-        lblValueToPay.setBackground(Color.LIGHT_GRAY);
-        lblMonthsOfUse.setBackground(Color.LIGHT_GRAY);
-    }
-
-    private void selectSpaceInComboBox(String space) {
-        if (cmbAvailableSpaces != null) {
-            for (int i = 0; i < cmbAvailableSpaces.getItemCount(); i++) {
-                if (cmbAvailableSpaces.getItemAt(i).equals(space)) {
-                    cmbAvailableSpaces.setSelectedIndex(i);
-                    return;
-                }
-            }
-        }
-    }
-
-    private void clearFormFields() {
-        disablePaymentElements();
-        if (cmbAvailableSpaces != null) {
-            cmbAvailableSpaces.setSelectedIndex(0);
-        }
-        if (cmbMonthsSubscription != null) {
-            cmbMonthsSubscription.setSelectedIndex(0);
-        }
-        String input = txtFindResident.getText().trim();
-
-        if (input.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                    "Ingrese el ID del residente (ej: RES-001)",
-                    "Campo vacío",
-                    JOptionPane.WARNING_MESSAGE);
-            txtFindResident.requestFocus();
-            lblMessage.setText("");
-            return;
-        }
-
-        if (!input.matches("^[A-Za-z0-9-]+$")) {
-            JOptionPane.showMessageDialog(this,
-                    "Formato de ID inválido!\n\n"
-                    + "Solo use:\n"
-                    + "• Letras (A-Z, a-z)\n"
-                    + "• Números (0-9)\n"
-                    + "• Guiones (-)\n\n"
-                    + "Ejemplo: RES-001",
-                    "ID Inválido",
-                    JOptionPane.ERROR_MESSAGE);
-
-            txtFindResident.setText("");
-            txtFindResident.requestFocus();
-            lblMessage.setText("");
-            return;
-        }
-
-        lblMessage.setText("Buscando ID: " + input + "...");
-        lblMessage.setForeground(Color.BLUE);
-
-        try {
-            ResidentController controller = new ResidentController();
-            Resident foundResident = controller.searchResidentById(input);
-
-            if (foundResident != null) {
-
-                displayResidentInfo(foundResident);
-            } else {
-                lblMessage.setText("No se encontró residente con ID: " + input);
-                lblMessage.setForeground(Color.RED);
-
-                JOptionPane.showMessageDialog(this,
-                        "No se encontró residente con ID: " + input,
-                        "No Encontrado",
-                        JOptionPane.WARNING_MESSAGE);
-
-                clearFormFields();
-            }
-
-        } catch (Exception e) {
-            lblMessage.setText("Error en búsqueda");
-            lblMessage.setForeground(Color.RED);
-
-            JOptionPane.showMessageDialog(this,
-                    "Error buscando por ID: " + e.getMessage(),
-                    "Error de Base de Datos",
-                    JOptionPane.ERROR_MESSAGE);
-
-            clearFormFields();
+            clearPaymentFields();
+            disableAllButtons();
         }
     }//GEN-LAST:event_btnSearchResidentActionPerformed
 
@@ -775,21 +394,8 @@ public class FrmResidentRental extends javax.swing.JFrame {
             return;
         }
 
-        String paymentValue = lblValueToPay.getText();
-        String monthsUsed = lblMonthsOfUse.getText();
-        String selectedSpace = (String) cmbAvailableSpaces.getSelectedItem();
-
-        if (paymentValue.isEmpty() || paymentValue.equals("$0.00")) {
-            JOptionPane.showMessageDialog(this,
-                    "No se ha calculado ningún importe de pago",
-                    "Error de pago",
-                    JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
         String residentId = extractResidentId(lblMessage.getText());
-
-        if (residentId == null || residentId.isEmpty()) {
+        if (residentId == null) {
             JOptionPane.showMessageDialog(this,
                     "No se pudo extraer la ID del residente",
                     "Error de datos",
@@ -797,160 +403,65 @@ public class FrmResidentRental extends javax.swing.JFrame {
             return;
         }
 
+        Resident resident = rentalController.getCurrentResident();
+        if (resident == null || resident.getCurrentRental() == null) {
+            JOptionPane.showMessageDialog(this,
+                    "El residente no tiene renta activa para pagar",
+                    "Sin renta activa",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        Rental rental = resident.getCurrentRental();
+        String paymentValue = lblValueToPay.getText();
+
         int response = JOptionPane.showConfirmDialog(this,
                 "CONFIRMACIÓN DE PAGO\n\n"
-                + "ID del Residente: " + residentId + "\n"
+                + "Residente: " + resident.getName() + "\n"
+                + "ID: " + residentId + "\n"
                 + "Valor a pagar: " + paymentValue + "\n"
-                + "Mese de uso: " + monthsUsed + "\n\n"
-                + "Deseeas continuar?",
-                "Confirmar pago",
+                + "Espacio: " + (rental.getSpaceId() != null ? rental.getSpaceId() : "Ninguno") + "\n\n"
+                + "¿Desea proceder con el pago?",
+                "Confirmar Pago",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
 
         if (response == JOptionPane.YES_OPTION) {
-            try {
-                ResidentController controller = new ResidentController();
-                boolean success = controller.updatePaymentStatusOnly(residentId, "PAID");
+            Object[] result = rentalController.processPayment(residentId);
+            boolean success = (Boolean) result[0];
+            String message = (String) result[1];
 
-                if (success) {
-                    JOptionPane.showMessageDialog(this,
-                            "ESTADO DE PAGO ACTUALIZADO!\n\n"
-                            + "Residente: " + residentId + "\n"
-                            + "Nuevo estado: PAID\n",
-                            "Estado de pago actualizado",
-                            JOptionPane.INFORMATION_MESSAGE);
-
-                    updateStateAfterPayment();
-
-                } else {
-                    JOptionPane.showMessageDialog(this,
-                            "FALLO AL ACTUALIZAR!\n\n"
-                            + "No se pudo actualizar el estado del pago en la base de datos.",
-                            "Error de base de datos",
-                            JOptionPane.ERROR_MESSAGE);
-                }
-
-            } catch (Exception e) {
+            if (success) {
                 JOptionPane.showMessageDialog(this,
-                        "¡ACTUALIZACIÓN FALLIDA!\n\n"
-                        + "Error: " + e.getMessage(),
-                        "Error de Pago",
+                        "¡PAGO PROCESADO EXITOSAMENTE!\n\n"
+                        + "Residente: " + resident.getName() + "\n"
+                        + "ID: " + residentId + "\n"
+                        + "Nuevo estado: PAID\n",
+                        "Pago Exitoso",
+                        JOptionPane.INFORMATION_MESSAGE);
+
+                updateStateAfterPayment();
+                updateResidentDisplay();
+
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "¡PAGO FALLIDO!\n\n" + message,
+                        "Error en Pago",
                         JOptionPane.ERROR_MESSAGE);
             }
         } else {
             JOptionPane.showMessageDialog(this,
-                    "Actualización de pago cancelada",
+                    "Pago cancelado",
                     "Cancelado",
                     JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnPayActionPerformed
 
-    private String extractResidentId(String messageText) {
-        try {
-            if (messageText == null || messageText.trim().isEmpty()) {
-                System.err.println("El texto del mensaje es nulo o está vacío.");
-                return null;
-            }
-
-            System.out.println("[DEBUG] Extrayendo ID de: '" + messageText + "'");
-
-            String cleanText = messageText.trim();
-
-            String[] patterns = {
-                "ID:\\s*([A-Za-z0-9-]+)",
-                "ID\\s*:\\s*([A-Za-z0-9-]+)",
-                "\\|\\s*ID:\\s*([A-Za-z0-9-]+)",
-                "\\bRES-[0-9]{3}\\b",
-                "\\bRES-[0-9]+\\b"
-            };
-
-            for (String pattern : patterns) {
-                java.util.regex.Pattern p = java.util.regex.Pattern.compile(pattern, java.util.regex.Pattern.CASE_INSENSITIVE);
-                java.util.regex.Matcher m = p.matcher(cleanText);
-
-                if (m.find()) {
-                    String id;
-                    if (pattern.contains("ID:")) {
-                        id = m.group(1);
-                    } else {
-                        id = m.group();
-                    }
-
-                    System.out.println("Se encontró un ID usando un patrón '" + pattern + "': " + id);
-                    return id.trim().toUpperCase();
-                }
-            }
-
-            String[] parts = cleanText.split("\\|");
-            for (String part : parts) {
-                part = part.trim();
-
-                if (part.toUpperCase().contains("ID:")) {
-                    String id = part.replaceAll("(?i)ID:", "").trim();
-                    if (!id.isEmpty()) {
-                        System.out.println("ID encontrado en la pipe section: " + id);
-                        return id.toUpperCase();
-                    }
-                }
-
-                if (part.toUpperCase().contains("RES-")) {
-                    java.util.regex.Matcher m = java.util.regex.Pattern.compile("RES-[0-9]+", java.util.regex.Pattern.CASE_INSENSITIVE)
-                            .matcher(part);
-                    if (m.find()) {
-                        String id = m.group();
-                        System.out.println("RES ID encontrado directamente: " + id);
-                        return id.toUpperCase();
-                    }
-                }
-            }
-
-            java.util.regex.Matcher startMatcher = java.util.regex.Pattern.compile(
-                    "^(?:Base\\s+ID|se\\s+ID|ID)\\s*:\\s*(RES-[0-9]+)",
-                    java.util.regex.Pattern.CASE_INSENSITIVE)
-                    .matcher(cleanText);
-
-            if (startMatcher.find()) {
-                String id = startMatcher.group(1);
-                System.out.println("ID encontrado al inicio: " + id);
-                return id.toUpperCase();
-            }
-
-            if (cleanText.toUpperCase().startsWith("RES-")) {
-                java.util.regex.Matcher m = java.util.regex.Pattern.compile("^RES-[0-9]+").matcher(cleanText);
-                if (m.find()) {
-                    String id = m.group();
-                    System.out.println("El texto comienza con RES ID: " + id);
-                    return id.toUpperCase();
-                }
-            }
-
-            java.util.regex.Matcher anyIdMatcher = java.util.regex.Pattern.compile(
-                    "\\b[A-Z]{2,4}-[A-Z0-9-]+\\b",
-                    java.util.regex.Pattern.CASE_INSENSITIVE)
-                    .matcher(cleanText);
-
-            if (anyIdMatcher.find()) {
-                String id = anyIdMatcher.group();
-                System.out.println("Se encontró algún patrón de ID: " + id);
-                return id.toUpperCase();
-            }
-
-            System.err.println("No se pudo extraer el ID del residente de: " + cleanText);
-            return null;
-
-        } catch (Exception e) {
-            System.err.println("Excepción en extractResidentId: " + e.getMessage());
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     private void btnPayAndRenewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPayAndRenewActionPerformed
         String selectedSpace = (String) cmbAvailableSpaces.getSelectedItem();
         String renewalPeriod = (String) cmbMonthsSubscription.getSelectedItem();
 
-        if (selectedSpace == null || selectedSpace.equals("Select space...")
-                || selectedSpace.equals("- Select -") || selectedSpace.equals("Selecciona un espacio...")) {
+        if (!rentalController.isValidSpaceSelection(selectedSpace)) {
             JOptionPane.showMessageDialog(this,
                     "Por favor seleccione un espacio disponible",
                     "No hay espacio seleccionado",
@@ -958,8 +469,7 @@ public class FrmResidentRental extends javax.swing.JFrame {
             return;
         }
 
-        if (renewalPeriod == null || renewalPeriod.equals("Select months...")
-                || renewalPeriod.equals("- Select -") || renewalPeriod.equals("Selecciona tu tiempo de uso")) {
+        if (!rentalController.isValidMonthsSelection(renewalPeriod)) {
             JOptionPane.showMessageDialog(this,
                     "Por favor seleccione un periodo de renovación",
                     "No hay período seleccionado",
@@ -968,8 +478,7 @@ public class FrmResidentRental extends javax.swing.JFrame {
         }
 
         String residentId = extractResidentId(lblMessage.getText());
-
-        if (residentId == null || residentId.isEmpty()) {
+        if (residentId == null) {
             JOptionPane.showMessageDialog(this,
                     "No se pudo extraer el ID del residente",
                     "Error de datos",
@@ -977,151 +486,310 @@ public class FrmResidentRental extends javax.swing.JFrame {
             return;
         }
 
-        int selectedMonths = extractMonthsFromRenewalPeriod(renewalPeriod);
-        double monthlyPrice = 120.00;
-        double totalAmount = monthlyPrice * selectedMonths;
+        Resident resident = rentalController.getCurrentResident();
+        if (resident == null) {
+            JOptionPane.showMessageDialog(this,
+                    "Primero debe buscar un residente",
+                    "Residente no encontrado",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
-        java.util.Calendar cal = java.util.Calendar.getInstance();
-        String startDate = sdf.format(cal.getTime());
-        cal.add(java.util.Calendar.MONTH, selectedMonths);
-        String endDate = sdf.format(cal.getTime());
+        int selectedMonths = rentalController.extractMonthsFromText(renewalPeriod);
+        double totalAmount = rentalController.calculatePaymentAmount(selectedMonths);
+        String endDate = rentalController.calculateEndDate(selectedMonths);
 
         int response = JOptionPane.showConfirmDialog(this,
                 "CONFIRMACIÓN DE PAGO Y RENOVACIÓN\n\n"
-                + "ID del Residente: " + residentId + "\n"
+                + "Residente: " + resident.getName() + "\n"
+                + "ID: " + residentId + "\n"
                 + "Espacio: " + selectedSpace + "\n"
-                + "Período de Renovación: " + renewalPeriod + " (" + selectedMonths + " meses)\n"
-                + "Monto a pagar: $" + String.format("%.2f", totalAmount) + "\n"
-                + "Fecha de Inicio (hoy): " + startDate + "\n"
-                + "Fecha de Fin: " + endDate + "\n\n"
+                + "Período: " + renewalPeriod + " (" + selectedMonths + " meses)\n"
+                + "Monto total: $" + String.format("%.2f", totalAmount) + "\n"
+                + "Válido hasta: " + endDate + "\n\n"
                 + "¿Desea proceder?",
                 "Confirmar Pago y Renovación",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
 
         if (response == JOptionPane.YES_OPTION) {
-            try {
-                ResidentController controller = new ResidentController();
-                ParkingSpaceController spaceController = new ParkingSpaceController();
+            Object[] result = rentalController.processPaymentAndRenewal(residentId, selectedSpace, selectedMonths);
+            boolean success = (Boolean) result[0];
+            String message = (String) result[1];
 
-                boolean spaceUpdated = spaceController.updateSpaceOccupation(selectedSpace, true);
+            if (success) {
+                String newEndDate = (String) result[2];
+                double paidAmount = (Double) result[3];
 
-                if (!spaceUpdated) {
-                    JOptionPane.showMessageDialog(this,
-                            "ADVERTENCIA: ¡No se pudo actualizar el estado del espacio de estacionamiento!\n"
-                            + "Espacio: " + selectedSpace + "\n"
-                            + "Por favor, póngase en contacto con el administrador.",
-                            "Error de actualización de espacio",
-                            JOptionPane.WARNING_MESSAGE);
-                }
-
-                boolean renewalSuccess = controller.renewRentalFromToday(residentId, selectedMonths, selectedSpace);
-
-                if (renewalSuccess) {
-                    String message = "¡RENOVACIÓN PROCESADA EXITOSAMENTE!\n\n"
-                            + "Residente: " + residentId + "\n"
-                            + "Espacio: " + selectedSpace + " (marcado como OCUPADO)\n"
-                            + "Período de Renovación: " + renewalPeriod + "\n"
-                            + "Monto a pagar: $" + String.format("%.2f", totalAmount) + "\n"
-                            + "Fecha de Inicio: " + startDate + "\n"
-                            + "Fecha de Fin: " + endDate + "\n"
-                            + "Estado de Pago: PENDIENTE\n"
-                            + "ID de Transacción: REN-" + System.currentTimeMillis();
-
-                    if (!spaceUpdated) {
-                        message += "\n\nADVERTENCIA: ¡El estado del espacio podría no haberse actualizado correctamente!";
-                    }
-
-                    JOptionPane.showMessageDialog(this,
-                            message,
-                            "Renovación Exitosa",
-                            JOptionPane.INFORMATION_MESSAGE);
-
-                    loadAvailableSpacesToComboBox();
-                    updateStateAfterRenewal(endDate);
-
-                } else {
-                    if (spaceUpdated) {
-                        spaceController.updateSpaceOccupation(selectedSpace, false);
-                    }
-
-                    JOptionPane.showMessageDialog(this,
-                            "¡RENOVACIÓN FALLIDA!\n\n"
-                            + "No se pudo actualizar la información de alquiler en la base de datos.\n"
-                            + "Se ha revertido el estado del espacio de estacionamiento.",
-                            "Error de base de datos",
-                            JOptionPane.ERROR_MESSAGE);
-                }
-
-            } catch (Exception e) {
                 JOptionPane.showMessageDialog(this,
-                        "¡RENOVACIÓN FALLIDA!\n\n"
-                        + "Error: " + e.getMessage(),
-                        "Procesando el error",
+                        "¡PAGO Y RENOVACIÓN EXITOSOS!\n\n"
+                        + "Residente: " + resident.getName() + "\n"
+                        + "Espacio: " + selectedSpace + "\n"
+                        + "Monto pagado: $" + String.format("%.2f", paidAmount) + "\n"
+                        + "Válido hasta: " + newEndDate + "\n"
+                        + "Estado: PAID",
+                        "Operación Exitosa",
+                        JOptionPane.INFORMATION_MESSAGE);
+
+                loadAvailableSpaces();
+                updateStateAfterPaymentAndRenewal(newEndDate);
+                updateResidentDisplay();
+
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "¡OPERACIÓN FALLIDA!\n\n" + message,
+                        "Error en la Operación",
                         JOptionPane.ERROR_MESSAGE);
             }
         } else {
             JOptionPane.showMessageDialog(this,
-                    "Renovación cancelada por el usuario",
+                    "Operación cancelada",
                     "Cancelado",
                     JOptionPane.INFORMATION_MESSAGE);
         }
-    }
+    }//GEN-LAST:event_btnPayAndRenewActionPerformed
 
-    private int extractMonthsFromRenewalPeriod(String renewalPeriod) {
-        if (renewalPeriod == null || renewalPeriod.trim().isEmpty()) {
-            System.out.println("renewalPeriod es null o vacío, retornando 1");
-            return 1;
+    private void itemReturnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemReturnMenuActionPerformed
+        FrmResidentMenu frmResidentMenu = new FrmResidentMenu();
+        frmResidentMenu.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_itemReturnMenuActionPerformed
+
+    private void btnRenewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRenewActionPerformed
+        String selectedSpace = (String) cmbAvailableSpaces.getSelectedItem();
+        String renewalPeriod = (String) cmbMonthsSubscription.getSelectedItem();
+
+        if (!rentalController.isValidSpaceSelection(selectedSpace)) {
+            JOptionPane.showMessageDialog(this,
+                    "Por favor seleccione un espacio disponible",
+                    "No hay espacio seleccionado",
+                    JOptionPane.WARNING_MESSAGE);
+            cmbAvailableSpaces.requestFocus();
+            return;
         }
 
-        renewalPeriod = renewalPeriod.trim().toLowerCase();
-        System.out.println("Procesando: '" + renewalPeriod + "'");
+        if (!rentalController.isValidMonthsSelection(renewalPeriod)) {
+            JOptionPane.showMessageDialog(this,
+                    "Por favor seleccione un periodo de renovación",
+                    "No hay período seleccionado",
+                    JOptionPane.WARNING_MESSAGE);
+            cmbMonthsSubscription.requestFocus();
+            return;
+        }
 
-        String numbersOnly = renewalPeriod.replaceAll("[^0-9]", "");
-        System.out.println("   Números extraídos: '" + numbersOnly + "'");
+        String residentId = extractResidentId(lblMessage.getText());
+        if (residentId == null) {
+            JOptionPane.showMessageDialog(this,
+                    "No se pudo extraer la ID del residente",
+                    "Error de datos",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-        if (!numbersOnly.isEmpty()) {
-            try {
-                int months = Integer.parseInt(numbersOnly);
-                System.out.println("   Meses parseados: " + months);
-                return Math.max(1, Math.min(months, 24));
-            } catch (NumberFormatException e) {
-                System.err.println("Error al analizar los meses desde: " + renewalPeriod);
-                return 1;
+        int selectedMonths = rentalController.extractMonthsFromText(renewalPeriod);
+        double totalAmount = rentalController.calculatePaymentAmount(selectedMonths);
+        String endDate = rentalController.calculateEndDate(selectedMonths);
+
+        int response = JOptionPane.showConfirmDialog(this,
+                "CONFIRMAR RENOVACIÓN\n\n"
+                + "ID: " + residentId + "\n"
+                + "Espacio: " + selectedSpace + "\n"
+                + "Período: " + renewalPeriod + " (" + selectedMonths + " meses)\n"
+                + "Monto: $" + String.format("%.2f", totalAmount) + "\n"
+                + "Válido hasta: " + endDate + "\n\n"
+                + "¿Desea proceder con la renovación?",
+                "Confirmar Renovación",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (response == JOptionPane.YES_OPTION) {
+            Object[] result = rentalController.processRentalRenewal(residentId, selectedSpace, selectedMonths);
+            boolean success = (Boolean) result[0];
+            String message = (String) result[1];
+
+            if (success) {
+                String newEndDate = (String) result[2];
+                JOptionPane.showMessageDialog(this,
+                        "¡RENOVACIÓN EXITOSA!\n\n"
+                        + "ID: " + residentId + "\n"
+                        + "Espacio: " + selectedSpace + "\n"
+                        + "Válido hasta: " + newEndDate + "\n"
+                        + "Estado: PENDING (debe pagar)",
+                        "Renovación Exitosa",
+                        JOptionPane.INFORMATION_MESSAGE);
+
+                loadAvailableSpaces();
+                updateResidentDisplay();
+                updateButtonStates();
+
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "¡RENOVACIÓN FALLIDA!\n\n" + message,
+                        "Error en Renovación",
+                        JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            System.out.println("No se encontraron números, retornando 1");
-            return 1;
+            JOptionPane.showMessageDialog(this,
+                    "Renovación cancelada",
+                    "Cancelado",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnRenewActionPerformed
+
+    private void btnCancelRentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelRentActionPerformed
+        String residentId = extractResidentId(lblMessage.getText());
+        if (residentId == null) {
+            JOptionPane.showMessageDialog(this,
+                    "Primero busque un residente",
+                    "Residente no seleccionado",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        Resident resident = rentalController.getCurrentResident();
+        if (resident == null || resident.getCurrentRental() == null) {
+            JOptionPane.showMessageDialog(this,
+                    "El residente no tiene renta activa",
+                    "Sin renta activa",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String spaceId = resident.getCurrentRental().getSpaceId();
+
+        int response = JOptionPane.showConfirmDialog(this,
+                "CONFIRMAR CANCELACIÓN\n\n"
+                + "Residente: " + resident.getName() + "\n"
+                + "ID: " + residentId + "\n"
+                + "Espacio: " + (spaceId != null ? spaceId : "Ninguno") + "\n\n"
+                + "¿Está seguro de cancelar esta renta?",
+                "Confirmar Cancelación",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE);
+
+        if (response == JOptionPane.YES_OPTION) {
+            Object[] result = rentalController.cancelRental(residentId);
+            boolean success = (Boolean) result[0];
+            String message = (String) result[1];
+
+            if (success) {
+                String freedSpace = (String) result[2];
+                JOptionPane.showMessageDialog(this,
+                        "¡RENTA CANCELADA!\n\n"
+                        + "Residente: " + resident.getName() + "\n"
+                        + "Espacio liberado: " + (freedSpace != null ? freedSpace : "N/A") + "\n"
+                        + "Nuevo estado: RENTAL_CANCELED",
+                        "Cancelación Exitosa",
+                        JOptionPane.INFORMATION_MESSAGE);
+
+                loadAvailableSpaces();
+                updateResidentDisplay();
+                clearPaymentFields();
+                updateButtonStates();
+
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "¡CANCELACIÓN FALLIDA!\n\n" + message,
+                        "Error en Cancelación",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Cancelación cancelada",
+                    "Cancelado",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnCancelRentActionPerformed
+
+    private void txtFindResidentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFindResidentActionPerformed
+        btnSearchResidentActionPerformed(evt);
+    }//GEN-LAST:event_txtFindResidentActionPerformed
+
+    private void loadAvailableSpaces() {
+        List<String> spaces = rentalController.getAvailableSpaces();
+        cmbAvailableSpaces.removeAllItems();
+        cmbAvailableSpaces.addItem("Selecciona un espacio...");
+
+        for (String space : spaces) {
+            cmbAvailableSpaces.addItem(space);
         }
     }
 
-    private void validatePayAndRenewButton() {
+    private void disableAllButtons() {
+        btnPay.setEnabled(false);
+        btnPayAndRenew.setEnabled(false);
+        btnRenew.setEnabled(false);
+        btnCancelRent.setEnabled(false);
+    }
 
-        Object selectedSpace = cmbAvailableSpaces.getSelectedItem();
-        boolean isValidSpace = false;
+    private void updateButtonStates() {
+        Resident resident = rentalController.getCurrentResident();
 
-        if (selectedSpace != null && !selectedSpace.toString().isEmpty()) {
-            String selectedText = selectedSpace.toString();
-            isValidSpace = !selectedText.equals("Select space...")
-                    && !selectedText.equals("- Select -")
-                    && !selectedText.equals("Select a space...");
+        if (resident == null || !"ROTATING".equals(resident.getUserType())) {
+            disableAllButtons();
+            return;
         }
 
-        Object selectedMonths = cmbMonthsSubscription.getSelectedItem();
-        boolean isValidMonths = false;
+        boolean validSpace = rentalController.isValidSpaceSelection(
+                (String) cmbAvailableSpaces.getSelectedItem());
+        boolean validMonths = rentalController.isValidMonthsSelection(
+                (String) cmbMonthsSubscription.getSelectedItem());
 
-        if (selectedMonths != null && !selectedMonths.toString().isEmpty()) {
-            String monthsText = selectedMonths.toString();
-            isValidMonths = !monthsText.equals("Select months...")
-                    && !monthsText.equals("- Select -")
-                    && !monthsText.equals("Select subscription...");
+        boolean[] states = rentalController.getButtonStates(resident, validSpace, validMonths);
+
+        btnPay.setEnabled(states[0]);
+        btnPayAndRenew.setEnabled(states[1]);
+        btnRenew.setEnabled(states[2]);
+        btnCancelRent.setEnabled(states[3]);
+    }
+
+    private void updateResidentDisplay() {
+        Resident resident = rentalController.getCurrentResident();
+        if (resident != null) {
+            Object[] result = rentalController.searchResident(resident.getResidentID());
+            if ((Boolean) result[0]) {
+                lblMessage.setText((String) result[1]);
+                lblMessage.setForeground((Color) result[2]);
+            }
+        }
+    }
+
+    private void updateStateAfterPaymentAndRenewal(String newEndDate) {
+        clearPaymentFields();
+        lblMessage.setText("Pago y renovación completados - Válido hasta: " + newEndDate);
+        lblMessage.setForeground(new Color(0, 100, 0));
+        cmbAvailableSpaces.setSelectedIndex(0);
+        cmbMonthsSubscription.setSelectedIndex(0);
+        txtFindResident.setText("");
+        txtFindResident.requestFocus();
+        updateButtonStates();
+    }
+
+    private void clearPaymentFields() {
+        lblValueToPay.setText("");
+        lblMonthsOfUse.setText("");
+    }
+
+    private String extractResidentId(String message) {
+        if (message == null || message.trim().isEmpty()) {
+            return null;
         }
 
-        boolean hasRotatingResident = !lblMessage.getText().isEmpty()
-                && lblMessage.getText().contains("ROTANTE");
+        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("ID:\\s*(RES-\\d{3})");
+        java.util.regex.Matcher matcher = pattern.matcher(message);
 
-        btnPayAndRenew.setEnabled(isValidSpace && isValidMonths && hasRotatingResident);
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+
+        pattern = java.util.regex.Pattern.compile("RES-\\d{3}");
+        matcher = pattern.matcher(message);
+
+        if (matcher.find()) {
+            return matcher.group();
+        }
+
+        return null;
     }
 
     private void updateStateAfterPayment() {
@@ -1141,710 +809,28 @@ public class FrmResidentRental extends javax.swing.JFrame {
         btnPayAndRenew.setEnabled(false);
     }
 
-    private void updateStateAfterRenewal(String newEndDate) {
-        lblValueToPay.setText("");
-        lblMonthsOfUse.setText("");
-
-        lblMessage.setText("Pago y renovación completados - Válido hasta: " + newEndDate);
-        lblMessage.setForeground(new Color(0, 100, 0));
-
-        txtFindResident.setText("");
-        txtFindResident.requestFocus();
-
-        btnPay.setEnabled(false);
-        btnPayAndRenew.setEnabled(false);
-
-    }//GEN-LAST:event_btnPayAndRenewActionPerformed
-
-    private void itemReturnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemReturnMenuActionPerformed
-        FrmResidentMenu frmResidentMenu = new FrmResidentMenu();
-        frmResidentMenu.setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_itemReturnMenuActionPerformed
-
-    private void btnRenewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRenewActionPerformed
-        String selectedSpace = (String) cmbAvailableSpaces.getSelectedItem();
+    private void updatePaymentDisplay() {
         String renewalPeriod = (String) cmbMonthsSubscription.getSelectedItem();
 
-        if (selectedSpace == null || selectedSpace.equals("Select a space...")
-                || selectedSpace.equals("Select space...") || selectedSpace.equals("- Select -")) {
-            JOptionPane.showMessageDialog(this,
-                    "Por favor seleccione una plaza de aparcamiento disponible",
-                    "No hay espacio seleccionado",
-                    JOptionPane.WARNING_MESSAGE);
-            cmbAvailableSpaces.requestFocus();
+        if (renewalPeriod == null || !rentalController.isValidMonthsSelection(renewalPeriod)) {
+            lblValueToPay.setText("");
+            lblMonthsOfUse.setText("");
             return;
         }
 
-        if (renewalPeriod == null || renewalPeriod.equals("Select months...")
-                || renewalPeriod.equals("- Select -") || renewalPeriod.equals("Select subscription...")) {
-            JOptionPane.showMessageDialog(this,
-                    "Por favor seleccione un periodo de renovación",
-                    "No hay período seleccionado",
-                    JOptionPane.WARNING_MESSAGE);
-            cmbMonthsSubscription.requestFocus();
-            return;
-        }
-
-        String residentId = extractResidentId(lblMessage.getText());
-        if (residentId == null || residentId.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                    "No se pudo extraer la identificación del residente. Busque primero un residente.",
-                    "Residente no elegido",
-                    JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        int selectedMonths = extractMonthsFromRenewalPeriod(renewalPeriod);
-
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
-        java.util.Calendar cal = java.util.Calendar.getInstance();
-        String startDate = sdf.format(cal.getTime());
-        cal.add(java.util.Calendar.MONTH, selectedMonths);
-        String endDate = sdf.format(cal.getTime());
-
-        double monthlyPrice = 120.00;
-        double totalAmount = monthlyPrice * selectedMonths;
-
-        int response = JOptionPane.showConfirmDialog(this,
-                "RENOVACIÓN - CONFIRMACIÓN\n\n"
-                + "ID del Residente: " + residentId + "\n"
-                + "Espacio de Estacionamiento: " + selectedSpace + "\n"
-                + "Período de Renovación: " + renewalPeriod + " (" + selectedMonths + " meses)\n"
-                + "Monto a pagar: $" + String.format("%.2f", totalAmount) + "\n"
-                + "Fecha de Inicio (hoy): " + startDate + "\n"
-                + "Nueva Fecha de Fin: " + endDate + "\n\n"
-                + "¿Desea proceder con la renovación?",
-                "Confirmar Solo Renovación",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE);
-
-        if (response == JOptionPane.YES_OPTION) {
-            try {
-                ResidentController controller = new ResidentController();
-                ParkingSpaceController spaceController = new ParkingSpaceController();
-
-                System.out.println("\n=== RENOVACION ===");
-                System.out.println("Residente ID: " + residentId);
-                System.out.println("Espacio: " + selectedSpace);
-                System.out.println("Meses: " + selectedMonths);
-
-                boolean spaceUpdated = spaceController.updateSpaceOccupation(selectedSpace, true);
-
-                if (!spaceUpdated) {
-                    System.err.println("Advertencia: No se pudo actualizar la ocupación del espacio");
-                }
-
-                boolean renewalSuccess = controller.renewRentalWithSpace(residentId, selectedMonths, selectedSpace);
-
-                if (renewalSuccess) {
-                    String successMessage = "¡RENOVACIÓN PROCESADA EXITOSAMENTE!\n\n"
-                            + "Residente: " + residentId + "\n"
-                            + "Espacio de Estacionamiento: " + selectedSpace + "\n"
-                            + "Período de Renovación: " + renewalPeriod + "\n"
-                            + "Nueva Fecha de Fin: " + endDate + "\n"
-                            + "Estado de Pago: PAGADO\n\n"
-                            + "El residente puede continuar usando el espacio hasta el " + endDate;
-
-                    if (!spaceUpdated) {
-                        successMessage += "\n\nNota: La actualización del estado del espacio puede requerir verificación manual";
-                    }
-
-                    JOptionPane.showMessageDialog(this,
-                            successMessage,
-                            "Renovación Exitosa",
-                            JOptionPane.INFORMATION_MESSAGE);
-
-                    loadAvailableSpacesToComboBox();
-
-                    updateStateAfterRenewalOnly(endDate);
-
-                    System.out.println("Renovación completada con éxito");
-                    System.out.println("Nueva fecha de finalización: " + endDate);
-
-                } else {
-                    if (spaceUpdated) {
-                        spaceController.updateSpaceOccupation(selectedSpace, false);
-                        System.out.println("Renovación fallida - estado de espacio revertido");
-                    }
-
-                    JOptionPane.showMessageDialog(this,
-                            "¡RENOVACIÓN FALLIDA!\n\n"
-                            + "No se pudo actualizar la información de alquiler en la base de datos.\n"
-                            + "Se ha revertido el estado del espacio de estacionamiento.",
-                            "Database Error",
-                            JOptionPane.ERROR_MESSAGE);
-                }
-
-            } catch (Exception e) {
-                System.err.println("Error en el proceso de renovación: " + e.getMessage());
-                e.printStackTrace();
-
-                JOptionPane.showMessageDialog(this,
-                        "¡RENOVACIÓN FALLIDA!\n\n"
-                        + "Error: " + e.getMessage() + "\n"
-                        + "Por favor, póngase en contacto con el administrador del sistema.",
-                        "Procesando Error",
-                        JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(this,
-                    "Renovación cancelada por el usuario",
-                    "Cancelado",
-                    JOptionPane.INFORMATION_MESSAGE);
-        }
-    }
-
-    private void updateStateAfterRenewalOnly(String newEndDate) {
-        System.out.println("\n=== ACTUALIZACIÓN DEL ESTADO SOLO DESPUÉS DE LA RENOVACIÓN ===");
-
-        lblValueToPay.setText("");
-        lblMonthsOfUse.setText("");
-
-        lblValueToPay.setEnabled(false);
-        lblMonthsOfUse.setEnabled(false);
-        cmbAvailableSpaces.setEnabled(false);
-        cmbMonthsSubscription.setEnabled(false);
-
-        lblValueToPay.setBackground(Color.LIGHT_GRAY);
-        lblMonthsOfUse.setBackground(Color.LIGHT_GRAY);
-
-        String currentMessage = lblMessage.getText();
-        if (currentMessage.contains("| Space:")) {
-            lblMessage.setText("Renovación completada - Válida hasta: " + newEndDate + " (Status: PAID)");
-        } else {
-            lblMessage.setText("Renovación completada - Válida hasta: " + newEndDate);
-        }
-        lblMessage.setForeground(new Color(0, 100, 0));
-
-        txtFindResident.setText("");
-        txtFindResident.requestFocus();
-
-        btnPay.setEnabled(false);
-        btnPayAndRenew.setEnabled(false);
-        btnRenew.setEnabled(false);
-
-        if (cmbAvailableSpaces != null) {
-            cmbAvailableSpaces.setSelectedIndex(0);
-        }
-        if (cmbMonthsSubscription != null) {
-            cmbMonthsSubscription.setSelectedIndex(0);
-        }
-
-        System.out.println("Estado actualizado después de la renovación");
-        System.out.println("Nueva fecha de finalización: " + newEndDate);
-    }//GEN-LAST:event_btnRenewActionPerformed
-
-    private void btnCancelRentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelRentActionPerformed
-        System.out.println("\n=== CANCEL RENT BUTTON CLICKED ===");
-
-        if (lblMessage.getText().isEmpty() || !lblMessage.getText().contains("ROTANTE")) {
-            JOptionPane.showMessageDialog(this,
-                    "Por favor busque un residente rotante primero",
-                    "No residente seleccionado",
-                    JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        String residentId = extractResidentId(lblMessage.getText());
-        if (residentId == null || residentId.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                    "No se pudo identificar el ID del residente",
-                    "Error de Identificación",
-                    JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        try {
-            ResidentController controller = new ResidentController();
-            Resident resident = controller.searchResidentById(residentId);
-
-            if (resident == null || resident.getCurrentRental() == null) {
-                JOptionPane.showMessageDialog(this,
-                        "Este residente no tiene un alquiler activo",
-                        "Sin alquiler activo",
-                        JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            String paymentStatus = resident.getCurrentRental().getPaymentStatus();
-            String currentSpace = resident.getCurrentRental().getSpaceId();
-
-            System.out.println("Residente: " + residentId);
-            System.out.println("Estado actual: " + paymentStatus);
-            System.out.println("Espacio actual: " + currentSpace);
-
-            if ("PENDING".equalsIgnoreCase(paymentStatus)) {
-                JOptionPane.showMessageDialog(this,
-                        "PRIMERO DEBE PAGAR SU RENTA ANTES DE CANCELAR\n\n"
-                        + "Residente: " + resident.getName() + "\n"
-                        + "ID: " + residentId + "\n"
-                        + "Estado actual: PENDIENTE\n"
-                        + "Monto pendiente: $" + resident.getCurrentRental().getMonthlyPrice() + "\n\n"
-                        + "Por favor procese el pago primero usando el botón 'Pagar'.",
-                        "Pago Pendiente",
-                        JOptionPane.WARNING_MESSAGE);
-                return;
-
-            } else if (!"PAID".equalsIgnoreCase(paymentStatus)) {
-                JOptionPane.showMessageDialog(this,
-                        "No se puede cancelar renta con estado: " + paymentStatus + "\n"
-                        + "Solo se permite cancelar rentas con estado PAID.",
-                        "Estado Inválido",
-                        JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            int response = JOptionPane.showConfirmDialog(this,
-                    "CONFIRMAR CANCELACIÓN DE RENTA\n\n"
-                    + "Residente: " + resident.getName() + "\n"
-                    + "ID: " + residentId + "\n"
-                    + "Espacio asignado: " + (currentSpace != null ? currentSpace : "Ninguno") + "\n"
-                    + "Estado actual: PAID\n\n"
-                    + "¿Está seguro que desea cancelar esta renta?",
-                    "Confirmar Cancelación",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.WARNING_MESSAGE);
-
-            if (response == JOptionPane.YES_OPTION) {
-                boolean rentalCanceled = controller.cancelRental(residentId);
-
-                if (rentalCanceled && currentSpace != null && !currentSpace.isEmpty()) {
-                    ParkingSpaceController spaceController = new ParkingSpaceController();
-                    boolean spaceFreed = spaceController.freeParkingSpace(currentSpace);
-
-                    if (spaceFreed) {
-                        System.out.println("Espacio " + currentSpace + " liberado con éxito");
-                    } else {
-                        System.out.println("Advertencia: No se pudo liberar espacio " + currentSpace);
-                    }
-
-                    loadAvailableSpacesToComboBox();
-                }
-
-                if (rentalCanceled) {
-                    JOptionPane.showMessageDialog(this,
-                            "RENTA CANCELADA EXITOSAMENTE\n\n"
-                            + "Residente: " + resident.getName() + "\n"
-                            + "ID: " + residentId + "\n"
-                            + "Nuevo estado: RENTAL_CANCELED\n"
-                            + (currentSpace != null ? "Espacio liberado: " + currentSpace + "\n" : "")
-                            + "\nEl residente ya no tiene acceso al espacio de estacionamiento.",
-                            "Cancelación Exitosa",
-                            JOptionPane.INFORMATION_MESSAGE);
-
-                    updateStateAfterCancellation();
-
-                } else {
-                    JOptionPane.showMessageDialog(this,
-                            "ERROR AL CANCELAR RENTA\n\n"
-                            + "No se pudo actualizar la base de datos.\n"
-                            + "Por favor intente nuevamente o contacte al administrador.",
-                            "Error de Cancelación",
-                            JOptionPane.ERROR_MESSAGE);
-                }
-            } else {
-                JOptionPane.showMessageDialog(this,
-                        "Cancelación cancelada por el usuario",
-                        "Cancelación Cancelada",
-                        JOptionPane.INFORMATION_MESSAGE);
-            }
-
-        } catch (Exception e) {
-            System.err.println("Error in cancel rent process: " + e.getMessage());
-            e.printStackTrace();
-
-            JOptionPane.showMessageDialog(this,
-                    "ERROR EN EL PROCESO\n\n"
-                    + "Error: " + e.getMessage(),
-                    "Error del Sistema",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_btnCancelRentActionPerformed
-
-    private void btnActivateRentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActivateRentActionPerformed
-        System.out.println("\n=== ACTIVATE RENT BUTTON CLICKED ===");
-
-        if (lblMessage.getText().isEmpty() || !lblMessage.getText().contains("ROTANTE")) {
-            JOptionPane.showMessageDialog(this,
-                    "Por favor busque un residente rotante primero",
-                    "No residente seleccionado",
-                    JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        String residentId = extractResidentId(lblMessage.getText());
-        if (residentId == null || residentId.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                    "No se pudo identificar el ID del residente",
-                    "Error de Identificación",
-                    JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        String selectedSpace = (String) cmbAvailableSpaces.getSelectedItem();
-        if (selectedSpace == null || selectedSpace.equals("Select a space...")
-                || selectedSpace.equals("Select space...") || selectedSpace.equals("- Select -")) {
-            JOptionPane.showMessageDialog(this,
-                    "Por favor seleccione un espacio de estacionamiento disponible",
-                    "No hay espacio seleccionado",
-                    JOptionPane.WARNING_MESSAGE);
-            cmbAvailableSpaces.requestFocus();
-            return;
-        }
-
-        String renewalPeriod = (String) cmbMonthsSubscription.getSelectedItem();
-        if (renewalPeriod == null || renewalPeriod.equals("Select months...")
-                || renewalPeriod.equals("- Select -") || renewalPeriod.equals("Select subscription...")) {
-            JOptionPane.showMessageDialog(this,
-                    "Por favor seleccione un período de renta",
-                    "No hay período seleccionado",
-                    JOptionPane.WARNING_MESSAGE);
-            cmbMonthsSubscription.requestFocus();
-            return;
-        }
-
-        try {
-            ResidentController controller = new ResidentController();
-            Resident resident = controller.searchResidentById(residentId);
-
-            if (resident == null) {
-                JOptionPane.showMessageDialog(this,
-                        "No se encontró el residente en la base de datos",
-                        "Residente No Encontrado",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            String currentStatus = "UNKNOWN";
-            if (resident.getCurrentRental() != null) {
-                currentStatus = resident.getCurrentRental().getPaymentStatus();
-            }
-
-            System.out.println("Estado actual: " + currentStatus);
-
-            if (!"RENTAL_CANCELED".equalsIgnoreCase(currentStatus)) {
-                String message = "No se puede activar renta con estado actual: " + currentStatus + "\n\n";
-
-                if ("PAID".equalsIgnoreCase(currentStatus)) {
-                    message += "El residente ya tiene una renta activa y pagada.\n";
-                    message += "Use el botón 'Renovar' para extender el período.";
-                } else if ("PENDING".equalsIgnoreCase(currentStatus)) {
-                    message += "El residente ya tiene una renta activa pendiente de pago.\n";
-                    message += "Use el botón 'Pagar' para procesar el pago.";
-                } else {
-                    message += "Solo se puede activar renta para residentes con estado RENTAL_CANCELED.";
-                }
-
-                JOptionPane.showMessageDialog(this,
-                        message,
-                        "Estado Inválido",
-                        JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            int selectedMonths = extractMonthsFromRenewalPeriod(renewalPeriod);
-            double monthlyPrice = 120.00;
-            double totalAmount = monthlyPrice * selectedMonths;
-
-            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
-            java.util.Calendar cal = java.util.Calendar.getInstance();
-            String startDate = sdf.format(cal.getTime());
-            cal.add(java.util.Calendar.MONTH, selectedMonths);
-            String endDate = sdf.format(cal.getTime());
-
-            int response = JOptionPane.showConfirmDialog(this,
-                    "CONFIRMAR ACTIVACIÓN DE RENTA\n\n"
-                    + "Residente: " + resident.getName() + "\n"
-                    + "ID: " + residentId + "\n"
-                    + "Espacio seleccionado: " + selectedSpace + "\n"
-                    + "Período: " + renewalPeriod + " (" + selectedMonths + " meses)\n"
-                    + "Monto a pagar: $" + String.format("%.2f", totalAmount) + "\n"
-                    + "Fecha de inicio: " + startDate + "\n"
-                    + "Fecha de fin: " + endDate + "\n\n"
-                    + "¿Está seguro que desea activar esta renta?",
-                    "Confirmar Activación",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.QUESTION_MESSAGE);
-
-            if (response == JOptionPane.YES_OPTION) {
-
-                boolean rentalActivated = controller.activateRentalWithSpace(
-                        residentId,
-                        selectedMonths,
-                        selectedSpace
-                );
-
-                if (rentalActivated) {
-
-                    loadAvailableSpacesToComboBox();
-
-                    JOptionPane.showMessageDialog(this,
-                            "RENTA ACTIVADA EXITOSAMENTE\n\n"
-                            + "Residente: " + resident.getName() + "\n"
-                            + "ID: " + residentId + "\n"
-                            + "Nuevo estado: PENDING\n"
-                            + "Espacio asignado: " + selectedSpace + "\n"
-                            + "Período: " + renewalPeriod + "\n"
-                            + "Total a pagar: $" + String.format("%.2f", totalAmount) + "\n"
-                            + "Válido hasta: " + endDate + "\n\n"
-                            + "El residente debe pagar para confirmar la renta.",
-                            "Activación Exitosa",
-                            JOptionPane.INFORMATION_MESSAGE);
-
-                    updateStateAfterActivation(endDate, totalAmount);
-
-                } else {
-                    JOptionPane.showMessageDialog(this,
-                            "ERROR AL ACTIVAR RENTA\n\n"
-                            + "No se pudo actualizar la base de datos.\n"
-                            + "Por favor intente nuevamente o contacte al administrador.",
-                            "Error de Activación",
-                            JOptionPane.ERROR_MESSAGE);
-                }
-
-            } else {
-                JOptionPane.showMessageDialog(this,
-                        "Activación cancelada por el usuario",
-                        "Activación Cancelada",
-                        JOptionPane.INFORMATION_MESSAGE);
-            }
-
-        } catch (IllegalStateException ex) {
-
-            JOptionPane.showMessageDialog(this,
-                    ex.getMessage(),
-                    "Error de Negocio",
-                    JOptionPane.ERROR_MESSAGE);
-
-        } catch (Exception e) {
-
-            System.err.println("Error in activate rent process: " + e.getMessage());
-            e.printStackTrace();
-
-            JOptionPane.showMessageDialog(this,
-                    "ERROR EN EL PROCESO\n\n"
-                    + "Error: " + e.getMessage(),
-                    "Error del Sistema",
-                    JOptionPane.ERROR_MESSAGE);
-}
-
-    }//GEN-LAST:event_btnActivateRentActionPerformed
-
-    private void txtFindResidentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFindResidentActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFindResidentActionPerformed
-
-    private void updateStateAfterActivation(String endDate, double totalAmount) {
-        System.out.println("\n=== UPDATING STATE AFTER ACTIVATION ===");
+        int selectedMonths = rentalController.extractMonthsFromText(renewalPeriod);
+        double totalAmount = rentalController.calculatePaymentAmount(selectedMonths);
 
         lblValueToPay.setText("$" + String.format("%.2f", totalAmount));
-        lblMonthsOfUse.setText("0");
+        lblMonthsOfUse.setText(selectedMonths + " mes(es)");
 
-        lblValueToPay.setBackground(new Color(255, 240, 240));
-        lblMonthsOfUse.setBackground(new Color(255, 240, 240));
-
-        String currentMessage = lblMessage.getText();
-        String newMessage = currentMessage.replace("RENTAL_CANCELED", "PENDING");
-        if (!newMessage.contains("PENDING")) {
-            newMessage = currentMessage + " | Payment: PENDING";
-        }
-        lblMessage.setText(newMessage);
-        lblMessage.setForeground(new Color(200, 0, 0));
-
-        lblValueToPay.setEnabled(true);
-        lblMonthsOfUse.setEnabled(true);
-
-        btnActivateRent.setEnabled(false);
-        btnPay.setEnabled(true);
-        btnPayAndRenew.setEnabled(false);
-        btnRenew.setEnabled(false);
-        btnCancelRent.setEnabled(false);
-
-        txtFindResident.setText("");
-        txtFindResident.requestFocus();
-
-        System.out.println("Estado actualizado después de la activación");
-        System.out.println("Nueva fecha de finalización: " + endDate);
-        System.out.println("Importe total: $" + totalAmount);
-    }
-
-    private void updateStateAfterCancellation() {
-        System.out.println("\n=== UPDATING STATE AFTER CANCELLATION ===");
-
-        lblValueToPay.setText("");
-        lblMonthsOfUse.setText("");
-
-        lblValueToPay.setEnabled(false);
-        lblMonthsOfUse.setEnabled(false);
-        cmbAvailableSpaces.setEnabled(false);
-        cmbMonthsSubscription.setEnabled(false);
-
-        lblValueToPay.setBackground(Color.LIGHT_GRAY);
-        lblMonthsOfUse.setBackground(Color.LIGHT_GRAY);
-
-        String currentMessage = lblMessage.getText();
-        String residentName = "";
-        if (currentMessage.contains("|")) {
-            String[] parts = currentMessage.split("\\|");
-            residentName = parts[0].trim();
-        }
-
-        lblMessage.setText("Renta cancelada - " + residentName + " (Estado: RENTAL_CANCELED)");
-        lblMessage.setForeground(Color.RED);
-
-        txtFindResident.setText("");
-        txtFindResident.requestFocus();
-
-        btnPay.setEnabled(false);
-        btnPayAndRenew.setEnabled(false);
-        btnRenew.setEnabled(false);
-        btnCancelRent.setEnabled(false);
-
-        if (cmbAvailableSpaces != null) {
-            cmbAvailableSpaces.setSelectedIndex(0);
-        }
-        if (cmbMonthsSubscription != null) {
-            cmbMonthsSubscription.setSelectedIndex(0);
-        }
-
-        System.out.println("Estado actualizado tras cancelación");
-    }
-
-    private void validateButtons() {
-        System.out.println("\n=== VALIDATING BUTTONS ===");
-
-        boolean hasRotatingResident = !lblMessage.getText().isEmpty()
-                && lblMessage.getText().contains("ROTANTE");
-
-        System.out.println("1. Tiene residente rotativo: " + hasRotatingResident);
-        System.out.println("   Mensaje: '" + lblMessage.getText() + "'");
-
-        if (!hasRotatingResident) {
-
-            System.out.println("  No residente rotating - deshabilitar todos los botones");
-            return;
-        }
-
-        String paymentStatus = extractPaymentStatusFromMessage();
-        System.out.println("2. Estado del pago: '" + paymentStatus + "'");
-
-        boolean hasValidSpace = hasValidSpaceSelection();
-        boolean hasValidMonths = hasValidMonthsSelection();
-
-        System.out.println("3. Tiene espacio válido: " + hasValidSpace);
-        System.out.println("4. Tiene meses de validez: " + hasValidMonths);
-
-        if ("RENTAL_CANCELED".equalsIgnoreCase(paymentStatus)) {
-            System.out.println("5. El estado es RENTAL_CANCELED:");
-            System.out.println("   - Activar Renta requiere espacio válido y meses");
-
-            btnActivateRent.setEnabled(hasValidSpace && hasValidMonths);
-
-            btnPay.setEnabled(false);
-            btnPayAndRenew.setEnabled(false);
-            btnRenew.setEnabled(false);
-            btnCancelRent.setEnabled(false);
-
-        } else if ("PAID".equalsIgnoreCase(paymentStatus)) {
-            System.out.println("5. El estado es PAID:");
-            System.out.println("   - Renovar requiere espacio válido y meses");
-            System.out.println("   - Cancelar alquiler siempre está habilitado");
-
-            btnRenew.setEnabled(hasValidSpace && hasValidMonths);
-            btnCancelRent.setEnabled(true);
-
-            btnPay.setEnabled(false);
-            btnPayAndRenew.setEnabled(false);
-            btnActivateRent.setEnabled(false);
-
-        } else if ("PENDING".equalsIgnoreCase(paymentStatus)) {
-            System.out.println("5. El estado es PENDING:");
-            System.out.println("   - Pagar siempre está habilitado");
-            System.out.println("   - Pagar y renovar requiere espacio válido y meses");
-
-            btnPay.setEnabled(true);
-            btnPayAndRenew.setEnabled(hasValidSpace && hasValidMonths);
-
-            btnRenew.setEnabled(false);
-            btnCancelRent.setEnabled(false);
-            btnActivateRent.setEnabled(false);
-
+        if (totalAmount > 120.00) {
+            lblValueToPay.setBackground(new Color(255, 255, 200));
+            lblValueToPay.setForeground(Color.BLACK);
         } else {
-            System.out.println("5. El estado está " + paymentStatus + " - deshabilitando todo");
-
+            lblValueToPay.setBackground(new Color(240, 240, 240));
+            lblValueToPay.setForeground(Color.BLACK);
         }
-
-        logButtonStates();
-    }
-
-    private String extractPaymentStatusFromMessage() {
-        String messageText = lblMessage.getText();
-
-        if (messageText.contains("PENDING")) {
-            return "PENDING";
-        } else if (messageText.contains("PAID")) {
-            return "PAID";
-        } else if (messageText.contains("RENTAL_CANCELED") || messageText.contains("CANCELED")) {
-            return "RENTAL_CANCELED";
-        }
-
-        if (messageText.contains("Payment:")) {
-            try {
-                int start = messageText.indexOf("Payment:") + 8;
-                String rest = messageText.substring(start).trim();
-
-                int end = rest.indexOf("|");
-                if (end == -1) {
-                    return rest.split(" ")[0].trim();
-                } else {
-                    return rest.substring(0, end).trim();
-                }
-            } catch (Exception e) {
-                System.err.println("Error al extraer el estado del pago: " + e.getMessage());
-            }
-        }
-        return "UNKNOWN";
-    }
-
-    private boolean hasValidSpaceSelection() {
-        Object selectedSpace = cmbAvailableSpaces.getSelectedItem();
-        if (selectedSpace == null) {
-            return false;
-        }
-
-        String spaceText = selectedSpace.toString();
-        return !spaceText.equals("Select a space...")
-                && !spaceText.equals("Select space...")
-                && !spaceText.equals("- Select -")
-                && !spaceText.equals("No hay espacios disponibles")
-                && !spaceText.equals("Error al cargar espacios")
-                && !spaceText.isEmpty()
-                && !spaceText.contains("Select");
-    }
-
-    private boolean hasValidMonthsSelection() {
-        Object selectedMonths = cmbMonthsSubscription.getSelectedItem();
-        if (selectedMonths == null) {
-            return false;
-        }
-
-        String monthsText = selectedMonths.toString();
-        return !monthsText.equals("Select months...")
-                && !monthsText.equals("- Select -")
-                && !monthsText.equals("Select subscription...")
-                && !monthsText.isEmpty()
-                && !monthsText.contains("Select");
-    }
-
-    private void logButtonStates() {
-        System.out.println("6. Final button states:");
-        System.out.println("   - Pagar: " + btnPay.isEnabled());
-        System.out.println("   - Pagar y renovar: " + btnPayAndRenew.isEnabled());
-        System.out.println("   - Renovar: " + btnRenew.isEnabled());
-        System.out.println("   - Cancelar Renta: " + btnCancelRent.isEnabled());
-        System.out.println("   - Activar Renta: " + btnActivateRent.isEnabled());
-        System.out.println("=== BUTTONS VALIDATED ===\n");
     }
 
     /**
@@ -1873,7 +859,6 @@ public class FrmResidentRental extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnActivateRent;
     private javax.swing.JButton btnCancelRent;
     private javax.swing.JButton btnPay;
     private javax.swing.JButton btnPayAndRenew;

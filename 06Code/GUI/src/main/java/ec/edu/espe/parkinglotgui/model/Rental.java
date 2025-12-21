@@ -18,6 +18,8 @@ public class Rental {
     private double monthlyPrice;
     private boolean isActive;
     private String paymentStatus;
+    private double totalPrice;
+    private int months;
 
     public Rental() {
         this.isActive = true;
@@ -35,6 +37,76 @@ public class Rental {
         this.monthlyPrice = monthlyPrice;
         this.isActive = true;
         this.paymentStatus = "PENDING";
+    }
+
+    public long getDaysUsed() {
+        if (startDate == null) {
+            return 0;
+        }
+
+        Date referenceDate;
+        Date currentDate = new Date();
+
+        if (endDate == null || endDate.after(currentDate)) {
+            referenceDate = currentDate;
+        } else {
+            referenceDate = endDate;
+        }
+
+        long diff = referenceDate.getTime() - startDate.getTime();
+        return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+    }
+
+    public boolean renewRental(int additionalMonths) {
+        if (!isActive) {
+            return false;
+        }
+
+        if (endDate == null) {
+            endDate = new Date();
+        }
+
+        long newEndDate = endDate.getTime() + (additionalMonths * 30L * 24 * 60 * 60 * 1000);
+        this.endDate = new Date(newEndDate);
+        this.paymentStatus = "PENDING";
+
+        return true;
+    }
+
+    public boolean cancelRental() {
+        if (!isActive) {
+            return false;
+        }
+
+        this.isActive = false;
+        this.paymentStatus = "CANCELLED";
+        return true;
+    }
+
+    public boolean processPayment() {
+        if (!isActive) {
+            return false;
+        }
+
+        this.paymentStatus = "PAID";
+        System.out.println("Pago procesado por alquiler: " + rentalId);
+        return true;
+    }
+
+    public double calculateTotal() {
+        if (totalPrice > 0) {
+            return totalPrice;
+        } else if (months > 0) {
+            return monthlyPrice * months;
+        } else {
+            return monthlyPrice;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return spaceId + " - $" + monthlyPrice + "/month - "
+                + (isActive ? "Active" : "Inactive");
     }
 
     public void setRentalId(String rentalId) {
@@ -67,6 +139,14 @@ public class Rental {
 
     public void setPaymentStatus(String paymentStatus) {
         this.paymentStatus = paymentStatus;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public void setMonths(int months) {
+        this.months = months;
     }
 
     public String getRentalId() {
@@ -105,99 +185,53 @@ public class Rental {
         return new Date().after(endDate);
     }
 
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public int getMonths() {
+        return months;
+    }
+
     public int getMonthsUsed() {
-        if (startDate == null) {
-            return 0;
+        if (startDate == null || endDate == null) {
+            return 1;
         }
 
-        Date referenceDate;
-        Date currentDate = new Date();
-
-        if (endDate == null || endDate.after(currentDate)) {
-            referenceDate = currentDate;
-        } else {
-            referenceDate = endDate;
+        if (startDate.after(endDate)) {
+            return 1;
         }
 
         Calendar startCal = Calendar.getInstance();
         startCal.setTime(startDate);
 
         Calendar endCal = Calendar.getInstance();
-        endCal.setTime(referenceDate);
+        endCal.setTime(endDate);
 
-        int yearsDiff = endCal.get(Calendar.YEAR) - startCal.get(Calendar.YEAR);
-        int monthsDiff = endCal.get(Calendar.MONTH) - startCal.get(Calendar.MONTH);
-        int totalMonths = yearsDiff * 12 + monthsDiff;
+        int startYear = startCal.get(Calendar.YEAR);
+        int startMonth = startCal.get(Calendar.MONTH);
+        int startDay = startCal.get(Calendar.DAY_OF_MONTH);
 
-        if (endCal.get(Calendar.DAY_OF_MONTH) < startCal.get(Calendar.DAY_OF_MONTH)) {
+        int endYear = endCal.get(Calendar.YEAR);
+        int endMonth = endCal.get(Calendar.MONTH);
+        int endDay = endCal.get(Calendar.DAY_OF_MONTH);
+
+        int yearDiff = endYear - startYear;
+        int monthDiff = endMonth - startMonth;
+        int totalMonths = yearDiff * 12 + monthDiff;
+
+        if (endDay < startDay) {
             totalMonths--;
         }
 
-        return Math.max(1, totalMonths);
-    }
-
-    public long getDaysUsed() {
-        if (startDate == null) {
+        if (totalMonths <= 0) {
+            long diffInDays = (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24);
+            if (diffInDays > 0) {
+                return 1;
+            }
             return 0;
         }
 
-        Date referenceDate;
-        Date currentDate = new Date();
-
-        if (endDate == null || endDate.after(currentDate)) {
-            referenceDate = currentDate;
-        } else {
-            referenceDate = endDate;
-        }
-
-        long diff = referenceDate.getTime() - startDate.getTime();
-        return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-    }
-
-    public boolean renewRental(int additionalMonths) {
-        if (!isActive) {
-            System.out.println("No se puede renovar un alquiler inactivo");
-            return false;
-        }
-
-        if (endDate == null) {
-            endDate = new Date();
-        }
-
-        long newEndDate = endDate.getTime() + (additionalMonths * 30L * 24 * 60 * 60 * 1000);
-        this.endDate = new Date(newEndDate);
-        this.paymentStatus = "PENDING";
-
-        System.out.println("Alquiler renovado por " + additionalMonths + " meses. Nueva fecha de finalización: " + endDate);
-        return true;
-    }
-
-    public boolean cancelRental() {
-        if (!isActive) {
-            System.out.println("El alquiler ya está inactivo");
-            return false;
-        }
-
-        this.isActive = false;
-        this.paymentStatus = "CANCELLED";
-        System.out.println("Alquiler cancelado con éxito");
-        return true;
-    }
-
-    public boolean processPayment() {
-        if (!isActive) {
-            System.out.println("No se puede procesar el pago de un alquiler inactivo");
-            return false;
-        }
-
-        this.paymentStatus = "PAID";
-        System.out.println("Pago procesado por alquiler: " + rentalId);
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return spaceId + " - $" + monthlyPrice + "/month - "
-                + (isActive ? "Active" : "Inactive");
+        return totalMonths;
     }
 }
