@@ -357,11 +357,29 @@ public class FrmResidentRental extends javax.swing.JFrame {
         if (success && resident != null) {
             if (resident.getCurrentRental() != null) {
                 Rental rental = resident.getCurrentRental();
-
-                updatePaymentDisplay();
-
                 String paymentStatus = rental.getPaymentStatus();
-                String spaceId = rental.getSpaceId();
+
+                if (!"PENDING".equals(paymentStatus) && !"PAID".equals(paymentStatus)) {
+                    updatePaymentDisplay();
+                }
+                if ("PENDING".equals(paymentStatus) || "PAID".equals(paymentStatus)) {
+                    if (rental.getTotalPrice() > 0) {
+                        lblValueToPay.setText("$" + String.format("%.2f", rental.getTotalPrice()));
+                    } else if (rental.getMonthlyPrice() > 0) {
+                        if (rental.getMonths() > 0) {
+                            double total = rental.getMonthlyPrice() * rental.getMonths();
+                            lblValueToPay.setText("$" + String.format("%.2f", total));
+                        } else {
+                            lblValueToPay.setText("$" + String.format("%.2f", rental.getMonthlyPrice()));
+                        }
+                    }
+                    
+                    if (rental.getMonths() > 0) {
+                        lblMonthsOfUse.setText(rental.getMonths() + " mes(es)");
+                    } else {
+                        lblMonthsOfUse.setText("1 mes");
+                    }
+                }
 
                 if ("PENDING".equals(paymentStatus)) {
                     lblValueToPay.setBackground(new Color(255, 240, 240));
@@ -527,7 +545,7 @@ public class FrmResidentRental extends javax.swing.JFrame {
                         + "Espacio: " + selectedSpace + "\n"
                         + "Monto pagado: $" + String.format("%.2f", paidAmount) + "\n"
                         + "Válido hasta: " + newEndDate + "\n"
-                        + "Estado: PAID",
+                        + "Estado: PAID (Pagado)",
                         "Operación Exitosa",
                         JOptionPane.INFORMATION_MESSAGE);
 

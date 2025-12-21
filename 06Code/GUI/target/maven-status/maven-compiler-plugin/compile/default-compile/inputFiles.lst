@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 D:\Universidad\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\controller\VehicleExitController.java
 D:\Universidad\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\view\FrmBlockList.java
 D:\Universidad\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\model\Visitor.java
@@ -36,41 +35,3 @@ D:\Universidad\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui
 D:\Universidad\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\view\FrmBlockForm.java
 D:\Universidad\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\utils\MongoConnectionExits.java
 D:\Universidad\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\view\FrmVisitor.java
-=======
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\view\FrmResidentMenu.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\model\VehicleDAO.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\model\Visitor.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\view\FrmEntryVehicle.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\utils\MongoConnectionZones.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\model\ResidentDAO.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\view\FrmExitVehicle.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\view\FrmLogin.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\controller\VehicleExitController.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\controller\ResidentController.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\model\Block.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\utils\MongoConnectionResidents.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\model\Resident.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\model\Rental.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\view\FrmVisitor.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\controller\VisitorController.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\view\FrmResidentRental.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\view\FrmZoneForm.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\utils\MongoConnectionEntrances.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\controller\VehicleEntryController.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\controller\ZoneController.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\model\Zone.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\view\FrmBlockList.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\controller\ParkingSpaceController.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\utils\MongoDBConnection.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\view\FrmParkingSplash.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\view\FrmSecurityGuardMenu.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\model\Vehicle.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\controller\BlockController.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\utils\MongoConnectionExits.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\utils\MongoConnectionVisitors.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\view\FrmVehicleList.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\view\FrmBlockForm.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\view\FrmZoneList.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\view\FrmResidentList.java
-C:\Users\USER\T1-OPP-Parking\06Code\GUI\src\main\java\ec\edu\espe\parkinglotgui\view\FrmViewReport.java
->>>>>>> e2435cbbf75d2c5cbfd05cced1042551cc520389

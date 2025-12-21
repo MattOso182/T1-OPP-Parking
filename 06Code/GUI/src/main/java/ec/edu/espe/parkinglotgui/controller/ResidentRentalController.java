@@ -9,7 +9,6 @@ import ec.edu.espe.parkinglotgui.model.Rental;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class ResidentRentalController {
@@ -374,7 +373,7 @@ public class ResidentRentalController {
     }
 
     public double calculatePaymentAmount(int months) {
-        return 120.00 * months;
+        return 45.00 * months;
     }
 
     public String calculateEndDate(int months) {

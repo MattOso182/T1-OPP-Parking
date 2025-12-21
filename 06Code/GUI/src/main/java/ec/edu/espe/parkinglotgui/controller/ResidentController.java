@@ -154,13 +154,13 @@ public class ResidentController {
                 try {
                     r.setMonthlyPrice(Double.parseDouble((String) priceObj));
                 } catch (NumberFormatException e) {
-                    r.setMonthlyPrice(120.00);
+                    r.setMonthlyPrice(45.00);
                 }
             } else {
-                r.setMonthlyPrice(120.00);
+                r.setMonthlyPrice(45.00);
             }
         } else {
-            r.setMonthlyPrice(120.00);
+            r.setMonthlyPrice(45.00);
         }
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -266,14 +266,14 @@ public class ResidentController {
             newRentalDoc.append("paymentStatus", "PENDING");
             newRentalDoc.append("isActive", true);
 
-            double totalAmount = 120.00 * months;
+            double totalAmount = 45.00 * months;
             newRentalDoc.append("totalPrice", totalAmount);
             newRentalDoc.append("months", months);
 
             if (currentRental != null && currentRental.getMonthlyPrice() > 0) {
                 newRentalDoc.append("monthlyPrice", currentRental.getMonthlyPrice());
             } else {
-                newRentalDoc.append("monthlyPrice", 120.00);
+                newRentalDoc.append("monthlyPrice", 45.00);
             }
 
             UpdateResult residentUpdate = collection.updateOne(

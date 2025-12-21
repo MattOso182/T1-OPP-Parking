@@ -35,7 +35,8 @@ public class FrmResidentMenu extends javax.swing.JFrame {
 
         jMenu1.setText("Configuracion");
 
-        jMenuItem1.setText("Ayuda");
+        jMenuItem1.setText("Salir");
+        jMenuItem1.addActionListener(this::jMenuItem1ActionPerformed);
         jMenu1.add(jMenuItem1);
 
         itemReturnMenu.setText("Regresar al menú principal");
@@ -69,8 +70,8 @@ public class FrmResidentMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void itemReturnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemReturnMenuActionPerformed
-        FrmParkingSplash frmParkingSplash = new FrmParkingSplash();
-        frmParkingSplash.setVisible(true);
+        FrmLogin frmLogin = new FrmLogin();
+        frmLogin.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_itemReturnMenuActionPerformed
 
@@ -79,6 +80,10 @@ public class FrmResidentMenu extends javax.swing.JFrame {
         frmResidentRental.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_itemPayRentActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
