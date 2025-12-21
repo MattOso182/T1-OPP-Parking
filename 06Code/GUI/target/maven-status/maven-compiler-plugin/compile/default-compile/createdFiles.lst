@@ -49,6 +49,7 @@ ec\edu\espe\parkinglotgui\view\FrmVehicleList$5.class
 ec\edu\espe\parkinglotgui\view\FrmVisitor$7.class
 ec\edu\espe\parkinglotgui\view\FrmEntryVehicle$1.class
 ec\edu\espe\parkinglotgui\view\FrmZoneForm$1.class
+ec\edu\espe\parkinglotgui\view\FrmEntryVehicle$4.class
 ec\edu\espe\parkinglotgui\view\FrmLogin.class
 ec\edu\espe\parkinglotgui\view\FrmExitVehicle$3.class
 ec\edu\espe\parkinglotgui\utils\MongoConnectionEntrances.class

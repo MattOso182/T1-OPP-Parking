@@ -122,64 +122,36 @@ public class FrmExitVehicle extends javax.swing.JFrame {
             lblMessage.setText("ERROR: Formato inválido. Use: ABC-1234");
             lblMessage.setForeground(java.awt.Color.RED);
             txtLicensePlate.requestFocus();
-            txtLicensePlate.selectAll();
             return;
         }
 
-        VehicleExitController exitController = new VehicleExitController();
+        VehicleExitController controller = new VehicleExitController();
 
-        if (!exitController.isVehicleParked(licensePlate)) {
-            lblMessage.setText("ERROR: El vehículo no está estacionado.");
-            lblMessage.setForeground(java.awt.Color.RED);
-
-            JOptionPane.showMessageDialog(
-                    this,
-                    "El vehículo con placa " + licensePlate + " no se encuentra estacionado.\n"
-                    + "No hay registro de entrada para este vehículo.",
-                    "Vehículo No Estacionado",
-                    JOptionPane.WARNING_MESSAGE
-            );
-
-            txtLicensePlate.requestFocus();
-            txtLicensePlate.selectAll();
+        if (!controller.isVehicleParked(licensePlate)) {
+            JOptionPane.showMessageDialog(this, 
+                "El vehículo con placa " + licensePlate + " no se encuentra estacionado.",
+                "Vehículo No Estacionado", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // 4. Mostrar confirmación
-        int confirm = JOptionPane.showConfirmDialog(
-                this,
-                "¿Registrar SALIDA del vehículo?\n\n"
-                + "Placa: " + licensePlate,
-                "Confirmar Salida",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE
-        );
+        int confirm = JOptionPane.showConfirmDialog(this,
+                "¿Confirmar SALIDA del vehículo " + licensePlate + "?",
+                "Confirmar Salida", JOptionPane.YES_NO_OPTION);
 
-        // 5. Si el usuario dice NO
-        if (confirm != JOptionPane.YES_OPTION) {
-            lblMessage.setText("Registro cancelado.");
-            lblMessage.setForeground(java.awt.Color.ORANGE);
+        if (confirm == JOptionPane.YES_OPTION) {
+            boolean success = controller.registerExit(licensePlate);
 
-            // Limpiar campo y poner foco
-            txtLicensePlate.setText("");
-            txtLicensePlate.requestFocus();
-            return;
+            if (success) {
+                lblMessage.setText("SALIDA registrada. Espacio liberado.");
+                lblMessage.setForeground(new java.awt.Color(0, 102, 204));
+                txtLicensePlate.setText("");
+                txtLicensePlate.requestFocus();
+            } else {
+                lblMessage.setText("ERROR: No se pudo procesar la salida.");
+                lblMessage.setForeground(java.awt.Color.RED);
+            }
         }
-
-        // 6. Registrar salida
-        boolean success = exitController.registerExit(licensePlate);
-
-        if (success) {
-            lblMessage.setText("SALIDA de " + licensePlate + " registrada.");
-            lblMessage.setForeground(java.awt.Color.BLUE);
-            txtLicensePlate.setText("");
-            txtLicensePlate.requestFocus();
-        } else {
-            lblMessage.setText("ERROR: No se pudo registrar la salida.");
-            lblMessage.setForeground(java.awt.Color.RED);
-            txtLicensePlate.requestFocus();
-            txtLicensePlate.selectAll();
-        }
+    
     }//GEN-LAST:event_btnRegisterExitActionPerformed
 
     private void txtLicensePlateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLicensePlateActionPerformed
