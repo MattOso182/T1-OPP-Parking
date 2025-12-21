@@ -80,6 +80,11 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
                 "Bloque", "Sección", "ID"
             }
         ));
+        tblSpaces.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblSpacesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblSpaces);
 
         jLabel4.setText("Espacios Disponibles");
@@ -230,66 +235,45 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
     }
 
     private void btnRegisterEntryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterEntryActionPerformed
+       
         String licensePlate = txtLicensePlate.getText().trim().toUpperCase();
+        String spaceId = txtParkingSpace.getText().trim(); 
 
-        if (licensePlate.isEmpty()) {
-            lblMessage.setText("ERROR: La placa no puede estar vacía.");
-            lblMessage.setForeground(java.awt.Color.RED);
-            txtLicensePlate.requestFocus();
-            return;
-        }
+    if (licensePlate.isEmpty() || spaceId.isEmpty()) {
+        lblMessage.setText("ERROR: Seleccione un espacio e ingrese la placa.");
+        lblMessage.setForeground(java.awt.Color.RED);
+        return;
+    }
 
-        if (!licensePlate.matches("^[A-Z]{3}-\\d{4}$")) {
-            lblMessage.setText("ERROR: Formato inválido. Use: ABC-1234");
-            lblMessage.setForeground(java.awt.Color.RED);
-            txtLicensePlate.requestFocus();
-            txtLicensePlate.selectAll();
-            return;
-        }
+    if (!licensePlate.matches("^[A-Z]{3}-\\d{4}$")) {
+        lblMessage.setText("ERROR: Formato de placa inválido (ABC-1234).");
+        lblMessage.setForeground(java.awt.Color.RED);
+        return;
+    }
 
+    int confirm = javax.swing.JOptionPane.showConfirmDialog(this, 
+            "¿Registrar entrada de " + licensePlate + " en espacio " + spaceId + "?",
+            "Confirmar", javax.swing.JOptionPane.YES_NO_OPTION);
+
+    if (confirm == javax.swing.JOptionPane.YES_OPTION) {
         VehicleEntryController entryController = new VehicleEntryController();
-        if (entryController.isVehicleParked(licensePlate)) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "El vehículo con placa " + licensePlate + " ya se encuentra estacionado.",
-                    "Vehículo Ya Estacionado",
-                    JOptionPane.WARNING_MESSAGE
-            );
-            lblMessage.setText("ERROR: El vehículo ya está estacionado.");
-            lblMessage.setForeground(java.awt.Color.RED);
-            return;
-        }
-
-        int confirm = JOptionPane.showConfirmDialog(
-                this,
-                "¿Está seguro que desea registrar la ENTRADA del vehículo?\n\n"
-                + "Placa: " + licensePlate,
-                "Confirmar Registro de ENTRADA",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE
-        );
-
-        if (confirm != JOptionPane.YES_OPTION) {
-            lblMessage.setText("Registro de entrada cancelado.");
-            lblMessage.setForeground(java.awt.Color.RED);
-            txtLicensePlate.setText("");
-            txtLicensePlate.requestFocusInWindow();
-
-            return;
-        }
-
-        boolean success = entryController.registerEntry(licensePlate);
+        
+        boolean success = entryController.registerEntry(licensePlate, spaceId);
 
         if (success) {
-            lblMessage.setText("ENTRADA de " + licensePlate + " registrada con éxito.");
+            lblMessage.setText("¡ENTRADA REGISTRADA!");
             lblMessage.setForeground(new java.awt.Color(0, 100, 0));
+            
             txtLicensePlate.setText("");
-            txtLicensePlate.requestFocus();
-            loadAvailableSpaces();
+            txtParkingSpace.setText("");
+            
+            loadAvailableSpaces(); 
         } else {
-            lblMessage.setText("ERROR: No se pudo registrar la entrada.");
+            lblMessage.setText("ERROR: No se pudo registrar. Verifique si el auto ya entró.");
             lblMessage.setForeground(java.awt.Color.RED);
         }
+    }
+    
     }//GEN-LAST:event_btnRegisterEntryActionPerformed
 
     private void itemReturnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemReturnMenuActionPerformed
@@ -297,6 +281,16 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
         frmSecurityGuardMenu.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_itemReturnMenuActionPerformed
+
+    private void tblSpacesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSpacesMouseClicked
+        int fila = tblSpaces.getSelectedRow();
+    if (fila != -1) {
+        String idSeleccionado = tblSpaces.getValueAt(fila, 2).toString();
+        txtParkingSpace.setText(idSeleccionado);
+        lblMessage.setText("Espacio seleccionado: " + idSeleccionado);
+        lblMessage.setForeground(java.awt.Color.BLUE);
+    }
+    }//GEN-LAST:event_tblSpacesMouseClicked
 
     /**
      * @param args the command line arguments
