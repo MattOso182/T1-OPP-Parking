@@ -394,7 +394,6 @@ public class FrmResidentRental extends javax.swing.JFrame {
 
     private boolean isSearchingResident = false;
     private void btnSearchResidentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchResidentActionPerformed
-        String input = txtFindResident.getText().trim();
 
         if (isSearchingResident) {
             return;
@@ -402,134 +401,103 @@ public class FrmResidentRental extends javax.swing.JFrame {
 
         isSearchingResident = true;
 
-        System.out.println("\n=== SEARCH BUTTON CLICKED ===");
-        System.out.println("Input: '" + input + "'");
+        String input = txtFindResident.getText().trim();
 
         if (input.isEmpty()) {
-            System.err.println("La entrada está vacía.");
             JOptionPane.showMessageDialog(this,
-                    "Por favor ingrese un ID o nombre completo para buscar.",
+                    "Ingrese un ID de residente con el formato RES-001.",
                     "Campo vacío",
                     JOptionPane.WARNING_MESSAGE);
             txtFindResident.requestFocus();
-            lblMessage.setText("");
             isSearchingResident = false;
             return;
         }
 
-        lblMessage.setText("Buscando por: " + input + "...");
+        // Validación estricta del formato RES-001
+        if (!input.matches("^RES-\\d{3}$")) {
+            JOptionPane.showMessageDialog(this,
+                    "Formato de ID inválido.\nUse el formato: RES-001",
+                    "Formato incorrecto",
+                    JOptionPane.ERROR_MESSAGE);
+            txtFindResident.requestFocus();
+            isSearchingResident = false;
+            return;
+        }
+
+        lblMessage.setText("Buscando residente...");
         lblMessage.setForeground(Color.BLUE);
 
         try {
             ResidentController controller = new ResidentController();
-            System.out.println("Controlador creado, buscando...");
-
             Resident foundResident = controller.searchResidentById(input);
 
             if (foundResident == null) {
-                System.out.println("No encontrado por ID, intentando búsqueda general...");
-                foundResident = controller.searchResident(input);
-            }
-
-            if (foundResident != null) {
-                System.out.println("RESIDENTE ENCONTRADO!");
-                System.out.println("Nombre: " + foundResident.getName());
-                System.out.println("ID: " + foundResident.getResidentID());
-                System.out.println("Tipo: " + foundResident.getUserType());
-                System.out.println("Apartmento: " + foundResident.getApartmentNumber());
-
-                if (foundResident.getCurrentRental() != null) {
-                    System.out.println("El alquiler existe");
-                    System.out.println("Estado del pago: " + foundResident.getCurrentRental().getPaymentStatus());
-                    System.out.println("Precio mensual: " + foundResident.getCurrentRental().getMonthlyPrice());
-                } else {
-                    System.out.println("No hay información de alquiler.");
-                }
-
-                String paymentStatus = "UNKNOWN";
-                if (foundResident.getCurrentRental() != null) {
-                    paymentStatus = foundResident.getCurrentRental().getPaymentStatus();
-                    if (paymentStatus == null) {
-                        paymentStatus = "UNKNOWN";
-                    }
-                }
-
-                StringBuilder displayText = new StringBuilder();
-                displayText.append(foundResident.getName())
-                        .append(" | ID: ").append(foundResident.getResidentID())
-                        .append(" | Apt: ").append(foundResident.getApartmentNumber());
-
-                if ("ROTATING".equals(foundResident.getUserType())) {
-                    System.out.println("El Residente es ROTATING");
-                    lblMessage.setForeground(new Color(0, 150, 0));
-                    displayText.append(" | ROTANTE");
-                    displayText.append(" | Pago: ").append(paymentStatus);
-
-                    enableRotatingElements(foundResident);
-                    validateButtons();
-                    loadAvailableSpacesToComboBox();
-
-                    if (foundResident.getAssignedParkingSpace() != null
-                            && !foundResident.getAssignedParkingSpace().isEmpty()) {
-                        displayText.append(" | Space: ").append(foundResident.getAssignedParkingSpace());
-                    }
-
-                    System.out.println("Búsqueda completada exitosamente.");
-
-                } else if ("WITH_PARKING".equals(foundResident.getUserType())) {
-                    System.out.println("El Residente es WITH_PARKING (permanente)");
-                    lblMessage.setForeground(new Color(100, 0, 0));
-                    displayText.append(" | PERMANENTE");
-                    disableAllPaymentButtons();
-
-                    JOptionPane.showMessageDialog(this,
-                            "Este residente tiene asignación de estacionamiento PERMANENTE.\n"
-                            + "El sistema de pago de alquiler no está disponible para residentes permanentes.",
-                            "Residente Permanente",
-                            JOptionPane.INFORMATION_MESSAGE);
-
-                } else {
-                    System.out.println("Tipo de usuario desconocido: " + foundResident.getUserType());
-                    lblMessage.setForeground(Color.BLACK);
-                    displayText.append(" | ").append(foundResident.getUserType());
-                    disableAllPaymentButtons();
-                }
-
-                lblMessage.setText(displayText.toString());
-                System.out.println("Texto del mensaje final: " + lblMessage.getText());
-
-            } else {
-                System.err.println("Residente no encontrado");
                 lblMessage.setText("Residente no encontrado: " + input);
                 lblMessage.setForeground(Color.RED);
 
                 JOptionPane.showMessageDialog(this,
-                        "No se encontró ningún residente con: " + input + "\n"
-                        + "Por favor verifique que la identificación o el nombre sean correctos.",
-                        "No encontrado",
+                        "No se encontró ningún residente con el ID:\n" + input,
+                        "Residente no encontrado",
                         JOptionPane.WARNING_MESSAGE);
 
                 clearFormFields();
+                isSearchingResident = false;
+                return;
             }
 
-        } catch (Exception e) {
-            System.err.println("EXCEPCIÓN en la búsqueda: " + e.getMessage());
-            e.printStackTrace();
+            StringBuilder displayText = new StringBuilder();
+            displayText.append(foundResident.getName())
+                    .append(" | ID: ").append(foundResident.getResidentID())
+                    .append(" | Apt: ").append(foundResident.getApartmentNumber());
 
-            lblMessage.setText("Error de búsqueda: comprobar la conexión a la base de datos");
+            if ("ROTATING".equals(foundResident.getUserType())) {
+                lblMessage.setForeground(new Color(0, 150, 0));
+                displayText.append(" | ROTANTE");
+
+                enableRotatingElements(foundResident);
+                validateButtons();
+                loadAvailableSpacesToComboBox();
+
+                if (foundResident.getAssignedParkingSpace() != null
+                        && !foundResident.getAssignedParkingSpace().isEmpty()) {
+                    displayText.append(" | Space: ")
+                            .append(foundResident.getAssignedParkingSpace());
+                }
+
+            } else if ("WITH_PARKING".equals(foundResident.getUserType())) {
+                lblMessage.setForeground(new Color(100, 0, 0));
+                displayText.append(" | PERMANENTE");
+
+                disableAllPaymentButtons();
+
+                JOptionPane.showMessageDialog(this,
+                        "Este residente tiene estacionamiento permanente.\n"
+                        + "No requiere gestión de pago.",
+                        "Residente Permanente",
+                        JOptionPane.INFORMATION_MESSAGE);
+
+            } else {
+                lblMessage.setForeground(Color.BLACK);
+                displayText.append(" | ").append(foundResident.getUserType());
+                disableAllPaymentButtons();
+            }
+
+            lblMessage.setText(displayText.toString());
+
+        } catch (Exception e) {
+            lblMessage.setText("Error al buscar residente");
             lblMessage.setForeground(Color.RED);
 
             JOptionPane.showMessageDialog(this,
-                    "Error de base de datos: " + e.getMessage(),
-                    "Connection Error",
+                    "Error al conectar con la base de datos.",
+                    "Error",
                     JOptionPane.ERROR_MESSAGE);
 
             clearFormFields();
+
         } finally {
             isSearchingResident = false;
         }
-
-        System.out.println("=== BÚSQUEDA COMPLETADA ===\n");
 
     }
 
