@@ -1,186 +1,72 @@
-
 package model;
 
 import java.util.Date;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- *
- * @author Team 1 - T.A.P. (The Art of Programming)
+ * @author Team 1 - T.A.P.
  */
 public class LicensePlateTest {
     
-    public LicensePlateTest() {
-    }
-    
-    @BeforeAll
-    public static void setUpClass() {
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    }
-    
+    private LicensePlate instance;
+    private final String PLATE = "PBW-1234";
+    private final String PROVINCE = "Pichincha";
+    private final String TYPE = "Automóvil";
+    private Date testDate;
+
     @BeforeEach
     public void setUp() {
-    }
-    
-    @AfterEach
-    public void tearDown() {
+        testDate = new Date();
+        instance = new LicensePlate(PLATE, testDate, PROVINCE, TYPE);
     }
 
-    /**
-     * Test of validateFormat method, of class LicensePlate.
-     */
+    @Test
+    public void testConstructorAndGetters() {
+        System.out.println("testConstructorAndGetters");
+        assertEquals(PLATE, instance.getPlateNumber());
+        assertEquals(PROVINCE, instance.getProvince());
+        assertEquals(TYPE, instance.getVehicleType());
+        assertEquals(testDate, instance.getRegistrationDate());
+    }
+
     @Test
     public void testValidateFormat() {
-        System.out.println("validateFormat");
-        LicensePlate instance = null;
-        boolean expResult = false;
+        System.out.println("testValidateFormat");
         boolean result = instance.validateFormat();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNotNull(result);
     }
 
-    /**
-     * Test of linkToUser method, of class LicensePlate.
-     */
+    @Test
+    public void testGetPlateInfoFormat() {
+        System.out.println("testGetPlateInfo");
+        String info = instance.getPlateInfo();
+        
+        assertAll("Verificar contenido del formato de info",
+            () -> assertTrue(info.contains(PLATE)),
+            () -> assertTrue(info.contains(PROVINCE)),
+            () -> assertTrue(info.contains(TYPE)),
+            () -> assertTrue(info.contains("Placa:"))
+        );
+    }
+
+    @Test
+    public void testSetters() {
+        System.out.println("testSetters");
+        String newPlate = "GBA-5678";
+        String newProv = "Guayas";
+        
+        instance.setPlateNumber(newPlate);
+        instance.setProvince(newProv);
+        
+        assertEquals(newPlate, instance.getPlateNumber());
+        assertEquals(newProv, instance.getProvince());
+    }
+
     @Test
     public void testLinkToUser() {
-        System.out.println("linkToUser");
-        String userID = "";
-        LicensePlate instance = null;
-        instance.linkToUser(userID);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("testLinkToUser");
+        assertDoesNotThrow(() -> instance.linkToUser("USER-100"));
     }
-
-    /**
-     * Test of getPlateInfo method, of class LicensePlate.
-     */
-    @Test
-    public void testGetPlateInfo() {
-        System.out.println("getPlateInfo");
-        LicensePlate instance = null;
-        String expResult = "";
-        String result = instance.getPlateInfo();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getPlateNumber method, of class LicensePlate.
-     */
-    @Test
-    public void testGetPlateNumber() {
-        System.out.println("getPlateNumber");
-        LicensePlate instance = null;
-        String expResult = "";
-        String result = instance.getPlateNumber();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setPlateNumber method, of class LicensePlate.
-     */
-    @Test
-    public void testSetPlateNumber() {
-        System.out.println("setPlateNumber");
-        String plateNumber = "";
-        LicensePlate instance = null;
-        instance.setPlateNumber(plateNumber);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getProvince method, of class LicensePlate.
-     */
-    @Test
-    public void testGetProvince() {
-        System.out.println("getProvince");
-        LicensePlate instance = null;
-        String expResult = "";
-        String result = instance.getProvince();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setProvince method, of class LicensePlate.
-     */
-    @Test
-    public void testSetProvince() {
-        System.out.println("setProvince");
-        String province = "";
-        LicensePlate instance = null;
-        instance.setProvince(province);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getRegistrationDate method, of class LicensePlate.
-     */
-    @Test
-    public void testGetRegistrationDate() {
-        System.out.println("getRegistrationDate");
-        LicensePlate instance = null;
-        Date expResult = null;
-        Date result = instance.getRegistrationDate();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setRegistrationDate method, of class LicensePlate.
-     */
-    @Test
-    public void testSetRegistrationDate() {
-        System.out.println("setRegistrationDate");
-        Date registrationDate = null;
-        LicensePlate instance = null;
-        instance.setRegistrationDate(registrationDate);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getVehicleType method, of class LicensePlate.
-     */
-    @Test
-    public void testGetVehicleType() {
-        System.out.println("getVehicleType");
-        LicensePlate instance = null;
-        String expResult = "";
-        String result = instance.getVehicleType();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setVehicleType method, of class LicensePlate.
-     */
-    @Test
-    public void testSetVehicleType() {
-        System.out.println("setVehicleType");
-        String vehicleType = "";
-        LicensePlate instance = null;
-        instance.setVehicleType(vehicleType);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
 }

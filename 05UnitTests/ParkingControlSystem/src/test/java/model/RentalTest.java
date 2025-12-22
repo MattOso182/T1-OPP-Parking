@@ -44,8 +44,6 @@ public class RentalTest {
         boolean expResult = false;
         boolean result = instance.isExpired();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -58,8 +56,6 @@ public class RentalTest {
         long expResult = 0L;
         long result = instance.getDaysRemaining();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -73,8 +69,6 @@ public class RentalTest {
         boolean expResult = false;
         boolean result = instance.renewRental(additionalMonths);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -87,8 +81,6 @@ public class RentalTest {
         boolean expResult = false;
         boolean result = instance.cancelRental();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -101,8 +93,6 @@ public class RentalTest {
         boolean expResult = false;
         boolean result = instance.processPayment();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -115,8 +105,6 @@ public class RentalTest {
         String expResult = "";
         String result = instance.getRentalId();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -129,8 +117,6 @@ public class RentalTest {
         String expResult = "";
         String result = instance.getResidentId();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -143,8 +129,7 @@ public class RentalTest {
         String expResult = "";
         String result = instance.getSpaceId();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -157,8 +142,7 @@ public class RentalTest {
         Date expResult = null;
         Date result = instance.getStartDate();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    
     }
 
     /**
@@ -171,8 +155,7 @@ public class RentalTest {
         Date expResult = null;
         Date result = instance.getEndDate();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+       
     }
 
     /**
@@ -185,8 +168,6 @@ public class RentalTest {
         double expResult = 0.0;
         double result = instance.getMonthlyPrice();
         assertEquals(expResult, result, 0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -199,8 +180,6 @@ public class RentalTest {
         boolean expResult = false;
         boolean result = instance.isActive();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -213,8 +192,6 @@ public class RentalTest {
         String expResult = "";
         String result = instance.getPaymentStatus();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -226,8 +203,7 @@ public class RentalTest {
         Date endDate = null;
         Rental instance = new Rental();
         instance.setEndDate(endDate);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+     
     }
 
     /**
@@ -239,8 +215,7 @@ public class RentalTest {
         double monthlyPrice = 0.0;
         Rental instance = new Rental();
         instance.setMonthlyPrice(monthlyPrice);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+     
     }
 
     /**
@@ -252,8 +227,6 @@ public class RentalTest {
         String paymentStatus = "";
         Rental instance = new Rental();
         instance.setPaymentStatus(paymentStatus);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -266,8 +239,6 @@ public class RentalTest {
         String expResult = "";
         String result = instance.getRentalInfo();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }

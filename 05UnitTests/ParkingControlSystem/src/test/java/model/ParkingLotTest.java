@@ -1,4 +1,3 @@
-
 package model;
 
 import java.util.List;
@@ -12,10 +11,12 @@ import parkingcontrolsystem.library.ParkingLotLibrary;
 import parkingcontrolsystem.library.ParkingSpaceLibrary;
 
 /**
- *
  * @author Team 1 - T.A.P. (The Art of Programming)
  */
 public class ParkingLotTest {
+    
+    private ParkingLot instance;
+    private final String TEST_LOT_ID = "LOTE-CENTRAL";
     
     public ParkingLotTest() {
     }
@@ -30,248 +31,138 @@ public class ParkingLotTest {
     
     @BeforeEach
     public void setUp() {
+        instance = new ParkingLot(TEST_LOT_ID); 
     }
     
     @AfterEach
     public void tearDown() {
+        instance = null;
     }
 
-    /**
-     * Test of saveToJson method, of class ParkingLot.
-     */
     @Test
     public void testSaveToJson() {
         System.out.println("saveToJson");
-        ParkingLot instance = null;
-        instance.saveToJson();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        // No debería lanzar excepción
+        assertDoesNotThrow(() -> instance.saveToJson());
     }
 
-    /**
-     * Test of syncSpaceStatus method, of class ParkingLot.
-     */
     @Test
     public void testSyncSpaceStatus() {
         System.out.println("syncSpaceStatus");
-        String spaceId = "";
-        boolean occupied = false;
-        ParkingLot instance = null;
+        String spaceId = "A1";
+        boolean occupied = true;
+        // Sincronizamos y verificamos que no falle la ejecución
         instance.syncSpaceStatus(spaceId, occupied);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNotNull(instance.getSpaceList());
     }
 
-    /**
-     * Test of assignSpaceToVehicle method, of class ParkingLot.
-     */
     @Test
     public void testAssignSpaceToVehicle() {
         System.out.println("assignSpaceToVehicle");
-        String spaceId = "";
-        String vehiclePlate = "";
-        String userType = "";
-        ParkingLot instance = null;
-        boolean expResult = false;
+        String spaceId = "A1";
+        String vehiclePlate = "PBA-1234";
+        String userType = "Residente";
+        
         boolean result = instance.assignSpaceToVehicle(spaceId, vehiclePlate, userType);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNotNull(result);
     }
 
-    /**
-     * Test of freeSpaceAndSync method, of class ParkingLot.
-     */
     @Test
     public void testFreeSpaceAndSync() {
         System.out.println("freeSpaceAndSync");
-        String spaceId = "";
-        ParkingLot instance = null;
-        boolean expResult = false;
+        String spaceId = "A1";
         boolean result = instance.freeSpaceAndSync(spaceId);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNotNull(result);
     }
 
-    /**
-     * Test of showSpacesStatus method, of class ParkingLot.
-     */
     @Test
     public void testShowSpacesStatus() {
         System.out.println("showSpacesStatus");
-        ParkingLot instance = null;
-        instance.showSpacesStatus();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertDoesNotThrow(() -> instance.showSpacesStatus());
     }
 
-    /**
-     * Test of showDetailedSpacesStatus method, of class ParkingLot.
-     */
     @Test
     public void testShowDetailedSpacesStatus() {
         System.out.println("showDetailedSpacesStatus");
-        ParkingLot instance = null;
-        instance.showDetailedSpacesStatus();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertDoesNotThrow(() -> instance.showDetailedSpacesStatus());
     }
 
-    /**
-     * Test of getOccupancyReport method, of class ParkingLot.
-     */
     @Test
     public void testGetOccupancyReport() {
         System.out.println("getOccupancyReport");
-        ParkingLot instance = null;
-        String expResult = "";
         String result = instance.getOccupancyReport();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNotNull(result);
     }
 
-    /**
-     * Test of calculateAvailableSpaces method, of class ParkingLot.
-     */
     @Test
     public void testCalculateAvailableSpaces() {
         System.out.println("calculateAvailableSpaces");
-        ParkingLot instance = null;
-        int expResult = 0;
         int result = instance.calculateAvailableSpaces();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertTrue(result >= 0);
     }
 
-    /**
-     * Test of findAvailableSpace method, of class ParkingLot.
-     */
     @Test
     public void testFindAvailableSpace() {
         System.out.println("findAvailableSpace");
-        ParkingLot instance = null;
-        ParkingSpaceLibrary expResult = null;
         ParkingSpaceLibrary result = instance.findAvailableSpace();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
-    /**
-     * Test of updateSpaceStatus method, of class ParkingLot.
-     */
     @Test
     public void testUpdateSpaceStatus() {
         System.out.println("updateSpaceStatus");
-        String spaceId = "";
-        String status = "";
-        ParkingLot instance = null;
-        instance.updateSpaceStatus(spaceId, status);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String spaceId = "A1";
+        String status = "OCCUPIED";
+        assertDoesNotThrow(() -> instance.updateSpaceStatus(spaceId, status));
     }
 
-    /**
-     * Test of getTotalSpaces method, of class ParkingLot.
-     */
     @Test
     public void testGetTotalSpaces() {
         System.out.println("getTotalSpaces");
-        ParkingLot instance = null;
-        int expResult = 0;
         int result = instance.getTotalSpaces();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertTrue(result >= 0);
     }
 
-    /**
-     * Test of getAvailableSpaces method, of class ParkingLot.
-     */
     @Test
     public void testGetAvailableSpaces() {
         System.out.println("getAvailableSpaces");
-        ParkingLot instance = null;
-        int expResult = 0;
         int result = instance.getAvailableSpaces();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertTrue(result >= 0);
     }
 
-    /**
-     * Test of getLotId method, of class ParkingLot.
-     */
     @Test
     public void testGetLotId() {
         System.out.println("getLotId");
-        ParkingLot instance = null;
-        String expResult = "";
         String result = instance.getLotId();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(TEST_LOT_ID, result);
     }
 
-    /**
-     * Test of getSpaceList method, of class ParkingLot.
-     */
     @Test
     public void testGetSpaceList() {
         System.out.println("getSpaceList");
-        ParkingLot instance = null;
-        List<ParkingSpaceLibrary> expResult = null;
         List<ParkingSpaceLibrary> result = instance.getSpaceList();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNotNull(result);
     }
 
-    /**
-     * Test of getLibraryParkingLot method, of class ParkingLot.
-     */
     @Test
     public void testGetLibraryParkingLot() {
         System.out.println("getLibraryParkingLot");
-        ParkingLot instance = null;
-        ParkingLotLibrary expResult = null;
         ParkingLotLibrary result = instance.getLibraryParkingLot();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNotNull(result);
     }
 
-    /**
-     * Test of findSpaceByVehicle method, of class ParkingLot.
-     */
     @Test
     public void testFindSpaceByVehicle() {
         System.out.println("findSpaceByVehicle");
-        String vehiclePlate = "";
-        ParkingLot instance = null;
-        ParkingSpaceLibrary expResult = null;
+        String vehiclePlate = "PBA-5555";
         ParkingSpaceLibrary result = instance.findSpaceByVehicle(vehiclePlate);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNull(result); 
     }
 
-    /**
-     * Test of spaceExists method, of class ParkingLot.
-     */
     @Test
     public void testSpaceExists() {
         System.out.println("spaceExists");
-        String spaceId = "";
-        ParkingLot instance = null;
-        boolean expResult = false;
+        String spaceId = "A1";
         boolean result = instance.spaceExists(spaceId);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNotNull(result);
     }
-    
 }

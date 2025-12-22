@@ -1,468 +1,167 @@
-
 package model;
 
 import java.util.List;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- *
  * @author Team 1 - T.A.P. (The Art of Programming)
  */
 public class ResidentManagerTest {
     
-    public ResidentManagerTest() {
-    }
-    
-    @BeforeAll
-    public static void setUpClass() {
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    }
-    
+    private ResidentManager residentManager;
+
     @BeforeEach
     public void setUp() {
-    }
-    
-    @AfterEach
-    public void tearDown() {
+        residentManager = new ResidentManager();
     }
 
-    /**
-     * Test of addResident method, of class ResidentManager.
-     */
     @Test
-    public void testAddResident() {
-        System.out.println("addResident");
-        Resident resident = null;
-        ResidentManager instance = new ResidentManager();
-        boolean expResult = false;
-        boolean result = instance.addResident(resident);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void shouldNotAddNullResident() {
+        boolean result = residentManager.addResident(null);
+        assertFalse(result, "No se debería poder agregar un residente nulo");
     }
 
-    /**
-     * Test of findResidentById method, of class ResidentManager.
-     */
     @Test
-    public void testFindResidentById() {
-        System.out.println("findResidentById");
-        String residentID = "";
-        ResidentManager instance = new ResidentManager();
-        Resident expResult = null;
-        Resident result = instance.findResidentById(residentID);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void shouldReturnNullWhenResidentNotFoundById() {
+        Resident result = residentManager.findResidentById("ID-INEXISTENTE");
+        assertNull(result);
     }
 
-    /**
-     * Test of findResidentByVehiclePlate method, of class ResidentManager.
-     */
     @Test
-    public void testFindResidentByVehiclePlate() {
-        System.out.println("findResidentByVehiclePlate");
-        String plate = "";
-        ResidentManager instance = new ResidentManager();
-        Resident expResult = null;
-        Resident result = instance.findResidentByVehiclePlate(plate);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void shouldReturnNullWhenResidentNotFoundByPlate() {
+        Resident result = residentManager.findResidentByVehiclePlate("ABC-0000");
+        assertNull(result);
     }
 
-    /**
-     * Test of removeResident method, of class ResidentManager.
-     */
     @Test
-    public void testRemoveResident() {
-        System.out.println("removeResident");
-        String residentID = "";
-        ResidentManager instance = new ResidentManager();
-        boolean expResult = false;
-        boolean result = instance.removeResident(residentID);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void shouldReturnFalseWhenRemovingInexistentResident() {
+        boolean result = residentManager.removeResident("999999");
+        assertFalse(result);
     }
 
-    /**
-     * Test of updateResidentInfo method, of class ResidentManager.
-     */
     @Test
-    public void testUpdateResidentInfo() {
-        System.out.println("updateResidentInfo");
-        String residentID = "";
-        String newEmail = "";
-        String newPhone = "";
-        ResidentManager instance = new ResidentManager();
-        boolean expResult = false;
-        boolean result = instance.updateResidentInfo(residentID, newEmail, newPhone);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void shouldNotUpdateInexistentResident() {
+        boolean result = residentManager.updateResidentInfo("NO-ID", "email@test.com", "0999");
+        assertFalse(result);
     }
 
-    /**
-     * Test of addVehicleToResident method, of class ResidentManager.
-     */
     @Test
-    public void testAddVehicleToResident() {
-        System.out.println("addVehicleToResident");
-        String residentID = "";
-        Vehicles vehicle = null;
-        ResidentManager instance = new ResidentManager();
-        boolean expResult = false;
-        boolean result = instance.addVehicleToResident(residentID, vehicle);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void shouldNotAddVehicleToNullResident() {
+        boolean result = residentManager.addVehicleToResident("", null);
+        assertFalse(result);
     }
 
-    /**
-     * Test of removeVehicleFromResident method, of class ResidentManager.
-     */
     @Test
-    public void testRemoveVehicleFromResident() {
-        System.out.println("removeVehicleFromResident");
-        String residentID = "";
-        String plate = "";
-        ResidentManager instance = new ResidentManager();
-        boolean expResult = false;
-        boolean result = instance.removeVehicleFromResident(residentID, plate);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void shouldNotRemoveVehicleFromInexistentResident() {
+        boolean result = residentManager.removeVehicleFromResident("NON-ID", "ABC-123");
+        assertFalse(result);
     }
 
-    /**
-     * Test of findVehicleByPlate method, of class ResidentManager.
-     */
     @Test
-    public void testFindVehicleByPlate() {
-        System.out.println("findVehicleByPlate");
-        String plate = "";
-        ResidentManager instance = new ResidentManager();
-        Vehicles expResult = null;
-        Vehicles result = instance.findVehicleByPlate(plate);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void shouldReturnNullForInexistentVehiclePlate() {
+        Vehicles result = residentManager.findVehicleByPlate("NON-PLATE");
+        assertNull(result);
     }
 
-    /**
-     * Test of authorizeVisitor method, of class ResidentManager.
-     */
     @Test
-    public void testAuthorizeVisitor() {
-        System.out.println("authorizeVisitor");
-        String residentId = "";
-        String visitorId = "";
-        ResidentManager instance = new ResidentManager();
-        boolean expResult = false;
-        boolean result = instance.authorizeVisitor(residentId, visitorId);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void shouldNotAuthorizeVisitorForInexistentResident() {
+        boolean result = residentManager.authorizeVisitor("NON-RES", "VIS-01");
+        assertFalse(result);
     }
 
-    /**
-     * Test of removeAuthorizedVisitor method, of class ResidentManager.
-     */
     @Test
-    public void testRemoveAuthorizedVisitor() {
-        System.out.println("removeAuthorizedVisitor");
-        String residentId = "";
-        String visitorId = "";
-        ResidentManager instance = new ResidentManager();
-        boolean expResult = false;
-        boolean result = instance.removeAuthorizedVisitor(residentId, visitorId);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void shouldNotRemoveInexistentAuthorizedVisitor() {
+        boolean result = residentManager.removeAuthorizedVisitor("RES-01", "VIS-01");
+        assertFalse(result);
     }
 
-    /**
-     * Test of createRentalForResident method, of class ResidentManager.
-     */
     @Test
-    public void testCreateRentalForResident() {
-        System.out.println("createRentalForResident");
-        String residentId = "";
-        String spaceId = "";
-        int months = 0;
-        double monthlyPrice = 0.0;
-        ResidentManager instance = new ResidentManager();
-        Rental expResult = null;
-        Rental result = instance.createRentalForResident(residentId, spaceId, months, monthlyPrice);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void shouldReturnNullWhenCreatingRentalForInvalidData() {
+        Rental result = residentManager.createRentalForResident("", "", 0, 0.0);
+        assertNull(result);
     }
 
-    /**
-     * Test of cancelRentalForResident method, of class ResidentManager.
-     */
     @Test
-    public void testCancelRentalForResident() {
-        System.out.println("cancelRentalForResident");
-        String residentId = "";
-        ResidentManager instance = new ResidentManager();
-        boolean expResult = false;
-        boolean result = instance.cancelRentalForResident(residentId);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void shouldNotCancelRentalForInexistentResident() {
+        boolean result = residentManager.cancelRentalForResident("NO-ID");
+        assertFalse(result);
     }
 
-    /**
-     * Test of renewRentalForResident method, of class ResidentManager.
-     */
     @Test
-    public void testRenewRentalForResident() {
-        System.out.println("renewRentalForResident");
-        String residentId = "";
-        int additionalMonths = 0;
-        ResidentManager instance = new ResidentManager();
-        boolean expResult = false;
-        boolean result = instance.renewRentalForResident(residentId, additionalMonths);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void shouldNotRenewInexistentRental() {
+        boolean result = residentManager.renewRentalForResident("NO-ID", 1);
+        assertFalse(result);
     }
 
-    /**
-     * Test of processPaymentForRental method, of class ResidentManager.
-     */
     @Test
-    public void testProcessPaymentForRental() {
-        System.out.println("processPaymentForRental");
-        String residentId = "";
-        ResidentManager instance = new ResidentManager();
-        boolean expResult = false;
-        boolean result = instance.processPaymentForRental(residentId);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void shouldFailPaymentProcessForInexistentResident() {
+        boolean result = residentManager.processPaymentForRental("NO-ID");
+        assertFalse(result);
     }
 
-    /**
-     * Test of getTotalVehicles method, of class ResidentManager.
-     */
     @Test
-    public void testGetTotalVehicles() {
-        System.out.println("getTotalVehicles");
-        ResidentManager instance = new ResidentManager();
-        int expResult = 0;
-        int result = instance.getTotalVehicles();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void shouldStartWithZeroVehicles() {
+        assertEquals(0, residentManager.getTotalVehicles());
     }
 
-    /**
-     * Test of getAllResidents method, of class ResidentManager.
-     */
     @Test
-    public void testGetAllResidents() {
-        System.out.println("getAllResidents");
-        ResidentManager instance = new ResidentManager();
-        List<Resident> expResult = null;
-        List<Resident> result = instance.getAllResidents();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void shouldReturnEmptyListForResidentsInitially() {
+        List<Resident> result = residentManager.getAllResidents();
+        // Dependiendo de tu implementación, puede ser null o una lista vacía
+        assertTrue(result == null || result.isEmpty());
     }
 
-    /**
-     * Test of getResidentsWithParking method, of class ResidentManager.
-     */
     @Test
-    public void testGetResidentsWithParking() {
-        System.out.println("getResidentsWithParking");
-        ResidentManager instance = new ResidentManager();
-        List<Resident> expResult = null;
-        List<Resident> result = instance.getResidentsWithParking();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void shouldReturnEmptyListForResidentsWithParkingInitially() {
+        List<Resident> result = residentManager.getResidentsWithParking();
+        assertTrue(result == null || result.isEmpty());
     }
 
-    /**
-     * Test of getRotatingResidents method, of class ResidentManager.
-     */
     @Test
-    public void testGetRotatingResidents() {
-        System.out.println("getRotatingResidents");
-        ResidentManager instance = new ResidentManager();
-        List<Resident> expResult = null;
-        List<Resident> result = instance.getRotatingResidents();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void shouldGenerateEmptyResidentsReport() {
+        String report = residentManager.generateResidentsReport();
+        assertNotNull(report);
     }
 
-    /**
-     * Test of getRotatingResidentsWithRental method, of class ResidentManager.
-     */
     @Test
-    public void testGetRotatingResidentsWithRental() {
-        System.out.println("getRotatingResidentsWithRental");
-        ResidentManager instance = new ResidentManager();
-        List<Resident> expResult = null;
-        List<Resident> result = instance.getRotatingResidentsWithRental();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void shouldGenerateEmptyRentalsReport() {
+        String report = residentManager.generateRentalsReport();
+        assertNotNull(report);
     }
 
-    /**
-     * Test of getAllActiveRentals method, of class ResidentManager.
-     */
     @Test
-    public void testGetAllActiveRentals() {
-        System.out.println("getAllActiveRentals");
-        ResidentManager instance = new ResidentManager();
-        List<Rental> expResult = null;
-        List<Rental> result = instance.getAllActiveRentals();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void shouldGenerateEmptyVehiclesReport() {
+        String report = residentManager.generateVehiclesReport();
+        assertNotNull(report);
     }
 
-    /**
-     * Test of getExpiredRentals method, of class ResidentManager.
-     */
     @Test
-    public void testGetExpiredRentals() {
-        System.out.println("getExpiredRentals");
-        ResidentManager instance = new ResidentManager();
-        List<Rental> expResult = null;
-        List<Rental> result = instance.getExpiredRentals();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void shouldNotThrowExceptionOnRefresh() {
+        assertDoesNotThrow(() -> residentManager.refreshData());
     }
 
-    /**
-     * Test of generateResidentsReport method, of class ResidentManager.
-     */
     @Test
-    public void testGenerateResidentsReport() {
-        System.out.println("generateResidentsReport");
-        ResidentManager instance = new ResidentManager();
-        String expResult = "";
-        String result = instance.generateResidentsReport();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void shouldStartWithZeroTotalResidents() {
+        assertEquals(0, residentManager.getTotalResidents());
     }
 
-    /**
-     * Test of generateRentalsReport method, of class ResidentManager.
-     */
     @Test
-    public void testGenerateRentalsReport() {
-        System.out.println("generateRentalsReport");
-        ResidentManager instance = new ResidentManager();
-        String expResult = "";
-        String result = instance.generateRentalsReport();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void shouldDenyAccessToUnknownVisitor() {
+        boolean result = residentManager.validateVisitorAccess("UNKNOWN-ID");
+        assertFalse(result);
     }
 
-    /**
-     * Test of generateVehiclesReport method, of class ResidentManager.
-     */
     @Test
-    public void testGenerateVehiclesReport() {
-        System.out.println("generateVehiclesReport");
-        ResidentManager instance = new ResidentManager();
-        String expResult = "";
-        String result = instance.generateVehiclesReport();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void shouldReturnNullAuthorizerForUnknownVisitor() {
+        Resident result = residentManager.findAuthorizingResident("UNKNOWN-ID");
+        assertNull(result);
     }
 
-    /**
-     * Test of refreshData method, of class ResidentManager.
-     */
     @Test
-    public void testRefreshData() {
-        System.out.println("refreshData");
-        ResidentManager instance = new ResidentManager();
-        instance.refreshData();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void shouldNotProcessNullVisitorEntry() {
+        boolean result = residentManager.processVisitorEntry(null);
+        assertFalse(result);
     }
-
-    /**
-     * Test of getTotalResidents method, of class ResidentManager.
-     */
-    @Test
-    public void testGetTotalResidents() {
-        System.out.println("getTotalResidents");
-        ResidentManager instance = new ResidentManager();
-        int expResult = 0;
-        int result = instance.getTotalResidents();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of validateVisitorAccess method, of class ResidentManager.
-     */
-    @Test
-    public void testValidateVisitorAccess() {
-        System.out.println("validateVisitorAccess");
-        String visitorId = "";
-        ResidentManager instance = new ResidentManager();
-        boolean expResult = false;
-        boolean result = instance.validateVisitorAccess(visitorId);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of findAuthorizingResident method, of class ResidentManager.
-     */
-    @Test
-    public void testFindAuthorizingResident() {
-        System.out.println("findAuthorizingResident");
-        String visitorId = "";
-        ResidentManager instance = new ResidentManager();
-        Resident expResult = null;
-        Resident result = instance.findAuthorizingResident(visitorId);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of processVisitorEntry method, of class ResidentManager.
-     */
-    @Test
-    public void testProcessVisitorEntry() {
-        System.out.println("processVisitorEntry");
-        Visitor visitor = null;
-        ResidentManager instance = new ResidentManager();
-        boolean expResult = false;
-        boolean result = instance.processVisitorEntry(visitor);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
 }

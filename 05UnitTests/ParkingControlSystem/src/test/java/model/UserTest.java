@@ -1,70 +1,38 @@
-
 package model;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- *
  * @author Team 1 - T.A.P. (The Art of Programming)
  */
 public class UserTest {
     
-    public UserTest() {
-    }
-    
-    @BeforeAll
-    public static void setUpClass() {
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    }
-    
+    private User user;
+    private final String INITIAL_ID = "USR-100";
+
     @BeforeEach
     public void setUp() {
-    }
-    
-    @AfterEach
-    public void tearDown() {
+        user = new UserImpl(INITIAL_ID);
     }
 
-    /**
-     * Test of getUserID method, of class User.
-     */
     @Test
-    public void testGetUserID() {
-        System.out.println("getUserID");
-        User instance = null;
-        String expResult = "";
-        String result = instance.getUserID();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void shouldGetUserID() {
+        assertEquals(INITIAL_ID, user.getUserID(), "El ID inicial debe coincidir");
     }
 
-    /**
-     * Test of setUserID method, of class User.
-     */
     @Test
-    public void testSetUserID() {
-        System.out.println("setUserID");
-        String userID = "";
-        User instance = null;
-        instance.setUserID(userID);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void shouldUpdateUserID() {
+        String newID = "USR-200";
+        user.setUserID(newID);
+        assertEquals(newID, user.getUserID(), "El ID debe actualizarse correctamente");
     }
 
+   
     public class UserImpl extends User {
-
-        public UserImpl() {
-            super("");
+        public UserImpl(String userID) {
+            super(userID);
         }
     }
-    
 }

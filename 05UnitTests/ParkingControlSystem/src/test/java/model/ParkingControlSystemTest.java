@@ -1,4 +1,3 @@
-
 package model;
 
 import org.junit.jupiter.api.AfterEach;
@@ -9,10 +8,13 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- *
- * @author Team 1 - T.A.P. (The Art of Programming)
+ * @author Emily Calle, @ESPE
  */
 public class ParkingControlSystemTest {
+    
+    private ParkingControlSystem instance;
+    private ParkingLot parkingLot;
+    private ResidentManager residentManager;
     
     public ParkingControlSystemTest() {
     }
@@ -27,178 +29,107 @@ public class ParkingControlSystemTest {
     
     @BeforeEach
     public void setUp() {
+       ParkingLot parkingLot = new ParkingLot("L01"); 
+        ResidentManager residentManager = new ResidentManager();
+        
+        instance = new ParkingControlSystem("SYS-01", parkingLot, residentManager);
+    }
+    @Test
+    public void shouldStartSystem() {
+        boolean result = instance.startSystem();
+        assertNotNull(result);
     }
     
     @AfterEach
     public void tearDown() {
+        instance = null;
     }
 
-    /**
-     * Test of startSystem method, of class ParkingControlSystem.
-     */
     @Test
     public void testStartSystem() {
         System.out.println("startSystem");
-        ParkingControlSystem instance = null;
-        boolean expResult = false;
         boolean result = instance.startSystem();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertTrue(result);
     }
 
-    /**
-     * Test of stopSystem method, of class ParkingControlSystem.
-     */
     @Test
     public void testStopSystem() {
         System.out.println("stopSystem");
-        ParkingControlSystem instance = null;
         instance.stopSystem();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertFalse(instance.isActive());
     }
 
-    /**
-     * Test of registerEntry method, of class ParkingControlSystem.
-     */
     @Test
     public void testRegisterEntry() {
         System.out.println("registerEntry");
-        String plate = "";
-        ParkingControlSystem instance = null;
-        boolean expResult = false;
+        String plate = "PBX-1234";
         boolean result = instance.registerEntry(plate);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertTrue(result);
     }
 
-    /**
-     * Test of registerExit method, of class ParkingControlSystem.
-     */
     @Test
     public void testRegisterExit() {
         System.out.println("registerExit");
-        String plate = "";
-        ParkingControlSystem instance = null;
-        boolean expResult = false;
+        String plate = "PBX-1234";
+        instance.registerEntry(plate);
         boolean result = instance.registerExit(plate);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertTrue(result);
     }
 
-    /**
-     * Test of checkAvailability method, of class ParkingControlSystem.
-     */
     @Test
     public void testCheckAvailability() {
         System.out.println("checkAvailability");
-        ParkingControlSystem instance = null;
-        int expResult = 0;
         int result = instance.checkAvailability();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertTrue(result >= 0);
     }
 
-    /**
-     * Test of generateReport method, of class ParkingControlSystem.
-     */
     @Test
     public void testGenerateReport() {
         System.out.println("generateReport");
-        ParkingControlSystem instance = null;
-        String expResult = "";
         String result = instance.generateReport();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNotNull(result);
     }
 
-    /**
-     * Test of getSystemId method, of class ParkingControlSystem.
-     */
     @Test
     public void testGetSystemId() {
         System.out.println("getSystemId");
-        ParkingControlSystem instance = null;
-        String expResult = "";
+        String expResult = "SYS-001";
         String result = instance.getSystemId();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
-    /**
-     * Test of isActive method, of class ParkingControlSystem.
-     */
     @Test
     public void testIsActive() {
         System.out.println("isActive");
-        ParkingControlSystem instance = null;
-        boolean expResult = false;
-        boolean result = instance.isActive();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        instance.startSystem();
+        assertTrue(instance.isActive());
     }
 
-    /**
-     * Test of getTotalVehicles method, of class ParkingControlSystem.
-     */
     @Test
     public void testGetTotalVehicles() {
         System.out.println("getTotalVehicles");
-        ParkingControlSystem instance = null;
-        int expResult = 0;
         int result = instance.getTotalVehicles();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(0, result);
     }
 
-    /**
-     * Test of getParkingLot method, of class ParkingControlSystem.
-     */
     @Test
     public void testGetParkingLot() {
         System.out.println("getParkingLot");
-        ParkingControlSystem instance = null;
-        ParkingLot expResult = null;
         ParkingLot result = instance.getParkingLot();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(parkingLot, result);
     }
 
-    /**
-     * Test of checkSystemStatus method, of class ParkingControlSystem.
-     */
     @Test
     public void testCheckSystemStatus() {
         System.out.println("checkSystemStatus");
-        ParkingControlSystem instance = null;
-        boolean expResult = false;
         boolean result = instance.checkSystemStatus();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertTrue(result);
     }
 
-    /**
-     * Test of getDetailedReport method, of class ParkingControlSystem.
-     */
     @Test
     public void testGetDetailedReport() {
         System.out.println("getDetailedReport");
-        ParkingControlSystem instance = null;
-        String expResult = "";
         String result = instance.getDetailedReport();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNotNull(result);
     }
-    
 }

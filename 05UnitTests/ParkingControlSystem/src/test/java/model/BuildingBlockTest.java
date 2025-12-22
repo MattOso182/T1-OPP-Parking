@@ -1,175 +1,80 @@
-
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import parkingcontrolsystem.library.ParkingLotLibrary;
 import parkingcontrolsystem.library.ParkingSpaceLibrary;
 
 /**
- *
- * @author Team 1 - T.A.P. (The Art of Programming)
+ * @author Team 1 - T.A.P.
  */
 public class BuildingBlockTest {
     
+    private BuildingBlock instance;
+    private List<ParkingZone> testSections;
+    private final String TEST_NAME = "Edificio Central";
+    private final String TEST_CODE = "ED-01";
+
     public BuildingBlockTest() {
     }
-    
-    @BeforeAll
-    public static void setUpClass() {
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    }
-    
+
     @BeforeEach
     public void setUp() {
+        testSections = new ArrayList<>();
+        testSections.add(new ParkingZone()); 
+        instance = new BuildingBlock(TEST_NAME, TEST_CODE, testSections);
     }
     
     @AfterEach
     public void tearDown() {
+        instance = null;
+        testSections = null;
     }
 
-    /**
-     * Test of addParkingSpace method, of class BuildingBlock.
-     */
-    @Test
-    public void testAddParkingSpace() {
-        System.out.println("addParkingSpace");
-        ParkingSpaceLibrary space = null;
-        BuildingBlock instance = new BuildingBlock();
-        instance.addParkingSpace(space);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+   
+    public void testConstructorAndGetters() {
+        System.out.println("Testing Constructor and Getters");
+        assertEquals(TEST_NAME, instance.getBlockName(), "El nombre del bloque no coincide");
+        assertEquals(TEST_CODE, instance.getBlockCode(), "El código del bloque no coincide");
+        assertEquals(1, instance.getSections().size(), "La cantidad de secciones no coincide");
+        assertNotNull(instance.getParkingLot(), "ParkingLotLibrary no debería ser null");
     }
 
-    /**
-     * Test of getAvailableSpaces method, of class BuildingBlock.
-     */
-    @Test
-    public void testGetAvailableSpaces() {
-        System.out.println("getAvailableSpaces");
-        BuildingBlock instance = new BuildingBlock();
-        int expResult = 0;
-        int result = instance.getAvailableSpaces();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getBlockStatus method, of class BuildingBlock.
-     */
+   
     @Test
     public void testGetBlockStatus() {
         System.out.println("getBlockStatus");
-        BuildingBlock instance = new BuildingBlock();
-        String expResult = "";
         String result = instance.getBlockStatus();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertTrue(result.contains(TEST_NAME), "El estado debe contener el nombre del bloque");
+        assertTrue(result.contains("0 available"), "Debe indicar 0 espacios disponibles inicialmente");
     }
 
-    /**
-     * Test of getBlockName method, of class BuildingBlock.
-     */
+  
     @Test
-    public void testGetBlockName() {
-        System.out.println("getBlockName");
-        BuildingBlock instance = new BuildingBlock();
-        String expResult = "";
-        String result = instance.getBlockName();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testAddParkingSpace() {
+        System.out.println("addParkingSpace");
+        ParkingSpaceLibrary space = new ParkingSpaceLibrary(); 
+        
+        int initialSpaces = instance.getAvailableSpaces();
+        instance.addParkingSpace(space);
+        
+        assertEquals(initialSpaces + 1, instance.getAvailableSpaces(), 
+                "El número de espacios debería haber aumentado en 1");
     }
 
-    /**
-     * Test of setBlockName method, of class BuildingBlock.
-     */
     @Test
-    public void testSetBlockName() {
-        System.out.println("setBlockName");
-        String blockName = "";
-        BuildingBlock instance = new BuildingBlock();
-        instance.setBlockName(blockName);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testSetters() {
+        System.out.println("Testing Setters");
+        String newName = "Torre Norte";
+        String newCode = "TN-02";
+        
+        instance.setBlockName(newName);
+        instance.setBlockCode(newCode);
+        
+        assertEquals(newName, instance.getBlockName());
+        assertEquals(newCode, instance.getBlockCode());
     }
-
-    /**
-     * Test of getBlockCode method, of class BuildingBlock.
-     */
-    @Test
-    public void testGetBlockCode() {
-        System.out.println("getBlockCode");
-        BuildingBlock instance = new BuildingBlock();
-        String expResult = "";
-        String result = instance.getBlockCode();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setBlockCode method, of class BuildingBlock.
-     */
-    @Test
-    public void testSetBlockCode() {
-        System.out.println("setBlockCode");
-        String blockCode = "";
-        BuildingBlock instance = new BuildingBlock();
-        instance.setBlockCode(blockCode);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getSections method, of class BuildingBlock.
-     */
-    @Test
-    public void testGetSections() {
-        System.out.println("getSections");
-        BuildingBlock instance = new BuildingBlock();
-        List<ParkingZone> expResult = null;
-        List<ParkingZone> result = instance.getSections();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setSections method, of class BuildingBlock.
-     */
-    @Test
-    public void testSetSections() {
-        System.out.println("setSections");
-        List<ParkingZone> sections = null;
-        BuildingBlock instance = new BuildingBlock();
-        instance.setSections(sections);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getParkingLot method, of class BuildingBlock.
-     */
-    @Test
-    public void testGetParkingLot() {
-        System.out.println("getParkingLot");
-        BuildingBlock instance = new BuildingBlock();
-        ParkingLotLibrary expResult = null;
-        ParkingLotLibrary result = instance.getParkingLot();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
 }

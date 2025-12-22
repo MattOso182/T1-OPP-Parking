@@ -23,6 +23,9 @@ public class ParkingLot {
         loadAndMergeJsonData();
     }
 
+    ParkingLot() {
+    }
+
     
     private void loadAndMergeJsonData() {
         try {

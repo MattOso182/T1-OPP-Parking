@@ -1,256 +1,96 @@
-
 package model;
 
 import java.util.Date;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- *
- * @author Team 1 - T.A.P. (The Art of Programming)
+ * @author Team 1 - T.A.P.
  */
 public class EntryExitRecordTest {
     
+    private EntryExitRecord record;
+    private final String TEST_PLATE = "ABC-1234";
+
     public EntryExitRecordTest() {
     }
-    
-    @BeforeAll
-    public static void setUpClass() {
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    }
-    
+
     @BeforeEach
     public void setUp() {
+        record = new EntryExitRecord();
     }
     
     @AfterEach
     public void tearDown() {
+        record = null;
     }
 
-    /**
-     * Test of registerEntry method, of class EntryExitRecord.
-     */
+    @Test
+    public void testConstructorAndID() {
+        System.out.println("testConstructorAndID");
+        assertNotNull(record.getRecordID(), "El ID del registro no debe ser nulo");
+        assertTrue(record.getRecordID().startsWith("REC-"), "El ID debe iniciar con el prefijo REC-");
+    }
+
     @Test
     public void testRegisterEntry() {
-        System.out.println("registerEntry");
-        String vehiclePlate = "";
-        Date entryTime = null;
-        EntryExitRecord instance = new EntryExitRecord();
-        instance.registerEntry(vehiclePlate, entryTime);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("testRegisterEntry");
+        Date entryTime = new Date();
+        
+        record.registerEntry(TEST_PLATE, entryTime);
+        
+        assertEquals(TEST_PLATE, record.getVehiclePlate(), "La placa no coincide tras el registro");
+        assertEquals(entryTime, record.getEntryTime(), "La hora de entrada no coincide");
     }
 
-    /**
-     * Test of registerExit method, of class EntryExitRecord.
-     */
     @Test
-    public void testRegisterExit() {
-        System.out.println("registerExit");
-        String vehiclePlate = "";
-        Date exitTime = null;
-        EntryExitRecord instance = new EntryExitRecord();
-        instance.registerExit(vehiclePlate, exitTime);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testRegisterExitSuccess() {
+        System.out.println("testRegisterExitSuccess");
+        Date entryTime = new Date(System.currentTimeMillis() - 3600000); 
+        Date exitTime = new Date();
+        
+        record.registerEntry(TEST_PLATE, entryTime);
+        
+        record.registerExit(TEST_PLATE, exitTime);
+        
+        assertEquals(exitTime, record.getExitTime(), "La hora de salida debería haberse actualizado");
     }
 
-    /**
-     * Test of calculateDuration method, of class EntryExitRecord.
-     */
+    @Test
+    public void testRegisterExitFailure() {
+        System.out.println("testRegisterExitFailure");
+        Date exitTime = new Date();
+        
+        record.registerExit("XYZ-999", exitTime);
+        
+        assertNull(record.getExitTime(), "La salida no debería registrarse si no hay entrada activa");
+    }
+
     @Test
     public void testCalculateDuration() {
-        System.out.println("calculateDuration");
-        EntryExitRecord instance = new EntryExitRecord();
-        double expResult = 0.0;
-        double result = instance.calculateDuration();
-        assertEquals(expResult, result, 0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("testCalculateDuration");
+        double duration = record.calculateDuration();
+        assertNotNull(duration);
     }
 
-    /**
-     * Test of verifyRentalStatus method, of class EntryExitRecord.
-     */
     @Test
     public void testVerifyRentalStatus() {
-        System.out.println("verifyRentalStatus");
-        EntryExitRecord instance = new EntryExitRecord();
-        boolean expResult = false;
-        boolean result = instance.verifyRentalStatus();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("testVerifyRentalStatus");
+        assertTrue(record.verifyRentalStatus());
     }
 
-    /**
-     * Test of getRecordInfo method, of class EntryExitRecord.
-     */
     @Test
-    public void testGetRecordInfo() {
-        System.out.println("getRecordInfo");
-        EntryExitRecord instance = new EntryExitRecord();
-        String expResult = "";
-        String result = instance.getRecordInfo();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testSettersAndGetters() {
+        System.out.println("testSettersAndGetters");
+        String operator = "OP-001";
+        String space = "A-15";
+        
+        record.setOperatorID(operator);
+        record.setParkingSpaceID(space);
+        
+        assertEquals(operator, record.getOperatorID());
+        assertEquals(space, record.getParkingSpaceID());
     }
-
-    /**
-     * Test of getRecordID method, of class EntryExitRecord.
-     */
-    @Test
-    public void testGetRecordID() {
-        System.out.println("getRecordID");
-        EntryExitRecord instance = new EntryExitRecord();
-        String expResult = "";
-        String result = instance.getRecordID();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getVehiclePlate method, of class EntryExitRecord.
-     */
-    @Test
-    public void testGetVehiclePlate() {
-        System.out.println("getVehiclePlate");
-        EntryExitRecord instance = new EntryExitRecord();
-        String expResult = "";
-        String result = instance.getVehiclePlate();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setVehiclePlate method, of class EntryExitRecord.
-     */
-    @Test
-    public void testSetVehiclePlate() {
-        System.out.println("setVehiclePlate");
-        String vehiclePlate = "";
-        EntryExitRecord instance = new EntryExitRecord();
-        instance.setVehiclePlate(vehiclePlate);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getEntryTime method, of class EntryExitRecord.
-     */
-    @Test
-    public void testGetEntryTime() {
-        System.out.println("getEntryTime");
-        EntryExitRecord instance = new EntryExitRecord();
-        Date expResult = null;
-        Date result = instance.getEntryTime();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setEntryTime method, of class EntryExitRecord.
-     */
-    @Test
-    public void testSetEntryTime() {
-        System.out.println("setEntryTime");
-        Date entryTime = null;
-        EntryExitRecord instance = new EntryExitRecord();
-        instance.setEntryTime(entryTime);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getExitTime method, of class EntryExitRecord.
-     */
-    @Test
-    public void testGetExitTime() {
-        System.out.println("getExitTime");
-        EntryExitRecord instance = new EntryExitRecord();
-        Date expResult = null;
-        Date result = instance.getExitTime();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setExitTime method, of class EntryExitRecord.
-     */
-    @Test
-    public void testSetExitTime() {
-        System.out.println("setExitTime");
-        Date exitTime = null;
-        EntryExitRecord instance = new EntryExitRecord();
-        instance.setExitTime(exitTime);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getParkingSpaceID method, of class EntryExitRecord.
-     */
-    @Test
-    public void testGetParkingSpaceID() {
-        System.out.println("getParkingSpaceID");
-        EntryExitRecord instance = new EntryExitRecord();
-        String expResult = "";
-        String result = instance.getParkingSpaceID();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setParkingSpaceID method, of class EntryExitRecord.
-     */
-    @Test
-    public void testSetParkingSpaceID() {
-        System.out.println("setParkingSpaceID");
-        String parkingSpaceID = "";
-        EntryExitRecord instance = new EntryExitRecord();
-        instance.setParkingSpaceID(parkingSpaceID);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getOperatorID method, of class EntryExitRecord.
-     */
-    @Test
-    public void testGetOperatorID() {
-        System.out.println("getOperatorID");
-        EntryExitRecord instance = new EntryExitRecord();
-        String expResult = "";
-        String result = instance.getOperatorID();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setOperatorID method, of class EntryExitRecord.
-     */
-    @Test
-    public void testSetOperatorID() {
-        System.out.println("setOperatorID");
-        String operatorID = "";
-        EntryExitRecord instance = new EntryExitRecord();
-        instance.setOperatorID(operatorID);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
 }

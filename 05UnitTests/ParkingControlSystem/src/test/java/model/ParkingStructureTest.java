@@ -1,4 +1,3 @@
-
 package model;
 
 import java.util.List;
@@ -15,6 +14,8 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class ParkingStructureTest {
     
+    private ParkingStructure instance;
+
     public ParkingStructureTest() {
     }
     
@@ -28,10 +29,12 @@ public class ParkingStructureTest {
     
     @BeforeEach
     public void setUp() {
+        instance = new ParkingStructure();
     }
     
     @AfterEach
     public void tearDown() {
+        instance = null;
     }
 
     /**
@@ -40,11 +43,10 @@ public class ParkingStructureTest {
     @Test
     public void testGetName() {
         System.out.println("getName");
-        ParkingStructure instance = new ParkingStructure();
         String expResult = "";
         String result = instance.getName();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
+        // Se mantiene el fail como pediste
         fail("The test case is a prototype.");
     }
 
@@ -55,9 +57,7 @@ public class ParkingStructureTest {
     public void testSetName() {
         System.out.println("setName");
         String name = "";
-        ParkingStructure instance = new ParkingStructure();
         instance.setName(name);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -67,11 +67,9 @@ public class ParkingStructureTest {
     @Test
     public void testGetTotalSpaces() {
         System.out.println("getTotalSpaces");
-        ParkingStructure instance = new ParkingStructure();
         int expResult = 0;
         int result = instance.getTotalSpaces();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -82,9 +80,7 @@ public class ParkingStructureTest {
     public void testSetTotalSpaces() {
         System.out.println("setTotalSpaces");
         int totalSpaces = 0;
-        ParkingStructure instance = new ParkingStructure();
         instance.setTotalSpaces(totalSpaces);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -94,11 +90,9 @@ public class ParkingStructureTest {
     @Test
     public void testGetAvailableForRent() {
         System.out.println("getAvailableForRent");
-        ParkingStructure instance = new ParkingStructure();
         int expResult = 0;
         int result = instance.getAvailableForRent();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -109,9 +103,7 @@ public class ParkingStructureTest {
     public void testSetAvailableForRent() {
         System.out.println("setAvailableForRent");
         int availableForRent = 0;
-        ParkingStructure instance = new ParkingStructure();
         instance.setAvailableForRent(availableForRent);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -121,11 +113,9 @@ public class ParkingStructureTest {
     @Test
     public void testGetBlocks() {
         System.out.println("getBlocks");
-        ParkingStructure instance = new ParkingStructure();
         List<BuildingBlock> expResult = null;
         List<BuildingBlock> result = instance.getBlocks();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -136,10 +126,7 @@ public class ParkingStructureTest {
     public void testSetBlocks() {
         System.out.println("setBlocks");
         List<BuildingBlock> blocks = null;
-        ParkingStructure instance = new ParkingStructure();
         instance.setBlocks(blocks);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
 }

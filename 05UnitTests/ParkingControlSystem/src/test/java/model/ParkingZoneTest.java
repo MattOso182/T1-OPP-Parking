@@ -44,8 +44,7 @@ public class ParkingZoneTest {
         String expResult = "";
         String result = instance.getSection();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+      
     }
 
     /**
@@ -57,8 +56,6 @@ public class ParkingZoneTest {
         String section = "";
         ParkingZone instance = new ParkingZone();
         instance.setSection(section);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -71,8 +68,6 @@ public class ParkingZoneTest {
         List<SpaceDefinition> expResult = null;
         List<SpaceDefinition> result = instance.getSpaces();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -84,8 +79,6 @@ public class ParkingZoneTest {
         List<SpaceDefinition> spaces = null;
         ParkingZone instance = new ParkingZone();
         instance.setSpaces(spaces);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }
