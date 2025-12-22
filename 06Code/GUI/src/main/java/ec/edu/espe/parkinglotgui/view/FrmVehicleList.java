@@ -1,5 +1,7 @@
 package ec.edu.espe.parkinglotgui.view;
 
+import ec.edu.espe.parkinglotgui.controller.VehicleEntryController;
+import ec.edu.espe.parkinglotgui.model.Vehicle;
 import ec.edu.espe.parkinglotgui.model.VehicleDAO;
 import org.bson.Document;
 import javax.swing.table.DefaultTableModel;
@@ -17,7 +19,10 @@ import javax.swing.JTextField;
  */
 public class FrmVehicleList extends javax.swing.JFrame {
     private final VehicleDAO vehicleDAO = new VehicleDAO();
-    
+   
+    private final String[] columns = {
+        "Owner ID", "Owner Name", "Plate", "Color", "Model", "Parked"
+    };
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmVehicleList.class.getName());
 
     /**
@@ -25,7 +30,7 @@ public class FrmVehicleList extends javax.swing.JFrame {
      */
     public FrmVehicleList() {
         initComponents();
-        loadVehicleData();
+        loadVehicles();
         
     }
 
@@ -45,12 +50,12 @@ public class FrmVehicleList extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         tittle = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        addVehicle = new javax.swing.JButton();
-        deleteVehicle = new javax.swing.JButton();
-        editVehicle = new javax.swing.JButton();
+        btnRefresh = new javax.swing.JButton();
+        btnBack = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
         jScrollPane3 = new javax.swing.JScrollPane();
-        vehicleList = new javax.swing.JTable();
+        tblVehicles = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         itemReturnMenu = new javax.swing.JMenuItem();
@@ -83,7 +88,7 @@ public class FrmVehicleList extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        tittle.setFont(new java.awt.Font("Eras Demi ITC", 0, 36)); // NOI18N
+        tittle.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
         tittle.setText("Lista de Vehículos");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -103,24 +108,17 @@ public class FrmVehicleList extends javax.swing.JFrame {
                 .addContainerGap(33, Short.MAX_VALUE))
         );
 
-        addVehicle.setText("Agregar");
-        addVehicle.addActionListener(new java.awt.event.ActionListener() {
+        btnRefresh.setText("Recargar");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addVehicleActionPerformed(evt);
+                btnRefreshActionPerformed(evt);
             }
         });
 
-        deleteVehicle.setText("Eliminar");
-        deleteVehicle.addActionListener(new java.awt.event.ActionListener() {
+        btnBack.setText("Atras");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteVehicleActionPerformed(evt);
-            }
-        });
-
-        editVehicle.setText("Editar");
-        editVehicle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editVehicleActionPerformed(evt);
+                btnBackActionPerformed(evt);
             }
         });
 
@@ -129,26 +127,23 @@ public class FrmVehicleList extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(175, 175, 175)
-                .addComponent(addVehicle, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(171, 171, 171)
-                .addComponent(deleteVehicle, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 176, Short.MAX_VALUE)
-                .addComponent(editVehicle, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(175, 175, 175))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(134, 134, 134)
+                .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(291, 291, 291))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(27, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addVehicle)
-                    .addComponent(deleteVehicle)
-                    .addComponent(editVehicle))
+                    .addComponent(btnRefresh)
+                    .addComponent(btnBack))
                 .addGap(22, 22, 22))
         );
 
-        vehicleList.setModel(new javax.swing.table.DefaultTableModel(
+        tblVehicles.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -167,22 +162,24 @@ public class FrmVehicleList extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(vehicleList);
+        jScrollPane3.setViewportView(tblVehicles);
+
+        jScrollPane4.setViewportView(jScrollPane3);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane3)
-                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(52, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 814, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -227,67 +224,11 @@ public class FrmVehicleList extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void deleteVehicleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteVehicleActionPerformed
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
-
-        List<Document> docs = vehicleDAO.findAll();
-
-        List<String> ownerIds = new ArrayList<>();
-        List<Document> owners = new ArrayList<>();
-
-        for (Document d : docs) {
-            String ownerId = d.getString("ownerId");
-            if (!ownerIds.contains(ownerId)) {
-                ownerIds.add(ownerId);
-                owners.add(d);
-            }
-        }
-
-        String selectedOwnerId = (String) JOptionPane.showInputDialog(
-                this,
-                "Selecciona un propietario",
-                "Eliminar Vehículo",
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                ownerIds.toArray(),
-                null
-        );
-
-        if (selectedOwnerId == null) return;
-
-        List<String> plates = new ArrayList<>();
-        for (Document d : docs) {
-            if (d.getString("ownerId").equals(selectedOwnerId)) {
-                plates.add(d.getString("plate"));
-            }
-        }
-
-        String selectedPlate = (String) JOptionPane.showInputDialog(
-                this,
-                "Selecciona el vehículo",
-                "Eliminar Vehículo",
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                plates.toArray(),
-                null
-        );
-
-        if (selectedPlate == null) return;
-
-        int confirm = JOptionPane.showConfirmDialog(
-                this,
-                "¿Estás seguro de eliminar este vehículo?",
-                "Confirmación",
-                JOptionPane.YES_NO_OPTION
-        );
-
-        if (confirm != JOptionPane.YES_OPTION) return;
-
-        vehicleDAO.deleteByOwnerAndPlate(selectedOwnerId, selectedPlate);
-
-        JOptionPane.showMessageDialog(this, "Vehículo eliminado correctamente");
-        loadVehicleData();
-    }//GEN-LAST:event_deleteVehicleActionPerformed
+        new FrmSecurityGuardMenu().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnBackActionPerformed
 
     private void itemReturnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemReturnMenuActionPerformed
         FrmSecurityGuardMenu frmSecurityGuardMenu = new FrmSecurityGuardMenu();
@@ -295,205 +236,28 @@ public class FrmVehicleList extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_itemReturnMenuActionPerformed
 
-    private void addVehicleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addVehicleActionPerformed
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         // TODO add your handling code here:
+        loadVehicles();
+    }//GEN-LAST:event_btnRefreshActionPerformed
 
-        List<Document> docs = vehicleDAO.findAll();
+    private void loadVehicles() {
 
-        List<String> ownerIds = new ArrayList<>();
-        List<Document> owners = new ArrayList<>();
+        DefaultTableModel model = new DefaultTableModel(null, columns);
+        VehicleEntryController controller = new VehicleEntryController();
 
-        for (Document d : docs) {
-            String ownerId = d.getString("ownerId");
-            if (!ownerIds.contains(ownerId)) {
-                ownerIds.add(ownerId);
-                owners.add(d);
-            }
+        for (Vehicle v : controller.getAllVehicles()) {
+            Object[] row = {
+                v.getOwnerId(),
+                v.getOwnerName(),
+                v.getPlate(),
+                v.getColor(),
+                v.getModel(),
+                v.isParked() ? "YES" : "NO"
+            };
+            model.addRow(row);
         }
-
-        String selectedOwnerId = (String) JOptionPane.showInputDialog(
-                this,
-                "Selecciona un propietario",
-                "Agregar Vehículo",
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                ownerIds.toArray(),
-                null
-        );
-
-        if (selectedOwnerId == null) return;
-
-        Document selectedOwner = null;
-        for (Document d : owners) {
-            if (d.getString("ownerId").equals(selectedOwnerId)) {
-                selectedOwner = d;
-                break;
-            }
-        }
-
-        JTextField plateField = new JTextField();
-        JTextField colorField = new JTextField();
-        JTextField modelField = new JTextField();
-        JCheckBox parkedCheck = new JCheckBox("¿Parqueado?");
-
-        JPanel panel = new JPanel(new java.awt.GridLayout(0, 1));
-        panel.add(new JLabel("Placa"));
-        panel.add(plateField);
-        panel.add(new JLabel("Color"));
-        panel.add(colorField);
-        panel.add(new JLabel("Modelo"));
-        panel.add(modelField);
-        panel.add(parkedCheck);
-
-        int result = JOptionPane.showConfirmDialog(
-                this,
-                panel,
-                "Datos del Vehículo",
-                JOptionPane.OK_CANCEL_OPTION
-        );
-
-        if (result != JOptionPane.OK_OPTION) return;
-
-        Document newVehicle = new Document()
-                .append("ownerId", selectedOwner.getString("ownerId"))
-                .append("ownerName", selectedOwner.getString("ownerName"))
-                .append("plate", plateField.getText())
-                .append("color", colorField.getText())
-                .append("model", modelField.getText())
-                .append("parked", parkedCheck.isSelected());
-
-        vehicleDAO.insert(newVehicle);
-
-        JOptionPane.showMessageDialog(this, "Vehículo agregado correctamente");
-        loadVehicleData();
-    }//GEN-LAST:event_addVehicleActionPerformed
-
-    private void editVehicleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editVehicleActionPerformed
-        // TODO add your handling code here:
-
-        List<Document> docs = vehicleDAO.findAll();
-
-        List<String> ownerIds = new ArrayList<>();
-        for (Document d : docs) {
-            if (!ownerIds.contains(d.getString("ownerId"))) {
-                ownerIds.add(d.getString("ownerId"));
-            }
-        }
-
-        String selectedOwnerId = (String) JOptionPane.showInputDialog(
-                this,
-                "Selecciona un propietario",
-                "Editar Vehículo",
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                ownerIds.toArray(),
-                null
-        );
-
-        if (selectedOwnerId == null) return;
-
-        List<Document> vehicles = new ArrayList<>();
-        List<String> plates = new ArrayList<>();
-
-        for (Document d : docs) {
-            if (d.getString("ownerId").equals(selectedOwnerId)) {
-                vehicles.add(d);
-                plates.add(d.getString("plate"));
-            }
-        }
-
-        String selectedPlate = (String) JOptionPane.showInputDialog(
-                this,
-                "Selecciona el vehículo",
-                "Editar Vehículo",
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                plates.toArray(),
-                null
-        );
-
-        if (selectedPlate == null) return;
-
-        Document vehicle = null;
-        for (Document d : vehicles) {
-            if (d.getString("plate").equals(selectedPlate)) {
-                vehicle = d;
-                break;
-            }
-        }
-
-        JTextField plateField = new JTextField(vehicle.getString("plate"));
-        JTextField colorField = new JTextField(vehicle.getString("color"));
-        JTextField modelField = new JTextField(vehicle.getString("model"));
-        JCheckBox parkedCheck = new JCheckBox("¿Parqueado?", vehicle.getBoolean("parked"));
-
-        JPanel panel = new JPanel(new java.awt.GridLayout(0, 1));
-        panel.add(new JLabel("Placa"));
-        panel.add(plateField);
-        panel.add(new JLabel("Color"));
-        panel.add(colorField);
-        panel.add(new JLabel("Modelo"));
-        panel.add(modelField);
-        panel.add(parkedCheck);
-
-        int result = JOptionPane.showConfirmDialog(
-                this,
-                panel,
-                "Editar Vehículo",
-                JOptionPane.OK_CANCEL_OPTION
-        );
-
-        if (result != JOptionPane.OK_OPTION) return;
-
-        int confirm = JOptionPane.showConfirmDialog(
-                this,
-                "¿Deseas guardar los cambios?",
-                "Confirmación",
-                JOptionPane.YES_NO_OPTION
-        );
-
-        if (confirm != JOptionPane.YES_OPTION) return;
-
-        vehicleDAO.updateVehicle(
-                selectedOwnerId,
-                selectedPlate,
-                new Document()
-                        .append("plate", plateField.getText())
-                        .append("color", colorField.getText())
-                        .append("model", modelField.getText())
-                        .append("parked", parkedCheck.isSelected())
-        );
-
-        JOptionPane.showMessageDialog(this, "Vehículo actualizado correctamente");
-        loadVehicleData();
-    }//GEN-LAST:event_editVehicleActionPerformed
-
-    private void loadVehicleData() {
-        DefaultTableModel model = (DefaultTableModel) vehicleList.getModel();
-        model.setRowCount(0);
-
-        List<Document> docs = vehicleDAO.findAllSortedByOwner();
-
-        String lastOwnerId = "";
-
-        for (Document doc : docs) {
-            String ownerId = doc.getString("ownerId");
-            String ownerName = doc.getString("ownerName");
-
-            String showOwnerId = ownerId.equals(lastOwnerId) ? "" : ownerId;
-            String showOwnerName = ownerId.equals(lastOwnerId) ? "" : ownerName;
-
-            model.addRow(new Object[]{
-                showOwnerId,
-                showOwnerName,
-                doc.getString("plate"),
-                doc.getString("color"),
-                doc.getString("model"),
-                doc.getBoolean("parked")
-            });
-
-            lastOwnerId = ownerId;
-        }
+        tblVehicles.setModel(model);
     }
     /**
      * @param args the command line arguments
@@ -521,9 +285,8 @@ public class FrmVehicleList extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addVehicle;
-    private javax.swing.JButton deleteVehicle;
-    private javax.swing.JButton editVehicle;
+    private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnRefresh;
     private javax.swing.JMenuItem itemReturnMenu;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
@@ -533,9 +296,10 @@ public class FrmVehicleList extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JTable tblVehicles;
     private javax.swing.JLabel tittle;
-    private javax.swing.JTable vehicleList;
     // End of variables declaration//GEN-END:variables
 }

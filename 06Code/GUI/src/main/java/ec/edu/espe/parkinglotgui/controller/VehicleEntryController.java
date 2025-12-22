@@ -6,8 +6,13 @@ package ec.edu.espe.parkinglotgui.controller;
  */
 import ec.edu.espe.parkinglotgui.utils.MongoConnectionEntrances;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+import ec.edu.espe.parkinglotgui.model.Vehicle;
+import ec.edu.espe.parkinglotgui.utils.MongoDBConnection;
+import java.util.ArrayList;
 import org.bson.Document;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class VehicleEntryController {
@@ -64,4 +69,40 @@ public class VehicleEntryController {
         ).first();
         return activeEntry != null;
     }
+    
+    public ArrayList<Vehicle> getAllVehicles() {
+    ArrayList<Vehicle> vehicles = new ArrayList<>();
+
+    try {
+       
+        MongoCollection<Document> collection =
+                MongoDBConnection.getConnection().getCollection("Vehicles");
+
+       
+        MongoCursor<Document> cursor = collection.find().iterator();
+
+        while (cursor.hasNext()) {
+            Document doc = cursor.next();
+
+            Vehicle vehicle = new Vehicle();
+
+            vehicle.setOwnerId(doc.getString("ownerId"));
+            vehicle.setOwnerName(doc.getString("ownerName"));
+            vehicle.setPlate(doc.getString("plate"));
+            vehicle.setColor(doc.getString("color"));
+            vehicle.setModel(doc.getString("model"));
+            vehicle.setParked(doc.getBoolean("parked", false));
+
+            vehicles.add(vehicle);
+        }
+
+        cursor.close();
+
+    } catch (Exception e) {
+        System.err.println("Error retrieving vehicles: " + e.getMessage());
+    }
+
+        return vehicles;
+    }
+
 }

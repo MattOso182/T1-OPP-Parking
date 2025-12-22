@@ -229,7 +229,7 @@ public class FrmParkingSplash extends javax.swing.JFrame {
 
         jLabelLogo.setText("IMAGEN LOGO");
 
-        jLabel3.setText("Version 0.5.7 ");
+        jLabel3.setText("Version 0.6.8 ");
 
         jLabel5.setText("©2025");
 

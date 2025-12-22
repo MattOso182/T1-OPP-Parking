@@ -87,6 +87,7 @@ public class FrmSecurityGuardMenu extends javax.swing.JFrame {
         jMenu3.add(jMenuItem2);
 
         jMenuItem3.setText("Reporte de Visitantes");
+        jMenuItem3.addActionListener(this::jMenuItem3ActionPerformed);
         jMenu3.add(jMenuItem3);
 
         jMenuItem4.setText("Reporte de entrada y salida");
@@ -149,6 +150,13 @@ public class FrmSecurityGuardMenu extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        FrmVisitorReport visitorReport = new FrmVisitorReport();
+        visitorReport.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments
