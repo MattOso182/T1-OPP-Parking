@@ -76,6 +76,7 @@ public class FrmSecurityGuardMenu extends javax.swing.JFrame {
         jMenu6.add(itemNewVisitor);
 
         itemNewResident.setText("Agregar nuevo residente");
+        itemNewResident.addActionListener(this::itemNewResidentActionPerformed);
         jMenu6.add(itemNewResident);
 
         jMenuBar1.add(jMenu6);
@@ -90,7 +91,8 @@ public class FrmSecurityGuardMenu extends javax.swing.JFrame {
         jMenuItem3.addActionListener(this::jMenuItem3ActionPerformed);
         jMenu3.add(jMenuItem3);
 
-        jMenuItem4.setText("Reporte de entrada y salida");
+        jMenuItem4.setText("Reporte de Entrada y Salida");
+        jMenuItem4.addActionListener(this::jMenuItem4ActionPerformed);
         jMenu3.add(jMenuItem4);
 
         jMenuBar1.add(jMenu3);
@@ -157,6 +159,20 @@ public class FrmSecurityGuardMenu extends javax.swing.JFrame {
         visitorReport.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void itemNewResidentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemNewResidentActionPerformed
+        // TODO add your handling code here:
+        FrmResident frmResident = new FrmResident();
+        frmResident.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_itemNewResidentActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+        FrmEntryExitReport frmEntryExitReport = new FrmEntryExitReport();
+        frmEntryExitReport.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
      * @param args the command line arguments

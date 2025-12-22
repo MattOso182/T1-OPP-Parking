@@ -68,8 +68,19 @@ public class FrmLogin extends javax.swing.JFrame {
                 passPasswordMouseClicked(evt);
             }
         });
+        passPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passPasswordActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("👥Tipo de usuario:");
+
+        cmbUserType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbUserTypeActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("🔑Contraseña:");
 
@@ -190,6 +201,14 @@ public class FrmLogin extends javax.swing.JFrame {
     private void itemExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemExitActionPerformed
         this.dispose();
     }//GEN-LAST:event_itemExitActionPerformed
+
+    private void cmbUserTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbUserTypeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbUserTypeActionPerformed
+
+    private void passPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passPasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passPasswordActionPerformed
 
     /**
      * @param args the command line arguments
