@@ -4,7 +4,7 @@ import org.bson.Document;
 
 /**
  *
- * @author Mateo Aymacaña, T.A.P. (The Art of Programming), @ESPE
+ * @author T.A.P. (The Art of Programming), @ESPE
  */
 public class Vehicle {
     private String plate;

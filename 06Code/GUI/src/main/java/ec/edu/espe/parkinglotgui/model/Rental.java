@@ -2,7 +2,7 @@ package ec.edu.espe.parkinglotgui.model;
 
 /**
  *
- * @author Mateo Aymacaña, T.A.P. (The Art of Programming), @ESPE
+ * @author T.A.P. (The Art of Programming), @ESPE
  */
 import java.util.Calendar;
 import java.util.Date;

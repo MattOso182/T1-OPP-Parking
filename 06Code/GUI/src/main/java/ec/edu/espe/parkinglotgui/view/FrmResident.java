@@ -10,7 +10,7 @@ import org.bson.Document;
 
 /**
  *
- * @author Arelis Samantha Bonilla Cruz, Student, @ESPE
+ * @author T.A.P. (The Art of Programming), @ESPE
  */
 public class FrmResident extends javax.swing.JFrame {
     

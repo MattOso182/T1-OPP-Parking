@@ -1,10 +1,11 @@
 package ec.edu.espe.parkinglotgui.view;
 
+import ec.edu.espe.parkinglotgui.controller.LoginController;
 import java.awt.event.KeyEvent;
 
 /**
  *
- * @author Emily Calle, @ESPE
+ * @author T.A.P. (The Art of Programming), @ESPE
  */
 public class FrmLogin extends javax.swing.JFrame {
 
@@ -166,21 +167,40 @@ public class FrmLogin extends javax.swing.JFrame {
             return;
         }
 
-        if (username.equals("admin") && password.equals("123")) {
+        if (username.isEmpty() || password.isEmpty()) {
+            lblMessage.setText("ERROR: Complete todos los campos.");
+            lblMessage.setForeground(java.awt.Color.RED);
+            return;
+        }
+
+        try {
+           LoginController loginController = new LoginController();
+        boolean isAuthenticated = loginController.authenticate(username, password, userType);
+        
+        if (isAuthenticated) {
+            lblMessage.setText("¡Autenticación exitosa!");
+            lblMessage.setForeground(new java.awt.Color(0, 153, 0));
+            
             if (userType.equals("Guardia de seguridad")) {
                 FrmSecurityGuardMenu frmSecurityGuardMenu = new FrmSecurityGuardMenu();
                 frmSecurityGuardMenu.setVisible(true);
                 this.setVisible(false);
             } else if (userType.equals("Residente")) {
-                FrmResidentMenu frmResidentMenu = new FrmResidentMenu();
+                FrmResidentMenu frmResidentMenu = new FrmResidentMenu(username);
                 frmResidentMenu.setVisible(true);
                 this.setVisible(false);
             }
 
-        } else {
-            lblMessage.setText("ERROR: Credenciales incorrectas.");
+            } else {
+                lblMessage.setText("ERROR: Credenciales incorrectas.");
+                lblMessage.setForeground(java.awt.Color.RED);
+                passPassword.setText("");
+            }
+
+        } catch (Exception e) {
+            lblMessage.setText("ERROR: Problema en el sistema de autenticación.");
             lblMessage.setForeground(java.awt.Color.RED);
-            passPassword.setText("");
+            System.err.println("Error en login: " + e.getMessage());
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 

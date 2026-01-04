@@ -7,7 +7,7 @@ import javax.swing.*;
 
 /**
  *
- * @author Mateo Aymacaña, T.A.P. (The Art of Programming), @ESPE
+ * @author T.A.P. (The Art of Programming), @ESPE
  */
 public class FrmParkingSplash extends javax.swing.JFrame {
 
@@ -111,9 +111,9 @@ public class FrmParkingSplash extends javax.swing.JFrame {
 
         progressBar.setForeground(barColor);
 
-        Color colorTexto = calculateContrastColor(barColor);
+        Color textColor = calculateContrastColor(barColor);
 
-        aplicarColorTexto(colorTexto);
+        aplicarColorTexto(textColor);
 
         progressBar.repaint();
     }
@@ -229,7 +229,7 @@ public class FrmParkingSplash extends javax.swing.JFrame {
 
         jLabelLogo.setText("IMAGEN LOGO");
 
-        jLabel3.setText("Version 0.6.9 ");
+        jLabel3.setText("Version 0.8.0 ");
 
         jLabel5.setText("©2025");
 

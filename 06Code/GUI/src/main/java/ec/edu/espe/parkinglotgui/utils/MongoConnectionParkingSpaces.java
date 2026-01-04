@@ -1,13 +1,12 @@
 package ec.edu.espe.parkinglotgui.utils;
 
+/**
+ *
+ * @author T.A.P. (The Art of Programming), @ESPE
+ */
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
-
-/**
- *
- * @author Arelis Samantha Bonilla Cruz, Student, @ESPE
- */
 
 public class MongoConnectionParkingSpaces {
 

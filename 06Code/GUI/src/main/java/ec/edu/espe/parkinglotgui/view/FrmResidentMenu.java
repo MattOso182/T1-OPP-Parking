@@ -1,18 +1,52 @@
 package ec.edu.espe.parkinglotgui.view;
 
+import ec.edu.espe.parkinglotgui.controller.ResidentController;
+import ec.edu.espe.parkinglotgui.model.Resident;
+
 /**
  *
- * @author Mateo Aymacaña, T.A.P. (The Art of Programming), @ESPE
+ * @author T.A.P. (The Art of Programming), @ESPE
  */
 public class FrmResidentMenu extends javax.swing.JFrame {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmResidentMenu.class.getName());
 
-    /**
-     * Creates new form FrmResidentMenu
-     */
-    public FrmResidentMenu() {
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmResidentMenu.class.getName());
+    private String currentResidentId;
+    private ResidentController residentController;
+
+    public FrmResidentMenu(String residentId) {
         initComponents();
+        this.currentResidentId = residentId;
+        this.residentController = new ResidentController();
+        this.setLocationRelativeTo(null);
+        displayWelcomeMessage();
+    }
+
+    public FrmResidentMenu() {
+        this(null);
+    }
+
+    private void displayWelcomeMessage() {
+        if (currentResidentId == null || currentResidentId.trim().isEmpty()) {
+            lblWelcome.setText("Bienvenido al sistema");
+            return;
+        }
+
+        String residentName = getResidentName(currentResidentId);
+
+        if (residentName != null && !residentName.isEmpty()) {
+            lblWelcome.setText("¡Bienvenido, " + residentName + "!");
+        } else {
+            lblWelcome.setText("¡Bienvenido, residente " + currentResidentId + "!");
+        }
+    }
+
+    private String getResidentName(String residentId) {
+        try {
+            Resident resident = residentController.searchResidentById(residentId);
+            return resident != null ? resident.getName() : null;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     /**
@@ -24,6 +58,7 @@ public class FrmResidentMenu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lblWelcome = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -59,11 +94,17 @@ public class FrmResidentMenu extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(69, Short.MAX_VALUE)
+                .addComponent(lblWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 277, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(45, 45, 45)
+                .addComponent(lblWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(168, Short.MAX_VALUE))
         );
 
         pack();
@@ -76,7 +117,7 @@ public class FrmResidentMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_itemReturnMenuActionPerformed
 
     private void itemPayRentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemPayRentActionPerformed
-        FrmResidentRental frmResidentRental = new FrmResidentRental();
+        FrmResidentRental frmResidentRental = new FrmResidentRental(currentResidentId);
         frmResidentRental.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_itemPayRentActionPerformed
@@ -117,5 +158,6 @@ public class FrmResidentMenu extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JLabel lblWelcome;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,12 +1,11 @@
 package ec.edu.espe.parkinglotgui.view;
 
 import ec.edu.espe.parkinglotgui.controller.ParkingSpaceController;
-import javax.swing.JOptionPane;
 import ec.edu.espe.parkinglotgui.controller.VehicleEntryController;
 
 /**
  *
- * @author Emily Calle, @ESPE
+ * @author T.A.P. (The Art of Programming), @ESPE
  */
 public class FrmEntryVehicle extends javax.swing.JFrame {
 

@@ -175,17 +175,15 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="lblUserTypeError" pref="249" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="lblCellphoneError" max="32767" attributes="0"/>
-                          <Component id="lblEmailError" max="32767" attributes="0"/>
-                          <Component id="lblApartmentError" max="32767" attributes="0"/>
-                          <Component id="lblNameError" max="32767" attributes="0"/>
-                          <Component id="txtCellphone" alignment="0" max="32767" attributes="0"/>
-                          <Component id="txtEmail" alignment="0" max="32767" attributes="0"/>
-                          <Component id="txtApartmentNumber" alignment="0" max="32767" attributes="0"/>
-                          <Component id="txtName" alignment="0" max="32767" attributes="0"/>
-                          <Component id="cmbUserType" alignment="1" pref="249" max="32767" attributes="0"/>
-                      </Group>
+                      <Component id="lblCellphoneError" max="32767" attributes="0"/>
+                      <Component id="lblEmailError" max="32767" attributes="0"/>
+                      <Component id="lblApartmentError" max="32767" attributes="0"/>
+                      <Component id="lblNameError" max="32767" attributes="0"/>
+                      <Component id="txtCellphone" alignment="0" max="32767" attributes="0"/>
+                      <Component id="txtEmail" alignment="0" max="32767" attributes="0"/>
+                      <Component id="txtApartmentNumber" alignment="0" max="32767" attributes="0"/>
+                      <Component id="txtName" alignment="0" max="32767" attributes="0"/>
+                      <Component id="cmbUserType" alignment="1" pref="249" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>

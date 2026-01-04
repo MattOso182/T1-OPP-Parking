@@ -2,7 +2,7 @@ package ec.edu.espe.parkinglotgui.controller;
 
 /**
  *
- * @author Emily Calle, T.A.P. (The Art of Programming), @ESPE
+ * @author T.A.P. (The Art of Programming), @ESPE
  */
 import ec.edu.espe.parkinglotgui.model.Visitor;
 import com.mongodb.client.MongoCollection;

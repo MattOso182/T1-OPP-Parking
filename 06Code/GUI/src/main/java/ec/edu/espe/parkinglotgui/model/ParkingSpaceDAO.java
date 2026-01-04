@@ -1,5 +1,9 @@
 package ec.edu.espe.parkinglotgui.model;
 
+/**
+ *
+ * @author T.A.P. (The Art of Programming), @ESPE
+ */
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import ec.edu.espe.parkinglotgui.utils.MongoConnectionParkingSpaces;
@@ -9,11 +13,6 @@ import org.bson.Document;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.model.Updates;
-
-/**
- *
- * @author Arelis Samantha Bonilla Cruz, Student, @ESPE
- */
 
 public class ParkingSpaceDAO {
 

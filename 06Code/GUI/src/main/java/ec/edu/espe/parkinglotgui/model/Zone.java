@@ -2,7 +2,7 @@ package ec.edu.espe.parkinglotgui.model;
 
 /**
  *
- * @author Josue Carvajal, THE ART OF PROGRAMMING, @ESPE
+ * @author T.A.P. (The Art of Programming), @ESPE
  */
 import org.bson.Document;
 

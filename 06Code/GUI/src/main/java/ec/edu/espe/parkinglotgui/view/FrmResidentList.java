@@ -5,7 +5,6 @@ import java.awt.GridLayout;
 import java.util.List;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -15,7 +14,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Arelis Samantha Bonilla Cruz, Student, @ESPE
+ * @author T.A.P. (The Art of Programming), @ESPE
  */
 public class FrmResidentList extends javax.swing.JFrame {
     private final ResidentDAO residentDAO = new ResidentDAO();

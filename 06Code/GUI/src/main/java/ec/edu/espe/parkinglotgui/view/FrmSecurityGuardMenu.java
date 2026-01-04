@@ -2,7 +2,7 @@ package ec.edu.espe.parkinglotgui.view;
 
 /**
  *
- * @author Mateo Aymacaña, T.A.P. (The Art of Programming), @ESPE
+ * @author T.A.P. (The Art of Programming), @ESPE
  */
 public class FrmSecurityGuardMenu extends javax.swing.JFrame {
     

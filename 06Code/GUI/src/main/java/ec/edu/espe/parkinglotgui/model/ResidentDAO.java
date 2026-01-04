@@ -1,16 +1,15 @@
 package ec.edu.espe.parkinglotgui.model;
 
+/**
+ *
+ * @author T.A.P. (The Art of Programming), @ESPE
+ */
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import ec.edu.espe.parkinglotgui.utils.MongoConnectionResidents;
 import org.bson.Document;
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- *
- * @author Arelis Samantha Bonilla Cruz, Student, @ESPE
- */
 
 public class ResidentDAO {
 

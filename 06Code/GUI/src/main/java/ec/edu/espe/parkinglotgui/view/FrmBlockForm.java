@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Josue Carvajal, THE ART OF PROGRAMMING, @ESPE
+ * @author T.A.P. (The Art of Programming), @ESPE
  */
 
 public class FrmBlockForm extends javax.swing.JDialog {

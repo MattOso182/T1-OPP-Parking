@@ -9,7 +9,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Josue Carvajal, THE ART OF PROGRAMMING, @ESPE
+ * @author T.A.P. (The Art of Programming), @ESPE
  */
 public class FrmVisitorReport extends javax.swing.JFrame {
     

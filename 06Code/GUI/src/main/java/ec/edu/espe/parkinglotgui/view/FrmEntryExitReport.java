@@ -1,17 +1,12 @@
 package ec.edu.espe.parkinglotgui.view;
 
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
 import ec.edu.espe.parkinglotgui.utils.MongoConnectionEntrances;
-import ec.edu.espe.parkinglotgui.utils.MongoConnectionExits;
 import org.bson.Document;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 
 /**
  *
- * @author Arelis Samantha Bonilla Cruz, Student, @ESPE
+ * @author T.A.P. (The Art of Programming), @ESPE
  */
 public class FrmEntryExitReport extends javax.swing.JFrame {
     

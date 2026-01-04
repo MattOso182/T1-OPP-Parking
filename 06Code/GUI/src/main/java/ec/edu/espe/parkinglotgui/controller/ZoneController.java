@@ -2,7 +2,7 @@ package ec.edu.espe.parkinglotgui.controller;
 
 /**
  *
- * @author Josue Carvajal, THE ART OF PROGRAMMING, @ESPE
+ * @author T.A.P. (The Art of Programming), @ESPE
  */
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;

@@ -5,7 +5,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Emily Calle, @ESPE
+ * @author T.A.P. (The Art of Programming), @ESPE
  */
 public class FrmExitVehicle extends javax.swing.JFrame {
 

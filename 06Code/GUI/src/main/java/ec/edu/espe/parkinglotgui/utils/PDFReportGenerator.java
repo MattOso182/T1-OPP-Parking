@@ -1,5 +1,9 @@
 package ec.edu.espe.parkinglotgui.utils;
 
+/**
+ *
+ * @author T.A.P. (The Art of Programming), @ESPE
+ */
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.colors.ColorConstants;
@@ -16,10 +20,6 @@ import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-/**
- *
- * @author Josue Carvajal, THE ART OF PROGRAMMING, @ESPE
- */
 public class PDFReportGenerator {
     public static void generateVehiclesReport(JTable table) {
 

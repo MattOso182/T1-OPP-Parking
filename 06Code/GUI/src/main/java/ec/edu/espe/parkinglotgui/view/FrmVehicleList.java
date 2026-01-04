@@ -4,19 +4,11 @@ import ec.edu.espe.parkinglotgui.controller.VehicleEntryController;
 import ec.edu.espe.parkinglotgui.model.Vehicle;
 import ec.edu.espe.parkinglotgui.model.VehicleDAO;
 import ec.edu.espe.parkinglotgui.utils.PDFReportGenerator;
-import org.bson.Document;
 import javax.swing.table.DefaultTableModel;
-import java.util.List;
-import java.util.ArrayList;
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 /**
  *
- * @author Arelis Samantha Bonilla Cruz, Student, @ESPE
+ * @author T.A.P. (The Art of Programming), @ESPE
  */
 public class FrmVehicleList extends javax.swing.JFrame {
     private final VehicleDAO vehicleDAO = new VehicleDAO();
