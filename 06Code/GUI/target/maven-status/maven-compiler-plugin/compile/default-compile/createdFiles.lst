@@ -3,6 +3,7 @@ ec\edu\espe\parkinglotgui\utils\MongoDBConnection.class
 ec\edu\espe\parkinglotgui\view\FrmResident$5.class
 ec\edu\espe\parkinglotgui\view\FrmResidentList$2.class
 ec\edu\espe\parkinglotgui\view\FrmBlockList$3.class
+ec\edu\espe\parkinglotgui\utils\PDFReportGenerator.class
 ec\edu\espe\parkinglotgui\view\FrmResident$2.class
 ec\edu\espe\parkinglotgui\view\FrmVisitor$2.class
 ec\edu\espe\parkinglotgui\view\FrmExitVehicle$2.class
@@ -50,6 +51,7 @@ ec\edu\espe\parkinglotgui\view\FrmResident$11.class
 ec\edu\espe\parkinglotgui\view\FrmBlockList.class
 ec\edu\espe\parkinglotgui\view\FrmBlockForm$1.class
 ec\edu\espe\parkinglotgui\view\FrmResidentMenu.class
+ec\edu\espe\parkinglotgui\view\FrmVisitorReport$5.class
 ec\edu\espe\parkinglotgui\view\FrmVehicleList$1.class
 ec\edu\espe\parkinglotgui\model\Resident$UserType.class
 ec\edu\espe\parkinglotgui\view\FrmLogin$3.class
@@ -88,6 +90,7 @@ ec\edu\espe\parkinglotgui\view\FrmVisitor$1.class
 ec\edu\espe\parkinglotgui\view\FrmBlockList$1.class
 ec\edu\espe\parkinglotgui\view\FrmParkingSplash.class
 ec\edu\espe\parkinglotgui\controller\ParkingSpaceController.class
+ec\edu\espe\parkinglotgui\view\FrmVehicleList$5.class
 ec\edu\espe\parkinglotgui\view\FrmLogin$7.class
 ec\edu\espe\parkinglotgui\model\ParkingSpaceDAO.class
 ec\edu\espe\parkinglotgui\view\FrmVisitorReport.class

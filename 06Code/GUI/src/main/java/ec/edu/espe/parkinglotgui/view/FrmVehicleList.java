@@ -3,6 +3,7 @@ package ec.edu.espe.parkinglotgui.view;
 import ec.edu.espe.parkinglotgui.controller.VehicleEntryController;
 import ec.edu.espe.parkinglotgui.model.Vehicle;
 import ec.edu.espe.parkinglotgui.model.VehicleDAO;
+import ec.edu.espe.parkinglotgui.utils.PDFReportGenerator;
 import org.bson.Document;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
@@ -21,7 +22,7 @@ public class FrmVehicleList extends javax.swing.JFrame {
     private final VehicleDAO vehicleDAO = new VehicleDAO();
    
     private final String[] columns = {
-        "Owner ID", "Owner Name", "Plate", "Color", "Model", "Parked"
+        "ID de Propietario", "Nombre del Propietario", "Placa", "Color", "Modelo", "Parqueado"
     };
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmVehicleList.class.getName());
 
@@ -52,6 +53,7 @@ public class FrmVehicleList extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         btnRefresh = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -122,16 +124,25 @@ public class FrmVehicleList extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("PDF");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(176, 176, 176)
                 .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(134, 134, 134)
+                .addGap(159, 159, 159)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(291, 291, 291))
+                .addGap(174, 174, 174))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -139,7 +150,8 @@ public class FrmVehicleList extends javax.swing.JFrame {
                 .addContainerGap(27, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRefresh)
-                    .addComponent(btnBack))
+                    .addComponent(btnBack)
+                    .addComponent(jButton1))
                 .addGap(22, 22, 22))
         );
 
@@ -241,6 +253,11 @@ public class FrmVehicleList extends javax.swing.JFrame {
         loadVehicles();
     }//GEN-LAST:event_btnRefreshActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        PDFReportGenerator.generateVehiclesReport(tblVehicles);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     private void loadVehicles() {
 
         DefaultTableModel model = new DefaultTableModel(null, columns);
@@ -288,6 +305,7 @@ public class FrmVehicleList extends javax.swing.JFrame {
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JMenuItem itemReturnMenu;
+    private javax.swing.JButton jButton1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;

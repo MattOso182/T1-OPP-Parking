@@ -41,6 +41,12 @@
             <artifactId>mongodb-driver-async</artifactId>
             <version>3.12.14</version>
         </dependency>
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itext7-core</artifactId>
+            <version>8.0.2</version>
+            <type>pom</type>
+        </dependency>
     </dependencies>
     
     <build>
