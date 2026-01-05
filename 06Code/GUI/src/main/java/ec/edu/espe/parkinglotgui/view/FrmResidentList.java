@@ -27,11 +27,11 @@ public class FrmResidentList extends javax.swing.JFrame {
     public FrmResidentList() {
         initComponents();
         loadResidentData();
+        setAppIcon();
         
         addResident.addActionListener(evt -> addResidentActionPerformed(evt));
         editResident.addActionListener(evt -> editResidentActionPerformed(evt));
         deleteResident.addActionListener(evt -> deleteResidentActionPerformed(evt));
-
     }
 
 private void loadResidentData() {
@@ -426,6 +426,12 @@ private void loadResidentData() {
 
     }//GEN-LAST:event_editResidentActionPerformed
 
+    private void setAppIcon() {
+        java.net.URL iconURL = getClass().getResource("/images/logo.png");
+        if (iconURL != null) {
+            setIconImage(new javax.swing.ImageIcon(iconURL).getImage());
+        }
+    }
     /**
      * @param args the command line arguments
      */

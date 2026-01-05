@@ -16,6 +16,7 @@ public class FrmVisitor extends javax.swing.JFrame {
 
     public FrmVisitor() {
         initComponents();
+        setAppIcon();
 
         this.visitorController = new VisitorController();
         loadVisitorsTable();
@@ -429,6 +430,13 @@ public class FrmVisitor extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNameVisitorActionPerformed
 
+    private void setAppIcon() {
+        java.net.URL iconURL = getClass().getResource("/images/logo.png");
+        if (iconURL != null) {
+            setIconImage(new javax.swing.ImageIcon(iconURL).getImage());
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */

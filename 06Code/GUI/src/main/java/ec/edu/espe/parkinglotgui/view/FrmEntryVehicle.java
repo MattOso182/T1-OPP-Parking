@@ -15,6 +15,7 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
     public FrmEntryVehicle() {
         initComponents();
         loadAvailableSpaces();
+        setAppIcon();
     }
 
     /**
@@ -292,14 +293,20 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
 
     private void tblSpacesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSpacesMouseClicked
         int fila = tblSpaces.getSelectedRow();
-    if (fila != -1) {
-        String idSeleccionado = tblSpaces.getValueAt(fila, 2).toString();
-        txtParkingSpace.setText(idSeleccionado);
-        lblMessage.setText("Espacio seleccionado: " + idSeleccionado);
-        lblMessage.setForeground(java.awt.Color.BLUE);
-    }
+        if (fila != -1) {
+            String idSeleccionado = tblSpaces.getValueAt(fila, 2).toString();
+            txtParkingSpace.setText(idSeleccionado);
+            lblMessage.setText("Espacio seleccionado: " + idSeleccionado);
+            lblMessage.setForeground(java.awt.Color.BLUE);
+        }
     }//GEN-LAST:event_tblSpacesMouseClicked
 
+    private void setAppIcon() {
+        java.net.URL iconURL = getClass().getResource("/images/logo.png");
+        if (iconURL != null) {
+            setIconImage(new javax.swing.ImageIcon(iconURL).getImage());
+        }
+    }
     /**
      * @param args the command line arguments
      */

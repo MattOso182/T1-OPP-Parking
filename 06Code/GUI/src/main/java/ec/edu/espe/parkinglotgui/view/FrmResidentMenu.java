@@ -20,6 +20,7 @@ public class FrmResidentMenu extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         loadLogo();
         loadResidentName();
+        setAppIcon();  
     }
 
     public FrmResidentMenu() {
@@ -187,6 +188,12 @@ public class FrmResidentMenu extends javax.swing.JFrame {
         }
     }
 
+    private void setAppIcon() {
+        java.net.URL iconURL = getClass().getResource("/images/logo.png");
+        if (iconURL != null) {
+            setIconImage(new javax.swing.ImageIcon(iconURL).getImage());
+        }
+    }
     /**
      * @param args the command line arguments
      */

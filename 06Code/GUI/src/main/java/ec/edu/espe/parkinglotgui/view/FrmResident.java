@@ -21,6 +21,7 @@ public class FrmResident extends javax.swing.JFrame {
      */
     public FrmResident() {
         initComponents();
+        setAppIcon();
         pnlParkingSpace.setVisible(false);
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
@@ -638,6 +639,12 @@ public class FrmResident extends javax.swing.JFrame {
         return String.format("RES-%03d", number);
     }
     
+    private void setAppIcon() {
+        java.net.URL iconURL = getClass().getResource("/images/logo.png");
+        if (iconURL != null) {
+            setIconImage(new javax.swing.ImageIcon(iconURL).getImage());
+        }
+    }
     /**
      * @param args the command line arguments
      */

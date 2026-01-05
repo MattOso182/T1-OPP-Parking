@@ -14,6 +14,7 @@ public class FrmLogin extends javax.swing.JFrame {
      */
     public FrmLogin() {
         initComponents();
+        setAppIcon();
         cmbUserType.addItem("Seleccionar tipo...");
         cmbUserType.addItem("Guardia de seguridad");
         cmbUserType.addItem("Residente");
@@ -232,6 +233,12 @@ public class FrmLogin extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_passPasswordActionPerformed
 
+    private void setAppIcon() {
+        java.net.URL iconURL = getClass().getResource("/images/logo.png");
+        if (iconURL != null) {
+            setIconImage(new javax.swing.ImageIcon(iconURL).getImage());
+        }
+    }
     /**
      * @param args the command line arguments
      */

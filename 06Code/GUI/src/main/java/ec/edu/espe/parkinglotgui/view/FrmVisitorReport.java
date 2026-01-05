@@ -20,6 +20,7 @@ public class FrmVisitorReport extends javax.swing.JFrame {
      */
     public FrmVisitorReport() {
         initComponents();
+        setAppIcon();
         this.setLocationRelativeTo(null);
         loadVisitors();
     }
@@ -230,6 +231,13 @@ public class FrmVisitorReport extends javax.swing.JFrame {
         PDFReportGenerator.generateReport(tblVisitors, "Visitantes");
     }//GEN-LAST:event_btnExportPDFActionPerformed
 
+    private void setAppIcon() {
+        java.net.URL iconURL = getClass().getResource("/images/logo.png");
+        if (iconURL != null) {
+            setIconImage(new javax.swing.ImageIcon(iconURL).getImage());
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */

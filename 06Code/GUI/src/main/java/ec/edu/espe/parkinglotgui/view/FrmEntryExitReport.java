@@ -20,6 +20,7 @@ public class FrmEntryExitReport extends javax.swing.JFrame {
     public FrmEntryExitReport() {
         initComponents();
         loadEntryExitData();
+        setAppIcon();
     }
 
     /**
@@ -253,6 +254,13 @@ public class FrmEntryExitReport extends javax.swing.JFrame {
         }
 
         connection.closeConnection();
+    }
+    
+    private void setAppIcon() {
+        java.net.URL iconURL = getClass().getResource("/images/logo.png");
+        if (iconURL != null) {
+            setIconImage(new javax.swing.ImageIcon(iconURL).getImage());
+        }
     }
     /**
      * @param args the command line arguments

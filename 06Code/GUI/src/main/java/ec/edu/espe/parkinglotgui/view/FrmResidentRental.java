@@ -22,6 +22,7 @@ public class FrmResidentRental extends javax.swing.JFrame {
      */
     public FrmResidentRental(String residentId) {
         initComponents();
+        setAppIcon();
         this.currentResidentId = residentId;
         this.rentalController = new ResidentRentalController();
         initializeView();
@@ -809,6 +810,12 @@ public class FrmResidentRental extends javax.swing.JFrame {
         }
     }
 
+    private void setAppIcon() {
+        java.net.URL iconURL = getClass().getResource("/images/logo.png");
+        if (iconURL != null) {
+            setIconImage(new javax.swing.ImageIcon(iconURL).getImage());
+        }
+    }
     /**
      * @param args the command line arguments
      */

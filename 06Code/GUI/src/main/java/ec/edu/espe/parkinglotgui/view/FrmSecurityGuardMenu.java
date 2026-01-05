@@ -14,6 +14,7 @@ public class FrmSecurityGuardMenu extends javax.swing.JFrame {
     public FrmSecurityGuardMenu() {
         initComponents();
         loadLogo();
+        setAppIcon();  
     }
 
     /**
@@ -223,6 +224,12 @@ public class FrmSecurityGuardMenu extends javax.swing.JFrame {
         }
     }
     
+    private void setAppIcon() {
+        java.net.URL iconURL = getClass().getResource("/images/logo.png");
+        if (iconURL != null) {
+            setIconImage(new javax.swing.ImageIcon(iconURL).getImage());
+        }
+    }
     /**
      * @param args the command line arguments
      */

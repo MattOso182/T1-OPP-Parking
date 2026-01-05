@@ -14,6 +14,7 @@ public class FrmExitVehicle extends javax.swing.JFrame {
     public FrmExitVehicle() {
         initComponents();
         loadParkedVehicles();
+        setAppIcon();
     }
 
     /**
@@ -178,6 +179,7 @@ public class FrmExitVehicle extends javax.swing.JFrame {
     }
     tblParkedVehicles.setModel(model);
 }
+    
     private void btnRegisterExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterExitActionPerformed
     String plate = txtLicensePlate.getText().trim().toUpperCase();
 
@@ -219,12 +221,18 @@ public class FrmExitVehicle extends javax.swing.JFrame {
 
     private void tblParkedVehiclesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblParkedVehiclesMouseClicked
         int fila = tblParkedVehicles.getSelectedRow();
-    if (fila != -1) {
-        String placa = tblParkedVehicles.getValueAt(fila, 0).toString();
-        txtLicensePlate.setText(placa);
-    }
+        if (fila != -1) {
+            String placa = tblParkedVehicles.getValueAt(fila, 0).toString();
+            txtLicensePlate.setText(placa);
+        }
     }//GEN-LAST:event_tblParkedVehiclesMouseClicked
 
+    private void setAppIcon() {
+        java.net.URL iconURL = getClass().getResource("/images/logo.png");
+        if (iconURL != null) {
+            setIconImage(new javax.swing.ImageIcon(iconURL).getImage());
+        }
+    }
     /**
      * @param args the command line arguments
      */

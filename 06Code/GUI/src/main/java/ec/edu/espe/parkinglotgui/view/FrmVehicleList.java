@@ -24,7 +24,7 @@ public class FrmVehicleList extends javax.swing.JFrame {
     public FrmVehicleList() {
         initComponents();
         loadVehicles();
-        
+        setAppIcon();
     }
 
     /**
@@ -253,6 +253,13 @@ public class FrmVehicleList extends javax.swing.JFrame {
             model.addRow(row);
         }
         tblVehicles.setModel(model);
+    }
+    
+    private void setAppIcon() {
+        java.net.URL iconURL = getClass().getResource("/images/logo.png");
+        if (iconURL != null) {
+            setIconImage(new javax.swing.ImageIcon(iconURL).getImage());
+        }
     }
     /**
      * @param args the command line arguments
