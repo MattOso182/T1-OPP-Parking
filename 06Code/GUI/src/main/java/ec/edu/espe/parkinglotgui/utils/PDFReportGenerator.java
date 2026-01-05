@@ -4,6 +4,7 @@ package ec.edu.espe.parkinglotgui.utils;
  *
  * @author T.A.P. (The Art of Programming), @ESPE
  */
+
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.colors.ColorConstants;
@@ -16,18 +17,40 @@ import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.UnitValue;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import java.io.InputStream;
+import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class PDFReportGenerator {
+
     public static void generateVehiclesReport(JTable table) {
+        generateReport(table, "Reporte");
+    }
+
+    public static void generateReport(JTable table, String reportType) {
 
         try {
-            String fileName = "Reporte" +
+            String defaultFileName = "Reporte_" + reportType + "_" +
                     LocalDate.now().format(DateTimeFormatter.ISO_DATE) + ".pdf";
 
-            PdfWriter writer = new PdfWriter(fileName);
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Guardar reporte PDF");
+            fileChooser.setSelectedFile(new File(defaultFileName));
+
+            int userSelection = fileChooser.showSaveDialog(null);
+            if (userSelection != JFileChooser.APPROVE_OPTION) {
+                return; 
+            }
+
+            File fileToSave = fileChooser.getSelectedFile();
+            if (!fileToSave.getName().toLowerCase().endsWith(".pdf")) {
+                fileToSave = new File(fileToSave.getAbsolutePath() + ".pdf");
+            }
+
+            PdfWriter writer = new PdfWriter(fileToSave.getAbsolutePath());
             PdfDocument pdf = new PdfDocument(writer);
             Document document = new Document(pdf);
 
@@ -42,45 +65,39 @@ public class PDFReportGenerator {
                 document.add(logo);
             }
 
-           
-            Paragraph title = new Paragraph("Sistema de Parqueo - Reporte")
+            Paragraph title = new Paragraph("Sistema de Parqueo - " + reportType)
                     .setFontSize(18)
                     .setBold()
                     .setTextAlignment(TextAlignment.CENTER);
-
             document.add(title);
 
-          
-            Paragraph date = new Paragraph("Generated on: " + LocalDate.now())
-                    .setTextAlignment(TextAlignment.CENTER)
-                    .setFontSize(10);
-
+            Paragraph date = new Paragraph("Generado el: " + LocalDate.now())
+                    .setFontSize(10)
+                    .setTextAlignment(TextAlignment.CENTER);
             document.add(date);
             document.add(new Paragraph("\n"));
 
-         
             TableModel model = table.getModel();
             int columns = model.getColumnCount();
 
             Table pdfTable = new Table(UnitValue.createPercentArray(columns))
                     .useAllAvailableWidth();
 
-          
             for (int i = 0; i < columns; i++) {
-                Cell header = new Cell()
-                        .add(new Paragraph(model.getColumnName(i)))
-                        .setBackgroundColor(ColorConstants.LIGHT_GRAY)
-                        .setBold()
-                        .setTextAlignment(TextAlignment.CENTER);
-                pdfTable.addHeaderCell(header);
+                pdfTable.addHeaderCell(
+                        new Cell()
+                                .add(new Paragraph(model.getColumnName(i)))
+                                .setBackgroundColor(ColorConstants.LIGHT_GRAY)
+                                .setBold()
+                                .setTextAlignment(TextAlignment.CENTER)
+                );
             }
 
             for (int row = 0; row < model.getRowCount(); row++) {
                 for (int col = 0; col < columns; col++) {
-                    Object value = model.getValueAt(row, col);
                     pdfTable.addCell(
                             new Cell()
-                                    .add(new Paragraph(String.valueOf(value)))
+                                    .add(new Paragraph(String.valueOf(model.getValueAt(row, col))))
                                     .setTextAlignment(TextAlignment.CENTER)
                     );
                 }
@@ -89,18 +106,17 @@ public class PDFReportGenerator {
             document.add(pdfTable);
             document.close();
 
-            javax.swing.JOptionPane.showMessageDialog(
+            JOptionPane.showMessageDialog(
                     null,
-                    "PDF generated successfully:\n" + fileName
+                    "PDF generado correctamente en:\n" + fileToSave.getAbsolutePath()
             );
 
         } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(
+            JOptionPane.showMessageDialog(
                     null,
-                    "Error generating PDF: " + e.getMessage()
+                    "Error generando archivo PDF: " + e.getMessage()
             );
             e.printStackTrace();
         }
     }
-
 }

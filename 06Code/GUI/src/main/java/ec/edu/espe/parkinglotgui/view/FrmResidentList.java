@@ -75,8 +75,11 @@ private void loadResidentData() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        residentList.setFont(new java.awt.Font("Eras Demi ITC", 0, 36)); // NOI18N
-        residentList.setText("Lista de Residentes");
+        jPanel1.setBackground(new java.awt.Color(15, 54, 83));
+
+        residentList.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+        residentList.setForeground(new java.awt.Color(255, 255, 255));
+        residentList.setText("LISTA DE RESIDENTES");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -85,14 +88,14 @@ private void loadResidentData() {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(residentList)
-                .addGap(166, 166, 166))
+                .addGap(200, 200, 200))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(42, 42, 42)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(32, Short.MAX_VALUE)
                 .addComponent(residentList)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addGap(29, 29, 29))
         );
 
         listResident.setModel(new javax.swing.table.DefaultTableModel(
@@ -141,6 +144,7 @@ private void loadResidentData() {
                 .addGap(109, 109, 109))
         );
 
+        addResident.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         addResident.setText("Agregar");
         addResident.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -148,6 +152,7 @@ private void loadResidentData() {
             }
         });
 
+        editResident.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         editResident.setText("Editar");
         editResident.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -155,6 +160,7 @@ private void loadResidentData() {
             }
         });
 
+        deleteResident.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         deleteResident.setText("Eliminar");
         deleteResident.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

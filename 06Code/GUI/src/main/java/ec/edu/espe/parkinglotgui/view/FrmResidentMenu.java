@@ -18,35 +18,12 @@ public class FrmResidentMenu extends javax.swing.JFrame {
         this.currentResidentId = residentId;
         this.residentController = new ResidentController();
         this.setLocationRelativeTo(null);
-        displayWelcomeMessage();
+        loadLogo();
+        loadResidentName();
     }
 
     public FrmResidentMenu() {
         this(null);
-    }
-
-    private void displayWelcomeMessage() {
-        if (currentResidentId == null || currentResidentId.trim().isEmpty()) {
-            lblWelcome.setText("Bienvenido al sistema");
-            return;
-        }
-
-        String residentName = getResidentName(currentResidentId);
-
-        if (residentName != null && !residentName.isEmpty()) {
-            lblWelcome.setText("¡Bienvenido, " + residentName + "!");
-        } else {
-            lblWelcome.setText("¡Bienvenido, residente " + currentResidentId + "!");
-        }
-    }
-
-    private String getResidentName(String residentId) {
-        try {
-            Resident resident = residentController.searchResidentById(residentId);
-            return resident != null ? resident.getName() : null;
-        } catch (Exception e) {
-            return null;
-        }
     }
 
     /**
@@ -58,7 +35,11 @@ public class FrmResidentMenu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblWelcome = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        lblLogo = new javax.swing.JLabel();
+        lblResidentName = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -67,6 +48,51 @@ public class FrmResidentMenu extends javax.swing.JFrame {
         itemPayRent = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("BIENVENIDO");
+
+        jLabel2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("¡ES UN GUSTO TENERTE AQUÍ NUEVAMENTE!");
+
+        lblResidentName.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        lblResidentName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblResidentName.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(62, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(51, 51, 51))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(76, 76, 76))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblResidentName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(147, 147, 147))))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblResidentName, javax.swing.GroupLayout.DEFAULT_SIZE, 18, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
 
         jMenu1.setText("Configuracion");
 
@@ -94,17 +120,17 @@ public class FrmResidentMenu extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(69, Short.MAX_VALUE)
-                .addComponent(lblWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(45, 45, 45)
-                .addComponent(lblWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(168, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -125,6 +151,41 @@ public class FrmResidentMenu extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void loadLogo() {
+        try {
+            java.net.URL imageUrl = getClass().getResource("/images/logo.png");
+            if (imageUrl != null) {
+                javax.swing.ImageIcon icon = new javax.swing.ImageIcon(imageUrl);
+
+                java.awt.Image scaledImage = icon.getImage().getScaledInstance(
+                        240, 212, java.awt.Image.SCALE_SMOOTH
+                );
+
+                lblLogo.setIcon(new javax.swing.ImageIcon(scaledImage));
+            }
+        } catch (Exception e) {
+            System.out.println("Error cargando logo: " + e.getMessage());
+        }
+    }
+    
+    private void loadResidentName() {
+        if (currentResidentId == null) {
+            lblResidentName.setText("Usuario");
+            return;
+        }
+
+        try {
+            Resident resident = residentController.searchResidentById(currentResidentId);
+            if (resident != null) {
+                lblResidentName.setText(resident.getName());
+            } else {
+                lblResidentName.setText("Usuario");
+            }
+        } catch (Exception e) {
+            lblResidentName.setText("Usuario");
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -154,10 +215,14 @@ public class FrmResidentMenu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem itemPayRent;
     private javax.swing.JMenuItem itemReturnMenu;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JLabel lblWelcome;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblLogo;
+    private javax.swing.JLabel lblResidentName;
     // End of variables declaration//GEN-END:variables
 }

@@ -111,7 +111,10 @@ public class FrmResident extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setBackground(new java.awt.Color(15, 54, 83));
+
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("REGISTRO DE RESIDENTES");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -131,34 +134,43 @@ public class FrmResident extends javax.swing.JFrame {
                 .addGap(16, 16, 16))
         );
 
+        jLabel2.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jLabel2.setText("Nombre:");
 
+        jLabel3.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jLabel3.setText("N° de Apartamento:");
 
+        jLabel4.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jLabel4.setText("Email:");
 
+        jLabel5.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jLabel5.setText("Teléfono:");
 
+        txtName.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         txtName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNameActionPerformed(evt);
             }
         });
 
+        txtEmail.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         txtEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtEmailActionPerformed(evt);
             }
         });
 
+        txtCellphone.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         txtCellphone.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCellphoneActionPerformed(evt);
             }
         });
 
+        jLabel6.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jLabel6.setText("Tipo de Usuario:");
 
+        cmbUserType.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         cmbUserType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar tipo...", "WITH_PARKING", "ROTATING" }));
         cmbUserType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -166,6 +178,7 @@ public class FrmResident extends javax.swing.JFrame {
             }
         });
 
+        txtApartmentNumber.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         txtApartmentNumber.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtApartmentNumberActionPerformed(evt);
@@ -193,16 +206,15 @@ public class FrmResident extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(lblUserTypeError, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(lblCellphoneError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblEmailError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblApartmentError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblNameError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtCellphone)
-                        .addComponent(txtEmail)
-                        .addComponent(txtApartmentNumber)
-                        .addComponent(txtName)
-                        .addComponent(cmbUserType, javax.swing.GroupLayout.Alignment.TRAILING, 0, 249, Short.MAX_VALUE)))
+                    .addComponent(lblCellphoneError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblEmailError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblApartmentError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblNameError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtCellphone)
+                    .addComponent(txtEmail)
+                    .addComponent(txtApartmentNumber)
+                    .addComponent(txtName)
+                    .addComponent(cmbUserType, javax.swing.GroupLayout.Alignment.TRAILING, 0, 249, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -241,8 +253,10 @@ public class FrmResident extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jLabel7.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jLabel7.setText("Espacio de Parqueadero: ");
 
+        cmbParkingSpace.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         cmbParkingSpace.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbParkingSpaceActionPerformed(evt);
@@ -274,6 +288,7 @@ public class FrmResident extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        btnSaveResident.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         btnSaveResident.setText("Guardar");
         btnSaveResident.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -281,6 +296,7 @@ public class FrmResident extends javax.swing.JFrame {
             }
         });
 
+        btnAddVehicle.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         btnAddVehicle.setText("Agregar Vehículo");
         btnAddVehicle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -288,6 +304,7 @@ public class FrmResident extends javax.swing.JFrame {
             }
         });
 
+        btnAuthorizeVisitor.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         btnAuthorizeVisitor.setText("Autorizar Visitante");
         btnAuthorizeVisitor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

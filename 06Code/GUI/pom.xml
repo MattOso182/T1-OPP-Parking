@@ -47,6 +47,11 @@
             <version>7.2.5</version>
             <type>pom</type>
         </dependency>
+        <dependency>
+            <groupId>org.netbeans.external</groupId>
+            <artifactId>AbsoluteLayout</artifactId>
+            <version>RELEASE270</version>
+        </dependency>
     </dependencies>
     
     <build>
