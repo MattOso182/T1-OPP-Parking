@@ -7,24 +7,22 @@ package ec.edu.espe.parkinglotgui.controller;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import ec.edu.espe.parkinglotgui.model.Zone;
-import ec.edu.espe.parkinglotgui.utils.MongoConnectionZones;
+import ec.edu.espe.parkinglotgui.utils.MongoDBConnection;
 import org.bson.Document;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class ZoneController {
 
-    private static final String COLLECTION = "Zones";
     private final MongoCollection<Document> collection;
-    private final MongoConnectionZones mongo;
 
     public ZoneController() {
-        mongo = new MongoConnectionZones();
-        collection = mongo.getCollection(COLLECTION);
+        collection = MongoDBConnection
+                .getConnection()
+                .getCollection("Zones");
     }
 
-    public int getNextId() {
+    private int getNextId() {
         Document last = collection.find()
                 .sort(new Document("id", -1))
                 .first();
@@ -36,8 +34,13 @@ public class ZoneController {
         if (capacity <= 0) return false;
 
         int id = getNextId();
-        Zone zone = new Zone(id, type, capacity);
-        collection.insertOne(zone.toDocument());
+
+        Document zone = new Document()
+                .append("id", id)
+                .append("type", type)
+                .append("capacity", capacity);
+
+        collection.insertOne(zone);
         return true;
     }
 
@@ -46,15 +49,22 @@ public class ZoneController {
         MongoCursor<Document> cursor = collection.find().iterator();
 
         while (cursor.hasNext()) {
-            zones.add(Zone.fromDocument(cursor.next()));
+            Document doc = cursor.next();
+            zones.add(new Zone(
+                    doc.getInteger("id"),
+                    doc.getString("type"),
+                    doc.getInteger("capacity")
+            ));
         }
+        cursor.close();
         return zones;
     }
 
     public boolean updateZone(int id, String type, int capacity) {
         Document update = new Document("$set",
                 new Document("type", type)
-                        .append("capacity", capacity));
+                        .append("capacity", capacity)
+        );
 
         return collection.updateOne(
                 new Document("id", id),
@@ -63,8 +73,8 @@ public class ZoneController {
     }
 
     public boolean deleteZone(int id) {
-        return collection.deleteOne(new Document("id", id))
-                .getDeletedCount() > 0;
+        return collection.deleteOne(
+                new Document("id", id)
+        ).getDeletedCount() > 0;
     }
 }
-

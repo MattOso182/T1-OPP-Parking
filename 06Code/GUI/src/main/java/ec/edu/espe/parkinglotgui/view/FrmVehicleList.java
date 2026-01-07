@@ -2,7 +2,6 @@ package ec.edu.espe.parkinglotgui.view;
 
 import ec.edu.espe.parkinglotgui.controller.VehicleEntryController;
 import ec.edu.espe.parkinglotgui.model.Vehicle;
-import ec.edu.espe.parkinglotgui.model.VehicleDAO;
 import ec.edu.espe.parkinglotgui.utils.PDFReportGenerator;
 import javax.swing.table.DefaultTableModel;
 
@@ -11,7 +10,6 @@ import javax.swing.table.DefaultTableModel;
  * @author T.A.P. (The Art of Programming), @ESPE
  */
 public class FrmVehicleList extends javax.swing.JFrame {
-    private final VehicleDAO vehicleDAO = new VehicleDAO();
    
     private final String[] columns = {
         "ID de Propietario", "Nombre del Propietario", "Placa", "Color", "Modelo", "Parqueado"

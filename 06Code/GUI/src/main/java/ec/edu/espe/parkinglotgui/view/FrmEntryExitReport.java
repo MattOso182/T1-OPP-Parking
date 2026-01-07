@@ -1,7 +1,8 @@
 package ec.edu.espe.parkinglotgui.view;
 
 import com.mongodb.client.MongoCollection;
-import ec.edu.espe.parkinglotgui.utils.MongoConnectionEntrances;
+import ec.edu.espe.parkinglotgui.controller.EntryExitController;
+import ec.edu.espe.parkinglotgui.utils.MongoDBConnection;
 import org.bson.Document;
 import ec.edu.espe.parkinglotgui.utils.PDFReportGenerator;
 
@@ -230,30 +231,21 @@ public class FrmEntryExitReport extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void loadEntryExitData() {
-        MongoConnectionEntrances connection = new MongoConnectionEntrances();
-        MongoCollection<Document> collection = connection.getCollection("Entrances");
+        EntryExitController controller = new EntryExitController();
 
-        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tblEntryExitReport.getModel();
+        javax.swing.table.DefaultTableModel model =
+                (javax.swing.table.DefaultTableModel) tblEntryExitReport.getModel();
         model.setRowCount(0);
 
-        for (Document doc : collection.find()) {
+        for (Document doc : controller.getAllRecords()) {
             String id = doc.getObjectId("_id").toHexString();
-            String licensePlate = doc.getString("licensePlate");
+            String plate = doc.getString("licensePlate");
             String status = doc.getString("status");
-            String entryTime = "";
-            String exitTime = "";
+            String entry = doc.containsKey("entryTime") ? doc.get("entryTime").toString() : "";
+            String exit = doc.containsKey("exitTime") ? doc.get("exitTime").toString() : "";
 
-            if (doc.containsKey("entryTime")) {
-                entryTime = doc.get("entryTime").toString();
-            }
-            if (doc.containsKey("exitTime")) {
-                exitTime = doc.get("exitTime").toString();
-            }
-
-            model.addRow(new Object[]{id, licensePlate, entryTime, exitTime, status});
+            model.addRow(new Object[]{id, plate, entry, exit, status});
         }
-
-        connection.closeConnection();
     }
     
     private void setAppIcon() {

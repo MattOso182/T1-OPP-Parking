@@ -11,13 +11,20 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.result.UpdateResult;
 import ec.edu.espe.parkinglotgui.utils.MongoDBConnection;
+import java.awt.GridLayout;
 import org.bson.Document;
-
+import javax.swing.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class ResidentController {
 
@@ -449,4 +456,119 @@ public class ResidentController {
             return false;
         }
     }
+    
+    public boolean addResident(String name, String apartment, String phone) {
+        return addResident(name, apartment, phone, null, false);
+    }
+
+    public boolean deleteResident(String residentId) {
+        residentId = cleanField(residentId);
+        return collection.deleteOne(new Document("residentID", residentId)).getDeletedCount() > 0;
+    }
+    
+    public void editResident(String residentId) {
+        residentId = cleanField(residentId);
+
+        Document resident = collection.find(new Document("residentID", residentId)).first();
+        if (resident == null) return;
+
+        JTextField nameField = new JTextField(resident.getString("name"));
+        JTextField phoneField = new JTextField(resident.getString("phone"));
+
+        String[] apartments = {
+            "A-101","A-102","A-103",
+            "B-201","B-202","B-203",
+            "C-301","C-302","C-303",
+            "D-401","D-402","D-403"
+        };
+
+        JComboBox<String> aptCombo = new JComboBox<>(apartments);
+        aptCombo.setSelectedItem(resident.getString("apartmentNumber"));
+
+        JCheckBox rentalCheck = new JCheckBox("Renta activa");
+        rentalCheck.setSelected(resident.getBoolean("activeRental", false));
+
+        JPanel panel = new JPanel(new GridLayout(0, 2, 5, 5));
+        panel.add(new JLabel("Nombre:"));
+        panel.add(nameField);
+        panel.add(new JLabel("Apartamento:"));
+        panel.add(aptCombo);
+        panel.add(new JLabel("Celular:"));
+        panel.add(phoneField);
+        panel.add(new JLabel("Renta activa:"));
+        panel.add(rentalCheck);
+
+        int result = JOptionPane.showConfirmDialog(
+                null,
+                panel,
+                "Editar Residente",
+                JOptionPane.OK_CANCEL_OPTION
+        );
+
+        if (result != JOptionPane.OK_OPTION) return;
+
+        Document update = new Document("$set",
+                new Document("name", nameField.getText().trim())
+                        .append("apartmentNumber", aptCombo.getSelectedItem())
+                        .append("phone", phoneField.getText().trim())
+                        .append("activeRental", rentalCheck.isSelected())
+        );
+
+        collection.updateOne(new Document("residentID", residentId), update);
+    }
+
+    private String generateNextResidentId() {
+        int max = 0;
+
+        for (Document doc : collection.find()) {
+            if (doc.containsKey("residents")) {
+                for (Document r : doc.getList("residents", Document.class)) {
+                    String id = r.getString("residentID");
+                    if (id != null && id.startsWith("RES-")) {
+                        int num = Integer.parseInt(id.replace("RES-", ""));
+                        max = Math.max(max, num);
+                    }
+                }
+            } else {
+                String id = doc.getString("residentID");
+                if (id != null && id.startsWith("RES-")) {
+                    int num = Integer.parseInt(id.replace("RES-", ""));
+                    max = Math.max(max, num);
+                }
+            }
+        }
+
+        return "RES-" + String.format("%03d", max + 1);
+    }
+
+    public boolean addResident(String name, String apartment, String phone, String plate, boolean hasParking) {
+
+        String residentId = generateNextResidentId();
+
+        List<Document> vehicles = new ArrayList<>();
+
+        if (plate != null && !plate.isEmpty()) {
+            vehicles.add(new Document()
+                    .append("plate", plate)
+                    .append("color", "")
+                    .append("model", "")
+                    .append("ownerId", residentId)
+                    .append("isParked", false));
+        }
+
+        Document residentDoc = new Document()
+                .append("residentID", residentId)
+                .append("name", cleanField(name))
+                .append("apartmentNumber", cleanField(apartment))
+                .append("phone", cleanField(phone))
+                .append("vehicles", vehicles);
+
+        if (hasParking) {
+            residentDoc.append("currentRental", null);
+        }
+
+        collection.insertOne(residentDoc);
+        return true;
+    }
+
 }

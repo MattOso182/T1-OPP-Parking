@@ -1,7 +1,9 @@
 package ec.edu.espe.parkinglotgui.view;
 
 import com.mongodb.client.MongoCollection;
-import ec.edu.espe.parkinglotgui.utils.MongoConnectionResidents;
+import ec.edu.espe.parkinglotgui.utils.MongoDBConnection;
+import ec.edu.espe.parkinglotgui.controller.ParkingSpaceController;
+import ec.edu.espe.parkinglotgui.controller.ResidentController;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -422,10 +424,8 @@ public class FrmResident extends javax.swing.JFrame {
         cmbParkingSpace.addItem("Seleccionar espacio...");
 
         if ("WITH_PARKING".equals(selectedType)) {
-            ec.edu.espe.parkinglotgui.model.ParkingSpaceDAO parkingSpaceDAO =
-                    new ec.edu.espe.parkinglotgui.model.ParkingSpaceDAO();
-
-            java.util.List<String> spaces = parkingSpaceDAO.getAvailableResidentSpaces();
+            ParkingSpaceController controller = new ParkingSpaceController();
+            List<String> spaces = controller.getAvailableSpaces();
 
             for (String space : spaces) {
                 cmbParkingSpace.addItem(space);
@@ -549,6 +549,7 @@ public class FrmResident extends javax.swing.JFrame {
             lblCellphoneError.setText("");
         }
     }//GEN-LAST:event_txtCellphoneActionPerformed
+    
     private final java.util.List<String> authorizedVisitors = new java.util.ArrayList<>();
     private void btnSaveResidentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveResidentActionPerformed
         // TODO add your handling code here: 
@@ -565,39 +566,28 @@ public class FrmResident extends javax.swing.JFrame {
             javax.swing.JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.");
             return;
         }
+        
+        ResidentController controller = new ResidentController();
 
-        MongoConnectionResidents connection = new MongoConnectionResidents();
-        MongoCollection<Document> collection = connection.getCollection("Residents");
+        controller.addResident(
+                name,
+                apartmentNumber,
+                phone,
+                vehicles.isEmpty() ? null : vehicles.get(0).getString("plate"),
+                "WITH_PARKING".equals(userType)
+        );
 
-        String residentID = generateNextResidentId(collection);
+        JOptionPane.showMessageDialog(this, "Residente guardado correctamente");
 
-        Document resident = new Document()
-                .append("residentID", residentID)
-                .append("name", name)
-                .append("apartmentNumber", apartmentNumber)
-                .append("email", email)
-                .append("phone", phone)
-                .append("userType", userType)
-                .append("assignedParkingSpace", assignedParkingSpace)
-                .append("vehicles", new ArrayList<>(vehicles))
-                .append("authorizedVisitors", new ArrayList<>(authorizedVisitors));
+        vehicles.clear();
+        authorizedVisitors.clear();
+        txtName.setText("");
+        txtApartmentNumber.setText("");
+        txtEmail.setText("");
+        txtCellphone.setText("");
+        cmbUserType.setSelectedIndex(0);
+        cmbParkingSpace.setSelectedIndex(0);
 
-        try {
-            collection.insertOne(resident);
-            javax.swing.JOptionPane.showMessageDialog(this, "Residente guardado correctamente con ID: " + residentID);
-            vehicles.clear();
-            authorizedVisitors.clear();
-            txtName.setText("");
-            txtApartmentNumber.setText("");
-            txtEmail.setText("");
-            txtCellphone.setText("");
-            cmbUserType.setSelectedIndex(0);
-            cmbParkingSpace.setSelectedIndex(0);
-        } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Error al guardar residente: " + e.getMessage());
-        } finally {
-            connection.closeConnection();
-        }
     }//GEN-LAST:event_btnSaveResidentActionPerformed
 
     private List<String> authorizedVisitorsList = new ArrayList<>();
@@ -620,24 +610,6 @@ public class FrmResident extends javax.swing.JFrame {
         authorizedVisitorsList.add(visitorID);
         JOptionPane.showMessageDialog(this, "Visitante autorizado: " + visitorID);
     }//GEN-LAST:event_btnAuthorizeVisitorActionPerformed
-
-    private String generateNextResidentId(com.mongodb.client.MongoCollection<org.bson.Document> collection) {
-        org.bson.Document lastResident = collection
-                .find()
-                .sort(new org.bson.Document("residentID", -1))
-                .limit(1)
-                .first();
-
-        if (lastResident == null || lastResident.getString("residentID") == null) {
-            return "RES-001";
-        }
-
-        String lastId = lastResident.getString("residentID");
-        int number = Integer.parseInt(lastId.split("-")[1]);
-        number++;
-
-        return String.format("RES-%03d", number);
-    }
     
     private void setAppIcon() {
         java.net.URL iconURL = getClass().getResource("/images/logo.png");
@@ -645,6 +617,7 @@ public class FrmResident extends javax.swing.JFrame {
             setIconImage(new javax.swing.ImageIcon(iconURL).getImage());
         }
     }
+    
     /**
      * @param args the command line arguments
      */
