@@ -29,7 +29,6 @@ public class FrmVisitorReport extends javax.swing.JFrame {
 
     DefaultTableModel model = (DefaultTableModel) tblVisitors.getModel();
     model.setRowCount(0);
- tabla
 
     VisitorController visitorController = new VisitorController();
     List<Visitor> visitors = visitorController.getAllVisitors();

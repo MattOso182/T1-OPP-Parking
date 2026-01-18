@@ -11,7 +11,6 @@ import java.util.List;
  * @author Arelis Samantha Bonilla Cruz, Student, @ESPE
  */
 public class EntryExitController {
-
     private MongoCollection<Document> collection;
 
     public EntryExitController() {
@@ -23,8 +22,10 @@ public class EntryExitController {
 
     public List<Document> getAllRecords() {
         List<Document> records = new ArrayList<>();
-        for (Document doc : collection.find()) {
-            records.add(doc);
+        if (collection != null) {
+            for (Document doc : collection.find()) {
+                records.add(doc);
+            }
         }
         return records;
     }

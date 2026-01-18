@@ -17,3 +17,4 @@ dist/
 .DS_Store
 Thumbs.db
 /05UnitTests/ParkingControlSystem/nbproject/
+/06Code/GUI/nbproject/
