@@ -1,32 +1,21 @@
 package ec.edu.espe.parkinglotgui.controller;
 
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import ec.edu.espe.parkinglotgui.utils.MongoDBConnection;
+import ec.edu.espe.parkinglotgui.repository.EntryExitRepository; 
 import org.bson.Document;
-import java.util.ArrayList;
 import java.util.List;
+
 /**
- *
  * @author Arelis Samantha Bonilla Cruz, Student, @ESPE
  */
 public class EntryExitController {
-    private MongoCollection<Document> collection;
+    
+    private final EntryExitRepository repository;
 
     public EntryExitController() {
-        MongoDatabase db = MongoDBConnection.getConnection();
-        if (db != null) {
-            collection = db.getCollection("Entrances");
-        }
+        this.repository = new EntryExitRepository();
     }
 
     public List<Document> getAllRecords() {
-        List<Document> records = new ArrayList<>();
-        if (collection != null) {
-            for (Document doc : collection.find()) {
-                records.add(doc);
-            }
-        }
-        return records;
+        return repository.findAll();
     }
 }

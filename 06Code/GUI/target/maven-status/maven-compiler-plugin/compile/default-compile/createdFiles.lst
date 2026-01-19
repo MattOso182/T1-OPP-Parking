@@ -4,8 +4,10 @@ ec\edu\espe\parkinglotgui\view\FrmResident$5.class
 ec\edu\espe\parkinglotgui\view\FrmResidentList$2.class
 ec\edu\espe\parkinglotgui\view\FrmBlockList$3.class
 ec\edu\espe\parkinglotgui\utils\PDFReportGenerator.class
+ec\edu\espe\parkinglotgui\repository\UserRepository.class
 ec\edu\espe\parkinglotgui\view\FrmResident$2.class
 ec\edu\espe\parkinglotgui\view\FrmVisitor$2.class
+ec\edu\espe\parkinglotgui\repository\VehicleRepository.class
 ec\edu\espe\parkinglotgui\view\FrmExitVehicle$2.class
 ec\edu\espe\parkinglotgui\model\Block.class
 ec\edu\espe\parkinglotgui\view\FrmVisitor$5.class
@@ -22,6 +24,7 @@ ec\edu\espe\parkinglotgui\view\FrmEntryVehicle$2.class
 ec\edu\espe\parkinglotgui\view\FrmEntryExitReport$2.class
 ec\edu\espe\parkinglotgui\view\FrmResidentList.class
 ec\edu\espe\parkinglotgui\view\FrmLogin$8.class
+ec\edu\espe\parkinglotgui\repository\EntryExitRepository.class
 ec\edu\espe\parkinglotgui\view\FrmEntryVehicle.class
 ec\edu\espe\parkinglotgui\controller\ZoneController.class
 ec\edu\espe\parkinglotgui\view\FrmResidentList$4.class
@@ -32,6 +35,7 @@ ec\edu\espe\parkinglotgui\view\FrmVisitorReport$4.class
 ec\edu\espe\parkinglotgui\view\FrmResident$7.class
 ec\edu\espe\parkinglotgui\view\FrmLogin.class
 ec\edu\espe\parkinglotgui\view\FrmExitVehicle$3.class
+ec\edu\espe\parkinglotgui\model\ParkingPriceStrategy.class
 ec\edu\espe\parkinglotgui\view\FrmLogin$4.class
 ec\edu\espe\parkinglotgui\view\FrmBlockForm$2.class
 ec\edu\espe\parkinglotgui\view\FrmBlockList$2.class
@@ -47,6 +51,7 @@ ec\edu\espe\parkinglotgui\view\FrmEntryExitReport$3.class
 ec\edu\espe\parkinglotgui\view\FrmVisitor.class
 ec\edu\espe\parkinglotgui\controller\ResidentController.class
 ec\edu\espe\parkinglotgui\view\FrmResident$11.class
+ec\edu\espe\parkinglotgui\repository\ParkingSpaceRepository.class
 ec\edu\espe\parkinglotgui\view\FrmBlockList.class
 ec\edu\espe\parkinglotgui\view\FrmBlockForm$1.class
 ec\edu\espe\parkinglotgui\view\FrmResidentMenu.class
@@ -61,6 +66,7 @@ ec\edu\espe\parkinglotgui\view\FrmResident$10.class
 ec\edu\espe\parkinglotgui\view\FrmZoneForm.class
 ec\edu\espe\parkinglotgui\view\FrmParkingSplash$3.class
 ec\edu\espe\parkinglotgui\model\Visitor.class
+ec\edu\espe\parkinglotgui\repository\ResidentRepository.class
 ec\edu\espe\parkinglotgui\view\FrmEntryExitReport.class
 ec\edu\espe\parkinglotgui\view\FrmResident$9.class
 ec\edu\espe\parkinglotgui\controller\VehicleExitController.class
@@ -82,6 +88,7 @@ ec\edu\espe\parkinglotgui\view\FrmVisitor$4.class
 ec\edu\espe\parkinglotgui\view\FrmZoneList.class
 ec\edu\espe\parkinglotgui\view\FrmVehicleList$3.class
 ec\edu\espe\parkinglotgui\view\FrmExitVehicle$1.class
+ec\edu\espe\parkinglotgui\repository\BlockRepository.class
 ec\edu\espe\parkinglotgui\view\FrmVisitor$1.class
 ec\edu\espe\parkinglotgui\view\FrmBlockList$1.class
 ec\edu\espe\parkinglotgui\view\FrmParkingSplash.class
@@ -90,6 +97,7 @@ ec\edu\espe\parkinglotgui\view\FrmLogin$7.class
 ec\edu\espe\parkinglotgui\view\FrmVisitorReport.class
 ec\edu\espe\parkinglotgui\view\FrmZoneForm$1.class
 ec\edu\espe\parkinglotgui\view\FrmEntryVehicle$4.class
+ec\edu\espe\parkinglotgui\model\ResidentParkingPrice.class
 ec\edu\espe\parkinglotgui\view\FrmZoneList$3.class
 ec\edu\espe\parkinglotgui\view\FrmVisitorReport$1.class
 ec\edu\espe\parkinglotgui\view\FrmResident$4.class
