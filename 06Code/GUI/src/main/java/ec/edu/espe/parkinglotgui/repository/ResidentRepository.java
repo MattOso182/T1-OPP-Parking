@@ -5,24 +5,26 @@ import com.mongodb.client.MongoDatabase;
 import ec.edu.espe.parkinglotgui.model.Resident;
 import ec.edu.espe.parkinglotgui.model.Rental;
 import ec.edu.espe.parkinglotgui.model.Vehicle;
-import ec.edu.espe.parkinglotgui.utils.MongoDBConnection; 
+import ec.edu.espe.parkinglotgui.utils.MongoDBConnection;
 import java.text.SimpleDateFormat;
 import org.bson.Document;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public class ResidentRepository {
+
     private MongoCollection<Document> collection;
 
     public ResidentRepository() {
-        MongoDatabase database = MongoDBConnection.getConnection(); 
+        MongoDatabase database = MongoDBConnection.getConnection();
         if (database != null) {
-            this.collection = database.getCollection("residents");
+            this.collection = database.getCollection("Residents");
         }
     }
-    
+
     public Resident convertDocumentToResident(Document doc) {
         Resident r = new Resident();
         r.setResidentID(cleanField(doc.getString("residentID")));
@@ -64,9 +66,42 @@ public class ResidentRepository {
     }
 
     public Resident findById(String residentId) {
-        Document doc = collection.find(new Document("residents.residentID", residentId)).first();
-        return (doc != null) ? convertDocumentToResident(doc) : null;
+        try {
+            if (residentId == null || residentId.trim().isEmpty()) {
+                return null;
+            }
+
+            residentId = cleanField(residentId);
+            System.out.println("Buscando residente con ID limpio: '" + residentId + "'");
+
+            Document query = new Document("residentID", residentId);
+            Document doc = collection.find(query).first();
+
+            if (doc != null) {
+                return convertDocumentToResident(doc);
+            }
+
+            query = new Document("residents.residentID", residentId);
+            doc = collection.find(query).first();
+
+            if (doc != null) {
+                List<Document> residentsList = doc.getList("residents", Document.class);
+
+                for (Document residentDoc : residentsList) {
+                    String currentResidentId = cleanField(residentDoc.getString("residentID"));
+                    if (residentId.equals(currentResidentId)) {
+                        return convertDocumentToResident(residentDoc);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error en findById para ID '" + residentId + "': " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+        return null;
     }
+
     private Rental convertDocumentToRental(Document doc) {
         Rental r = new Rental();
 
@@ -150,14 +185,15 @@ public class ResidentRepository {
 
         return r;
     }
+
     private String cleanField(String field) {
-    if (field == null) {
-        return "";
+        if (field == null) {
+            return "";
+        }
+        field = field.trim();
+        while (field.endsWith(",") || field.endsWith("/")) {
+            field = field.substring(0, field.length() - 1).trim();
+        }
+        return field;
     }
-    field = field.trim();
-    while (field.endsWith(",") || field.endsWith("/")) {
-        field = field.substring(0, field.length() - 1).trim();
-    }
-    return field;
-}
 }

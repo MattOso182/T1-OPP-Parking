@@ -117,7 +117,6 @@ public class ResidentController {
 
             ParkingPriceStrategy pricing = new ResidentParkingPrice(); 
             double totalAmount = pricing.calculateTotal(months); 
-            // -------------------------------------------
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Calendar cal = Calendar.getInstance();

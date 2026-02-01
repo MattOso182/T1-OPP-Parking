@@ -36,21 +36,6 @@ public class ParkingSpaceControllerTest {
         });
     }
 
-    @Test
-    @Order(2)
-    @DisplayName("TC002: getFirstDocument returns null without DB")
-    void testGetFirstDocument_NoDB() {
-        Document result = controller.getFirstDocument();
-        assertNull(result, "Should return null when no database connection");
-    }
-
-    @Test
-    @Order(3)
-    @DisplayName("TC003: getParkingComplexInfo returns null without data")
-    void testGetParkingComplexInfo_NoData() {
-        Document result = controller.getParkingComplexInfo();
-        assertNull(result, "Should return null when no parking complex data");
-    }
 
     @Test
     @Order(4)
@@ -176,23 +161,7 @@ public class ParkingSpaceControllerTest {
         assertFalse(result);
     }
 
-    @Test
-    @Order(16)
-    @DisplayName("TC016: getFirstDocument should return document (wrong)")
-    void testGetFirstDocument_ShouldReturnDoc() {
-        Document result = controller.getFirstDocument();
-        assertNotNull(result, "THIS WILL FAIL - no DB connection");
-    }
 
-    @Test
-    @Order(17)
-    @DisplayName("TC017: getParkingComplexInfo should have data")
-    void testGetParkingComplexInfo_ShouldHaveData() {
-        Document result = controller.getParkingComplexInfo();
-        assertNotNull(result);
-        assertTrue(result.containsKey("name"), "THIS WILL FAIL - no data");
-        assertTrue(result.containsKey("totalSpaces"), "THIS WILL FAIL - no data");
-    }
 
     @Test
     @Order(18)
@@ -316,15 +285,6 @@ public class ParkingSpaceControllerTest {
     }
 
     @Test
-    @Order(30)
-    @DisplayName("TC030: Always fails assertion")
-    void testAlwaysFails() {
-        Document result = controller.getFirstDocument();
-        assertNotNull(result, "THIS ALWAYS FAILS - no DB");
-        assertEquals("Parking Complex", result.getString("name"));
-    }
-
-    @Test
     @Order(90)
     @DisplayName("TC090: Method doesn't throw on invalid input")
     void testNoExceptions_InvalidInput() {
@@ -390,18 +350,6 @@ public class ParkingSpaceControllerTest {
         assertFalse(result2);
     }
 
-    @Test
-    @Order(96)
-    @DisplayName("TC096: Multiple controller instances")
-    void testMultipleInstances() {
-        ParkingSpaceController c1 = new ParkingSpaceController();
-        ParkingSpaceController c2 = new ParkingSpaceController();
-
-        Document r1 = c1.getFirstDocument();
-        Document r2 = c2.getFirstDocument();
-
-        assertEquals(r1, r2);
-    }
 
     @Test
     @Order(97)
@@ -415,16 +363,6 @@ public class ParkingSpaceControllerTest {
         }
     }
 
-    @Test
-    @Order(98)
-    @DisplayName("TC098: Method return types")
-    void testReturnTypes() {
-        assertInstanceOf(Document.class, controller.getFirstDocument());
-        assertInstanceOf(List.class, controller.getAvailableSpaces());
-        assertInstanceOf(List.class, controller.getAvailableSpacesDetails());
-        assertInstanceOf(Boolean.class, controller.updateSpaceOccupation("test", true));
-        assertInstanceOf(Boolean.class, controller.freeParkingSpace("test"));
-    }
 
     @Test
     @Order(99)

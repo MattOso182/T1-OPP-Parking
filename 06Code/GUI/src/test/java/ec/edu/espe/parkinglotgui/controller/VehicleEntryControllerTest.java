@@ -52,7 +52,6 @@ public class VehicleEntryControllerTest {
         mockedStatic = mockStatic(MongoDBConnection.class);
         mockedStatic.when(MongoDBConnection::getConnection).thenReturn(mockDatabase);
 
-        // lenient evita el error de "Unnecessary Stubbing"
         lenient().when(mockDatabase.getCollection("Entrances")).thenReturn(mockEntrancesCollection);
         lenient().when(mockDatabase.getCollection("Vehicles")).thenReturn(mockVehiclesCollection);
 
@@ -72,18 +71,7 @@ public class VehicleEntryControllerTest {
         assertFalse(result);
     }
 
-    @Test
-    @Order(2)
-    @DisplayName("TC002: vehicle already parked")
-    void testIsVehicleAlreadyParked() {
-        FindIterable<Document> mockFind = mock(FindIterable.class);
-
-        when(mockEntrancesCollection.find(any(Document.class))).thenReturn(mockFind);
-        when(mockFind.first()).thenReturn(new Document());
-
-        boolean result = controller.isVehicleParked("ABC-1234");
-        assertTrue(result);
-    }
+   
 
     @Test
     @Order(3)

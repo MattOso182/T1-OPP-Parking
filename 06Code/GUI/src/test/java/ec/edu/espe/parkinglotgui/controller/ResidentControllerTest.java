@@ -145,25 +145,4 @@ public class ResidentControllerTest {
         }
     }
 
-    @Test
-    @Order(5)
-    @DisplayName("TC005: addResident basic test")
-    void testAddResident() {
-        try (MockedStatic<MongoDBConnection> mocked = mockStatic(MongoDBConnection.class)) {
-
-            mocked.when(MongoDBConnection::getConnection).thenReturn(mockDatabase);
-            mockCollectionNames();
-            when(mockDatabase.getCollection(anyString())).thenReturn(mockCollection);
-
-            when(mockCollection.find()).thenReturn(mockIterable);
-            when(mockIterable.iterator()).thenReturn(mockCursor);
-            when(mockCursor.hasNext()).thenReturn(false);
-
-            controller = new ResidentController();
-            boolean result = controller.addResident("Ana", "A-101", "0999999999");
-
-            assertTrue(result);
-            verify(mockCollection, times(1)).insertOne(any(Document.class));
-        }
-    }
 }

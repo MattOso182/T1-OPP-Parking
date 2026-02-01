@@ -7,12 +7,14 @@ import org.bson.Document;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 /**
  *
  * @author T.A.P. (The Art of Programming), @ESPE
  */
 
 public class EntryExitRepository {
+
     private MongoCollection<Document> collection;
 
     public EntryExitRepository() {
@@ -31,24 +33,25 @@ public class EntryExitRepository {
         }
         return records;
     }
-public Document findParkedVehicle(String licensePlate) {
-    return collection.find(new Document("licensePlate", licensePlate)
-            .append("status", "PARKED")).first();
-}
 
-public void saveEntry(Document entry) {
-    collection.insertOne(entry);
-}
+    public Document findParkedVehicle(String licensePlate) {
+        return collection.find(new Document("licensePlate", licensePlate)
+                .append("status", "PARKED")).first();
+    }
 
-public void updateStatus(String licensePlate, String newStatus, Date exitTime) {
-    collection.updateOne(
-        new Document("licensePlate", licensePlate).append("status", "PARKED"),
-        new Document("$set", new Document("status", newStatus).append("exitTime", exitTime))
-    );
-}
+    public void saveEntry(Document entry) {
+        collection.insertOne(entry);
+    }
 
-public boolean isVehicleParked(String licensePlate) {
-    return findParkedVehicle(licensePlate) != null;
-}
+    public void updateStatus(String licensePlate, String newStatus, Date exitTime) {
+        collection.updateOne(
+                new Document("licensePlate", licensePlate).append("status", "PARKED"),
+                new Document("$set", new Document("status", newStatus).append("exitTime", exitTime))
+        );
+    }
+
+    public boolean isVehicleParked(String licensePlate) {
+        return findParkedVehicle(licensePlate) != null;
+    }
 
 }

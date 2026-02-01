@@ -20,7 +20,7 @@ public class FrmResidentMenu extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         loadLogo();
         loadResidentName();
-        setAppIcon();  
+        setAppIcon();
     }
 
     public FrmResidentMenu() {
@@ -169,7 +169,7 @@ public class FrmResidentMenu extends javax.swing.JFrame {
             System.out.println("Error cargando logo: " + e.getMessage());
         }
     }
-    
+
     private void loadResidentName() {
         if (currentResidentId == null) {
             lblResidentName.setText("Usuario");
@@ -177,6 +177,7 @@ public class FrmResidentMenu extends javax.swing.JFrame {
         }
 
         try {
+            ResidentController residentController = new ResidentController();
             Resident resident = residentController.searchResidentById(currentResidentId);
             if (resident != null) {
                 lblResidentName.setText(resident.getName());
@@ -194,6 +195,7 @@ public class FrmResidentMenu extends javax.swing.JFrame {
             setIconImage(new javax.swing.ImageIcon(iconURL).getImage());
         }
     }
+
     /**
      * @param args the command line arguments
      */
