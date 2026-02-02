@@ -114,7 +114,7 @@ public class FrmParkingSplash extends javax.swing.JFrame {
 
         Color textColor = calculateContrastColor(barColor);
 
-        aplicarColorTexto(textColor);
+        applyTextColor(textColor);
 
         progressBar.repaint();
     }
@@ -132,7 +132,7 @@ public class FrmParkingSplash extends javax.swing.JFrame {
         }
     }
 
-    private void aplicarColorTexto(Color textColor) {
+    private void applyTextColor(Color textColor) {
         Color currentBarColor = progressBar.getForeground();
 
         progressBar.setUI(new javax.swing.plaf.basic.BasicProgressBarUI() {
@@ -183,8 +183,6 @@ public class FrmParkingSplash extends javax.swing.JFrame {
         if (lblState != null) {
             lblState.setText(message);
         }
-
-        System.out.println(message);
     }
 
     private void goLoginScreen() {
@@ -230,7 +228,7 @@ public class FrmParkingSplash extends javax.swing.JFrame {
         jLabel2.setText("Multifamiliares Luluncoto ");
 
         jLabel3.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jLabel3.setText("Version 0.8.6 ");
+        jLabel3.setText("Version 0.8.8 ");
 
         jLabel5.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jLabel5.setText("©2025");
