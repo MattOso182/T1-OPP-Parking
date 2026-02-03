@@ -100,7 +100,6 @@
     </dependencies>
 
     <build>
-        <!-- RECURSOS - Deben ir aquí, antes de los plugins -->
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -126,9 +125,13 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <release>${java.version}</release>
                     <encoding>UTF-8</encoding>
+                    <parameters>true</parameters>
+                    <compilerArgs>
+                        <arg>-Xlint:unchecked</arg>
+                        <arg>-Xlint:deprecation</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
 
@@ -148,7 +151,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>${exec.mainClass}</mainClass>
+                            <mainClass>ec.edu.espe.parkinglotgui.view.FrmParkingSplash</mainClass>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
                         </manifest>

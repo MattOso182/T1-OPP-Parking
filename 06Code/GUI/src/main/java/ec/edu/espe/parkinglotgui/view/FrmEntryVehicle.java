@@ -2,6 +2,7 @@ package ec.edu.espe.parkinglotgui.view;
 
 import ec.edu.espe.parkinglotgui.controller.ParkingSpaceController;
 import ec.edu.espe.parkinglotgui.controller.VehicleEntryController;
+import java.awt.Color;
 
 /**
  *
@@ -31,13 +32,13 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        txtLicensePlate = new java.awt.TextField();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSpaces = new javax.swing.JTable();
         txtParkingSpace = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         lblMessage = new javax.swing.JLabel();
+        txtLicensePlate = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         btnRegisterEntry = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -94,8 +95,47 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblSpaces);
 
+        txtParkingSpace.setForeground(new java.awt.Color(153, 153, 153));
+        txtParkingSpace.setText("AZU-A-01");
+        txtParkingSpace.setToolTipText("<html><b>Formato de Espacio de Parqueadero:</b><br>• 3 Letras <br>• Guión (-)<br>• Una letra (Depende del bloque en el que se encuentre)<br>• Guión (-)<br>• Dos numeros<br><i>Ejemplo: AZU-A-01</i></html>");
+        txtParkingSpace.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtParkingSpaceFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtParkingSpaceFocusLost(evt);
+            }
+        });
+        txtParkingSpace.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtParkingSpaceActionPerformed(evt);
+            }
+        });
+
         jLabel4.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jLabel4.setText("Espacios Disponibles");
+
+        txtLicensePlate.setForeground(new java.awt.Color(153, 153, 153));
+        txtLicensePlate.setText("ABC-1234");
+        txtLicensePlate.setToolTipText("<html><b>Formato de Placa:</b><br>• 3 letras<br>• Guión (-)<br>• 4 números<br><i>Ejemplo: ABC-1234</i></html>");
+        txtLicensePlate.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtLicensePlateFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtLicensePlateFocusLost(evt);
+            }
+        });
+        txtLicensePlate.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                txtLicensePlateMouseEntered(evt);
+            }
+        });
+        txtLicensePlate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtLicensePlateActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -109,15 +149,15 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtParkingSpace, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtLicensePlate, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtParkingSpace, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
+                            .addComponent(txtLicensePlate)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(lblMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(25, 25, 25)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(10, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel4)
@@ -132,8 +172,8 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(36, 36, 36)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGap(37, 37, 37)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(txtLicensePlate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
@@ -244,45 +284,45 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
     }
 
     private void btnRegisterEntryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterEntryActionPerformed
-       
+
         String licensePlate = txtLicensePlate.getText().trim().toUpperCase();
-        String spaceId = txtParkingSpace.getText().trim(); 
+        String spaceId = txtParkingSpace.getText().trim();
 
-    if (licensePlate.isEmpty() || spaceId.isEmpty()) {
-        lblMessage.setText("ERROR: Seleccione un espacio e ingrese la placa.");
-        lblMessage.setForeground(java.awt.Color.RED);
-        return;
-    }
-
-    if (!licensePlate.matches("^[A-Z]{3}-\\d{4}$")) {
-        lblMessage.setText("ERROR: Formato de placa inválido (ABC-1234).");
-        lblMessage.setForeground(java.awt.Color.RED);
-        return;
-    }
-
-    int confirm = javax.swing.JOptionPane.showConfirmDialog(this, 
-            "¿Registrar entrada de " + licensePlate + " en espacio " + spaceId + "?",
-            "Confirmar", javax.swing.JOptionPane.YES_NO_OPTION);
-
-    if (confirm == javax.swing.JOptionPane.YES_OPTION) {
-        VehicleEntryController entryController = new VehicleEntryController();
-        
-        boolean success = entryController.registerEntry(licensePlate, spaceId);
-
-        if (success) {
-            lblMessage.setText("¡ENTRADA REGISTRADA!");
-            lblMessage.setForeground(new java.awt.Color(0, 100, 0));
-            
-            txtLicensePlate.setText("");
-            txtParkingSpace.setText("");
-            
-            loadAvailableSpaces(); 
-        } else {
-            lblMessage.setText("ERROR: No se pudo registrar. Verifique si el auto ya entró.");
+        if (licensePlate.isEmpty() || spaceId.isEmpty()) {
+            lblMessage.setText("ERROR: Seleccione un espacio e ingrese la placa.");
             lblMessage.setForeground(java.awt.Color.RED);
+            return;
         }
-    }
-    
+
+        if (!licensePlate.matches("^[A-Z]{3}-\\d{4}$")) {
+            lblMessage.setText("ERROR: Formato de placa inválido (ABC-1234).");
+            lblMessage.setForeground(java.awt.Color.RED);
+            return;
+        }
+
+        int confirm = javax.swing.JOptionPane.showConfirmDialog(this,
+                "¿Registrar entrada de " + licensePlate + " en espacio " + spaceId + "?",
+                "Confirmar", javax.swing.JOptionPane.YES_NO_OPTION);
+
+        if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+            VehicleEntryController entryController = new VehicleEntryController();
+
+            boolean success = entryController.registerEntry(licensePlate, spaceId);
+
+            if (success) {
+                lblMessage.setText("¡ENTRADA REGISTRADA!");
+                lblMessage.setForeground(new java.awt.Color(0, 100, 0));
+
+                txtLicensePlate.setText("");
+                txtParkingSpace.setText("");
+
+                loadAvailableSpaces();
+            } else {
+                lblMessage.setText("ERROR: No se pudo registrar. Verifique si el auto ya entró.");
+                lblMessage.setForeground(java.awt.Color.RED);
+            }
+        }
+
     }//GEN-LAST:event_btnRegisterEntryActionPerformed
 
     private void itemReturnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemReturnMenuActionPerformed
@@ -301,12 +341,53 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tblSpacesMouseClicked
 
+    private void txtParkingSpaceFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtParkingSpaceFocusGained
+        if (txtParkingSpace.getText().equals("AZU-A-01")) {
+            txtParkingSpace.setText("");
+            txtParkingSpace.setForeground(new Color(0, 0, 0));
+        }
+    }//GEN-LAST:event_txtParkingSpaceFocusGained
+
+    private void txtParkingSpaceFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtParkingSpaceFocusLost
+        if (txtParkingSpace.getText().isEmpty()) {
+            txtParkingSpace.setText("AZU-A-01");
+            txtParkingSpace.setForeground(new Color(153, 153, 153)); 
+        }
+    }//GEN-LAST:event_txtParkingSpaceFocusLost
+
+    private void txtParkingSpaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtParkingSpaceActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtParkingSpaceActionPerformed
+
+    private void txtLicensePlateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLicensePlateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtLicensePlateActionPerformed
+
+    private void txtLicensePlateFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtLicensePlateFocusGained
+        if (txtLicensePlate.getText().equals("ABC-1234")) {
+            txtLicensePlate.setText("");
+            txtLicensePlate.setForeground(new Color(0, 0, 0));
+        }
+    }//GEN-LAST:event_txtLicensePlateFocusGained
+
+    private void txtLicensePlateFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtLicensePlateFocusLost
+        if (txtLicensePlate.getText().isEmpty()) {
+            txtLicensePlate.setText("ABC-1234");
+            txtLicensePlate.setForeground(new Color(153, 153, 153)); 
+        }
+    }//GEN-LAST:event_txtLicensePlateFocusLost
+
+    private void txtLicensePlateMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtLicensePlateMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtLicensePlateMouseEntered
+
     private void setAppIcon() {
         java.net.URL iconURL = getClass().getResource("/images/logo.png");
         if (iconURL != null) {
             setIconImage(new javax.swing.ImageIcon(iconURL).getImage());
         }
     }
+
     /**
      * @param args the command line arguments
      */
@@ -358,7 +439,7 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblMessage;
     private javax.swing.JTable tblSpaces;
-    private java.awt.TextField txtLicensePlate;
+    private javax.swing.JTextField txtLicensePlate;
     private javax.swing.JTextField txtParkingSpace;
     // End of variables declaration//GEN-END:variables
 }

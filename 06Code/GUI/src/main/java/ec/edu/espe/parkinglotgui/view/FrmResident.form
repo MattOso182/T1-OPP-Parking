@@ -278,8 +278,15 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="12" style="0"/>
             </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="99" green="99" red="99" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Gabriela Flecher"/>
+            <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;Formato de Nombre:&lt;/b&gt;&lt;br&gt;Solo un nombre y un apellido&lt;br&gt;No N&#xfa;meros&lt;br&gt;&lt;i&gt;Ejemplo: Gabriela Flecher&lt;/i&gt;&lt;/html&gt;"/>
           </Properties>
           <Events>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtNameFocusGained"/>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtNameFocusLost"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtNameActionPerformed"/>
           </Events>
         </Component>
@@ -288,8 +295,15 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="12" style="0"/>
             </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="99" green="99" red="99" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="ejemplo@gmail.com"/>
+            <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;Formato de Email:&lt;/b&gt;&lt;br&gt;&#x2022; Nombre de usuario&lt;br&gt;&#x2022; @&lt;br&gt;&#x2022; Dominio&lt;br&gt;&lt;i&gt;Ejemplo: ejemplo@gmail.com&lt;/i&gt;&lt;/html&gt;"/>
           </Properties>
           <Events>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtEmailFocusGained"/>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtEmailFocusLost"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtEmailActionPerformed"/>
           </Events>
         </Component>
@@ -298,8 +312,15 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="12" style="0"/>
             </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="99" green="99" red="99" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="099XXXXXXX"/>
+            <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;Formato de Numero de Tel&#xe9;fono:&lt;/b&gt;&lt;br&gt;&#x2022; 10 numeros&lt;br&gt;&#x2022; No se permiten letras&lt;br&gt;&lt;i&gt;Ejemplo: 09999999999&lt;/i&gt;&lt;/html&gt;"/>
           </Properties>
           <Events>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtCellphoneFocusGained"/>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtCellphoneFocusLost"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtCellphoneActionPerformed"/>
           </Events>
         </Component>
@@ -336,8 +357,15 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="12" style="0"/>
             </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="99" green="99" red="99" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="100-A"/>
+            <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;Formato de Numero de Apartamento:&lt;/b&gt;&lt;br&gt;&#x2022; 3 n&#xfa;meros&lt;br&gt;&#x2022; Gui&#xf3;n (-)&lt;br&gt;&#x2022; Una letra (Depende del bloque en el que se encuentre)&lt;br&gt;&lt;i&gt;Ejemplo: 100-A&lt;/i&gt;&lt;/html&gt;"/>
           </Properties>
           <Events>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtApartmentNumberFocusGained"/>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtApartmentNumberFocusLost"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtApartmentNumberActionPerformed"/>
           </Events>
         </Component>

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.*;
+import ec.edu.espe.parkinglotgui.utils.FrameBlocker;
 
 /**
  *
@@ -21,9 +22,10 @@ public class FrmParkingSplash extends javax.swing.JFrame {
      */
     public FrmParkingSplash() {
         initComponents();
-        setAppIcon();  
+        setAppIcon();
         this.setLocationRelativeTo(null);
 
+        configureFrameBlocking();
         progressBar.setStringPainted(true);
         progressBarConfiguration();
         startAutomaticsProgress();
@@ -55,7 +57,14 @@ public class FrmParkingSplash extends javax.swing.JFrame {
                 progressBar.repaint();
             }
         });
+    }
 
+    private void configureFrameBlocking() {
+        FrameBlocker.blockFrameControls(this, false);
+
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+        FrameBlocker.enableGlobalFrameMonitoring();
     }
 
     private void progressBarConfiguration() {
@@ -84,7 +93,7 @@ public class FrmParkingSplash extends javax.swing.JFrame {
 
                 if (progreso >= 100) {
                     timer.stop();
-                    goLoginScreen(); 
+                    goLoginScreen();
                 }
             }
         });

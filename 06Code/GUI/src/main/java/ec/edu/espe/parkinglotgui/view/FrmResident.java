@@ -4,6 +4,7 @@ import com.mongodb.client.MongoCollection;
 import ec.edu.espe.parkinglotgui.utils.MongoDBConnection;
 import ec.edu.espe.parkinglotgui.controller.ParkingSpaceController;
 import ec.edu.espe.parkinglotgui.controller.ResidentController;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -15,7 +16,7 @@ import org.bson.Document;
  * @author T.A.P. (The Art of Programming), @ESPE
  */
 public class FrmResident extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmResident.class.getName());
 
     /**
@@ -27,21 +28,21 @@ public class FrmResident extends javax.swing.JFrame {
         pnlParkingSpace.setVisible(false);
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
-    addWindowListener(new java.awt.event.WindowAdapter() {
-        @Override
-        public void windowClosing(java.awt.event.WindowEvent e) {
-            int option = javax.swing.JOptionPane.showConfirmDialog(
-                    FrmResident.this,
-                    "¿Desea salir sin guardar el residente?",
-                    "Confirmar salida",
-                    javax.swing.JOptionPane.YES_NO_OPTION
-            );
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                int option = javax.swing.JOptionPane.showConfirmDialog(
+                        FrmResident.this,
+                        "¿Desea salir sin guardar el residente?",
+                        "Confirmar salida",
+                        javax.swing.JOptionPane.YES_NO_OPTION
+                );
 
-            if (option == javax.swing.JOptionPane.YES_OPTION) {
-                dispose();
+                if (option == javax.swing.JOptionPane.YES_OPTION) {
+                    dispose();
+                }
             }
-        }
-    });
+        });
         lblNameError.setForeground(java.awt.Color.RED);
         lblNameError.setText("");
     }
@@ -150,6 +151,17 @@ public class FrmResident extends javax.swing.JFrame {
         jLabel5.setText("Teléfono:");
 
         txtName.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        txtName.setForeground(new java.awt.Color(153, 153, 153));
+        txtName.setText("Gabriela Flecher");
+        txtName.setToolTipText("<html><b>Formato de Nombre:</b><br>Solo un nombre y un apellido<br>No Números<br><i>Ejemplo: Gabriela Flecher</i></html>");
+        txtName.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtNameFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtNameFocusLost(evt);
+            }
+        });
         txtName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNameActionPerformed(evt);
@@ -157,6 +169,17 @@ public class FrmResident extends javax.swing.JFrame {
         });
 
         txtEmail.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        txtEmail.setForeground(new java.awt.Color(153, 153, 153));
+        txtEmail.setText("ejemplo@gmail.com");
+        txtEmail.setToolTipText("<html><b>Formato de Email:</b><br>• Nombre de usuario<br>• @<br>• Dominio<br><i>Ejemplo: ejemplo@gmail.com</i></html>");
+        txtEmail.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtEmailFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtEmailFocusLost(evt);
+            }
+        });
         txtEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtEmailActionPerformed(evt);
@@ -164,6 +187,17 @@ public class FrmResident extends javax.swing.JFrame {
         });
 
         txtCellphone.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        txtCellphone.setForeground(new java.awt.Color(153, 153, 153));
+        txtCellphone.setText("099XXXXXXX");
+        txtCellphone.setToolTipText("<html><b>Formato de Numero de Teléfono:</b><br>• 10 numeros<br>• No se permiten letras<br><i>Ejemplo: 09999999999</i></html>");
+        txtCellphone.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtCellphoneFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtCellphoneFocusLost(evt);
+            }
+        });
         txtCellphone.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCellphoneActionPerformed(evt);
@@ -182,6 +216,17 @@ public class FrmResident extends javax.swing.JFrame {
         });
 
         txtApartmentNumber.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        txtApartmentNumber.setForeground(new java.awt.Color(153, 153, 153));
+        txtApartmentNumber.setText("100-A");
+        txtApartmentNumber.setToolTipText("<html><b>Formato de Numero de Apartamento:</b><br>• 3 números<br>• Guión (-)<br>• Una letra (Depende del bloque en el que se encuentre)<br><i>Ejemplo: 100-A</i></html>");
+        txtApartmentNumber.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtApartmentNumberFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtApartmentNumberFocusLost(evt);
+            }
+        });
         txtApartmentNumber.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtApartmentNumberActionPerformed(evt);
@@ -437,7 +482,7 @@ public class FrmResident extends javax.swing.JFrame {
             cmbParkingSpace.setSelectedIndex(0);
         }
     }//GEN-LAST:event_cmbUserTypeActionPerformed
-    
+
     private void cmbParkingSpaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbParkingSpaceActionPerformed
         // TODO add your handling code here:                                                 
         if (cmbParkingSpace.getSelectedIndex() <= 0) {
@@ -452,7 +497,7 @@ public class FrmResident extends javax.swing.JFrame {
 
     private final java.util.List<org.bson.Document> vehicles = new java.util.ArrayList<>();
     private void btnAddVehicleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddVehicleActionPerformed
-        // TODO add your handling code here:                                            
+                                           
         JTextField txtPlate = new JTextField();
         JTextField txtColor = new JTextField();
         JTextField txtModel = new JTextField();
@@ -549,7 +594,7 @@ public class FrmResident extends javax.swing.JFrame {
             lblCellphoneError.setText("");
         }
     }//GEN-LAST:event_txtCellphoneActionPerformed
-    
+
     private final java.util.List<String> authorizedVisitors = new java.util.ArrayList<>();
     private void btnSaveResidentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveResidentActionPerformed
         // TODO add your handling code here: 
@@ -558,15 +603,15 @@ public class FrmResident extends javax.swing.JFrame {
         String email = txtEmail.getText().trim();
         String phone = txtCellphone.getText().trim();
         String userType = cmbUserType.getSelectedItem().toString();
-        String assignedParkingSpace = cmbParkingSpace.getSelectedItem() != null 
-                                      ? cmbParkingSpace.getSelectedItem().toString() 
-                                      : null;
+        String assignedParkingSpace = cmbParkingSpace.getSelectedItem() != null
+                ? cmbParkingSpace.getSelectedItem().toString()
+                : null;
 
         if (name.isEmpty() || apartmentNumber.isEmpty() || email.isEmpty() || phone.isEmpty() || userType.isEmpty()) {
             javax.swing.JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.");
             return;
         }
-        
+
         ResidentController controller = new ResidentController();
 
         controller.addResident(
@@ -610,14 +655,71 @@ public class FrmResident extends javax.swing.JFrame {
         authorizedVisitorsList.add(visitorID);
         JOptionPane.showMessageDialog(this, "Visitante autorizado: " + visitorID);
     }//GEN-LAST:event_btnAuthorizeVisitorActionPerformed
-    
+
+    private void txtNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNameFocusGained
+        if (txtName.getText().equals("Gabriela Flecher")) {
+            txtName.setText("");
+            txtName.setForeground(new Color(0, 0, 0));
+        }
+    }//GEN-LAST:event_txtNameFocusGained
+
+    private void txtNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNameFocusLost
+        if (txtName.getText().isEmpty()) {
+            txtName.setText("Gabriela Flecher");
+            txtName.setForeground(new Color(153, 153, 153));
+        }
+    }//GEN-LAST:event_txtNameFocusLost
+
+    private void txtApartmentNumberFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtApartmentNumberFocusGained
+        if (txtApartmentNumber.getText().equals("100-A")) {
+            txtApartmentNumber.setText("");
+            txtApartmentNumber.setForeground(new Color(0, 0, 0));
+        }
+
+    }//GEN-LAST:event_txtApartmentNumberFocusGained
+
+    private void txtApartmentNumberFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtApartmentNumberFocusLost
+        if (txtApartmentNumber.getText().isEmpty()) {
+            txtApartmentNumber.setText("100-A");
+            txtApartmentNumber.setForeground(new Color(153, 153, 153));
+        }
+    }//GEN-LAST:event_txtApartmentNumberFocusLost
+
+    private void txtEmailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEmailFocusGained
+        if (txtEmail.getText().equals("ejemplo@gmail.com")) {
+            txtEmail.setText("");
+            txtEmail.setForeground(new Color(0, 0, 0));
+        }
+    }//GEN-LAST:event_txtEmailFocusGained
+
+    private void txtEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEmailFocusLost
+        if (txtEmail.getText().isEmpty()) {
+            txtEmail.setText("ejemplo@gmail.com");
+            txtEmail.setForeground(new Color(153, 153, 153));
+        }
+    }//GEN-LAST:event_txtEmailFocusLost
+
+    private void txtCellphoneFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCellphoneFocusGained
+        if (txtCellphone.getText().equals("099XXXXXXX")) {
+            txtCellphone.setText("");
+            txtCellphone.setForeground(new Color(0, 0, 0));
+        }
+    }//GEN-LAST:event_txtCellphoneFocusGained
+
+    private void txtCellphoneFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCellphoneFocusLost
+        if (txtCellphone.getText().isEmpty()) {
+            txtCellphone.setText("099XXXXXXXX");
+            txtCellphone.setForeground(new Color(153, 153, 153));
+        }
+    }//GEN-LAST:event_txtCellphoneFocusLost
+
     private void setAppIcon() {
         java.net.URL iconURL = getClass().getResource("/images/logo.png");
         if (iconURL != null) {
             setIconImage(new javax.swing.ImageIcon(iconURL).getImage());
         }
     }
-    
+
     /**
      * @param args the command line arguments
      */

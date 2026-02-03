@@ -2,6 +2,7 @@ package ec.edu.espe.parkinglotgui.view;
 
 import ec.edu.espe.parkinglotgui.controller.VisitorController;
 import ec.edu.espe.parkinglotgui.model.Visitor;
+import java.awt.Color;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -93,13 +94,9 @@ public class FrmVisitor extends javax.swing.JFrame {
     private void initComponents() {
 
         lblVisitorID = new javax.swing.JLabel();
-        txtVisitorID = new java.awt.TextField();
         lblNameVisitor = new javax.swing.JLabel();
-        txtNameVisitor = new java.awt.TextField();
         lblUserID = new javax.swing.JLabel();
-        txResidentID = new java.awt.TextField();
         lblVehiclePlate = new javax.swing.JLabel();
-        txtVehiclePlate = new java.awt.TextField();
         chkHasPass = new javax.swing.JCheckBox();
         lblStatus = new javax.swing.JLabel();
         cmbStatus = new javax.swing.JComboBox<>();
@@ -110,6 +107,10 @@ public class FrmVisitor extends javax.swing.JFrame {
         tblVisitors = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         lblTitle = new javax.swing.JLabel();
+        txtVisitorID = new javax.swing.JTextField();
+        txtNameVisitor = new javax.swing.JTextField();
+        txResidentID = new javax.swing.JTextField();
+        txtVehiclePlate = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         itemReturnMenu = new javax.swing.JMenuItem();
@@ -118,20 +119,7 @@ public class FrmVisitor extends javax.swing.JFrame {
 
         lblVisitorID.setText("ID Visitante:");
 
-        txtVisitorID.setEditable(false);
-        txtVisitorID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtVisitorIDActionPerformed(evt);
-            }
-        });
-
         lblNameVisitor.setText("Nombre:");
-
-        txtNameVisitor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNameVisitorActionPerformed(evt);
-            }
-        });
 
         lblUserID.setText("ID Residente:");
 
@@ -206,6 +194,59 @@ public class FrmVisitor extends javax.swing.JFrame {
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
+        txtVisitorID.setForeground(new java.awt.Color(153, 153, 153));
+        txtVisitorID.setText("17XXXXX065");
+        txtVisitorID.setToolTipText("<html><b>Formato de ID de Visitante:</b><br>• Número de cedula<br>• No se permite ingresar letras<br>• Tienen que ser 10 números<br><i>Ejemplo: 1756555555</i></html>");
+        txtVisitorID.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtVisitorIDFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtVisitorIDFocusLost(evt);
+            }
+        });
+
+        txtNameVisitor.setForeground(new java.awt.Color(153, 153, 153));
+        txtNameVisitor.setText("Gabriela Flecher");
+        txtNameVisitor.setToolTipText("<html><b>Formato de Nombre de Visitante:</b><br>• Solo un nombre y un apellido<br>• No se permite ingresar números<br><i>Ejemplo: Gabriela Flecher</i></html>");
+        txtNameVisitor.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtNameVisitorFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtNameVisitorFocusLost(evt);
+            }
+        });
+
+        txResidentID.setForeground(new java.awt.Color(153, 153, 153));
+        txResidentID.setText("RES-XXX");
+        txResidentID.setToolTipText("<html><b>Formato de ID de Residente:</b><br>• RES (Oblogatorio)<br>• Guión (-)<br>• 3 números<br><i>Ejemplo: RES-001</i></html>");
+        txResidentID.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txResidentIDFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txResidentIDFocusLost(evt);
+            }
+        });
+        txResidentID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txResidentIDActionPerformed(evt);
+            }
+        });
+
+        txtVehiclePlate.setForeground(new java.awt.Color(153, 153, 153));
+        txtVehiclePlate.setText("ABC-1234");
+        txtVehiclePlate.setToolTipText("<html><b>Formato de Placa:</b><br>• 3 letras<br>• Guión (-)<br>• 4 números<br><i>Ejemplo: ABC-1234</i></html>");
+        txtVehiclePlate.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtVehiclePlateFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtVehiclePlateFocusLost(evt);
+            }
+        });
+
         jMenu1.setText("Sistema");
 
         itemReturnMenu.setText("Regresar al menu");
@@ -249,13 +290,13 @@ public class FrmVisitor extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(cmbStatus, javax.swing.GroupLayout.Alignment.LEADING, 0, 154, Short.MAX_VALUE)
-                                    .addComponent(txtVehiclePlate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txResidentID, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtNameVisitor, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtVisitorID, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                         .addGap(34, 34, 34)
-                                        .addComponent(chkHasPass))))
+                                        .addComponent(chkHasPass))
+                                    .addComponent(txtVisitorID, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtNameVisitor, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txResidentID, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtVehiclePlate, javax.swing.GroupLayout.Alignment.LEADING)))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 580, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(19, 19, 19))))
@@ -266,22 +307,22 @@ public class FrmVisitor extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblVisitorID)
                     .addComponent(txtVisitorID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(8, 8, 8)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNameVisitor)
                     .addComponent(txtNameVisitor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(8, 8, 8)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblUserID)
                     .addComponent(txResidentID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(8, 8, 8)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblVehiclePlate)
                     .addComponent(txtVehiclePlate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(11, 11, 11)
                 .addComponent(chkHasPass)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -294,7 +335,7 @@ public class FrmVisitor extends javax.swing.JFrame {
                     .addComponent(btnUpdate)
                     .addComponent(btnSave)
                     .addComponent(btnDelete))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(7, Short.MAX_VALUE))
         );
 
         pack();
@@ -422,13 +463,65 @@ public class FrmVisitor extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_itemReturnMenuActionPerformed
 
-    private void txtVisitorIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtVisitorIDActionPerformed
+    private void txResidentIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txResidentIDActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtVisitorIDActionPerformed
+    }//GEN-LAST:event_txResidentIDActionPerformed
 
-    private void txtNameVisitorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameVisitorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNameVisitorActionPerformed
+    private void txtVisitorIDFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtVisitorIDFocusGained
+        if (txtVisitorID.getText().equals("17XXXXX065")) {
+            txtVisitorID.setText("");
+            txtVisitorID.setForeground(new Color(0, 0, 0));
+        }
+    }//GEN-LAST:event_txtVisitorIDFocusGained
+
+    private void txtVehiclePlateFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtVehiclePlateFocusGained
+        if (txtVehiclePlate.getText().equals("ABC-1234")) {
+            txtVehiclePlate.setText("");
+            txtVehiclePlate.setForeground(new Color(0, 0, 0));
+        }
+    }//GEN-LAST:event_txtVehiclePlateFocusGained
+
+    private void txtVehiclePlateFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtVehiclePlateFocusLost
+        if (txtVehiclePlate.getText().isEmpty()) {
+            txtVehiclePlate.setText("ABC-1234");
+            txtVehiclePlate.setForeground(new Color(153, 153, 153));
+        }
+    }//GEN-LAST:event_txtVehiclePlateFocusLost
+
+    private void txtVisitorIDFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtVisitorIDFocusLost
+        if (txtVisitorID.getText().isEmpty()) {
+            txtVisitorID.setText("17XXXX065");
+            txtVisitorID.setForeground(new Color(153, 153, 153));
+        }
+    }//GEN-LAST:event_txtVisitorIDFocusLost
+
+    private void txtNameVisitorFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNameVisitorFocusGained
+        if (txtNameVisitor.getText().equals("Gabriela Flecher")) {
+            txtNameVisitor.setText("");
+            txtNameVisitor.setForeground(new Color(0, 0, 0));
+        }
+    }//GEN-LAST:event_txtNameVisitorFocusGained
+
+    private void txtNameVisitorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNameVisitorFocusLost
+        if (txtNameVisitor.getText().isEmpty()) {
+            txtNameVisitor.setText("Gabriela Flecher");
+            txtNameVisitor.setForeground(new Color(153, 153, 153));
+        }
+    }//GEN-LAST:event_txtNameVisitorFocusLost
+
+    private void txResidentIDFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txResidentIDFocusGained
+        if (txResidentID.getText().equals("RES-XXX")) {
+            txResidentID.setText("");
+            txResidentID.setForeground(new Color(0, 0, 0));
+        }
+    }//GEN-LAST:event_txResidentIDFocusGained
+
+    private void txResidentIDFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txResidentIDFocusLost
+        if (txResidentID.getText().isEmpty()) {
+            txResidentID.setText("RES-XXX");
+            txResidentID.setForeground(new Color(153, 153, 153)); 
+        }
+    }//GEN-LAST:event_txResidentIDFocusLost
 
     private void setAppIcon() {
         java.net.URL iconURL = getClass().getResource("/images/logo.png");
@@ -436,7 +529,7 @@ public class FrmVisitor extends javax.swing.JFrame {
             setIconImage(new javax.swing.ImageIcon(iconURL).getImage());
         }
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -490,9 +583,9 @@ public class FrmVisitor extends javax.swing.JFrame {
     private javax.swing.JLabel lblVehiclePlate;
     private javax.swing.JLabel lblVisitorID;
     private javax.swing.JTable tblVisitors;
-    private java.awt.TextField txResidentID;
-    private java.awt.TextField txtNameVisitor;
-    private java.awt.TextField txtVehiclePlate;
-    private java.awt.TextField txtVisitorID;
+    private javax.swing.JTextField txResidentID;
+    private javax.swing.JTextField txtNameVisitor;
+    private javax.swing.JTextField txtVehiclePlate;
+    private javax.swing.JTextField txtVisitorID;
     // End of variables declaration//GEN-END:variables
 }

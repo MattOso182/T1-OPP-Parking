@@ -1,6 +1,7 @@
 package ec.edu.espe.parkinglotgui.view;
 
 import ec.edu.espe.parkinglotgui.controller.LoginController;
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 
 /**
@@ -30,7 +31,6 @@ public class FrmLogin extends javax.swing.JFrame {
     private void initComponents() {
 
         lblTitle = new java.awt.Label();
-        txtUsername = new java.awt.TextField();
         btnLogin = new javax.swing.JButton();
         lblMessage = new java.awt.Label();
         passPassword = new javax.swing.JPasswordField();
@@ -38,6 +38,7 @@ public class FrmLogin extends javax.swing.JFrame {
         cmbUserType = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        txtUsername = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         itemExit = new javax.swing.JMenuItem();
@@ -59,10 +60,13 @@ public class FrmLogin extends javax.swing.JFrame {
             }
         });
 
-        passPassword.setText("jPasswordField1");
+        passPassword.setText("***************");
         passPassword.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 passPasswordFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                passPasswordFocusLost(evt);
             }
         });
         passPassword.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -87,6 +91,18 @@ public class FrmLogin extends javax.swing.JFrame {
         jLabel2.setText("🔑Contraseña:");
 
         jLabel3.setText("👤Usuario:");
+
+        txtUsername.setForeground(new java.awt.Color(153, 153, 153));
+        txtUsername.setText("RES-XXX");
+        txtUsername.setToolTipText("<html><b>Formato de ID:</b><br>• RES (Oblogatorio)<br>• Guión (-)<br>• 3 números<br><i>Ejemplo: RES-001</i></html>");
+        txtUsername.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtUsernameFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtUsernameFocusLost(evt);
+            }
+        });
 
         jMenu1.setText("Sistema");
 
@@ -120,14 +136,13 @@ public class FrmLogin extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(9, 9, 9)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel2)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(txtUsername, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(passPassword)
-                                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel3))
+                                    .addComponent(passPassword)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnLogin, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+                                    .addComponent(jLabel3)
+                                    .addComponent(txtUsername))
                                 .addGap(14, 14, 14))
                             .addComponent(cmbUserType, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(80, 80, 80))))
@@ -139,9 +154,9 @@ public class FrmLogin extends javax.swing.JFrame {
                 .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
-                .addGap(5, 5, 5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25)
+                .addGap(22, 22, 22)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(passPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -233,6 +248,27 @@ public class FrmLogin extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_passPasswordActionPerformed
 
+    private void txtUsernameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsernameFocusGained
+        if (txtUsername.getText().equals("RES-XXX")) {
+            txtUsername.setText("");
+            txtUsername.setForeground(new Color(0, 0, 0));
+        }
+    }//GEN-LAST:event_txtUsernameFocusGained
+
+    private void txtUsernameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsernameFocusLost
+        if (txtUsername.getText().isEmpty()) {
+            txtUsername.setText("RES-XXX");
+            txtUsername.setForeground(new Color(153, 153, 153)); 
+        }
+    }//GEN-LAST:event_txtUsernameFocusLost
+
+    private void passPasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passPasswordFocusLost
+        if (passPassword.getText().isEmpty()) {
+            passPassword.setText("***************");
+            passPassword.setForeground(new Color(153, 153, 153)); 
+        }
+    }//GEN-LAST:event_passPasswordFocusLost
+
     private void setAppIcon() {
         java.net.URL iconURL = getClass().getResource("/images/logo.png");
         if (iconURL != null) {
@@ -287,6 +323,6 @@ public class FrmLogin extends javax.swing.JFrame {
     private java.awt.Label lblMessage;
     private java.awt.Label lblTitle;
     private javax.swing.JPasswordField passPassword;
-    private java.awt.TextField txtUsername;
+    private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }

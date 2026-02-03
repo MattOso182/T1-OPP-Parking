@@ -1,6 +1,7 @@
 package ec.edu.espe.parkinglotgui.view;
 
 import ec.edu.espe.parkinglotgui.controller.VehicleExitController;
+import java.awt.Color;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -27,13 +28,13 @@ public class FrmExitVehicle extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel2 = new javax.swing.JLabel();
-        txtLicensePlate = new java.awt.TextField();
         btnRegisterExit = new javax.swing.JButton();
         lblMessage = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblParkedVehicles = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        txtLicensePlate = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         itemReturnMenu = new javax.swing.JMenuItem();
@@ -42,12 +43,6 @@ public class FrmExitVehicle extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jLabel2.setText("Placa del Vehículo:");
-
-        txtLicensePlate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtLicensePlateActionPerformed(evt);
-            }
-        });
 
         btnRegisterExit.setText("Registrar");
         btnRegisterExit.addActionListener(new java.awt.event.ActionListener() {
@@ -101,6 +96,18 @@ public class FrmExitVehicle extends javax.swing.JFrame {
                 .addGap(16, 16, 16))
         );
 
+        txtLicensePlate.setForeground(new java.awt.Color(153, 153, 153));
+        txtLicensePlate.setText("ABC-1234");
+        txtLicensePlate.setToolTipText("<html><b>Formato de Placa:</b><br>• 3 letras<br>• Guión (-)<br>• 4 números<br><i>Ejemplo: ABC-1234</i></html>");
+        txtLicensePlate.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtLicensePlateFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtLicensePlateFocusLost(evt);
+            }
+        });
+
         jMenu1.setText("Sistema");
 
         itemReturnMenu.setText("Regresar al menu");
@@ -128,7 +135,7 @@ public class FrmExitVehicle extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtLicensePlate, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtLicensePlate, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(lblMessage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
@@ -147,16 +154,17 @@ public class FrmExitVehicle extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
+                .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(txtLicensePlate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(txtLicensePlate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lblMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addGap(18, 20, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnRegisterExit)
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addContainerGap(8, Short.MAX_VALUE))
         );
 
         pack();
@@ -209,10 +217,6 @@ public class FrmExitVehicle extends javax.swing.JFrame {
     
     }//GEN-LAST:event_btnRegisterExitActionPerformed
 
-    private void txtLicensePlateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLicensePlateActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtLicensePlateActionPerformed
-
     private void itemReturnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemReturnMenuActionPerformed
         FrmSecurityGuardMenu frmSecurityGuardMenu = new FrmSecurityGuardMenu();
         frmSecurityGuardMenu.setVisible(true);
@@ -226,6 +230,20 @@ public class FrmExitVehicle extends javax.swing.JFrame {
             txtLicensePlate.setText(placa);
         }
     }//GEN-LAST:event_tblParkedVehiclesMouseClicked
+
+    private void txtLicensePlateFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtLicensePlateFocusGained
+        if (txtLicensePlate.getText().equals("ABC-1234")) {
+            txtLicensePlate.setText("");
+            txtLicensePlate.setForeground(new Color(0, 0, 0));
+        }
+    }//GEN-LAST:event_txtLicensePlateFocusGained
+
+    private void txtLicensePlateFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtLicensePlateFocusLost
+        if (txtLicensePlate.getText().isEmpty()) {
+            txtLicensePlate.setText("ABC-1234");
+            txtLicensePlate.setForeground(new Color(153, 153, 153)); 
+        }
+    }//GEN-LAST:event_txtLicensePlateFocusLost
 
     private void setAppIcon() {
         java.net.URL iconURL = getClass().getResource("/images/logo.png");
@@ -286,6 +304,6 @@ public class FrmExitVehicle extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblMessage;
     private javax.swing.JTable tblParkedVehicles;
-    private java.awt.TextField txtLicensePlate;
+    private javax.swing.JTextField txtLicensePlate;
     // End of variables declaration//GEN-END:variables
 }

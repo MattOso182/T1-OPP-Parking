@@ -74,14 +74,14 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                   <Component id="cmbStatus" alignment="0" pref="154" max="32767" attributes="0"/>
-                                  <Component id="txtVehiclePlate" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="txResidentID" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="txtNameVisitor" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="txtVisitorID" alignment="0" max="32767" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                                       <Component id="chkHasPass" min="-2" max="-2" attributes="0"/>
                                   </Group>
+                                  <Component id="txtVisitorID" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="txtNameVisitor" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="txResidentID" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="txtVehiclePlate" alignment="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <Component id="jScrollPane2" min="-2" pref="580" max="-2" attributes="0"/>
@@ -99,26 +99,26 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lblVisitorID" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtVisitorID" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblVisitorID" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtVisitorID" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lblNameVisitor" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtNameVisitor" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblNameVisitor" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtNameVisitor" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lblUserID" min="-2" max="-2" attributes="0"/>
-                  <Component id="txResidentID" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblUserID" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txResidentID" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lblVehiclePlate" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtVehiclePlate" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblVehiclePlate" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtVehiclePlate" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
               <Component id="chkHasPass" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -133,7 +133,7 @@
                   <Component id="btnSave" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnDelete" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="7" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -144,37 +144,20 @@
         <Property name="text" type="java.lang.String" value="ID Visitante:"/>
       </Properties>
     </Component>
-    <Component class="java.awt.TextField" name="txtVisitorID">
-      <Properties>
-        <Property name="editable" type="boolean" value="false"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtVisitorIDActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JLabel" name="lblNameVisitor">
       <Properties>
         <Property name="text" type="java.lang.String" value="Nombre:"/>
       </Properties>
-    </Component>
-    <Component class="java.awt.TextField" name="txtNameVisitor">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtNameVisitorActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lblUserID">
       <Properties>
         <Property name="text" type="java.lang.String" value="ID Residente:"/>
       </Properties>
     </Component>
-    <Component class="java.awt.TextField" name="txResidentID">
-    </Component>
     <Component class="javax.swing.JLabel" name="lblVehiclePlate">
       <Properties>
         <Property name="text" type="java.lang.String" value="Placa del Vehiculo:"/>
       </Properties>
-    </Component>
-    <Component class="java.awt.TextField" name="txtVehiclePlate">
     </Component>
     <Component class="javax.swing.JCheckBox" name="chkHasPass">
       <Properties>
@@ -330,5 +313,58 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JTextField" name="txtVisitorID">
+      <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="99" green="99" red="99" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="17XXXXX065"/>
+        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;Formato de ID de Visitante:&lt;/b&gt;&lt;br&gt;&#x2022; N&#xfa;mero de cedula&lt;br&gt;&#x2022; No se permite ingresar letras&lt;br&gt;&#x2022; Tienen que ser 10 n&#xfa;meros&lt;br&gt;&lt;i&gt;Ejemplo: 1756555555&lt;/i&gt;&lt;/html&gt;"/>
+      </Properties>
+      <Events>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtVisitorIDFocusGained"/>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtVisitorIDFocusLost"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtNameVisitor">
+      <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="99" green="99" red="99" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Gabriela Flecher"/>
+        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;Formato de Nombre de Visitante:&lt;/b&gt;&lt;br&gt;&#x2022; Solo un nombre y un apellido&lt;br&gt;&#x2022; No se permite ingresar n&#xfa;meros&lt;br&gt;&lt;i&gt;Ejemplo: Gabriela Flecher&lt;/i&gt;&lt;/html&gt;"/>
+      </Properties>
+      <Events>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtNameVisitorFocusGained"/>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtNameVisitorFocusLost"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txResidentID">
+      <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="99" green="99" red="99" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="RES-XXX"/>
+        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;Formato de ID de Residente:&lt;/b&gt;&lt;br&gt;&#x2022; RES (Oblogatorio)&lt;br&gt;&#x2022; Gui&#xf3;n (-)&lt;br&gt;&#x2022; 3 n&#xfa;meros&lt;br&gt;&lt;i&gt;Ejemplo: RES-001&lt;/i&gt;&lt;/html&gt;"/>
+      </Properties>
+      <Events>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txResidentIDFocusGained"/>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txResidentIDFocusLost"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txResidentIDActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtVehiclePlate">
+      <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="99" green="99" red="99" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="ABC-1234"/>
+        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;Formato de Placa:&lt;/b&gt;&lt;br&gt;&#x2022; 3 letras&lt;br&gt;&#x2022; Gui&#xf3;n (-)&lt;br&gt;&#x2022; 4 n&#xfa;meros&lt;br&gt;&lt;i&gt;Ejemplo: ABC-1234&lt;/i&gt;&lt;/html&gt;"/>
+      </Properties>
+      <Events>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtVehiclePlateFocusGained"/>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtVehiclePlateFocusLost"/>
+      </Events>
+    </Component>
   </SubComponents>
 </Form>
