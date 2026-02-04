@@ -85,6 +85,20 @@ public class VisitorController {
             true
         );
 
+        Document residentDoc = residentCollection.find(Filters.eq("residentID", visitor.getResidentID())).first();
+        if (residentDoc != null) {
+            List<String> authorizedVisitors = residentDoc.getList("authorizedVisitors", String.class);
+            if (authorizedVisitors == null) {
+                authorizedVisitors = new ArrayList<>();
+            }
+            authorizedVisitors.add(visitor.getVisitorID());
+
+            residentCollection.updateOne(
+                    Filters.eq("residentID", visitor.getResidentID()),
+                    new Document("$set", new Document("authorizedVisitors", authorizedVisitors))
+            );
+        }
+
         return true;
     }
 
