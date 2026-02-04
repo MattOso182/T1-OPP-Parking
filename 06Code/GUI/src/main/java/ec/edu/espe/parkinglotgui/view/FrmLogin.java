@@ -3,6 +3,9 @@ package ec.edu.espe.parkinglotgui.view;
 import ec.edu.espe.parkinglotgui.controller.LoginController;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import ec.edu.espe.parkinglotgui.utils.FrameBlocker;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  *
@@ -10,15 +13,21 @@ import java.awt.event.KeyEvent;
  */
 public class FrmLogin extends javax.swing.JFrame {
 
-    /**
-     * Creates new form LoginForm
-     */
+    private LoginController loginController;
+    private String currentUsername;
+    private String currentUserType;
+
     public FrmLogin() {
         initComponents();
         setAppIcon();
+        FrameBlocker.blockFrameControls(this, false);
+
+        cmbUserType.removeAllItems();
         cmbUserType.addItem("Seleccionar tipo...");
         cmbUserType.addItem("Guardia de seguridad");
         cmbUserType.addItem("Residente");
+
+        loginController = new LoginController();
     }
 
     /**
@@ -179,48 +188,85 @@ public class FrmLogin extends javax.swing.JFrame {
         String password = new String(passPassword.getPassword());
         String userType = (String) cmbUserType.getSelectedItem();
 
-        if (userType == null || userType.equals("Seleccionar tipo...")) {
-            lblMessage.setText("ERROR: Seleccione un tipo de usuario.");
-            lblMessage.setForeground(java.awt.Color.RED);
+        if (!validateInputs(username, password, userType)) {
             return;
+        }
+
+        if (!loginController.validateCredentials(username, password, userType)) {
+            showError("Usuario o contraseña incorrectos");
+            return;
+        }
+
+        if ("Residente".equals(userType) && loginController.requiresTwoFactorForResident()) {
+            handleResident2FA(username);
+        } else {
+            grantAccess(username, userType);
+        }
+    }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void handleResident2FA(String username) {
+        if (!loginController.sendTwoFactorCode()) {
+            showError("No se pudo enviar el código de verificación. Contacte al administrador.");
+            return;
+        }
+
+        FrmTwoFactorDialog dialog = new FrmTwoFactorDialog(this, loginController);
+        dialog.setVisible(true);
+
+        if (dialog.isVerified()) {
+            grantAccess(username, "Residente");
+        } else {
+            showError("Verificación cancelada o fallida");
+        }
+    }
+
+    private void grantAccess(String username, String userType) {
+        lblMessage.setText("¡Autenticación exitosa!");
+        lblMessage.setForeground(new Color(0, 153, 0));
+
+        Timer timer = new Timer(1000, e -> {
+            if ("Guardia de seguridad".equals(userType)) {
+                openSecurityGuardMenu();
+            } else if ("Residente".equals(userType)) {
+                openResidentMenu(username);
+            }
+        });
+        timer.setRepeats(false);
+        timer.start();
+    }
+
+    private boolean validateInputs(String username, String password, String userType) {
+        if (userType == null || userType.equals("Seleccionar tipo...")) {
+            showError("Seleccione un tipo de usuario");
+            return false;
         }
 
         if (username.isEmpty() || password.isEmpty()) {
-            lblMessage.setText("ERROR: Complete todos los campos.");
-            lblMessage.setForeground(java.awt.Color.RED);
-            return;
+            showError("Complete todos los campos");
+            return false;
         }
 
-        try {
-           LoginController loginController = new LoginController();
-        boolean isAuthenticated = loginController.authenticate(username, password, userType);
-        
-        if (isAuthenticated) {
-            lblMessage.setText("¡Autenticación exitosa!");
-            lblMessage.setForeground(new java.awt.Color(0, 153, 0));
-            
-            if (userType.equals("Guardia de seguridad")) {
-                FrmSecurityGuardMenu frmSecurityGuardMenu = new FrmSecurityGuardMenu();
-                frmSecurityGuardMenu.setVisible(true);
-                this.setVisible(false);
-            } else if (userType.equals("Residente")) {
-                FrmResidentMenu frmResidentMenu = new FrmResidentMenu(username);
-                frmResidentMenu.setVisible(true);
-                this.setVisible(false);
-            }
+        return true;
+    }
 
-            } else {
-                lblMessage.setText("ERROR: Credenciales incorrectas.");
-                lblMessage.setForeground(java.awt.Color.RED);
-                passPassword.setText("");
-            }
+    private void showError(String message) {
+        lblMessage.setText("ERROR: " + message);
+        lblMessage.setForeground(Color.RED);
+        passPassword.setText("");
+        passPassword.requestFocus();
+    }
 
-        } catch (Exception e) {
-            lblMessage.setText("ERROR: Problema en el sistema de autenticación.");
-            lblMessage.setForeground(java.awt.Color.RED);
-            System.err.println("Error en login: " + e.getMessage());
-        }
-    }//GEN-LAST:event_btnLoginActionPerformed
+    private void openSecurityGuardMenu() {
+        FrmSecurityGuardMenu frm = new FrmSecurityGuardMenu();
+        frm.setVisible(true);
+        this.dispose();
+    }
+
+    private void openResidentMenu(String username) {
+        FrmResidentMenu frm = new FrmResidentMenu(username);
+        frm.setVisible(true);
+        this.dispose();
+    }
 
     private void passPasswordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passPasswordFocusGained
         passPassword.setText("");
@@ -258,14 +304,14 @@ public class FrmLogin extends javax.swing.JFrame {
     private void txtUsernameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsernameFocusLost
         if (txtUsername.getText().isEmpty()) {
             txtUsername.setText("RES-XXX");
-            txtUsername.setForeground(new Color(153, 153, 153)); 
+            txtUsername.setForeground(new Color(153, 153, 153));
         }
     }//GEN-LAST:event_txtUsernameFocusLost
 
     private void passPasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passPasswordFocusLost
         if (passPassword.getText().isEmpty()) {
             passPassword.setText("***************");
-            passPassword.setForeground(new Color(153, 153, 153)); 
+            passPassword.setForeground(new Color(153, 153, 153));
         }
     }//GEN-LAST:event_passPasswordFocusLost
 
@@ -275,6 +321,7 @@ public class FrmLogin extends javax.swing.JFrame {
             setIconImage(new javax.swing.ImageIcon(iconURL).getImage());
         }
     }
+
     /**
      * @param args the command line arguments
      */

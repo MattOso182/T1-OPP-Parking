@@ -72,7 +72,6 @@ public class ResidentRepository {
             }
 
             residentId = cleanField(residentId);
-            System.out.println("Buscando residente con ID limpio: '" + residentId + "'");
 
             Document query = new Document("residentID", residentId);
             Document doc = collection.find(query).first();
