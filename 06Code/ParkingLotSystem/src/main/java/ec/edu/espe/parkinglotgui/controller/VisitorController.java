@@ -11,6 +11,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.UpdateResult;
 import com.mongodb.client.result.DeleteResult;
+import ec.edu.espe.parkinglotgui.repository.VehicleRepository;
 import org.bson.Document;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +74,17 @@ public class VisitorController {
                 .append("hasPass", visitor.isHasPass());
 
         collection.insertOne(doc);
+
+        VehicleRepository vehicleRepository = new VehicleRepository();
+        vehicleRepository.saveVehicle(
+            visitor.getVisitorID(),
+            visitor.getNameVisitor(),
+            visitor.getVehiclePlate(),
+            "Unknown",
+            "Unknown",
+            true
+        );
+
         return true;
     }
 

@@ -78,6 +78,7 @@ public class FrmVehicleList extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTable2);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel1.setBackground(new java.awt.Color(15, 54, 83));
 
@@ -101,6 +102,8 @@ public class FrmVehicleList extends javax.swing.JFrame {
                 .addComponent(tittle)
                 .addGap(18, 18, 18))
         );
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
         btnRefresh.setText("Recargar");
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
@@ -136,6 +139,8 @@ public class FrmVehicleList extends javax.swing.JFrame {
                     .addComponent(btnExportPDF))
                 .addGap(22, 22, 22))
         );
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
         tblVehicles.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

@@ -1,8 +1,5 @@
 package ec.edu.espe.parkinglotgui.controller;
 
-/**
- * @author T.A.P. (The Art of Programming), @ESPE
- */
 import ec.edu.espe.parkinglotgui.model.Resident;
 import ec.edu.espe.parkinglotgui.model.Rental;
 import ec.edu.espe.parkinglotgui.model.Vehicle;
@@ -12,6 +9,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.result.UpdateResult;
 import ec.edu.espe.parkinglotgui.model.ParkingPriceStrategy;
 import ec.edu.espe.parkinglotgui.model.ResidentParkingPrice;
+import ec.edu.espe.parkinglotgui.repository.VehicleRepository;
 import ec.edu.espe.parkinglotgui.utils.MongoDBConnection; 
 import java.awt.GridLayout;
 import org.bson.Document;
@@ -21,6 +19,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+/*
+*
+ * @author T.A.P. (The Art of Programming), @ESPE
+ */
 
 public class ResidentController {
 
@@ -91,7 +94,6 @@ public class ResidentController {
             return false;
         }
     }
-
 
     public boolean activateRentalWithSpace(String residentId, int months, String spaceId) {
         try {
@@ -213,14 +215,94 @@ public class ResidentController {
         return "RES-" + String.format("%03d", max + 1);
     }
 
-    public boolean addResident(String name, String apt, String phone, String plate, boolean hasParking) {
-        String id = generateNextResidentId();
-        Document res = new Document("residentID", id).append("name", cleanField(name)).append("apartmentNumber", cleanField(apt)).append("phone", cleanField(phone));
-        List<Document> vs = new ArrayList<>();
-        if (plate != null && !plate.isEmpty()) vs.add(new Document("plate", plate).append("isParked", false));
-        res.append("vehicles", vs);
-        if (hasParking) res.append("currentRental", null);
-        collection.insertOne(res);
+    public boolean addResident(
+        String name,
+        String apartment,
+        String email,
+        String phone,
+        List<Document> vehicles,
+        List<String> authorizedVisitors,
+        String userType,
+        String parkingSpaceId
+    ) {
+        String residentId = generateNextResidentId();
+
+        Document residentDoc = new Document()
+                .append("residentID", residentId)
+                .append("name", cleanField(name))
+                .append("apartmentNumber", cleanField(apartment))
+                .append("email", cleanField(email))
+                .append("phone", cleanField(phone))
+                .append("userType", userType)
+                .append("vehicles", vehicles)
+                .append("authorizedVisitors", authorizedVisitors);
+
+        if ("WITH_PARKING".equals(userType) && parkingSpaceId != null) {
+            Document rental = new Document()
+                    .append("spaceId", parkingSpaceId)
+                    .append("isActive", true)
+                    .append("paymentStatus", "PENDING");
+
+            residentDoc.append("currentRental", rental);
+            new ParkingSpaceController().updateSpaceOccupation(parkingSpaceId, true);
+        }
+
+        collection.insertOne(residentDoc);
+
+        Resident resident = new Resident();
+        resident.setResidentID(residentId);
+        resident.setName(cleanField(name));
+
+        VehicleRepository vehicleRepository = new VehicleRepository();
+
+        for (Document v : vehicles) {
+            vehicleRepository.saveVehicle(
+                    residentId,
+                    resident.getName(),
+                    v.getString("plate"),
+                    v.getString("color"),
+                    v.getString("model"),
+                    false
+            );
+        }
+
         return true;
+    }
+    
+    public void saveResidentVehicle(Resident resident, String plate, String color, String model) {
+        VehicleRepository vehicleRepository = new VehicleRepository();
+
+        vehicleRepository.saveVehicle(
+            resident.getResidentID(),
+            resident.getName(),
+            plate,
+            color,
+            model,
+            true
+        );
+    }
+    
+    public boolean updateResidentContactAndType(String residentId, String email, String phone, String userType) {
+        try {
+            residentId = cleanField(residentId);
+            email = cleanField(email);
+            phone = cleanField(phone);
+            userType = cleanField(userType);
+
+            if (email.isEmpty() || phone.isEmpty()) return false;
+
+            UpdateResult result = collection.updateOne(
+                new Document("residentID", residentId),
+                new Document("$set", new Document()
+                    .append("email", email)
+                    .append("phone", phone)
+                    .append("userType", userType)
+                )
+            );
+
+            return result.getModifiedCount() > 0;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

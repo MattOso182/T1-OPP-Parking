@@ -1,13 +1,14 @@
 package ec.edu.espe.parkinglotgui.view;
 
-/**
- *
- * @author T.A.P. (The Art of Programming), @ESPE
- */
 import ec.edu.espe.parkinglotgui.controller.ZoneController;
 import ec.edu.espe.parkinglotgui.model.Zone;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
+
+/**
+ *
+ * @author T.A.P. (The Art of Programming), @ESPE
+ */
 
 public class FrmZoneList extends javax.swing.JFrame {
     private ZoneController zoneController;
@@ -33,7 +34,6 @@ public class FrmZoneList extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane2 = new javax.swing.JScrollPane();
         btnNew = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
@@ -56,7 +56,7 @@ public class FrmZoneList extends javax.swing.JFrame {
             }
         });
 
-        btnDelete.setText("jButton1");
+        btnDelete.setText("Eliminar");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteActionPerformed(evt);
@@ -91,33 +91,28 @@ public class FrmZoneList extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(132, 132, 132)
+                        .addGap(121, 121, 121)
                         .addComponent(btnNew)
-                        .addGap(149, 149, 149)
+                        .addGap(115, 115, 115)
                         .addComponent(btnEdit)
-                        .addGap(169, 169, 169)
+                        .addGap(107, 107, 107)
                         .addComponent(btnDelete))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(111, 111, 111)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 590, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(202, 202, 202)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(111, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 590, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22)
+                .addGap(17, 17, 17)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnNew)
+                    .addComponent(btnDelete)
                     .addComponent(btnEdit)
-                    .addComponent(btnDelete))
-                .addContainerGap(17, Short.MAX_VALUE))
+                    .addComponent(btnNew))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         pack();
@@ -191,7 +186,6 @@ public class FrmZoneList extends javax.swing.JFrame {
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnNew;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tblZones;
     // End of variables declaration//GEN-END:variables
 }

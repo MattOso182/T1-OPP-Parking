@@ -53,6 +53,7 @@ public class FrmLogin extends javax.swing.JFrame {
         itemExit = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
 
         lblTitle.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         lblTitle.setText("INICIO DE SESIÓN");

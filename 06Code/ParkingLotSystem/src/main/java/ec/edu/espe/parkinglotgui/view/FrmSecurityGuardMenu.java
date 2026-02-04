@@ -46,6 +46,9 @@ public class FrmSecurityGuardMenu extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabel1.setText("¡ES UN GUSTO TENERTE AQUÍ NUEVAMENTE!");
@@ -78,6 +81,7 @@ public class FrmSecurityGuardMenu extends javax.swing.JFrame {
         );
 
         jMenu5.setText("Configuracion");
+        jMenu5.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
 
         jMenuItem1.setText("Salir");
         jMenuItem1.addActionListener(this::jMenuItem1ActionPerformed);
@@ -90,6 +94,7 @@ public class FrmSecurityGuardMenu extends javax.swing.JFrame {
         jMenuBar1.add(jMenu5);
 
         jMenu1.setText("Registro de entrada y salida");
+        jMenu1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
 
         itemRegisterEntry.setText("Registrar entrada");
         itemRegisterEntry.addActionListener(this::itemRegisterEntryActionPerformed);
@@ -102,6 +107,7 @@ public class FrmSecurityGuardMenu extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu6.setText("Agregar nuevo usuario");
+        jMenu6.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
 
         itemNewVisitor.setText("Agregar nuevo vistante");
         itemNewVisitor.addActionListener(this::itemNewVisitorActionPerformed);
@@ -114,6 +120,7 @@ public class FrmSecurityGuardMenu extends javax.swing.JFrame {
         jMenuBar1.add(jMenu6);
 
         jMenu3.setText("Ver Reportes");
+        jMenu3.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
 
         jMenuItem2.setText("Reporte de Vehiculos");
         jMenuItem2.addActionListener(this::jMenuItem2ActionPerformed);

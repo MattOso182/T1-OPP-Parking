@@ -6,6 +6,10 @@ import ec.edu.espe.parkinglotgui.utils.MongoDBConnection;
 import org.bson.Document;
 import java.util.ArrayList;
 
+/**
+ *
+ * @author T.A.P. (The Art of Programming), @ESPE
+ */
 public class VehicleRepository {
     private final MongoCollection<Document> collection;
 
@@ -26,5 +30,17 @@ public class VehicleRepository {
             vehicles.add(v);
         }
         return vehicles;
+    }
+    
+    public void saveVehicle(String ownerId, String ownerName, String plate, String color, String model, boolean parked) {
+        Document doc = new Document()
+                .append("ownerId", ownerId)
+                .append("ownerName", ownerName)
+                .append("plate", plate)
+                .append("color", color)
+                .append("model", model)
+                .append("parked", parked);
+
+        collection.insertOne(doc);
     }
 }

@@ -2,11 +2,9 @@ package ec.edu.espe.parkinglotgui.view;
 
 import ec.edu.espe.parkinglotgui.controller.ResidentController;
 import ec.edu.espe.parkinglotgui.model.Resident;
-import java.awt.GridLayout;
-import java.util.List;
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import org.bson.Document;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -14,16 +12,19 @@ import org.bson.Document;
  */
 public class FrmResidentList extends javax.swing.JFrame {
     
-    private final ResidentController residentController = new ResidentController();
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmResidentList.class.getName());
-
+    private ResidentController residentController;
+    private javax.swing.table.DefaultTableModel model;
+    
     /**
      * Creates new form FrmResidentList
      */
     public FrmResidentList() {
         initComponents();
-        loadResidentData();
-        setAppIcon();
+        residentController = new ResidentController();
+        model = (javax.swing.table.DefaultTableModel) tblResidents.getModel();
+        initSearchField();
+        loadResidents();
     }
 
     /**
@@ -36,107 +37,96 @@ public class FrmResidentList extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        residentList = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        listResident = new javax.swing.JTable();
+        tblResidents = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
-        addResident = new javax.swing.JButton();
-        editResident = new javax.swing.JButton();
-        deleteResident = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        txtSearchResidentId = new javax.swing.JTextField();
+        btnSearchId = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel1.setBackground(new java.awt.Color(15, 54, 83));
 
-        residentList.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        residentList.setForeground(new java.awt.Color(255, 255, 255));
-        residentList.setText("LISTA DE RESIDENTES");
+        jLabel1.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("LISTA DE RESIDENTES");
+        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(residentList)
-                .addGap(200, 200, 200))
+                .addContainerGap(264, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(239, 239, 239))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(32, Short.MAX_VALUE)
-                .addComponent(residentList)
-                .addGap(29, 29, 29))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(jLabel1)
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
-        listResident.setModel(new javax.swing.table.DefaultTableModel(
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        tblResidents.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        tblResidents.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nombre", "N° de Apartamento", "Celular", "¿Renta Activa?", "Placa Vehicular"
+                "Resident ID", "Nombre", "Apartmento", "Email", "Celular", "Tipo de Usuario", "Espacio de Parqueo", "Vehículos", "Visitantes Autorizados"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(listResident);
-        if (listResident.getColumnModel().getColumnCount() > 0) {
-            listResident.getColumnModel().getColumn(0).setHeaderValue("ID");
-            listResident.getColumnModel().getColumn(1).setHeaderValue("Nombre");
-            listResident.getColumnModel().getColumn(2).setHeaderValue("N° de Apartamento");
-            listResident.getColumnModel().getColumn(3).setHeaderValue("Celular");
-            listResident.getColumnModel().getColumn(4).setHeaderValue("¿Renta Activa?");
-            listResident.getColumnModel().getColumn(5).setHeaderValue("Placa Vehicular");
-        }
+        jScrollPane1.setViewportView(tblResidents);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(109, 109, 109))
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        addResident.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        addResident.setText("Agregar");
-        addResident.addActionListener(new java.awt.event.ActionListener() {
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
+        btnUpdate.setText("Actualizar");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addResidentActionPerformed(evt);
+                btnUpdateActionPerformed(evt);
             }
         });
 
-        editResident.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        editResident.setText("Editar");
-        editResident.addActionListener(new java.awt.event.ActionListener() {
+        btnDelete.setText("Eliminar");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editResidentActionPerformed(evt);
-            }
-        });
-
-        deleteResident.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        deleteResident.setText("Eliminar");
-        deleteResident.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteResidentActionPerformed(evt);
+                btnDeleteActionPerformed(evt);
             }
         });
 
@@ -144,45 +134,82 @@ public class FrmResidentList extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(119, 119, 119)
-                .addComponent(addResident, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
-                .addComponent(editResident, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(120, 120, 120)
-                .addComponent(deleteResident, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(107, 107, 107))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnUpdate)
+                .addGap(86, 86, 86)
+                .addComponent(btnDelete)
+                .addGap(253, 253, 253))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(deleteResident)
-                    .addComponent(editResident)
-                    .addComponent(addResident))
-                .addContainerGap(22, Short.MAX_VALUE))
+                    .addComponent(btnUpdate)
+                    .addComponent(btnDelete))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel2.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel2.setText("Buscar:");
+
+        txtSearchResidentId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSearchResidentIdActionPerformed(evt);
+            }
+        });
+
+        btnSearchId.setText("⌕");
+        btnSearchId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchIdActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtSearchResidentId, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnSearchId)
+                .addGap(18, 18, 18))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtSearchResidentId, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+                    .addComponent(jLabel2)
+                    .addComponent(btnSearchId))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -191,115 +218,207 @@ public class FrmResidentList extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void addResidentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addResidentActionPerformed
+    private void txtSearchResidentIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchResidentIdActionPerformed
         // TODO add your handling code here:
-        JTextField nameField = new JTextField();
-        JTextField phoneField = new JTextField();
-        JTextField plateField = new JTextField();
-        JCheckBox rentalCheck = new JCheckBox("Renta activa");
+        String id = txtSearchResidentId.getText().trim();
+        if (id.isEmpty() || id.equals("Ej: RES-001")) return;
 
-        String[] apartments = {"A-101","A-102","A-103","B-201","B-202","B-203","C-301","C-302","C-303","D-401","D-402","D-403"};
-        JComboBox<String> aptCombo = new JComboBox<>(apartments);
+        model.setRowCount(0);
 
-        JPanel panel = new JPanel(new GridLayout(0, 2, 5, 5));
-        panel.add(new JLabel("Nombre:")); panel.add(nameField);
-        panel.add(new JLabel("Apartamento:")); panel.add(aptCombo);
-        panel.add(new JLabel("Celular:")); panel.add(phoneField);
-        panel.add(new JLabel("Placa Vehicular:")); panel.add(plateField);
-        panel.add(new JLabel("Estado de Renta:")); panel.add(rentalCheck);
+        Resident r = residentController.searchResidentById(id);
+        if (r == null) return;
 
-        int result = JOptionPane.showConfirmDialog(this, panel, "Agregar Residente", JOptionPane.OK_CANCEL_OPTION);
-        if (result != JOptionPane.OK_OPTION) return;
-
-        residentController.addResident(
-                nameField.getText().trim(),
-                (String) aptCombo.getSelectedItem(),
-                phoneField.getText().trim(),
-                plateField.getText().trim(),
-                rentalCheck.isSelected()
-        );
-
-        loadResidentData();
-    }//GEN-LAST:event_addResidentActionPerformed
-
-    private void deleteResidentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteResidentActionPerformed
-        // TODO add your handling code here:
-        List<Resident> residents = residentController.getAllResidents();
-        if (residents.isEmpty()) return;
-
-        String[] options = residents.stream()
-                .map(r -> r.getResidentID() + " - " + r.getName())
-                .toArray(String[]::new);
-
-        String selected = (String) JOptionPane.showInputDialog(
-                this,
-                "Seleccione:",
-                "Eliminar",
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                options,
-                options[0]
-        );
-
-        if (selected == null) return;
-
-        residentController.deleteResident(selected.split(" - ")[0]);
-        loadResidentData();
-    }//GEN-LAST:event_deleteResidentActionPerformed
-
-    private void editResidentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editResidentActionPerformed
-        // TODO add your handling code here:
-        List<Resident> residents = residentController.getAllResidents();
-        if (residents.isEmpty()) return;
-
-        String[] options = residents.stream()
-                .map(r -> r.getResidentID() + " - " + r.getName())
-                .toArray(String[]::new);
-
-        String selected = (String) JOptionPane.showInputDialog(
-                this,
-                "Seleccione:",
-                "Editar",
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                options,
-                options[0]
-        );
-
-        if (selected == null) return;
-
-        residentController.editResident(selected.split(" - ")[0]);
-        loadResidentData();
-    }//GEN-LAST:event_editResidentActionPerformed
-
-    private void setAppIcon() {
-        java.net.URL iconURL = getClass().getResource("/images/logo.png");
-        if (iconURL != null) setIconImage(new ImageIcon(iconURL).getImage());
-    }
-    
-    private void loadResidentData() {
-    DefaultTableModel model = (DefaultTableModel) listResident.getModel();
-    model.setRowCount(0);
-
-    for (Resident r : residentController.getAllResidents()) {
-        String plates = "";
-        if (r.getVehicles() != null && !r.getVehicles().isEmpty()) {
-            plates = r.getVehicles().stream()
-                    .map(v -> v.getPlate())
-                    .reduce((a, b) -> a + ", " + b)
-                    .orElse("");
-        }
+        int vehicleCount = r.getVehicles() == null ? 0 : r.getVehicles().size();
+        int visitorCount = r.getAuthorizedVisitors() == null ? 0 : r.getAuthorizedVisitors().size();
+        String space = r.getCurrentRental() != null && r.getCurrentRental().isActive() ? r.getCurrentRental().getSpaceId() : "";
 
         model.addRow(new Object[]{
             r.getResidentID(),
             r.getName(),
             r.getApartmentNumber(),
+            r.getEmail(),
             r.getPhone(),
-            r.getCurrentRental() != null && r.getCurrentRental().isActive(),
-            plates
+            r.getUserType(),
+            space,
+            vehicleCount,
+            visitorCount
         });
+    }//GEN-LAST:event_txtSearchResidentIdActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+        onUpdateResident();
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        onDeleteResident();
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnSearchIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSearchIdActionPerformed
+
+    private void loadResidents() {
+        model.setRowCount(0);
+
+        java.util.List<ec.edu.espe.parkinglotgui.model.Resident> residents =
+                residentController.getAllResidents();
+
+        for (ec.edu.espe.parkinglotgui.model.Resident r : residents) {
+
+            int vehicleCount = r.getVehicles() == null ? 0 : r.getVehicles().size();
+            int visitorCount = r.getAuthorizedVisitors() == null ? 0 : r.getAuthorizedVisitors().size();
+
+            String space = "";
+            if (r.getCurrentRental() != null && r.getCurrentRental().isActive()) {
+                space = r.getCurrentRental().getSpaceId();
+            }
+
+            model.addRow(new Object[]{
+                r.getResidentID(),
+                r.getName(),
+                r.getApartmentNumber(),
+                r.getEmail(),
+                r.getPhone(),
+                r.getUserType(),
+                space,
+                vehicleCount,
+                visitorCount
+            });
+        }
+    }
+
+    private void onUpdateResident() {
+        String residentId = selectResidentId();
+        if (residentId == null) return;
+
+        showUpdateResidentDialog(residentId);
+    }
+
+    private void showUpdateResidentDialog(String residentId) {
+        ResidentController controller = new ResidentController();
+        Resident resident = controller.searchResidentById(residentId);
+        if (resident == null) return;
+
+        JTextField txtEmail = new JTextField(resident.getEmail());
+        JTextField txtPhone = new JTextField(resident.getPhone());
+
+        String[] userTypes = {"ROTATING", "WITH_PARKING"};
+        JComboBox<String> cmbUserType = new JComboBox<>(userTypes);
+        cmbUserType.setSelectedItem(resident.getUserType());
+
+        Object[] form = {
+            "Email:", txtEmail,
+            "Celular:", txtPhone,
+            "Tipo de usuario:", cmbUserType
+        };
+
+        int option = JOptionPane.showConfirmDialog(
+                this,
+                form,
+                "Editar residente " + residentId,
+                JOptionPane.OK_CANCEL_OPTION
+        );
+
+        if (option != JOptionPane.OK_OPTION) return;
+
+        int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "¿Estás seguro de actualizar el residente " + residentId + "?",
+                "Confirmar",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            controller.updateResidentContactAndType(
+                    residentId,
+                    txtEmail.getText(),
+                    txtPhone.getText(),
+                    cmbUserType.getSelectedItem().toString()
+            );
+            loadResidents();
     }
 }
+    
+    private String selectResidentId() {
+        ResidentController controller = new ResidentController();
+        java.util.List<Resident> residents = controller.getAllResidents();
+
+        if (residents.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No hay residentes registrados");
+            return null;
+        }
+
+        String[] ids = residents.stream()
+                .map(Resident::getResidentID)
+                .toArray(String[]::new);
+
+        JComboBox<String> combo = new JComboBox<>(ids);
+
+        int option = JOptionPane.showConfirmDialog(
+                this,
+                combo,
+                "Seleccione Resident ID",
+                JOptionPane.OK_CANCEL_OPTION
+        );
+
+        return option == JOptionPane.OK_OPTION ? combo.getSelectedItem().toString() : null;
+    }
+    
+    private void onDeleteResident() {
+        String residentId = selectResidentId();
+        if (residentId == null) return;
+
+        confirmDeleteResident(residentId);
+    }
+    
+    private void confirmDeleteResident(String residentId) {
+        ResidentController controller = new ResidentController();
+        Resident resident = controller.searchResidentById(residentId);
+        if (resident == null) return;
+
+        String message =
+                "Resident ID: " + resident.getResidentID() + "\n" +
+                "Nombre: " + resident.getName() + "\n" +
+                "Email: " + resident.getEmail() + "\n\n" +
+                "¿Estás seguro de eliminar este residente?";
+
+        int option = JOptionPane.showConfirmDialog(
+                this,
+                message,
+                "Confirmar eliminación",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (option == JOptionPane.YES_OPTION) {
+            controller.deleteResident(residentId);
+            loadResidents();
+        }
+    }
+    
+    private void initSearchField() {
+        String placeholder = "Ej: RES-001";
+        txtSearchResidentId.setText(placeholder);
+        txtSearchResidentId.setForeground(java.awt.Color.GRAY);
+
+        txtSearchResidentId.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent e) {
+                if (txtSearchResidentId.getText().equals(placeholder)) {
+                    txtSearchResidentId.setText("");
+                    txtSearchResidentId.setForeground(java.awt.Color.BLACK);
+                }
+            }
+
+            public void focusLost(java.awt.event.FocusEvent e) {
+                if (txtSearchResidentId.getText().isEmpty()) {
+                    txtSearchResidentId.setText(placeholder);
+                    txtSearchResidentId.setForeground(java.awt.Color.GRAY);
+                }
+            }
+        });
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -326,14 +445,17 @@ public class FrmResidentList extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addResident;
-    private javax.swing.JButton deleteResident;
-    private javax.swing.JButton editResident;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnSearchId;
+    private javax.swing.JButton btnUpdate;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable listResident;
-    private javax.swing.JLabel residentList;
+    private javax.swing.JTable tblResidents;
+    private javax.swing.JTextField txtSearchResidentId;
     // End of variables declaration//GEN-END:variables
 }

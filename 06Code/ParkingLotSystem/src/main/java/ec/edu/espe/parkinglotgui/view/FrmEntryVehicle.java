@@ -46,6 +46,7 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
         itemReturnMenu = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel1.setBackground(new java.awt.Color(15, 54, 83));
 
@@ -69,6 +70,8 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(15, 15, 15))
         );
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel2.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jLabel2.setText("Placa del Vehículo:");
@@ -184,6 +187,8 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
                         .addComponent(lblMessage)))
                 .addContainerGap(11, Short.MAX_VALUE))
         );
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
         btnRegisterEntry.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         btnRegisterEntry.setText("Registrar");
