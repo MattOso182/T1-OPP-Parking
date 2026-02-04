@@ -1,0 +1,7 @@
+Guardia de Seguridad:
+ID: admin	
+password: 123	
+
+Residente:
+ID: RES-024
+password: 123
