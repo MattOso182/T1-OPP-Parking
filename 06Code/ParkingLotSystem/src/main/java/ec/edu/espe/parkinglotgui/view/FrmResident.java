@@ -1,12 +1,16 @@
 package ec.edu.espe.parkinglotgui.view;
 
+import com.mongodb.client.MongoCollection;
+import ec.edu.espe.parkinglotgui.utils.MongoDBConnection;
 import ec.edu.espe.parkinglotgui.controller.ParkingSpaceController;
 import ec.edu.espe.parkinglotgui.controller.ResidentController;
+import ec.edu.espe.parkinglotgui.model.Resident;
+import ec.edu.espe.parkinglotgui.repository.VehicleRepository;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
+import javax.swing.JTextField;
 import org.bson.Document;
 
 /**
@@ -16,20 +20,14 @@ import org.bson.Document;
 public class FrmResident extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmResident.class.getName());
-    private ResidentController residentController;
-    private String selectedResidentId;
-    private List<Document> tempVehicles = new ArrayList<>();
-    private List<String> tempAuthorizedVisitors = new ArrayList<>();
 
     /**
      * Creates new form FrmResident
      */
     public FrmResident() {
-        this.setUndecorated(false);
+        this.setUndecorated(true);
         initComponents();
-        residentController = new ResidentController();
         setAppIcon();
-        clearForm();
         pnlParkingSpace.setVisible(false);
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
@@ -50,10 +48,6 @@ public class FrmResident extends javax.swing.JFrame {
         });
         lblNameError.setForeground(java.awt.Color.RED);
         lblNameError.setText("");
-        SwingUtilities.invokeLater(() -> {
-            this.requestFocusInWindow();
-        });
-
     }
 
     /**
@@ -90,7 +84,6 @@ public class FrmResident extends javax.swing.JFrame {
         btnAddVehicle = new javax.swing.JButton();
         btnSaveResident = new javax.swing.JButton();
         btnAuthorizeVisitor = new javax.swing.JButton();
-        btnResidentList = new javax.swing.JButton();
         pnlParkingSpace = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         cmbParkingSpace = new javax.swing.JComboBox<>();
@@ -344,13 +337,6 @@ public class FrmResident extends javax.swing.JFrame {
             }
         });
 
-        btnResidentList.setText("Ver Lista de Residentes");
-        btnResidentList.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnResidentListActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -360,9 +346,7 @@ public class FrmResident extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addComponent(btnAddVehicle)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnResidentList)
-                        .addGap(18, 18, 18)
+                        .addGap(185, 185, 185)
                         .addComponent(btnAuthorizeVisitor))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addComponent(btnSaveResident, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -375,8 +359,7 @@ public class FrmResident extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAddVehicle)
-                    .addComponent(btnAuthorizeVisitor)
-                    .addComponent(btnResidentList))
+                    .addComponent(btnAuthorizeVisitor))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSaveResident)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -522,11 +505,9 @@ public class FrmResident extends javax.swing.JFrame {
         String selectedSpace = cmbParkingSpace.getSelectedItem().toString();
     }//GEN-LAST:event_cmbParkingSpaceActionPerformed
 
+    private final java.util.List<org.bson.Document> vehicles = new java.util.ArrayList<>();
     private void btnAddVehicleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddVehicleActionPerformed
-    FrmAddVehicle frmAddVehicle = new FrmAddVehicle();
-    frmAddVehicle.setResidentId(selectedResidentId);
-    frmAddVehicle.setVisible(true);
-    this.setEnabled(false);
+        addVehicle();
     }//GEN-LAST:event_btnAddVehicleActionPerformed
 
     private void txtApartmentNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtApartmentNumberActionPerformed
@@ -545,6 +526,7 @@ public class FrmResident extends javax.swing.JFrame {
     }//GEN-LAST:event_txtApartmentNumberActionPerformed
 
     private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
+                                     
         String email = txtEmail.getText().trim();
 
         if (email.isEmpty()) {
@@ -573,59 +555,15 @@ public class FrmResident extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtCellphoneActionPerformed
 
+    private final java.util.List<String> authorizedVisitors = new java.util.ArrayList<>();
     private void btnSaveResidentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveResidentActionPerformed
         // TODO add your handling code here: 
-        boolean saved = residentController.addResident(
-            txtName.getText(),
-            txtApartmentNumber.getText(),
-            txtEmail.getText(),
-            txtCellphone.getText(),
-            tempVehicles,
-            tempAuthorizedVisitors, 
-            cmbUserType.getSelectedItem().toString(),
-            cmbParkingSpace.getSelectedItem() == null 
-                ? null 
-                : cmbParkingSpace.getSelectedItem().toString()
-        );
-
-        if (saved) {
-            JOptionPane.showMessageDialog(this, "Residente guardado correctamente");
-
-            clearForm();
-
-        } else {
-            JOptionPane.showMessageDialog(this, "Error al guardar residente");
-        }
+        saveResident();
     }//GEN-LAST:event_btnSaveResidentActionPerformed
 
     private void btnAuthorizeVisitorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAuthorizeVisitorActionPerformed
-        // TODO add your handling code here:    
-        String visitorId = JOptionPane.showInputDialog(
-            this,
-            "Ingrese la cédula del visitante:",
-            "Autorizar visitante",
-            JOptionPane.PLAIN_MESSAGE
-        );
-
-        if (visitorId == null) {
-            return;  
-        }
-
-        visitorId = visitorId.trim();
-
-        if (!visitorId.matches("^17\\d{8}$")) {
-            JOptionPane.showMessageDialog(this, "Cédula inválida (debe iniciar con 17)");
-            return;
-        }
-
-        if (tempAuthorizedVisitors.contains(visitorId)) {
-            JOptionPane.showMessageDialog(this, "Visitante ya autorizado");
-            return;
-        }
-
-        tempAuthorizedVisitors.add(visitorId);
-
-        JOptionPane.showMessageDialog(this, "Visitante autorizado correctamente");
+        // TODO add your handling code here:
+        authorizeVisitor();
     }//GEN-LAST:event_btnAuthorizeVisitorActionPerformed
 
     private void txtNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNameFocusGained
@@ -685,26 +623,136 @@ public class FrmResident extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtCellphoneFocusLost
 
-    private void btnResidentListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResidentListActionPerformed
-        // TODO add your handling code here:
-        FrmResidentList frmResidentList = new FrmResidentList();
-        frmResidentList.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnResidentListActionPerformed
-    
+    private void addVehicle() {
+        JTextField txtPlate = new JTextField();
+        JTextField txtColor = new JTextField();
+        JTextField txtModel = new JTextField();
+
+        Object[] message = {
+            "Placa (ABC-1234):", txtPlate,
+            "Color:", txtColor,
+            "Modelo:", txtModel
+        };
+
+        int option = JOptionPane.showConfirmDialog(
+                this,
+                message,
+                "Agregar vehículo",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE
+        );
+
+        if (option != JOptionPane.OK_OPTION) {
+            return;
+        }
+
+        String plate = txtPlate.getText().trim().toUpperCase();
+        String color = txtColor.getText().trim();
+        String model = txtModel.getText().trim();
+
+        if (!plate.matches("^[A-Z]{3}-\\d{4}$")) {
+            JOptionPane.showMessageDialog(this, "Formato de placa inválido. Ejemplo: ABC-1234");
+            return;
+        }
+
+        if (color.isEmpty() || model.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Color y modelo son obligatorios.");
+            return;
+        }
+
+        for (Document v : vehicles) {
+            if (plate.equals(v.getString("plate"))) {
+                JOptionPane.showMessageDialog(this, "Esta placa ya fue agregada.");
+                return;
+            }
+        }
+
+        Document vehicle = new Document()
+                .append("plate", plate)
+                .append("color", color)
+                .append("model", model)
+                .append("isParked", false);
+
+        vehicles.add(vehicle);
+
+        JOptionPane.showMessageDialog(this, "Vehículo agregado correctamente.");
+    }
+
+    private void saveResident() {
+        String name = txtName.getText().trim();
+        String apartmentNumber = txtApartmentNumber.getText().trim();
+        String email = txtEmail.getText().trim();
+        String phone = txtCellphone.getText().trim();
+        String userType = cmbUserType.getSelectedItem().toString();
+
+        if (name.isEmpty() || apartmentNumber.isEmpty() || email.isEmpty() || phone.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.");
+            return;
+        }
+
+        String parkingSpaceId = null;
+
+        if ("WITH_PARKING".equals(userType)) {
+            if (cmbParkingSpace.getSelectedIndex() <= 0) {
+                JOptionPane.showMessageDialog(this, "Debe seleccionar un parqueadero.");
+                return;
+            }
+            parkingSpaceId = cmbParkingSpace.getSelectedItem().toString();
+        }
+
+        ResidentController controller = new ResidentController();
+
+        controller.addResident(
+                name,
+                apartmentNumber,
+                email,
+                phone,
+                vehicles,
+                authorizedVisitors,
+                userType,
+                parkingSpaceId
+        );
+
+        JOptionPane.showMessageDialog(this, "Residente guardado correctamente");
+        clearForm();
+    }
+
     private void clearForm() {
+        vehicles.clear();
+        authorizedVisitors.clear();
         txtName.setText("");
         txtApartmentNumber.setText("");
         txtEmail.setText("");
         txtCellphone.setText("");
-
         cmbUserType.setSelectedIndex(0);
-        cmbParkingSpace.setSelectedIndex(-1);
-
-        tempVehicles.clear();
-        tempAuthorizedVisitors.clear();
+        cmbParkingSpace.removeAllItems();
+        pnlParkingSpace.setVisible(false);
     }
-    
+
+    private void authorizeVisitor() {
+        String visitorID = JOptionPane.showInputDialog(this, "Ingrese la cédula del visitante:");
+
+        if (visitorID == null || visitorID.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se ingresó ninguna cédula.");
+            return;
+        }
+
+        visitorID = visitorID.trim();
+
+        if (!visitorID.matches("\\d{10}")) {
+            JOptionPane.showMessageDialog(this, "La cédula debe tener exactamente 10 dígitos numéricos.");
+            return;
+        }
+
+        if (authorizedVisitors.contains(visitorID)) {
+            JOptionPane.showMessageDialog(this, "El visitante ya está autorizado.");
+            return;
+        }
+
+        authorizedVisitors.add(visitorID);
+        JOptionPane.showMessageDialog(this, "Visitante autorizado con cédula: " + visitorID);
+    }
+
     private void setAppIcon() {
         java.net.URL iconURL = getClass().getResource("/images/logo.png");
         if (iconURL != null) {
@@ -740,7 +788,6 @@ public class FrmResident extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddVehicle;
     private javax.swing.JButton btnAuthorizeVisitor;
-    private javax.swing.JButton btnResidentList;
     private javax.swing.JButton btnSaveResident;
     private javax.swing.JComboBox<String> cmbParkingSpace;
     private javax.swing.JComboBox<String> cmbUserType;
