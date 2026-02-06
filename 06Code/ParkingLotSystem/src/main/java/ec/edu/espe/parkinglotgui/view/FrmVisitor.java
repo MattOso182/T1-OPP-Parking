@@ -16,6 +16,7 @@ public class FrmVisitor extends javax.swing.JFrame {
     private final VisitorController visitorController;
 
     public FrmVisitor() {
+        this.setUndecorated(true);
         initComponents();
         setAppIcon();
 
@@ -489,7 +490,7 @@ public class FrmVisitor extends javax.swing.JFrame {
 
     private void txtVisitorIDFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtVisitorIDFocusLost
         if (txtVisitorID.getText().isEmpty()) {
-            txtVisitorID.setText("17XXXX065");
+            txtVisitorID.setText("17XXXXX065");
             txtVisitorID.setForeground(new Color(153, 153, 153));
         }
     }//GEN-LAST:event_txtVisitorIDFocusLost

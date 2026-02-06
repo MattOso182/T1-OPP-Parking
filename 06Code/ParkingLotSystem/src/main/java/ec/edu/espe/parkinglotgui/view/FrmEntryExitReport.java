@@ -19,6 +19,7 @@ public class FrmEntryExitReport extends javax.swing.JFrame {
      * Creates new form FrmEntryExitReport
      */
     public FrmEntryExitReport() {
+        this.setUndecorated(true);
         initComponents();
         loadEntryExitData();
         setAppIcon();

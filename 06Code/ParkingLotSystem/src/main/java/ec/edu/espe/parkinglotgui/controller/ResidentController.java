@@ -2,7 +2,6 @@ package ec.edu.espe.parkinglotgui.controller;
 
 import ec.edu.espe.parkinglotgui.model.Resident;
 import ec.edu.espe.parkinglotgui.model.Rental;
-import ec.edu.espe.parkinglotgui.model.Vehicle;
 import ec.edu.espe.parkinglotgui.repository.ResidentRepository; 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -19,9 +18,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
 
 /*
-*
  * @author T.A.P. (The Art of Programming), @ESPE
  */
 
@@ -29,24 +29,14 @@ public class ResidentController {
 
     private MongoCollection<Document> collection;
     private ResidentRepository repository; 
+    private final String COLLECTION_NAME = "Residents"; 
 
     public ResidentController() {
         this.repository = new ResidentRepository(); 
         MongoDatabase database = MongoDBConnection.getConnection(); 
         if (database != null) {
-            collection = database.getCollection(findResidentCollection(database));
+            collection = database.getCollection(COLLECTION_NAME); 
         }
-    }
-
-    private String findResidentCollection(MongoDatabase database) {
-        List<String> collections = database.listCollectionNames().into(new ArrayList<>());
-        String[] possibleNames = {"residents", "Residents", "resident", "Resident"};
-        for (String name : possibleNames) {
-            if (collections.contains(name)) {
-                return name;
-            }
-        }
-        return "residents";
     }
 
     private String cleanField(String field) {
@@ -70,12 +60,17 @@ public class ResidentController {
     public boolean updatePaymentStatusOnly(String residentId, String status) {
         try {
             residentId = cleanField(residentId);
+            
             UpdateResult result = collection.updateOne(
-                    new Document("residents.residentID", residentId),
-                    new Document("$set", new Document("residents.$.currentRental.paymentStatus", status))
+                Filters.eq("residentID", residentId),
+                Updates.set("currentRental.paymentStatus", status)
             );
+            
             return result.getModifiedCount() > 0;
+            
         } catch (Exception e) {
+            System.err.println("Error en updatePaymentStatusOnly: " + e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }
@@ -83,14 +78,25 @@ public class ResidentController {
     public boolean renewRentalWithSpace(String residentId, int months, String spaceId) {
         try {
             Resident resident = searchResidentById(residentId);
-            if (resident != null && resident.getCurrentRental() != null) {
-                String oldSpace = resident.getCurrentRental().getSpaceId();
-                if (oldSpace != null && !oldSpace.equals(spaceId)) {
-                    new ParkingSpaceController().freeParkingSpace(oldSpace);
-                }
+            if (resident == null) {
+                return false;
             }
+            
+            Rental currentRental = resident.getCurrentRental();
+            if (currentRental == null) {
+                return false;
+            }
+            
+            String oldSpace = currentRental.getSpaceId();
+            if (oldSpace != null && !oldSpace.equals(spaceId)) {
+                new ParkingSpaceController().freeParkingSpace(oldSpace);
+            }
+            
             return activateRentalWithSpace(residentId, months, spaceId);
+            
         } catch (Exception e) {
+            System.err.println("Error en renewRentalWithSpace: " + e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }
@@ -99,76 +105,125 @@ public class ResidentController {
         try {
             residentId = cleanField(residentId);
             spaceId = cleanField(spaceId);
+            
             Resident resident = searchResidentById(residentId);
-            if (resident == null) return false;
-
-            Rental currentRental = resident.getCurrentRental();
-            String currentSpace = currentRental != null ? currentRental.getSpaceId() : null;
-            boolean isSameSpace = currentSpace != null && currentSpace.equals(spaceId);
+            if (resident == null) {
+                return false;
+            }
             
             ParkingSpaceController spaceController = new ParkingSpaceController();
             Document spaceDetails = spaceController.getSpaceDetails(spaceId);
-
-            if (spaceDetails == null || (spaceDetails.getBoolean("isOccupied", false) && !isSameSpace)) {
+            if (spaceDetails == null) {
                 return false;
             }
-
-            if (isSameSpace && currentRental != null && !"RENTAL_CANCELED".equals(currentRental.getPaymentStatus())) {
+            
+            Rental currentRental = resident.getCurrentRental();
+            String currentSpace = (currentRental != null) ? currentRental.getSpaceId() : null;
+            boolean isSameSpace = currentSpace != null && currentSpace.equals(spaceId);
+            
+            if (spaceDetails.getBoolean("isOccupied", false) && !isSameSpace) {
+                return false;
+            }
+            
+            if (isSameSpace && currentRental != null && "PAID".equals(currentRental.getPaymentStatus())) {
                 return updateRentalDates(residentId, months);
             }
-
-            ParkingPriceStrategy pricing = new ResidentParkingPrice(); 
-            double totalAmount = pricing.calculateTotal(months); 
-
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Calendar cal = Calendar.getInstance();
-            Date start = (currentRental != null && currentRental.getEndDate() != null) ? currentRental.getEndDate() : new Date();
-            cal.setTime(start);
-            cal.add(Calendar.MONTH, months);
-
-            Document newRental = new Document("rentalId", "RENT-" + System.currentTimeMillis())
-                    .append("residentId", residentId)
-                    .append("spaceId", spaceId)
-                    .append("startDate", sdf.format(start))
-                    .append("endDate", sdf.format(cal.getTime()))
-                    .append("paymentStatus", "PENDING")
-                    .append("isActive", true)
-                    .append("totalPrice", totalAmount)
-                    .append("months", months)
-                    .append("monthlyPrice", totalAmount / months); 
-
-            UpdateResult res = collection.updateOne(
-                    new Document("residents.residentID", residentId),
-                    new Document("$set", new Document("residents.$.currentRental", newRental))
-            );
-
-            spaceController.updateSpaceOccupation(spaceId, true);
-            if (currentSpace != null && !currentSpace.equals(spaceId)) spaceController.freeParkingSpace(currentSpace);
             
-            return res.getModifiedCount() > 0;
-        } catch (Exception e) { return false; }
+            ParkingPriceStrategy pricing = new ResidentParkingPrice(); 
+            double totalAmount = pricing.calculateTotal(months);
+            
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date startDate;
+            
+            if (currentRental != null && currentRental.getEndDate() != null 
+                && currentRental.getEndDate().after(new Date())) {
+                startDate = currentRental.getEndDate();
+            } else {
+                startDate = new Date();
+            }
+            
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(startDate);
+            cal.add(Calendar.MONTH, months);
+            Date endDate = cal.getTime();
+            
+            Document newRental = new Document()
+                .append("rentalId", "RENT-" + System.currentTimeMillis())
+                .append("residentId", residentId)
+                .append("spaceId", spaceId)
+                .append("startDate", sdf.format(startDate))
+                .append("endDate", sdf.format(endDate))
+                .append("paymentStatus", "PENDING")
+                .append("isActive", true)
+                .append("totalPrice", totalAmount)
+                .append("months", months)
+                .append("monthlyPrice", totalAmount / months)
+                .append("createdAt", sdf.format(new Date()));
+            
+            UpdateResult result = collection.updateOne(
+                Filters.eq("residentID", residentId),
+                Updates.set("currentRental", newRental)
+            );
+            
+            if (result.getModifiedCount() > 0) {
+                
+                spaceController.updateSpaceOccupation(spaceId, true);
+                
+                if (currentSpace != null && !currentSpace.equals(spaceId)) {
+                    spaceController.freeParkingSpace(currentSpace);
+                }
+                
+                return true;
+            } else {
+                return false;
+            }
+            
+        } catch (Exception e) {
+            System.err.println("Error en activateRentalWithSpace: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public boolean cancelRental(String residentId) {
         try {
             Resident resident = searchResidentById(residentId);
-            if (resident == null || resident.getCurrentRental() == null) return false;
-            String spaceId = resident.getCurrentRental().getSpaceId();
-            if (spaceId != null) new ParkingSpaceController().freeParkingSpace(spaceId);
+            if (resident == null || resident.getCurrentRental() == null) {
+                System.out.println("Residente no tiene renta activa");
+                return false;
+            }
             
-            return collection.updateOne(
-                new Document("residents.residentID", cleanField(residentId)),
-                new Document("$set", new Document("residents.$.currentRental.paymentStatus", "RENTAL_CANCELED")
-                .append("residents.$.currentRental.isActive", false))
-            ).getModifiedCount() > 0;
-        } catch (Exception e) { return false; }
+            String spaceId = resident.getCurrentRental().getSpaceId();
+            if (spaceId != null) {
+                System.out.println("Liberando espacio: " + spaceId);
+                new ParkingSpaceController().freeParkingSpace(spaceId);
+            }
+            
+            UpdateResult result = collection.updateOne(
+                Filters.eq("residentID", cleanField(residentId)),
+                Updates.combine(
+                    Updates.set("currentRental.paymentStatus", "RENTAL_CANCELED"),
+                    Updates.set("currentRental.isActive", false)
+                )
+            );
+            
+            return result.getModifiedCount() > 0;
+            
+        } catch (Exception e) {
+            System.err.println("Error en cancelRental: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public List<Resident> getAllResidents() {
         List<Resident> residents = new ArrayList<>();
-        for (Document doc : collection.find()) {
-            List<Document> list = doc.containsKey("residents") ? doc.getList("residents", Document.class) : List.of(doc);
-            for (Document rDoc : list) residents.add(repository.convertDocumentToResident(rDoc));
+        try {
+            for (Document doc : collection.find()) {
+                residents.add(repository.convertDocumentToResident(doc));
+            }
+        } catch (Exception e) {
+            System.err.println("Error en getAllResidents: " + e.getMessage());
         }
         return residents;
     }
@@ -176,43 +231,89 @@ public class ResidentController {
     public boolean updateRentalDates(String residentId, int addMonths) {
         try {
             Resident res = searchResidentById(residentId);
-            if (res == null || res.getCurrentRental() == null) return false;
-            Calendar cal = Calendar.getInstance();
-            cal.add(Calendar.MONTH, addMonths);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            if (res == null || res.getCurrentRental() == null) {
+                System.out.println("No se puede extender: residente sin renta");
+                return false;
+            }
             
-            return collection.updateOne(new Document("residents.residentID", cleanField(residentId)),
-                new Document("$set", new Document("residents.$.currentRental.endDate", sdf.format(cal.getTime()))
-                .append("residents.$.currentRental.paymentStatus", "PENDING"))).getModifiedCount() > 0;
-        } catch (Exception e) { return false; }
+            Date currentEndDate = res.getCurrentRental().getEndDate();
+            if (currentEndDate == null) {
+                currentEndDate = new Date();
+            }
+            
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(currentEndDate);
+            cal.add(Calendar.MONTH, addMonths);
+            
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String newEndDate = sdf.format(cal.getTime());
+            
+            
+            UpdateResult result = collection.updateOne(
+                Filters.eq("residentID", cleanField(residentId)),
+                Updates.combine(
+                    Updates.set("currentRental.endDate", newEndDate),
+                    Updates.set("currentRental.paymentStatus", "PENDING")
+                )
+            );
+            
+            return result.getModifiedCount() > 0;
+            
+        } catch (Exception e) {
+            System.err.println("Error en updateRentalDates: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public boolean deleteResident(String id) {
-        return collection.deleteOne(new Document("residentID", cleanField(id))).getDeletedCount() > 0;
+        try {
+            return collection.deleteOne(Filters.eq("residentID", cleanField(id))).getDeletedCount() > 0;
+        } catch (Exception e) {
+            System.err.println("Error en deleteResident: " + e.getMessage());
+            return false;
+        }
     }
 
     public void editResident(String id) {
-        id = cleanField(id);
-        Document doc = collection.find(new Document("residentID", id)).first();
-        if (doc == null) return;
-        JTextField name = new JTextField(doc.getString("name"));
-        JPanel p = new JPanel(new GridLayout(0, 2));
-        p.add(new JLabel("Nombre:")); p.add(name);
-        if (JOptionPane.showConfirmDialog(null, p, "Editar", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
-            collection.updateOne(new Document("residentID", id), new Document("$set", new Document("name", name.getText().trim())));
+        try {
+            id = cleanField(id);
+            Document doc = collection.find(Filters.eq("residentID", id)).first();
+            if (doc == null) return;
+            
+            JTextField name = new JTextField(doc.getString("name"));
+            JPanel p = new JPanel(new GridLayout(0, 2));
+            p.add(new JLabel("Nombre:")); 
+            p.add(name);
+            
+            if (JOptionPane.showConfirmDialog(null, p, "Editar", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+                collection.updateOne(
+                    Filters.eq("residentID", id),
+                    Updates.set("name", name.getText().trim())
+                );
+            }
+        } catch (Exception e) {
+            System.err.println("Error en editResident: " + e.getMessage());
         }
     }
 
     private String generateNextResidentId() {
-        int max = 0;
-        for (Document doc : collection.find()) {
-            List<Document> list = doc.containsKey("residents") ? doc.getList("residents", Document.class) : List.of(doc);
-            for (Document r : list) {
-                String id = r.getString("residentID");
-                if (id != null && id.startsWith("RES-")) max = Math.max(max, Integer.parseInt(id.replace("RES-", "")));
+        try {
+            int max = 0;
+            for (Document doc : collection.find()) {
+                String id = doc.getString("residentID");
+                if (id != null && id.startsWith("RES-")) {
+                    try {
+                        int num = Integer.parseInt(id.replace("RES-", ""));
+                        max = Math.max(max, num);
+                    } catch (NumberFormatException e) {
+                    }
+                }
             }
+            return "RES-" + String.format("%03d", max + 1);
+        } catch (Exception e) {
+            return "RES-001";
         }
-        return "RES-" + String.format("%03d", max + 1);
     }
 
     public boolean addResident(
@@ -225,9 +326,10 @@ public class ResidentController {
         String userType,
         String parkingSpaceId
     ) {
-        String residentId = generateNextResidentId();
+        try {
+            String residentId = generateNextResidentId();
 
-        Document residentDoc = new Document()
+            Document residentDoc = new Document()
                 .append("residentID", residentId)
                 .append("name", cleanField(name))
                 .append("apartmentNumber", cleanField(apartment))
@@ -235,51 +337,69 @@ public class ResidentController {
                 .append("phone", cleanField(phone))
                 .append("userType", userType)
                 .append("vehicles", vehicles)
-                .append("authorizedVisitors", authorizedVisitors);
+                .append("authorizedVisitors", authorizedVisitors)
+                .append("createdAt", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 
-        if ("WITH_PARKING".equals(userType) && parkingSpaceId != null) {
-            Document rental = new Document()
+            if ("WITH_PARKING".equals(userType) && parkingSpaceId != null) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date now = new Date();
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(now);
+                cal.add(Calendar.YEAR, 1); 
+                
+                Document rental = new Document()
+                    .append("rentalId", "PERM-" + System.currentTimeMillis())
+                    .append("residentId", residentId)
                     .append("spaceId", parkingSpaceId)
+                    .append("startDate", sdf.format(now))
+                    .append("endDate", sdf.format(cal.getTime()))
+                    .append("paymentStatus", "PAID") 
                     .append("isActive", true)
-                    .append("paymentStatus", "PENDING");
+                    .append("totalPrice", 0.0) 
+                    .append("months", 12)
+                    .append("monthlyPrice", 0.0)
+                    .append("createdAt", sdf.format(now));
 
-            residentDoc.append("currentRental", rental);
-            new ParkingSpaceController().updateSpaceOccupation(parkingSpaceId, true);
-        }
+                residentDoc.append("currentRental", rental);
+                new ParkingSpaceController().updateSpaceOccupation(parkingSpaceId, true);
+            }
 
-        collection.insertOne(residentDoc);
+            collection.insertOne(residentDoc);
 
-        Resident resident = new Resident();
-        resident.setResidentID(residentId);
-        resident.setName(cleanField(name));
-
-        VehicleRepository vehicleRepository = new VehicleRepository();
-
-        for (Document v : vehicles) {
-            vehicleRepository.saveVehicle(
+            VehicleRepository vehicleRepository = new VehicleRepository();
+            for (Document v : vehicles) {
+                vehicleRepository.saveVehicle(
                     residentId,
-                    resident.getName(),
+                    cleanField(name),
                     v.getString("plate"),
                     v.getString("color"),
                     v.getString("model"),
                     false
-            );
-        }
+                );
+            }
 
-        return true;
+            return true;
+        } catch (Exception e) {
+            System.err.println("Error en addResident: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
     }
     
     public void saveResidentVehicle(Resident resident, String plate, String color, String model) {
-        VehicleRepository vehicleRepository = new VehicleRepository();
-
-        vehicleRepository.saveVehicle(
-            resident.getResidentID(),
-            resident.getName(),
-            plate,
-            color,
-            model,
-            true
-        );
+        try {
+            VehicleRepository vehicleRepository = new VehicleRepository();
+            vehicleRepository.saveVehicle(
+                resident.getResidentID(),
+                resident.getName(),
+                plate,
+                color,
+                model,
+                true
+            );
+        } catch (Exception e) {
+            System.err.println("Error en saveResidentVehicle: " + e.getMessage());
+        }
     }
     
     public boolean updateResidentContactAndType(String residentId, String email, String phone, String userType) {
@@ -292,16 +412,27 @@ public class ResidentController {
             if (email.isEmpty() || phone.isEmpty()) return false;
 
             UpdateResult result = collection.updateOne(
-                new Document("residentID", residentId),
-                new Document("$set", new Document()
-                    .append("email", email)
-                    .append("phone", phone)
-                    .append("userType", userType)
+                Filters.eq("residentID", residentId),
+                Updates.combine(
+                    Updates.set("email", email),
+                    Updates.set("phone", phone),
+                    Updates.set("userType", userType)
                 )
             );
 
             return result.getModifiedCount() > 0;
         } catch (Exception e) {
+            System.err.println("Error en updateResidentContactAndType: " + e.getMessage());
+            return false;
+        }
+    }
+   
+    public boolean residentExists(String residentId) {
+        try {
+            Document doc = collection.find(Filters.eq("residentID", cleanField(residentId))).first();
+            return doc != null;
+        } catch (Exception e) {
+            System.err.println("Error en residentExists: " + e.getMessage());
             return false;
         }
     }

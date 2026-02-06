@@ -21,6 +21,7 @@ public class FrmResidentRental extends javax.swing.JFrame {
      * Creates new form FrmResidentRental
      */
     public FrmResidentRental(String residentId) {
+        this.setUndecorated(true);
         initComponents();
         setAppIcon();
         this.currentResidentId = residentId;
@@ -139,17 +140,17 @@ public class FrmResidentRental extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(243, 243, 243)
                 .addComponent(jLabel1)
-                .addGap(227, 227, 227))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jLabel2.setText("ID de residente:");
@@ -208,7 +209,7 @@ public class FrmResidentRental extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblValueToPay, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 220, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 233, Short.MAX_VALUE)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblMonthsOfUse, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -265,12 +266,11 @@ public class FrmResidentRental extends javax.swing.JFrame {
                 .addGap(111, 111, 111)
                 .addComponent(btnPay)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnCancelRent)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(btnPayAndRenew)
-                        .addGap(114, 114, 114)
-                        .addComponent(btnRenew)))
+                    .addComponent(btnPayAndRenew))
+                .addGap(117, 117, 117)
+                .addComponent(btnRenew)
                 .addGap(84, 84, 84))
         );
         jPanel4Layout.setVerticalGroup(
@@ -286,7 +286,7 @@ public class FrmResidentRental extends javax.swing.JFrame {
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
-        jMenu1.setText("Sistema");
+        jMenu1.setText("Opciones");
 
         itemReturnMenu.setText("Regresar al menú");
         itemReturnMenu.addActionListener(this::itemReturnMenuActionPerformed);

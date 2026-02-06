@@ -19,7 +19,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="itemReturnMenu">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Regresar al men&#xfa; principal"/>
+                <Property name="text" type="java.lang.String" value="Regresar al incio de sesi&#xf3;n"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemReturnMenuActionPerformed"/>

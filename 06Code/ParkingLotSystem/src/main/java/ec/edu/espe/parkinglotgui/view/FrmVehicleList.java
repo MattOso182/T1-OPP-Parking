@@ -20,6 +20,7 @@ public class FrmVehicleList extends javax.swing.JFrame {
      * Creates new form FrmVehicleList
      */
     public FrmVehicleList() {
+        this.setUndecorated(true);
         initComponents();
         loadVehicles();
         setAppIcon();

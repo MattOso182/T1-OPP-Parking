@@ -19,6 +19,7 @@ public class FrmTwoFactorDialog extends javax.swing.JDialog {
     public FrmTwoFactorDialog(java.awt.Frame parent, LoginController loginController) {
         super(parent, true);
         this.loginController = loginController;
+        this.setUndecorated(true);
         initComponents();
         initCustomComponents();
     }

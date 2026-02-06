@@ -19,6 +19,7 @@ public class FrmVisitorReport extends javax.swing.JFrame {
      * Creates new form FrmVisitorReport
      */
     public FrmVisitorReport() {
+        this.setUndecorated(true);
         initComponents();
         setAppIcon();
         this.setLocationRelativeTo(null);

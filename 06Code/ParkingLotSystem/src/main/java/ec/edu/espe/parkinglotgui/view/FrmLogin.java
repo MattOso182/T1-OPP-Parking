@@ -18,6 +18,7 @@ public class FrmLogin extends javax.swing.JFrame {
     private String currentUserType;
 
     public FrmLogin() {
+        this.setUndecorated(true);
         initComponents();
         setAppIcon();
         FrameBlocker.blockFrameControls(this, false);
@@ -284,7 +285,7 @@ public class FrmLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLoginKeyPressed
 
     private void itemExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemExitActionPerformed
-        this.dispose();
+        System.exit(0);
     }//GEN-LAST:event_itemExitActionPerformed
 
     private void cmbUserTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbUserTypeActionPerformed

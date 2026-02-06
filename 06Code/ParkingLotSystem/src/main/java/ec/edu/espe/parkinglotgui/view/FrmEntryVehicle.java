@@ -14,6 +14,7 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
      * Creates new form FrmEntry
      */
     public FrmEntryVehicle() {
+        this.setUndecorated(true);
         initComponents();
         loadAvailableSpaces();
         setAppIcon();
@@ -354,10 +355,7 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
     }//GEN-LAST:event_txtParkingSpaceFocusGained
 
     private void txtParkingSpaceFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtParkingSpaceFocusLost
-        if (txtParkingSpace.getText().isEmpty()) {
-            txtParkingSpace.setText("AZU-A-01");
-            txtParkingSpace.setForeground(new Color(153, 153, 153)); 
-        }
+
     }//GEN-LAST:event_txtParkingSpaceFocusLost
 
     private void txtParkingSpaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtParkingSpaceActionPerformed
@@ -378,7 +376,7 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
     private void txtLicensePlateFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtLicensePlateFocusLost
         if (txtLicensePlate.getText().isEmpty()) {
             txtLicensePlate.setText("ABC-1234");
-            txtLicensePlate.setForeground(new Color(153, 153, 153)); 
+            txtLicensePlate.setForeground(new Color(153, 153, 153));
         }
     }//GEN-LAST:event_txtLicensePlateFocusLost
 

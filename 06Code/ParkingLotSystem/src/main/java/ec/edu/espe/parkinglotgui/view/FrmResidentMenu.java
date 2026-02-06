@@ -14,6 +14,7 @@ public class FrmResidentMenu extends javax.swing.JFrame {
     private ResidentController residentController;
 
     public FrmResidentMenu(String residentId) {
+        this.setUndecorated(true);
         initComponents();
         this.currentResidentId = residentId;
         this.residentController = new ResidentController();
@@ -103,7 +104,7 @@ public class FrmResidentMenu extends javax.swing.JFrame {
         jMenuItem1.addActionListener(this::jMenuItem1ActionPerformed);
         jMenu1.add(jMenuItem1);
 
-        itemReturnMenu.setText("Regresar al menú principal");
+        itemReturnMenu.setText("Regresar al incio de sesión");
         itemReturnMenu.addActionListener(this::itemReturnMenuActionPerformed);
         jMenu1.add(itemReturnMenu);
 
@@ -152,7 +153,7 @@ public class FrmResidentMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_itemPayRentActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        this.dispose();
+        System.exit(0);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void loadLogo() {

@@ -12,6 +12,7 @@ public class FrmSecurityGuardMenu extends javax.swing.JFrame {
      * Creates new form FrmSecurityGuardMenu
      */
     public FrmSecurityGuardMenu() {
+        this.setUndecorated(true);
         initComponents();
         loadLogo();
         setAppIcon();  
@@ -87,7 +88,7 @@ public class FrmSecurityGuardMenu extends javax.swing.JFrame {
         jMenuItem1.addActionListener(this::jMenuItem1ActionPerformed);
         jMenu5.add(jMenuItem1);
 
-        itemReturnMenu.setText("Regresar al menu principal");
+        itemReturnMenu.setText("Regresar al incio de sesión");
         itemReturnMenu.addActionListener(this::itemReturnMenuActionPerformed);
         jMenu5.add(itemReturnMenu);
 
@@ -189,7 +190,7 @@ public class FrmSecurityGuardMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        this.dispose();
+        System.exit(0);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed

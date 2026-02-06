@@ -21,6 +21,7 @@ public class FrmParkingSplash extends javax.swing.JFrame {
      * Creates new form FrmParkingSplash
      */
     public FrmParkingSplash() {
+        this.setUndecorated(true);
         initComponents();
         setAppIcon();
         this.setLocationRelativeTo(null);
@@ -238,7 +239,7 @@ public class FrmParkingSplash extends javax.swing.JFrame {
         jLabel2.setText("Multifamiliares Luluncoto ");
 
         jLabel3.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jLabel3.setText("Version 0.9.2 ");
+        jLabel3.setText("Version 0.9.3 ");
 
         jLabel5.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jLabel5.setText("©2025");
@@ -285,9 +286,9 @@ public class FrmParkingSplash extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(19, Short.MAX_VALUE)
                 .addComponent(jLabelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)

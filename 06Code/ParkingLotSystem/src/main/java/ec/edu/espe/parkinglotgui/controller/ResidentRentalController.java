@@ -181,6 +181,8 @@ public class ResidentRentalController {
             }
 
             String currentStatus = currentRental.getPaymentStatus();
+            String currentSpace = currentRental.getSpaceId();
+
             if (!"PAID".equalsIgnoreCase(currentStatus)
                     && !"RENTAL_CANCELED".equalsIgnoreCase(currentStatus)) {
                 result[0] = false;
@@ -188,22 +190,36 @@ public class ResidentRentalController {
                 return result;
             }
 
-            String currentSpace = currentRental.getSpaceId();
             boolean isSameSpace = currentSpace != null && currentSpace.equals(spaceId);
-            boolean success;
+            boolean success = false;
+            String operationType = "";
 
-            if ("RENTAL_CANCELED".equalsIgnoreCase(currentStatus)) {
-                success = residentController.activateRentalWithSpace(residentId, months, spaceId);
-            } else if (isSameSpace) {
-                success = residentController.updateRentalDates(residentId, months);
-            } else {
-                List<String> availableSpaces = spaceController.getAvailableSpaces();
-                if (!availableSpaces.contains(spaceId)) {
-                    result[0] = false;
-                    result[1] = "El espacio seleccionado ya no está disponible";
-                    return result;
+            try {
+                if ("RENTAL_CANCELED".equalsIgnoreCase(currentStatus)) {
+                    success = residentController.activateRentalWithSpace(residentId, months, spaceId);
+
+                } else if (isSameSpace) {
+                    operationType = "Extender renta existente";
+                    success = residentController.updateRentalDates(residentId, months);
+
+                } else {
+
+                    List<String> availableSpaces = spaceController.getAvailableSpaces();
+
+                    if (!availableSpaces.contains(spaceId)) {
+                        result[0] = false;
+                        result[1] = "El espacio seleccionado ya no está disponible";
+                        return result;
+                    }
+                    success = residentController.renewRentalWithSpace(residentId, months, spaceId);
                 }
-                success = residentController.renewRentalWithSpace(residentId, months, spaceId);
+
+
+            } catch (Exception dbEx) {
+                result[0] = false;
+                result[1] = "Error en base de datos al " + operationType.toLowerCase() + ": " + dbEx.getMessage();
+                dbEx.printStackTrace(); 
+                return result;
             }
 
             if (success) {
@@ -214,22 +230,25 @@ public class ResidentRentalController {
                 double totalAmount = calculatePaymentAmount(months);
 
                 result[0] = true;
-                result[1] = "Renta procesada exitosamente";
+                result[1] = "Renovación procesada exitosamente";
                 result[2] = sdf.format(cal.getTime());
                 result[3] = totalAmount;
 
                 currentResident = residentController.searchResidentById(residentId);
+
             } else {
                 result[0] = false;
-                result[1] = "Error al procesar en la base de datos";
+                result[1] = "Error al procesar en la base de datos. Operación: " + operationType;
             }
 
         } catch (IllegalStateException e) {
             result[0] = false;
             result[1] = e.getMessage();
+            e.printStackTrace();
         } catch (Exception e) {
             result[0] = false;
             result[1] = "Error en el proceso: " + e.getMessage();
+            e.printStackTrace();
         }
 
         return result;

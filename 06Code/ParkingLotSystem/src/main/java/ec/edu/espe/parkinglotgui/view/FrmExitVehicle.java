@@ -13,6 +13,7 @@ public class FrmExitVehicle extends javax.swing.JFrame {
     private VehicleExitController exitController;
 
     public FrmExitVehicle() {
+        this.setUndecorated(true);
         initComponents();
         loadParkedVehicles();
         setAppIcon();
@@ -171,51 +172,51 @@ public class FrmExitVehicle extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private void loadParkedVehicles() {
-    DefaultTableModel model = new DefaultTableModel();
-    model.addColumn("Placa");
-    model.addColumn("Espacio");
-    model.addColumn("Hora de Entrada");
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Placa");
+        model.addColumn("Espacio");
+        model.addColumn("Hora de Entrada");
 
-    VehicleExitController controller = new VehicleExitController();
-    java.util.List<org.bson.Document> vehicles = controller.getParkedVehicles();
+        VehicleExitController controller = new VehicleExitController();
+        java.util.List<org.bson.Document> vehicles = controller.getParkedVehicles();
 
-    for (org.bson.Document doc : vehicles) {
-        model.addRow(new Object[]{
-            doc.getString("licensePlate"),
-            doc.getString("spaceId"),
-            doc.get("entryTime").toString()
-        });
-    }
-    tblParkedVehicles.setModel(model);
-}
-    
-    private void btnRegisterExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterExitActionPerformed
-    String plate = txtLicensePlate.getText().trim().toUpperCase();
-
-    if (plate.isEmpty()) {
-        lblMessage.setText("Error: Seleccione un vehículo de la tabla o ingrese placa.");
-        return;
-    }
-
-    VehicleExitController controller = new VehicleExitController();
-
-    int confirm = javax.swing.JOptionPane.showConfirmDialog(this, 
-            "¿Confirmar salida del vehículo " + plate + "?", 
-            "Salida", javax.swing.JOptionPane.YES_NO_OPTION);
-
-    if (confirm == javax.swing.JOptionPane.YES_OPTION) {
-        if (controller.registerExit(plate)) {
-            lblMessage.setText("Salida registrada. Espacio liberado.");
-            lblMessage.setForeground(new java.awt.Color(0, 102, 0));
-            txtLicensePlate.setText("");
-            
-            loadParkedVehicles(); 
-        } else {
-            lblMessage.setText("Error al procesar salida.");
+        for (org.bson.Document doc : vehicles) {
+            model.addRow(new Object[]{
+                doc.getString("licensePlate"),
+                doc.getString("spaceId"),
+                doc.get("entryTime").toString()
+            });
         }
+        tblParkedVehicles.setModel(model);
     }
 
-    
+    private void btnRegisterExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterExitActionPerformed
+        String plate = txtLicensePlate.getText().trim().toUpperCase();
+
+        if (plate.isEmpty()) {
+            lblMessage.setText("Error: Seleccione un vehículo de la tabla o ingrese placa.");
+            return;
+        }
+
+        VehicleExitController controller = new VehicleExitController();
+
+        int confirm = javax.swing.JOptionPane.showConfirmDialog(this,
+                "¿Confirmar salida del vehículo " + plate + "?",
+                "Salida", javax.swing.JOptionPane.YES_NO_OPTION);
+
+        if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+            if (controller.registerExit(plate)) {
+                lblMessage.setText("Salida registrada. Espacio liberado.");
+                lblMessage.setForeground(new java.awt.Color(0, 102, 0));
+                txtLicensePlate.setText("");
+
+                loadParkedVehicles();
+            } else {
+                lblMessage.setText("Error al procesar salida.");
+            }
+        }
+
+
     }//GEN-LAST:event_btnRegisterExitActionPerformed
 
     private void itemReturnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemReturnMenuActionPerformed
@@ -240,10 +241,7 @@ public class FrmExitVehicle extends javax.swing.JFrame {
     }//GEN-LAST:event_txtLicensePlateFocusGained
 
     private void txtLicensePlateFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtLicensePlateFocusLost
-        if (txtLicensePlate.getText().isEmpty()) {
-            txtLicensePlate.setText("ABC-1234");
-            txtLicensePlate.setForeground(new Color(153, 153, 153)); 
-        }
+
     }//GEN-LAST:event_txtLicensePlateFocusLost
 
     private void setAppIcon() {
@@ -252,6 +250,7 @@ public class FrmExitVehicle extends javax.swing.JFrame {
             setIconImage(new javax.swing.ImageIcon(iconURL).getImage());
         }
     }
+
     /**
      * @param args the command line arguments
      */

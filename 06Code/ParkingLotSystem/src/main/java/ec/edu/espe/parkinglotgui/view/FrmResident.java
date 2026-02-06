@@ -25,6 +25,7 @@ public class FrmResident extends javax.swing.JFrame {
      * Creates new form FrmResident
      */
     public FrmResident() {
+        this.setUndecorated(true);
         initComponents();
         setAppIcon();
         pnlParkingSpace.setVisible(false);
@@ -338,6 +339,11 @@ public class FrmResident extends javax.swing.JFrame {
         });
 
         jButton1.setText("Ver Lista de Residentes");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -531,7 +537,7 @@ public class FrmResident extends javax.swing.JFrame {
     }//GEN-LAST:event_txtApartmentNumberActionPerformed
 
     private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
-        // TODO add your handling code here:                                         
+                                     
         String email = txtEmail.getText().trim();
 
         if (email.isEmpty()) {
@@ -546,7 +552,7 @@ public class FrmResident extends javax.swing.JFrame {
     }//GEN-LAST:event_txtEmailActionPerformed
 
     private void txtCellphoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCellphoneActionPerformed
-        // TODO add your handling code here:                                              
+                                             
         String cellphone = txtCellphone.getText().trim();
 
         if (cellphone.isEmpty()) {
@@ -628,6 +634,10 @@ public class FrmResident extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtCellphoneFocusLost
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     private void addVehicle() {
         JTextField txtPlate = new JTextField();
         JTextField txtColor = new JTextField();
@@ -682,7 +692,7 @@ public class FrmResident extends javax.swing.JFrame {
 
         JOptionPane.showMessageDialog(this, "Vehículo agregado correctamente.");
     }
-    
+
     private void saveResident() {
         String name = txtName.getText().trim();
         String apartmentNumber = txtApartmentNumber.getText().trim();
@@ -721,7 +731,7 @@ public class FrmResident extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Residente guardado correctamente");
         clearForm();
     }
-    
+
     private void clearForm() {
         vehicles.clear();
         authorizedVisitors.clear();
@@ -733,7 +743,7 @@ public class FrmResident extends javax.swing.JFrame {
         cmbParkingSpace.removeAllItems();
         pnlParkingSpace.setVisible(false);
     }
-    
+
     private void authorizeVisitor() {
         String visitorID = JOptionPane.showInputDialog(this, "Ingrese la cédula del visitante:");
 
@@ -757,7 +767,7 @@ public class FrmResident extends javax.swing.JFrame {
         authorizedVisitors.add(visitorID);
         JOptionPane.showMessageDialog(this, "Visitante autorizado con cédula: " + visitorID);
     }
-    
+
     private void setAppIcon() {
         java.net.URL iconURL = getClass().getResource("/images/logo.png");
         if (iconURL != null) {

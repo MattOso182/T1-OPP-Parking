@@ -20,6 +20,7 @@ public class FrmResidentList extends javax.swing.JFrame {
      * Creates new form FrmResidentList
      */
     public FrmResidentList() {
+        this.setUndecorated(true);
         initComponents();
         residentController = new ResidentController();
         model = (javax.swing.table.DefaultTableModel) tblResidents.getModel();
