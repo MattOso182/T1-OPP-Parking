@@ -30,18 +30,19 @@ public class ParkingSpaceRepository {
         Document firstDoc = findFirst();
         if (firstDoc == null) return false;
 
-        Document query = new Document("_id", firstDoc.getObjectId("_id"))
-                .append("parkingComplex.blocks.sections.spaces.spaceId", spaceId);
+        Document query = new Document("_id", firstDoc.getObjectId("_id"));
 
         Document update = new Document("$set",
-                new Document("parkingComplex.blocks.$[block].sections.$[section].spaces.$[space].isOccupied", isOccupied));
+            new Document("parkingComplex.blocks.$[].sections.$[].spaces.$[p].isOccupied", isOccupied)
+        );
 
-        List<Document> arrayFilters = new ArrayList<>();
-        arrayFilters.add(new Document("block.sections.spaces.spaceId", spaceId));
-        arrayFilters.add(new Document("section.spaces.spaceId", spaceId));
-        arrayFilters.add(new Document("space.spaceId", spaceId));
+        List<Document> arrayFilters = List.of(
+            new Document("p.spaceId", spaceId)
+        );
 
-        return collection.updateOne(query, update, new UpdateOptions().arrayFilters(arrayFilters)).getModifiedCount() > 0;
+        UpdateOptions options = new UpdateOptions().arrayFilters(arrayFilters);
+
+        return collection.updateOne(query, update, options).getModifiedCount() > 0;
     }
 
     public boolean saveComplex(Document parkingComplex, Object id) {
@@ -49,5 +50,44 @@ public class ParkingSpaceRepository {
                 new Document("_id", id),
                 new Document("$set", new Document("parkingComplex", parkingComplex))
         ).getModifiedCount() > 0;
+    }
+    
+    public List<Document> findOccupiedSpaces() {
+        List<Document> occupiedSpaces = new ArrayList<>();
+        Document root = findFirst();
+        if (root == null) return occupiedSpaces;
+
+        Document parkingComplex = root.get("parkingComplex", Document.class);
+        if (parkingComplex == null) return occupiedSpaces;
+
+        List<Document> blocks = parkingComplex.getList("blocks", Document.class);
+        if (blocks == null) return occupiedSpaces;
+
+        for (Document block : blocks) {
+            String blockName = block.getString("blockName");
+
+            List<Document> sections = block.getList("sections", Document.class);
+            if (sections == null) continue;
+
+            for (Document section : sections) {
+                String sectionName = section.getString("section");
+
+                List<Document> spaces = section.getList("spaces", Document.class);
+                if (spaces == null) continue;
+
+                for (Document space : spaces) {
+                    if (Boolean.TRUE.equals(space.getBoolean("isOccupied"))) {
+                        occupiedSpaces.add(new Document()
+                            .append("block", blockName != null ? blockName.trim() : "")
+                            .append("section", sectionName != null ? sectionName.trim() : "")
+                            .append("id", space.getString("spaceId") != null
+                                    ? space.getString("spaceId").trim().replaceAll("_+$", "")
+                                    : "")
+                        );
+                    }
+                }
+            }
+        }
+        return occupiedSpaces;
     }
 }

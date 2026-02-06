@@ -239,7 +239,7 @@ public class FrmParkingSplash extends javax.swing.JFrame {
         jLabel2.setText("Multifamiliares Luluncoto ");
 
         jLabel3.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jLabel3.setText("Version 0.9.5");
+        jLabel3.setText("Version 0.9.6");
 
         jLabel5.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jLabel5.setText("©2025");

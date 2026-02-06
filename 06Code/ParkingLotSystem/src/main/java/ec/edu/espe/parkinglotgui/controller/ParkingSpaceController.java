@@ -93,4 +93,8 @@ public class ParkingSpaceController {
     private String cleanField(String field) {
         return (field == null) ? "" : field.trim().replaceAll("[_,]+$", "");
     }
+    
+    public List<Document> getOccupiedSpacesDetails() {
+        return repository.findOccupiedSpaces();
+    }
 }

@@ -17,6 +17,7 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
         this.setUndecorated(true);
         initComponents();
         loadAvailableSpaces();
+        loadOccupiedSpaces();
         setAppIcon();
     }
 
@@ -35,11 +36,14 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblSpaces = new javax.swing.JTable();
+        tblAvailableSpaces = new javax.swing.JTable();
         txtParkingSpace = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         lblMessage = new javax.swing.JLabel();
         txtLicensePlate = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblOccupiedSpaces = new javax.swing.JTable();
+        jLabel5 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         btnRegisterEntry = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -59,17 +63,17 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(275, 275, 275)
                 .addComponent(jLabel1)
-                .addGap(147, 147, 147))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(17, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
                 .addComponent(jLabel1)
-                .addGap(15, 15, 15))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -80,8 +84,8 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jLabel3.setText("Espacio de parqueadero:");
 
-        tblSpaces.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        tblSpaces.setModel(new javax.swing.table.DefaultTableModel(
+        tblAvailableSpaces.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        tblAvailableSpaces.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -92,12 +96,12 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
                 "Bloque", "Sección", "ID"
             }
         ));
-        tblSpaces.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblAvailableSpaces.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblSpacesMouseClicked(evt);
+                tblAvailableSpacesMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tblSpaces);
+        jScrollPane1.setViewportView(tblAvailableSpaces);
 
         txtParkingSpace.setForeground(new java.awt.Color(153, 153, 153));
         txtParkingSpace.setText("AZU-A-01");
@@ -141,6 +145,27 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
             }
         });
 
+        tblOccupiedSpaces.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Bloque", "Sección", "ID"
+            }
+        ));
+        tblOccupiedSpaces.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblOccupiedSpacesMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblOccupiedSpaces);
+
+        jLabel5.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel5.setText("Espacios Ocupados");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -148,45 +173,54 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2))
+                        .addGap(24, 24, 24)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(75, 75, 75)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(41, 41, 41)
+                        .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtParkingSpace, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
-                            .addComponent(txtLicensePlate)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(lblMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(25, 25, 25)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(10, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel4)
-                .addGap(139, 139, 139))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(txtLicensePlate, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtParkingSpace, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel5)
+                                .addGap(154, 154, 154)))))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(10, 10, 10)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(txtLicensePlate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtParkingSpace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(26, 26, 26)
-                        .addComponent(lblMessage)))
-                .addContainerGap(11, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(txtLicensePlate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(lblMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(8, 8, 8)))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtParkingSpace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(31, 31, 31)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -204,16 +238,15 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(277, 277, 277)
+                .addGap(432, 432, 432)
                 .addComponent(btnRegisterEntry)
-                .addContainerGap(278, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnRegisterEntry)
-                .addContainerGap())
+                .addGap(0, 12, Short.MAX_VALUE)
+                .addComponent(btnRegisterEntry))
         );
 
         jMenu1.setText("Sistema");
@@ -240,10 +273,8 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -252,10 +283,10 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(7, 7, 7))
         );
 
         pack();
@@ -263,7 +294,7 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
 
     private void loadAvailableSpaces() {
         try {
-            javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tblSpaces.getModel();
+            javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tblAvailableSpaces.getModel();
 
             model.setRowCount(0);
 
@@ -283,8 +314,37 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
             }
 
         } catch (Exception e) {
-            System.err.println("Error cargando espacios: " + e.getMessage());
-            javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tblSpaces.getModel();
+            System.err.println("Error cargando espacios libres: " + e.getMessage());
+            javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tblAvailableSpaces.getModel();
+            model.addRow(new Object[]{"ERROR", "ERROR", "ERROR AL CARGAR"});
+        }
+    }
+    
+    private void loadOccupiedSpaces() {
+
+        try {
+            javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tblOccupiedSpaces.getModel();
+
+            model.setRowCount(0);
+            
+            ParkingSpaceController controller = new ParkingSpaceController();
+            java.util.List<org.bson.Document> spaces = controller.getOccupiedSpacesDetails();
+
+            if (spaces.isEmpty()) {
+                model.addRow(new Object[]{"---", "---", "NO HAY ESPACIOS OCUPADOS"});
+            } else {
+                for (org.bson.Document space : spaces) {
+                    String block = space.getString("block");
+                    String section = space.getString("section");
+                    String id = space.getString("id");
+
+                    model.addRow(new Object[]{block, section, id});
+                }
+            }
+
+        } catch (Exception e) {
+            System.err.println("Error cargando espacios ocupados: " + e.getMessage());
+            javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tblOccupiedSpaces.getModel();
             model.addRow(new Object[]{"ERROR", "ERROR", "ERROR AL CARGAR"});
         }
     }
@@ -323,12 +383,13 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
                 txtParkingSpace.setText("");
 
                 loadAvailableSpaces();
+                loadOccupiedSpaces();
+
             } else {
                 lblMessage.setText("ERROR: No se pudo registrar. Verifique si el auto ya entró.");
                 lblMessage.setForeground(java.awt.Color.RED);
             }
         }
-
     }//GEN-LAST:event_btnRegisterEntryActionPerformed
 
     private void itemReturnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemReturnMenuActionPerformed
@@ -337,15 +398,15 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_itemReturnMenuActionPerformed
 
-    private void tblSpacesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSpacesMouseClicked
-        int fila = tblSpaces.getSelectedRow();
+    private void tblAvailableSpacesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAvailableSpacesMouseClicked
+        int fila = tblAvailableSpaces.getSelectedRow();
         if (fila != -1) {
-            String idSeleccionado = tblSpaces.getValueAt(fila, 2).toString();
+            String idSeleccionado = tblAvailableSpaces.getValueAt(fila, 2).toString();
             txtParkingSpace.setText(idSeleccionado);
             lblMessage.setText("Espacio seleccionado: " + idSeleccionado);
             lblMessage.setForeground(java.awt.Color.BLUE);
         }
-    }//GEN-LAST:event_tblSpacesMouseClicked
+    }//GEN-LAST:event_tblAvailableSpacesMouseClicked
 
     private void txtParkingSpaceFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtParkingSpaceFocusGained
         if (txtParkingSpace.getText().equals("AZU-A-01")) {
@@ -383,6 +444,10 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
     private void txtLicensePlateMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtLicensePlateMouseEntered
         // TODO add your handling code here:
     }//GEN-LAST:event_txtLicensePlateMouseEntered
+
+    private void tblOccupiedSpacesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblOccupiedSpacesMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblOccupiedSpacesMouseClicked
 
     private void setAppIcon() {
         java.net.URL iconURL = getClass().getResource("/images/logo.png");
@@ -434,14 +499,17 @@ public class FrmEntryVehicle extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblMessage;
-    private javax.swing.JTable tblSpaces;
+    private javax.swing.JTable tblAvailableSpaces;
+    private javax.swing.JTable tblOccupiedSpaces;
     private javax.swing.JTextField txtLicensePlate;
     private javax.swing.JTextField txtParkingSpace;
     // End of variables declaration//GEN-END:variables

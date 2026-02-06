@@ -2,6 +2,7 @@ package ec.edu.espe.parkinglotgui.controller;
 
 import ec.edu.espe.parkinglotgui.model.Vehicle;
 import ec.edu.espe.parkinglotgui.repository.EntryExitRepository;
+import ec.edu.espe.parkinglotgui.repository.ParkingSpaceRepository;
 import ec.edu.espe.parkinglotgui.repository.VehicleRepository;
 import org.bson.Document;
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class VehicleEntryController {
         entryExitRepo.saveEntry(entry);
         return true;
     }
-
+    
     public ArrayList<Vehicle> getAllVehicles() {
         return vehicleRepo.findAll();
     }
