@@ -84,7 +84,6 @@ public class FrmResident extends javax.swing.JFrame {
         btnAddVehicle = new javax.swing.JButton();
         btnSaveResident = new javax.swing.JButton();
         btnAuthorizeVisitor = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
         pnlParkingSpace = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         cmbParkingSpace = new javax.swing.JComboBox<>();
@@ -338,13 +337,6 @@ public class FrmResident extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Ver Lista de Residentes");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -354,9 +346,7 @@ public class FrmResident extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addComponent(btnAddVehicle)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1)
-                        .addGap(18, 18, 18)
+                        .addGap(185, 185, 185)
                         .addComponent(btnAuthorizeVisitor))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addComponent(btnSaveResident, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -369,8 +359,7 @@ public class FrmResident extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAddVehicle)
-                    .addComponent(btnAuthorizeVisitor)
-                    .addComponent(jButton1))
+                    .addComponent(btnAuthorizeVisitor))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSaveResident)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -634,10 +623,6 @@ public class FrmResident extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtCellphoneFocusLost
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void addVehicle() {
         JTextField txtPlate = new JTextField();
         JTextField txtColor = new JTextField();
@@ -806,7 +791,6 @@ public class FrmResident extends javax.swing.JFrame {
     private javax.swing.JButton btnSaveResident;
     private javax.swing.JComboBox<String> cmbParkingSpace;
     private javax.swing.JComboBox<String> cmbUserType;
-    private javax.swing.JButton jButton1;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JFrame jFrame2;
     private javax.swing.JLabel jLabel1;
