@@ -19,6 +19,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.model.Updates;
 
 /*
@@ -433,6 +434,212 @@ public class ResidentController {
             return doc != null;
         } catch (Exception e) {
             System.err.println("Error en residentExists: " + e.getMessage());
+            return false;
+        }
+    }
+    
+    public Object[][] getResidentsForTable() {
+        List<Resident> residents = getAllResidents();
+        Object[][] data = new Object[residents.size()][9];
+
+        for (int i = 0; i < residents.size(); i++) {
+            Resident r = residents.get(i);
+
+            int vehicleCount = r.getVehicles() == null ? 0 : r.getVehicles().size();
+            int visitorCount = r.getAuthorizedVisitors() == null ? 0 : r.getAuthorizedVisitors().size();
+            String space = r.hasActiveRental() ? r.getCurrentRental().getSpaceId() : "";
+
+            data[i][0] = r.getResidentID();
+            data[i][1] = r.getName();
+            data[i][2] = r.getApartmentNumber();
+            data[i][3] = r.getEmail();
+            data[i][4] = r.getPhone();
+            data[i][5] = r.getUserType();
+            data[i][6] = space;
+            data[i][7] = vehicleCount;
+            data[i][8] = visitorCount;
+        }
+
+        return data;
+    }
+    
+    public Object[] getResidentRowById(String residentId) {
+        Resident r = searchResidentById(residentId);
+        if (r == null) return null;
+
+        int vehicleCount = r.getVehicles() == null ? 0 : r.getVehicles().size();
+        int visitorCount = r.getAuthorizedVisitors() == null ? 0 : r.getAuthorizedVisitors().size();
+        String space = r.hasActiveRental() ? r.getCurrentRental().getSpaceId() : "";
+
+        return new Object[]{
+            r.getResidentID(),
+            r.getName(),
+            r.getApartmentNumber(),
+            r.getEmail(),
+            r.getPhone(),
+            r.getUserType(),
+            space,
+            vehicleCount,
+            visitorCount
+        };
+    }
+    
+    public String[] getAllResidentIds() {
+        List<Resident> residents = getAllResidents();
+        return residents.stream()
+                .map(Resident::getResidentID)
+                .toArray(String[]::new);
+    }
+    
+    public boolean updateResidentFromForm(String residentId, String email, String phone, String userType) {
+        return updateResidentContactAndType(residentId, email, phone, userType);
+    }
+    
+    public Resident getResidentForDelete(String residentId) {
+        return searchResidentById(residentId);
+    }
+    
+    public boolean addResidentFromForm(
+        String name,
+        String apartment,
+        String email,
+        String phone,
+        String userType,
+        Object parkingSelection
+    ) {
+        if (name == null || name.trim().isEmpty()) return false;
+        if (apartment == null || apartment.trim().isEmpty()) return false;
+        if (email == null || !email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) return false;
+        if (phone == null || !phone.matches("^09\\d{8}$")) return false;
+
+        String parkingSpaceId = null;
+
+        if ("WITH_PARKING".equals(userType)) {
+            if (parkingSelection == null || parkingSelection.toString().startsWith("Seleccionar")) {
+                return false;
+            }
+            parkingSpaceId = parkingSelection.toString();
+        }
+
+        return addResident(
+            name,
+            apartment,
+            email,
+            phone,
+            new ArrayList<>(),
+            new ArrayList<>(),
+            userType,
+            parkingSpaceId
+        );
+    }
+    
+    public boolean authorizeVisitor(String residentId, String visitorId) {
+        try {
+            if (residentId == null || residentId.isBlank()) {
+                return false;
+            }
+
+            visitorId = visitorId == null ? "" : visitorId.trim();
+
+            if (!visitorId.matches("^\\d{10}$")) {
+                return false;
+            }
+
+            Document doc = collection.find(
+                Filters.eq("residentID", residentId)
+            ).first();
+
+            List<String> visitors;
+
+            if (doc == null) {
+                visitors = new ArrayList<>();
+            } else {
+                visitors = doc.getList(
+                    "authorizedVisitors",
+                    String.class,
+                    new ArrayList<>()
+                );
+            }
+
+            if (visitors.contains(visitorId)) {
+                return false;
+            }
+
+            visitors.add(visitorId);
+
+            collection.updateOne(
+                Filters.eq("residentID", residentId),
+                Updates.set("authorizedVisitors", visitors),
+                new UpdateOptions().upsert(true)
+            );
+
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean addVehicleToResident(String residentId, String plate, String color, String model) {
+        try {
+            Resident resident = searchResidentById(residentId);
+            if (resident == null) return false;
+
+            plate = plate == null ? "" : plate.trim().toUpperCase();
+            color = color == null ? "" : color.trim();
+            model = model == null ? "" : model.trim();
+
+            if (!plate.matches("^[A-Z]{3}-\\d{4}$")) return false;
+            if (color.isEmpty() || model.isEmpty()) return false;
+
+            List<Document> vehicles = new ArrayList<>();
+
+            if (resident.getVehicles() != null) {
+                resident.getVehicles().forEach(v -> {
+                    Document d = new Document()
+                        .append("plate", v.getPlate())
+                        .append("color", v.getColor())
+                        .append("model", v.getModel())
+                        .append("isParked", v.isParked());
+                    vehicles.add(d);
+                });
+            }
+
+            for (Document v : vehicles) {
+                if (plate.equals(v.getString("plate"))) {
+                    return false;
+                }
+            }
+
+            Document vehicle = new Document()
+                .append("plate", plate)
+                .append("color", color)
+                .append("model", model)
+                .append("isParked", false);
+
+            vehicles.add(vehicle);
+
+            UpdateResult result = collection.updateOne(
+                Filters.eq("residentID", cleanField(residentId)),
+                Updates.set("vehicles", vehicles)
+            );
+
+            if (result.getModifiedCount() > 0) {
+                new VehicleRepository().saveVehicle(
+                    residentId,
+                    resident.getName(),
+                    plate,
+                    color,
+                    model,
+                    false
+                );
+                return true;
+            }
+
+            return false;
+
+        } catch (Exception e) {
             return false;
         }
     }

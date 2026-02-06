@@ -20,12 +20,14 @@ public class FrmResidentList extends javax.swing.JFrame {
      * Creates new form FrmResidentList
      */
     public FrmResidentList() {
-        this.setUndecorated(true);
+        this.setUndecorated(false);
         initComponents();
+        setAppIcon();
         residentController = new ResidentController();
         model = (javax.swing.table.DefaultTableModel) tblResidents.getModel();
         initSearchField();
         loadResidents();
+        jPanel1.requestFocusInWindow();
     }
 
     /**
@@ -49,6 +51,9 @@ public class FrmResidentList extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         txtSearchResidentId = new javax.swing.JTextField();
         btnSearchId = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -194,6 +199,20 @@ public class FrmResidentList extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jMenu1.setText("Sistema");
+
+        jMenuItem1.setText("Regresar al registro de residentes");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -222,28 +241,13 @@ public class FrmResidentList extends javax.swing.JFrame {
     private void txtSearchResidentIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchResidentIdActionPerformed
         // TODO add your handling code here:
         String id = txtSearchResidentId.getText().trim();
-        if (id.isEmpty() || id.equals("Ej: RES-001")) return;
+        if (id.isEmpty()) return;
 
         model.setRowCount(0);
-
-        Resident r = residentController.searchResidentById(id);
-        if (r == null) return;
-
-        int vehicleCount = r.getVehicles() == null ? 0 : r.getVehicles().size();
-        int visitorCount = r.getAuthorizedVisitors() == null ? 0 : r.getAuthorizedVisitors().size();
-        String space = r.getCurrentRental() != null && r.getCurrentRental().isActive() ? r.getCurrentRental().getSpaceId() : "";
-
-        model.addRow(new Object[]{
-            r.getResidentID(),
-            r.getName(),
-            r.getApartmentNumber(),
-            r.getEmail(),
-            r.getPhone(),
-            r.getUserType(),
-            space,
-            vehicleCount,
-            visitorCount
-        });
+        Object[] row = residentController.getResidentRowById(id);
+        if (row != null) {
+            model.addRow(row);
+        }
     }//GEN-LAST:event_txtSearchResidentIdActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
@@ -258,35 +262,36 @@ public class FrmResidentList extends javax.swing.JFrame {
 
     private void btnSearchIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchIdActionPerformed
         // TODO add your handling code here:
+        String id = txtSearchResidentId.getText().trim();
+
+        if (!id.matches("RES-\\d{3}")) {
+            JOptionPane.showMessageDialog(this, "Formato inválido. Use RES-001");
+            return;
+        }
+
+        model.setRowCount(0);
+        Object[] row = residentController.getResidentRowById(id);
+        if (row != null) {
+            model.addRow(row);
+        } else {
+            JOptionPane.showMessageDialog(this, "Residente no encontrado");
+            loadResidents();
+        }
     }//GEN-LAST:event_btnSearchIdActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        FrmResident frmResident = new FrmResident();
+        frmResident.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void loadResidents() {
         model.setRowCount(0);
+        Object[][] data = residentController.getResidentsForTable();
 
-        java.util.List<ec.edu.espe.parkinglotgui.model.Resident> residents =
-                residentController.getAllResidents();
-
-        for (ec.edu.espe.parkinglotgui.model.Resident r : residents) {
-
-            int vehicleCount = r.getVehicles() == null ? 0 : r.getVehicles().size();
-            int visitorCount = r.getAuthorizedVisitors() == null ? 0 : r.getAuthorizedVisitors().size();
-
-            String space = "";
-            if (r.getCurrentRental() != null && r.getCurrentRental().isActive()) {
-                space = r.getCurrentRental().getSpaceId();
-            }
-
-            model.addRow(new Object[]{
-                r.getResidentID(),
-                r.getName(),
-                r.getApartmentNumber(),
-                r.getEmail(),
-                r.getPhone(),
-                r.getUserType(),
-                space,
-                vehicleCount,
-                visitorCount
-            });
+        for (Object[] row : data) {
+            model.addRow(row);
         }
     }
 
@@ -343,57 +348,35 @@ public class FrmResidentList extends javax.swing.JFrame {
 }
     
     private String selectResidentId() {
-        ResidentController controller = new ResidentController();
-        java.util.List<Resident> residents = controller.getAllResidents();
+        String[] ids = residentController.getAllResidentIds();
 
-        if (residents.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No hay residentes registrados");
+        if (ids.length == 0) {
+            JOptionPane.showMessageDialog(this, "No hay residentes");
             return null;
         }
 
-        String[] ids = residents.stream()
-                .map(Resident::getResidentID)
-                .toArray(String[]::new);
-
         JComboBox<String> combo = new JComboBox<>(ids);
-
-        int option = JOptionPane.showConfirmDialog(
-                this,
-                combo,
-                "Seleccione Resident ID",
-                JOptionPane.OK_CANCEL_OPTION
-        );
+        int option = JOptionPane.showConfirmDialog(this, combo, "Seleccione Resident ID", JOptionPane.OK_CANCEL_OPTION);
 
         return option == JOptionPane.OK_OPTION ? combo.getSelectedItem().toString() : null;
     }
     
     private void onDeleteResident() {
-        String residentId = selectResidentId();
-        if (residentId == null) return;
+        String id = selectResidentId();
+        if (id == null) return;
 
-        confirmDeleteResident(residentId);
-    }
-    
-    private void confirmDeleteResident(String residentId) {
-        ResidentController controller = new ResidentController();
-        Resident resident = controller.searchResidentById(residentId);
-        if (resident == null) return;
-
-        String message =
-                "Resident ID: " + resident.getResidentID() + "\n" +
-                "Nombre: " + resident.getName() + "\n" +
-                "Email: " + resident.getEmail() + "\n\n" +
-                "¿Estás seguro de eliminar este residente?";
+        Resident r = residentController.getResidentForDelete(id);
+        if (r == null) return;
 
         int option = JOptionPane.showConfirmDialog(
                 this,
-                message,
-                "Confirmar eliminación",
+                "¿Eliminar residente " + r.getName() + "?",
+                "Confirmar",
                 JOptionPane.YES_NO_OPTION
         );
 
         if (option == JOptionPane.YES_OPTION) {
-            controller.deleteResident(residentId);
+            residentController.deleteResident(id);
             loadResidents();
         }
     }
@@ -420,6 +403,12 @@ public class FrmResidentList extends javax.swing.JFrame {
         });
     }
 
+    private void setAppIcon() {
+        java.net.URL iconURL = getClass().getResource("/images/logo.png");
+        if (iconURL != null) {
+            setIconImage(new javax.swing.ImageIcon(iconURL).getImage());
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -451,6 +440,9 @@ public class FrmResidentList extends javax.swing.JFrame {
     private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
