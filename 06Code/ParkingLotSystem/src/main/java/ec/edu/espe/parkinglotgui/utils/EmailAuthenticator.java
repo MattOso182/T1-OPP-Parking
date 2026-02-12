@@ -11,9 +11,9 @@ import java.security.SecureRandom;
 
 public class EmailAuthenticator {
 
-    private final String emailFrom = "mateo.oso182@gmail.com";
-    private final String smtpUsername = "a17dd1001@smtp-brevo.com";
-    private final String smtpPassword = "bskN9oU1qmkS7OH";
+    private final String emailFrom = "cevallosmateo07@gmail.com";
+    private final String smtpUsername = "a22ea2001@smtp-brevo.com";
+    private final String smtpPassword = "xsmtpsib-ad2163c16d3e2b73959e50f46dd8531f907fe4ae9d1f1e0a61c493b211fe4975-lb7U7kJJ1CYkVaqP";
 
     public EmailAuthenticator() {
     }

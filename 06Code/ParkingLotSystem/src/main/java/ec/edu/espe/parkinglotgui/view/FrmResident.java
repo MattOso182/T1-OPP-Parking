@@ -618,7 +618,7 @@ public class FrmResident extends javax.swing.JFrame {
 
     private void txtCellphoneFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCellphoneFocusLost
         if (txtCellphone.getText().isEmpty()) {
-            txtCellphone.setText("099XXXXXXXX");
+            txtCellphone.setText("099XXXXXXX");
             txtCellphone.setForeground(new Color(153, 153, 153));
         }
     }//GEN-LAST:event_txtCellphoneFocusLost
